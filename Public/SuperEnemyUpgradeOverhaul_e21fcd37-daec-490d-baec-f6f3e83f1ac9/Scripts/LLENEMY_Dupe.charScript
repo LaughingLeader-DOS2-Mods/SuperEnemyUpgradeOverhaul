@@ -1,0 +1,69 @@
+INIT
+	CHARACTER:__Me
+	CHARACTER:%LLENEMY_Duplicant_Owner = null
+	EXTERN FIXEDSTRING:%LLENEMY_Dupe_Stats = "LLENEMY_Dupe_Normal_A"
+EVENTS
+
+EVENT LLENEMY_Dupe_ApplyStats_ByEvent
+VARS
+	FLOAT:_HpCurrent
+	FLOAT:_HpMax
+ON
+	OnCharacterEvent(__Me, "LLENEMY_Dupe_ApplyStats")
+ACTIONS
+	CharacterSetStats(__Me, %LLENEMY_Dupe_Stats, 0, 1, 1, _HpCurrent)
+IF "c1&c2"
+	CharacterGetStat(_HpMax, __Me, VitalityMax)
+	IsLessThen(_HpCurrent, _HpMax)
+THEN
+	SetHealth(__Me, 1.0)
+ENDIF
+	CharacterCharacterEvent(%LLENEMY_Duplicant_Owner, __Me, "LLENEMY_Dupe_StatsApplied")
+
+EVENT LLENEMY_Dupe_ReapplyStats
+VARS
+	FLOAT:_HpOriginal
+	FLOAT:_HpCurrent
+	CHARACTER:_Source
+ON
+	OnCharacterEvent(__Me, "LLENEMY_Dupe_ReapplyStats")
+ACTIONS
+IF "!c1&c2"
+	IsEqual(%LLENEMY_Dupe_Stats, null)
+	CharacterGetStat(_HpOriginal, __Me, Vitality)
+THEN
+	CharacterSetStats(__Me, %LLENEMY_Dupe_Stats, 0, 1, 1, _HpCurrent)
+ENDIF
+IF "c1"
+	IsLessThen(_HpCurrent, _HpOriginal)
+THEN
+	SetHealth(__Me, 1.0)
+ENDIF
+
+EVENT LLENEMY_Dupe_OnDupeEnteredCombat
+ON
+	OnEnteredCombat(__Me,_)
+	OnEnteredCombat(%LLENEMY_Duplicant_Owner,_)
+ACTIONS
+	CharacterEvent(__Me, "LLENEMY_Dupe_OnDupeEnteredCombat")
+
+EVENT LLENEMY_Dupe_OnDupeLeftCombat
+ON
+	OnLeftCombat(__Me,_)
+ACTIONS
+	CharacterEvent(__Me, "LLENEMY_Dupe_OnDupeLeftCombat")
+
+EVENT LLENEMY_Dupe_Dying
+ON
+	OnCharacterStatusApplied(__Me, DYING)
+ACTIONS
+	CharacterEvent(__Me, "LLENEMY_Dupe_OnDupeDying")
+
+EVENT LLENEMY_Dupe_Died
+ON
+	OnDie(__Me, _, _, _)
+ACTIONS
+	CharacterSetOffStage()
+	//PlayEffectAt(__Me, "RS3_FX_GP_Impacts_Weapon_Shadow_01")
+	//PlayEffectAt(__Me, "RS3_FX_Skills_Totem_Impact_Target_Root_Shadow_01")
+	CharacterEvent(__Me, "LLENEMY_Dupe_DupeDied")

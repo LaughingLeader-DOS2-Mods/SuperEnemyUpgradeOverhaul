@@ -1,0 +1,123 @@
+INIT
+	CHARACTER:__Me
+	INT:%LLENEMY_TreasureGoblin_TotalHits = 0
+	INT:%LLENEMY_TreasureGoblin_MaxTotalHits = 8
+	INT:%LLENEMY_TreasureGoblin_Defeated = 0
+	FLOAT3:%LLENEMY_TreasureGoblin_StartPos = null
+	FLOAT:%LLENEMY_TreasureGoblin_MaxFleeDistance = 20.0
+EVENTS
+
+EVENT LLENEMY_TreasureGoblin_Init
+VARS
+	INT:_RanTurns
+ON
+	OnInit()
+ACTIONS
+IF "c1|c2"
+	IsEqual(%LLENEMY_TreasureGoblin_StartPos, null)
+	IsEqual(%LLENEMY_TreasureGoblin_StartPos, FLOAT3:{0.0;0.0;0.0})
+THEN
+	GetPosition(__Me, %LLENEMY_TreasureGoblin_StartPos)
+ENDIF
+IF "!c1"
+	CharacterHasStatus(__Me, LLENEMY_TREASURE_GOBLIN)
+THEN
+	GetRandomBetween(_RanTurns, 2,3)
+	CharacterApplyStatus(__Me, LLENEMY_TREASURE_GOBLIN, _RanTurns, 1, __Me)
+ENDIF
+	//CharacterEvent(__Me, "LLENEMY_TreasureGoblins_OnInit")
+	CharacterApplyStatus(__Me, UNSHEATHED, -1, 1, __Me)
+	CharacterSetFightMode(__Me, 1, 1)
+	CharacterSetCanSpotSneakers(__Me,1)
+	
+EVENT LLENEMY_TreasureGoblin_LeftCombat
+ON
+	OnLeftCombat(__Me, _)
+ACTIONS
+	SetPriority("LLENEMY_TreasureGoblin_Leaving", 50009)
+	
+EVENT LLENEMY_TreasureGoblin_TurnEnded
+ON
+	OnTurnEnded(__Me, _)
+ACTIONS
+IF "!c1"
+	CharacterHasStatus(__Me, HASTED)
+THEN
+	CharacterApplyStatus(__Me, HASTED, -1, 0, __Me)
+ENDIF
+	CallFunction("LLENEMY_TreasureGoblin_CheckDistance")
+	CharacterEvent(__Me, "LLENEMY_TreasureGoblins_OnTurnEnded")
+
+EVENT LLENEMY_TreasureGoblin_VitChanged
+VARS
+	FLOAT:_Vit
+ON
+	OnCharacterVitalityChanged(__Me, _Vit)	
+ACTIONS
+	//Output("Total Hits: ([1]/[2]) Vitality([3])", %LLENEMY_TreasureGoblin_TotalHits, %LLENEMY_TreasureGoblin_MaxTotalHits, _Vit)
+IF "(c1|c2|c3)&c4"
+	IsGreaterThen(%LLENEMY_TreasureGoblin_TotalHits, %LLENEMY_TreasureGoblin_MaxTotalHits)
+	IsLessThen(_Vit, 0.05)
+	IsEqual(_Vit, 0.05)
+	IsEqual(%LLENEMY_TreasureGoblin_Defeated, 0)
+THEN
+	Set(%LLENEMY_TreasureGoblin_Defeated, 1)
+	//SetInvulnerable(__Me, 1)
+	//CharacterSetFightMode(__Me, 0, 0)
+	CharacterSetAnimationOverride(__Me, "knockdown_loop")
+	CharacterEvent(__Me, "LLENEMY_TreasureGoblins_Defeated")
+ENDIF
+
+EVENT LLENEMY_TreasureGoblin_CheckDistance
+VARS
+	FLOAT:_Dist
+	CHARACTER:_Player
+ON
+	OnFunction("LLENEMY_TreasureGoblin_CheckDistance")
+ACTIONS
+IF "(c1&c2)|!c3"
+	GetDistance(_Dist, %LLENEMY_TreasureGoblin_StartPos, __Me)
+	IsGreaterThen(_Dist, %LLENEMY_TreasureGoblin_MaxFleeDistance)
+	CharacterHasStatus(__Me, LLENEMY_TREASURE_GOBLIN)
+THEN
+	SetPriority("LLENEMY_TreasureGoblin_Leaving", 50009)
+ENDIF
+	Output("Dist: [1] | Start[2] | Player[3]", _Dist, %LLENEMY_TreasureGoblin_StartPos, _Player)
+
+/*
+EVENT LLENEMY_TreasureGoblin_OnTurn
+ON
+	OnTurn(__Me, _)
+ACTIONS
+	//StatusText(__Me, "FLEEING (OnTurn)")
+	//CharacterFleeFrom(All,15)
+	EndTurn(__Me)
+*/
+
+BEHAVIOUR
+
+REACTION LLENEMY_TreasureGoblin_CombatFlee, 50000
+USAGE COMBAT
+ACTIONS
+	//StatusText(__Me, "FLEEING (Behavior)")
+	CharacterFleeFrom(All,30)
+	EndTurn(__Me)
+INTERRUPT
+ON
+	OnMovementFailed(_)
+	OnException()
+	OnBetterReactionFound(_)
+ACTIONS
+	//StatusText(__Me, "FLEEING (Behavior) Interrupted")
+	EndTurn(__Me)
+	Reset()
+
+REACTION LLENEMY_TreasureGoblin_Leaving, 0
+USAGE ALL
+ACTIONS
+	SetPriority("LLENEMY_TreasureGoblin_CombatFlee", 0)
+	//StatusText(__Me, "Leaving")
+	SetInvulnerable(__Me, 1)
+	PlaySound(__Me, "LLENEMY_VO_Goblin_Laugh_Random_01")
+	CharacterPlayAnimation("Dance_01", 0, 1, 0)
+	CharacterEvent(__Me, "LLENEMY_TreasureGoblins_Left")

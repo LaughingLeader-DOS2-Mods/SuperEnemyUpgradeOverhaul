@@ -1,0 +1,23 @@
+new skillset "LLENEMY_BattleChicken_A"
+add skill "MultiStrike_EnemyBlinkStrike"
+add skill "Target_EnemyCripplingBlow"
+add skill "Target_CondorPeck"
+
+new skillset "LLENEMY_BattleChicken_B"
+add skill "Projectile_EnemyFireball"
+add skill "Shout_LLENEMY_ChickenExplosion"
+add skill "Shout_EnemyFlamingTongues"
+
+new skillset "LLENEMY_BattleChicken_C"
+add skill "Projectile_EnemyChainHeal"
+add skill "Target_EnemyRestoration"
+add skill "Target_FirstAidEnemy"
+add skill "Shout_EnemyMendMetal"
+
+new skillset "LLENEMY_Drillworm_A"
+add skill "Projectile_LLENEMY_EnemyDrillwormSpit"
+add skill "Jump_EnemyDrillwormBurrow"
+
+new skillset "LLENEMY_Drillworm_B"
+add skill "Projectile_LLENEMY_EnemyDrillwormSpit_Ice"
+add skill "Jump_EnemyDrillwormBurrow"

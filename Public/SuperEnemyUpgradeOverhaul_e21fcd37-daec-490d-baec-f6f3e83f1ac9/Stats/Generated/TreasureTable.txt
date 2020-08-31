@@ -1,0 +1,248 @@
+treasure itemtypes "Common","Uncommon","Rare","Epic","Legendary","Divine","Unique"
+
+new treasuretable "LLENEMY_GranadaStatus_GrenadeStash"
+new subtable "6,1"
+object category "T_ST_Grenades",1,0,0,0,0,0,0,0
+
+new treasuretable "LLENEMY_CP_Easy_Common"
+new subtable "1,1"
+object category "T_RewardTiny",4,0,0,0,0,0,0,0
+object category "T_Luck1",4,0,0,0,0,0,0,0
+object category "T_RewardCombat",4,0,0,0,0,0,0,0
+object category "T_ST_Scroll",1,0,0,0,0,0,0,0
+new subtable "0,10;1,1"
+object category "I_SCROLL_Resurrect",1,0,0,0,0,0,0,0
+
+new treasuretable "LLENEMY_CP_Easy_Uncommon"
+new subtable "1,1"
+object category "T_ST_RewardCombat_Group_1",4,0,0,0,0,0,0,0
+object category "T_ST_Legendary_3_Group_4",1,0,0,0,0,0,0,0
+object category "T_RewardCombat",4,0,0,0,0,0,0,0
+object category "T_LLENEMY_CP_Easy_Common",4,0,0,0,0,0,0,0
+new subtable "0,10;1,1"
+object category "I_SCROLL_Resurrect",1,0,0,0,0,0,0,0
+
+new treasuretable "LLENEMY_CP_Easy_Rare"
+new subtable "1,1"
+object category "T_ST_Legendary_3_Group_21",1,0,0,0,0,0,0,0
+object category "T_ST_RewardCombat_Group_3",6,0,0,0,0,0,0,0
+object category "T_LLENEMY_CP_Easy_Uncommon",10,0,0,0,0,0,0,0
+object category "T_LLENEMY_CP_Easy_Common",10,0,0,0,0,0,0,0
+object category "T_ST_RandomLootSuper",1,0,0,0,0,0,0,0
+object category "NeoGoldReward_Medium",8,0,0,0,0,0,0,0
+new subtable "0,10;2,1"
+object category "I_SCROLL_Resurrect",1,0,0,0,0,0,0,0
+
+new treasuretable "LLENEMY_CP_Medium_Common"
+new subtable "1,1"
+object category "T_ST_Neo_Gear_Normal",3,0,0,0,0,0,0,0
+object category "T_ST_Neo_LegendaryPotions",1,0,0,0,0,0,0,0
+object category "T_ST_WeaponGenMagicTrader",6,0,0,0,0,0,0,0
+object category "T_ST_RewardCombat_Group_8",10,0,0,0,0,0,0,0
+object category "T_ST_Scroll",4,0,0,0,0,0,0,0
+new subtable "0,10;1,1"
+object category "I_SCROLL_Resurrect",1,0,0,0,0,0,0,0
+
+new treasuretable "LLENEMY_CP_Medium_Uncommon"
+new subtable "1,1"
+object category "T_ST_Legendary_3_Group_17",1,0,0,0,0,0,0,0
+object category "T_ST_Medium_Group_1",51,0,0,0,0,0,0,0
+object category "T_ST_ArmorGenMagicTrader",4,0,0,0,0,0,0,0
+object category "T_LLENEMY_CP_Medium_Common",4,0,0,0,0,0,0,0
+object category "T_ST_WeaponMagic",6,0,0,0,0,0,0,0
+object category "T_ST_ArmorMagic",6,0,0,0,0,0,0,0
+object category "T_ST_RingAmuletBeltMagic",6,0,0,0,0,0,0,0
+new subtable "0,8;1,1"
+object category "I_SCROLL_Resurrect",1,0,0,0,0,0,0,0
+
+new treasuretable "LLENEMY_CP_Medium_Rare"
+new subtable "1,1"
+object category "T_ST_Legendary_3_Group_21",1,0,0,0,0,0,0,0
+object category "T_ST_Medium_Group_24",2,0,0,0,0,0,0,0
+object category "T_LLENEMY_CP_Medium_Uncommon",3,0,0,0,0,0,0,0
+object category "T_LLENEMY_CP_Medium_Common",3,0,0,0,0,0,0,0
+object category "T_ST_WeaponRare",5,0,0,0,0,0,0,0
+object category "T_ST_ArmorRare",5,0,0,0,0,0,0,0
+object category "T_ST_RingAmuletBeltRare",5,0,0,0,0,0,0,0
+object category "T_ST_WeaponMagic",5,0,0,0,0,0,0,0
+object category "T_ST_ArmorMagic",5,0,0,0,0,0,0,0
+object category "T_ST_RingAmuletBeltMagic",5,0,0,0,0,0,0,0
+new subtable "0,8;2,1"
+object category "I_SCROLL_Resurrect",1,0,0,0,0,0,0,0
+
+new treasuretable "LLENEMY_CP_Hard_Common"
+new subtable "1,1"
+object category "T_ST_Legendary_3",2,0,0,0,0,0,0,0
+object category "T_ST_Legendary_3_Group_4",2,0,0,0,0,0,0,0
+object category "T_ST_Legendary_3_Group_9",1,0,0,0,0,0,0,0
+object category "T_LLENEMY_CP_Medium_Rare",4,0,0,0,0,0,0,0
+new subtable "0,10;2,1"
+object category "I_SCROLL_Resurrect",1,0,0,0,0,0,0,0
+
+new treasuretable "LLENEMY_CP_Hard_Rare"
+new subtable "1,1"
+object category "T_LLENEMY_CP_Hard_Common",5,0,0,0,0,0,0,0
+object category "T_QuestReward_Fixed_Hard",3,0,0,0,0,0,0,0
+object category "T_ST_Legendary_2_Group_12",1,0,0,0,0,0,0,0
+object category "T_ST_Legendary_2_Group_10",1,0,0,0,0,0,0,0
+object category "T_ST_RewardCombat_Group_16",8,0,0,0,0,0,0,0
+object category "T_TinyBoss",1,0,0,0,0,0,0,0
+object category "T_LuckTop",1,0,0,0,0,0,0,0
+new subtable "0,8;2,1"
+object category "I_SCROLL_Resurrect",1,0,0,0,0,0,0,0
+
+new treasuretable "LLENEMY_CP_Insane_Common"
+new subtable "1,1"
+object category "T_ST_Legendary_3",1,0,0,0,0,0,0,0
+object category "T_ST_Legendary_3_Group_4",1,0,0,0,0,0,0,0
+object category "T_DeathKnight",1,0,0,0,0,0,0,0
+object category "T_ST_RewardCombat_Group_18",8,0,0,0,0,0,0,0
+object category "T_LLENEMY_CP_Hard_Rare",5,0,0,0,0,0,0,0
+object category "T_LuckTop",1,0,0,0,0,0,0,0
+new subtable "0,8;2,1"
+object category "I_SCROLL_Resurrect",1,0,0,0,0,0,0,0
+
+new treasuretable "LLENEMY_CP_Insane_Rare"
+new subtable "1,1"
+object category "T_ST_Legendary_3",1,0,0,0,0,0,0,0
+object category "T_ST_Legendary_2",1,0,0,0,0,0,0,0
+object category "T_QuestReward_Fixed_Impossible",2,0,0,0,0,0,0,0
+object category "T_MiniBoss",1,0,0,0,0,0,0,0
+object category "T_LLENEMY_CP_Insane_Common",4,0,0,0,0,0,0,0
+object category "T_LuckTop",1,0,0,0,0,0,0,0
+new subtable "0,6;2,1"
+object category "I_SCROLL_Resurrect",1,0,0,0,0,0,0,0
+
+new treasuretable "LLENEMY_CP_Impossible_Common"
+new subtable "1,1"
+object category "T_LLENEMY_CP_Insane_Rare",2,0,0,0,0,0,0,0
+object category "T_ST_RandomLootJunkCharacters",1,0,0,0,0,0,0,0
+object category "T_LuckTop",1,0,0,0,0,0,0,0
+object category "T_ST_Legendary_2_Group_12",1,0,0,0,0,0,0,0
+new subtable "0,6;2,1"
+object category "I_SCROLL_Resurrect",1,0,0,0,0,0,0,0
+
+new treasuretable "LLENEMY_CP_Impossible_Rare"
+new subtable "1,1"
+object category "T_ST_Legendary_3",1,0,0,0,0,0,0,0
+object category "T_ST_Legendary_2",1,0,0,0,0,0,0,0
+object category "T_MegaBoss",1,0,0,0,0,0,0,0
+new subtable "2,1;1,4"
+object category "T_ST_Skillbook",1,0,0,0,0,0,0,0
+new subtable "0,10;1,1"
+object category "T_ST_RingAmuletBeltLegendary",1,0,0,0,0,0,0,0
+object category "T_Equip",1,0,0,0,0,0,0,0
+new subtable "0,4;2,1"
+object category "I_SCROLL_Resurrect",1,0,0,0,0,0,0,0
+
+new treasuretable "LLENEMY_TreasureGoblin_A"
+new subtable "1,1"
+object category "T_RewardTiny",10,0,0,0,0,0,0,0
+object category "T_RewardCombat",10,0,0,0,0,0,0,0
+object category "T_RewardSmall",10,0,0,0,0,0,0,0
+object category "SmallGold",10,0,0,0,0,0,0,0
+object category "T_ST_AllPotions",8,0,0,0,0,0,0,0
+object category "T_RewardMedium",6,0,0,0,0,0,0,0
+object category "T_OnlyGold",6,0,0,0,0,0,0,0
+object category "T_ST_Neo_Gear_Normal",6,0,0,0,0,0,0,0
+object category "T_ST_Neo_Gear_Normal_Uncommon",4,0,0,0,0,0,0,0
+object category "Rune",4,0,0,0,0,0,0,0
+object category "T_ST_Legendary_2",1,0,0,0,0,0,0,0
+object category "T_ST_Legendary_3_Group_17",1,0,0,0,0,0,0,0
+new subtable "0,6;1,2"
+object category "T_ST_WeaponMagic",1,0,0,0,0,0,0,0
+object category "T_ST_ArmorMagic",1,0,0,0,0,0,0,0
+object category "T_ST_RingAmuletBeltMagic",1,0,0,0,0,0,0,0
+new subtable "0,8;1,2"
+object category "T_ST_WeaponRare",1,0,0,0,0,0,0,0
+object category "T_ST_ArmorRare",1,0,0,0,0,0,0,0
+object category "T_ST_RingAmuletBeltRare",1,0,0,0,0,0,0,0
+
+new treasuretable "ST_LLENEMY_ShadowOrbArmor"
+new subtable "1,1"
+object category "T_ST_LightArmor",1,0,0,0,0,0,0,0
+object category "T_ST_ClothArmor",1,0,0,0,0,0,0,0
+object category "T_ST_HeavyArmor",1,0,0,0,0,0,0,0
+object category "T_ST_MageArmor",1,0,0,0,0,0,0,0
+object category "T_ST_RingAmuletBelt",1,0,0,0,0,0,0,0
+
+new treasuretable "ST_LLENEMY_ShadowOrbArmor_SpawnRanges"
+new subtable "1,1"
+StartLevel "1"
+EndLevel "8"
+object category "T_ST_LLENEMY_ShadowOrbArmor",1,0,1,0,0,0,0,0
+new subtable "1,1"
+StartLevel "9"
+EndLevel "12"
+object category "T_ST_LLENEMY_ShadowOrbArmor",1,0,0,1,0,0,0,0
+new subtable "1,1"
+StartLevel "13"
+EndLevel "15"
+object category "T_ST_LLENEMY_ShadowOrbArmor",1,0,0,0,1,0,0,0
+new subtable "1,1"
+StartLevel "16"
+object category "T_ST_LLENEMY_ShadowOrbArmor",1,0,0,0,0,1,0,0
+
+new treasuretable "ST_LLENEMY_ShadowOrbWeapons"
+new subtable "1,1"
+StartLevel "1"
+EndLevel "8"
+object category "T_ST_WeaponNormal",4,0,0,0,0,0,0,0
+object category "LLENEMY_ShadowTreasure_Weapons",1,0,1,0,0,0,0,0
+new subtable "1,1"
+StartLevel "9"
+EndLevel "12"
+object category "T_ST_WeaponMagic",4,0,0,0,0,0,0,0
+object category "LLENEMY_ShadowTreasure_Weapons",1,0,0,1,0,0,0,0
+new subtable "1,1"
+StartLevel "13"
+EndLevel "15"
+object category "T_ST_WeaponRare",4,0,0,0,0,0,0,0
+object category "LLENEMY_ShadowTreasure_Weapons",1,0,0,0,1,0,0,0
+new subtable "1,1"
+StartLevel "16"
+EndLevel "21"
+object category "T_ST_WeaponLegendary",4,0,0,0,0,0,0,0
+object category "LLENEMY_ShadowTreasure_Weapons",1,0,0,0,0,1,0,0
+new subtable "1,1"
+StartLevel "22"
+object category "T_ST_WeaponNormal",3,0,0,0,0,0,1,0
+object category "LLENEMY_ShadowTreasure_Weapons",1,0,0,0,0,0,1,0
+
+new treasuretable "LLENEMY_ShadowOrbRewards"
+new subtable "0,2;1,1"
+object category "T_ST_LLENEMY_ShadowOrbWeapons",1,0,0,0,0,0,0,0
+new subtable "0,2;1,1"
+object category "T_ST_LLENEMY_ShadowOrbArmor_SpawnRanges",1,0,0,0,0,0,0,0
+new subtable "0,12;1,2"
+object category "T_ST_SkillbookSummoning",4,0,0,0,0,0,0,0
+object category "T_ST_SkillbookLate",1,0,0,0,0,0,0,0
+new subtable "1,1"
+object category "Gold",1,0,0,0,0,0,0,0
+new subtable "0,8;1,2"
+object category "T_Demon",2,0,0,0,0,0,0,0
+object category "T_DemonForceDrop",2,0,0,0,0,0,0,0
+object category "T_ST_RareIngredient",6,0,0,0,0,0,0,0
+object category "T_DeathKnight",1,0,0,0,0,0,0,0
+
+new treasuretable "ST_LLENEMY_JustGloves"
+new subtable "10,1"
+object category "ClothGloves",1,0,1,0,0,0,0,0
+object category "LightGloves",1,0,1,0,0,0,0,0
+object category "HeavyGloves",1,0,1,0,0,0,0,0
+object category "MageGloves",1,0,1,0,0,0,0,0
+
+new treasuretable "ST_LLENEMY_ShadowTreasureWeaponsTest"
+new subtable "-3"
+object category "LLENEMY_ShadowTreasure_Weapons",1,0,0,0,1,0,0,0
+
+new treasuretable "LLENEMY_DigGraveBonusLoot"
+new subtable "1,1"
+object category "NeoGoldReward_Medium",1,0,0,0,0,0,0,0
+object category "T_ST_RandomLootSuper",3,0,0,0,0,0,0,0
+object category "T_ST_WeaponLegendary",1,0,0,0,0,0,0,0
+object category "T_ST_ArmorLegendary",1,0,0,0,0,0,0,0
+object category "T_ST_RingAmuletBeltLegendary",1,0,0,0,0,0,0,0
+object category "T_ST_WeaponRare",1,0,0,0,0,0,0,0
+object category "T_ST_ArmorRare",1,0,0,0,0,0,0,0
+object category "T_ST_RingAmuletBeltRare",1,0,0,0,0,0,0,0
