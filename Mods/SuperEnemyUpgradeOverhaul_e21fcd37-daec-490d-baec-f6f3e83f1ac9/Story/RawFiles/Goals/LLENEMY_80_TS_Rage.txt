@@ -1,0 +1,43 @@
+Version 1
+SubGoalCombiner SGC_AND
+INITSECTION
+KBSECTION
+/* [OSITOOLS_ONLY]
+IF
+NRD_OnHit((CHARACTERGUID)_Char, _Source, _Damage, _Handle)
+AND
+_Source != NULL_00000000-0000-0000-0000-000000000000
+AND
+_Damage > 0
+AND
+ObjectGetFlag(_Char, "LLENEMY_Rage_Active", 1)
+AND
+HasActiveStatus(_Char, "SLEEPING", 0)
+AND
+CharacterIsDead(_Char, 0)
+AND
+LeaderLib_Hit_QRY_HitSucceeded(_Char, _Handle, 0)
+THEN
+NRD_ModCall("EnemyUpgradeOverhaul", "IncreaseRage", (STRING)_Char, (STRING)_Damage, (STRING)_Handle, (STRING)_Source);
+*/
+
+// [BEGIN_NO_OSITOOLS]
+IF
+CharacterReceivedDamage(_Char, _Percentage, _Source)
+AND
+CharacterIsDead(_Char, 0)
+AND
+ObjectGetFlag(_Char, "LLENEMY_Rage_Active", 1)
+THEN
+LLENEMY_Mechanics_Statuses_IncreaseRage(_Char, _Percentage, _Source);
+// [END_NO_OSITOOLS]
+
+IF
+CharacterStatusApplied(_Char, "SLEEPING", _Source)
+AND
+ObjectGetFlag(_Char, "LLENEMY_Rage_Active", 1)
+THEN
+LLENEMY_Mechanics_Statuses_LowerRage(_Char, _Source);
+EXITSECTION
+ENDEXITSECTION
+ParentTargetEdge "LLENEMY_80_ToggledScripts"

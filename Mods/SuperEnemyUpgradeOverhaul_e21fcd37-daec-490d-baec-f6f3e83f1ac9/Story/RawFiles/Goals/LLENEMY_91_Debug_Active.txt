@@ -1,0 +1,341 @@
+Version 1
+SubGoalCombiner SGC_AND
+INITSECTION
+
+KBSECTION
+
+//REGION TREASURE_GOBLINS
+IF
+StoryEvent(_, "LeaderLib_Initialized")
+AND
+DB_CurrentLevel("TestLevel_LL_LeaderLib")
+THEN
+LeaderLog_Log("DEBUG", "[LLENEMY_91_Debug_Active:LeaderLib_Initialized] LeaderLib_Initialized fired.");
+LLENEMY_TreasureGoblins_Internal_Spawn(10.412, 0.0, 25.64);
+ApplyStatus(CHARACTERGUID_Lizards_Hero_Male_Undead_000_09478f32-8fbf-4502-a59d-011e4d1b3d4d, "LLENEMY_SEEKER", -1.0, 1, CHARACTERGUID_Lizards_Hero_Male_Undead_000_09478f32-8fbf-4502-a59d-011e4d1b3d4d);
+//DB_LLENEMY_TreasureGoblins_Temp_Active(CHARACTERGUID_LLENEMY_TreasureGoblin_A_001_150948ae-d736-4b10-a07d-a1b440bf8fa3);
+//LeaderLib_ToggleScripts_EnableScript("LLENEMY_TreasureGoblins_Active", "EnemyUpgradeOverhaul");
+//LeaderLib_Helper_MakeHostileToPlayers(CHARACTERGUID_LLENEMY_TreasureGoblin_A_001_150948ae-d736-4b10-a07d-a1b440bf8fa3);
+
+PROC
+LeaderLib_Variables_OnVariableIntChanged((GUIDSTRING)_Goblin, "LLENEMY_TreasureGoblins_TotalHits", (INTEGER)_LastValue, (INTEGER)_CurrentValue)
+THEN
+LeaderLog_LogInt("DEBUG", "[LLENEMY_91_Debug_Active:OnVariableIntChanged(LLENEMY_TreasureGoblins_TotalHits)] ", _LastValue, " => ", _CurrentValue, "");
+
+IF
+StoryEvent((ITEMGUID)_Item, "LLENEMY_TreasureGoblins_TreasureFound")
+AND
+String(_Item, _ItemStr)
+THEN
+LeaderLog_Log("DEBUG", "[LLENEMY_08_TreasureGoblins:TreasureFound] Found item: ", _ItemStr);
+
+
+IF
+StoryEvent((ITEMGUID)_Item, "LLENEMY_TreasureGoblins_TreasureFound")
+AND
+NOT GetInventoryOwner(_Item, _)
+AND
+String(_Item, _ItemStr)
+THEN
+LeaderLog_Log("DEBUG", "[LLENEMY_08_TreasureGoblins:TreasureFound] No inventory owner for item: ", _ItemStr);
+
+IF
+StoryEvent((ITEMGUID)_Item, "LLENEMY_TreasureGoblins_TreasureFound")
+AND
+GetInventoryOwner(_Item, _Goblin)
+AND
+NOT GetPosition(_Goblin, _, _, _)
+AND
+String(_Item, _ItemStr)
+AND
+String(_Goblin, _GoblinStr)
+THEN
+LeaderLog_Log("DEBUG", "[LLENEMY_08_TreasureGoblins:TreasureFound] Get position failed for goblin owner ", _GoblinStr, " with item ", _ItemStr);
+
+/* [OSITOOLS_ONLY]
+IF
+StoryEvent((ITEMGUID)_Item, "LLENEMY_TreasureGoblins_TreasureFound")
+THEN
+NRD_ModCall("EnemyUpgradeOverhaul", "Debug_TraceItemOwnership", (STRING)_Item);
+*/
+
+//END_REGION
+
+IF
+CharacterUsedSkillAtPosition(_Worm, _X, _Y, _Z, "Jump_EnemyDrillwormBurrow", _, _)
+THEN
+SetVarFloat3(_Worm, "SkillTargetPos_Jump_EnemyDrillwormBurrow", _X, _Y, _Z);
+
+IF
+ObjectEnteredCombat(CHARACTERGUID_DW_Voidling_A_000_53053f51-7d9f-4357-8de8-aa2a5732164f, _CombatID)
+THEN
+ApplyStatus(CHARACTERGUID_DW_Voidling_A_000_53053f51-7d9f-4357-8de8-aa2a5732164f, "LLENEMY_GATHERING_POWER", 6.0, 1, CHARACTERGUID_DW_Voidling_A_000_53053f51-7d9f-4357-8de8-aa2a5732164f);
+
+IF
+ObjectLeftCombat(CHARACTERGUID_DW_Voidling_A_000_53053f51-7d9f-4357-8de8-aa2a5732164f, _CombatID)
+THEN
+CharacterTransform(CHARACTERGUID_DW_Voidling_A_000_53053f51-7d9f-4357-8de8-aa2a5732164f, "DW_Voidling_A_3325e440-7d5f-40c4-829b-eeee57e1064f", 1, 1, 1, 1, 1, 0, 0);
+
+IF
+ObjectLeftCombat(CHARACTERGUID_DW_Voidling_A_000_53053f51-7d9f-4357-8de8-aa2a5732164f, _CombatID)
+AND
+CharacterIsDead(CHARACTERGUID_DW_Voidling_A_000_53053f51-7d9f-4357-8de8-aa2a5732164f, 0)
+THEN
+Proc_CharacterFullRestore(CHARACTERGUID_DW_Voidling_A_000_53053f51-7d9f-4357-8de8-aa2a5732164f);
+
+IF
+RegionStarted("TestLevel_LL_LeaderLib")
+THEN
+GlobalClearFlag("LLENEMY_DuplicationUpgradesDisabled");
+
+IF
+RegionStarted("_TMPL_Sandbox")
+THEN
+GlobalClearFlag("LLENEMY_DuplicationUpgradesDisabled");
+
+IF
+TextEventSet("llenemy_applystats")
+THEN
+LeaderLog_Log("TRACE", "[LLENEMY_20_DebugLevel:llenemy_applystats] Testing stats applying.");
+
+IF
+TextEventSet("llenemy_applystats")
+AND
+CharacterGetHostCharacter(_Player)
+AND
+LeaderLib_Recon_QRY_GetString("llenemy_applystats", "stats", 1, "Summon_Ice_Elemental")
+AND
+DB_LeaderLib_Recon_Temp_CommandParameters_String("llenemy_applystats", "stats", _Stats, _NextParamIndex)
+AND
+LeaderLib_Recon_QRY_GetUUID("llenemy_applystats", "target", _NextParamIndex, _Player)
+AND
+DB_LeaderLib_Recon_Temp_CommandParameters_UUID("llenemy_applystats", "target", _Target, _NextParamIndex2)
+AND
+String(_Target, _CharStr)
+THEN
+/* [OSITOOLS_ONLY]
+NRD_ModCall("EnemyUpgradeOverhaul", "TraceCharacterStats", _CharStr);
+*/
+SetVarFixedString(_Target, "LLENEMY_ApplyStats_Stats", _Stats);
+SetStoryEvent(_Target, "LLENEMY_ApplyStats");
+
+IF
+TextEventSet("llenemy_applystats")
+THEN
+LeaderLib_Recon_ClearParams("llenemy_applystats");
+
+/* [OSITOOLS_ONLY]
+IF
+StoryEvent((CHARACTERGUID)_Char, "LLENEMY_ApplyStats_Done")
+AND
+String(_Char, _CharStr)
+THEN
+NRD_ModCall("EnemyUpgradeOverhaul", "TraceCharacterStats", _CharStr);
+*/
+
+//REGION CP_DEBUG
+PROC
+LLENEMY_Upgrades_OnRollingDone((CHARACTERGUID)_Char, (STRING)_Level)
+AND
+GetVarInteger(_Char, "LLENEMY_ChallengePoints", _ChallengePoints)
+AND
+_ChallengePoints > 0
+AND
+IntegertoString(_ChallengePoints, _PointsStr)
+AND
+CharacterGetDisplayName(_Char, _, _Name)
+THEN
+LeaderLog_Log("TRACE", "[LLENEMY:Upgrades:OnRollingDone] Enemy [",_Name,"] Challenge Points value is [",_PointsStr,"].");
+
+IF
+CharacterDied(_Char)
+AND
+GetVarInteger(_Char, "LLENEMY_ChallengePoints", _ChallengePoints)
+AND
+_ChallengePoints > 0
+AND
+IntegertoString(_ChallengePoints, _PointsStr)
+AND
+CharacterGetDisplayName(_Char, _, _Name)
+THEN
+LeaderLog_Log("TRACE", "[LLENEMY:Rewards:Debug] Enemy [",_Name,"] died. Challenge Points [",_PointsStr,"].");
+//END_REGION
+
+IF
+GameStarted(_,1)
+THEN
+GlobalSetFlag("LeaderLog_DebugStatus_Enabled");
+GlobalSetFlag("LeaderLog_Debug_Enabled");
+GlobalSetFlag("LeaderLog_Trace_Enabled");
+
+/* [OSITOOLS_ONLY]
+IF
+TextEventSet("llenemy_sendmessage")
+AND
+GetTextEventParamString(1, _Channel)
+AND
+GetTextEventParamString(2, _Payload)
+THEN
+NRD_ModCall("EnemyUpgradeOverhaul", "TestNetMessage", _Channel, _Payload);
+
+IF
+TextEventSet("llenemy_luareset")
+THEN
+NRD_LuaReset(1,1,1);
+*/
+
+IF
+GameStarted(_,1)
+AND
+ObjectExists(CHARACTERGUID_Trailer_Humans_Female_Lohse_000_145810cc-7e46-43e7-9fdf-ab9bb8ffcdc0, 1)
+THEN
+RemoveStatus(CHARACTERGUID_Trailer_Humans_Female_Lohse_000_145810cc-7e46-43e7-9fdf-ab9bb8ffcdc0, "LLENEMY_BONUSSKILLS_SINGLE");
+RemoveStatus(CHARACTERGUID_Trailer_Humans_Female_Lohse_000_145810cc-7e46-43e7-9fdf-ab9bb8ffcdc0, "LLENEMY_UPGRADE_INFO");
+LLENEMY_Upgrades_ApplyUpgrade(CHARACTERGUID_Trailer_Humans_Female_Lohse_000_145810cc-7e46-43e7-9fdf-ab9bb8ffcdc0, "BonusSkills", "Normal", "LLENEMY_BONUSSKILLS_SINGLE", -1.0, 2);
+CharacterSetImmortal(CHARACTERGUID_Trailer_Humans_Female_Lohse_000_145810cc-7e46-43e7-9fdf-ab9bb8ffcdc0, 1);
+ApplyStatus(CHARACTERGUID_Trailer_Humans_Female_Lohse_000_145810cc-7e46-43e7-9fdf-ab9bb8ffcdc0, "KNOCKED_DOWN", -1.0, 1, CHARACTERGUID_Trailer_Humans_Female_Lohse_000_145810cc-7e46-43e7-9fdf-ab9bb8ffcdc0);
+SetCanJoinCombat(CHARACTERGUID_Trailer_Humans_Female_Lohse_000_145810cc-7e46-43e7-9fdf-ab9bb8ffcdc0, 0);
+
+/* [OSITOOLS_ONLY]
+PROC
+LLENEMY_Upgrades_ApplyUpgrade((CHARACTERGUID)_Character, (STRING)_Group, (STRING)_Type, (STRING)_Status, (REAL)_Duration, (INTEGER)_CP)
+AND
+GlobalGetFlag("LLENEMY_HardModeEnabled", _HardMode)
+AND
+IntegertoString(_HardMode, _HardModeStr)
+AND
+String(_Character, _CharStr)
+AND
+NRD_RealToString(_Duration, _DurationStr)
+AND
+IntegertoString(_CP, _CPStr)
+AND
+StringConcatenate("[LLENEMY_20_DebugLevel:ApplyUpgrade] [", _Status, _Msg1)
+AND
+StringConcatenate(_Msg1, "] (", _Msg2)
+AND
+StringConcatenate(_Msg2, _CharStr, _Msg22)
+AND
+StringConcatenate(_Msg22, ") Duration (", _Msg3)
+AND
+StringConcatenate(_Msg3, _DurationStr, _Msg4)
+AND
+StringConcatenate(_Msg4, ") CP (", _Msg5)
+AND
+StringConcatenate(_Msg5, _CPStr, _Msg6)
+THEN
+NRD_ModCall("LeaderLib", "Log", _Msg6, ") Group(",_Group,") Type(",_Type,") HardMode(",_HardModeStr,")");
+*/
+
+/* [OSITOOLS_ONLY]
+IF
+TextEventSet("llenemy_dumptables")
+THEN
+NRD_ModCall("EnemyUpgradeOverhaul", "DumpUpgradeTables");
+*/
+
+IF
+TextEventSet("llenemy_seekertest")
+THEN
+SetStoryEvent(CHARACTERGUID_Lizards_Hero_Male_Undead_000_09478f32-8fbf-4502-a59d-011e4d1b3d4d, "LLENEMY_Statuses_Seeker_PulseNow");
+
+/* [OSITOOLS_ONLY]
+IF
+TextEventSet("llenemy_xptest")
+THEN
+NRD_ModCall("EnemyUpgradeOverhaul", "GrantExperience", "Lizards_Hero_Male_Undead_000_09478f32-8fbf-4502-a59d-011e4d1b3d4d");
+
+IF
+TextEventSet("llenemy_rescale")
+THEN
+NRD_DebugLog("[LLENEMY_ExperienceScaling:llenemy_rescale] Trying to reroll character level scaling.");
+NRD_ModCall("EnemyUpgradeOverhaul", "Debug_RerollLevel", "09478f32-8fbf-4502-a59d-011e4d1b3d4d");
+LeaderLib_Timers_StartObjectTimer(09478f32-8fbf-4502-a59d-011e4d1b3d4d, 1000, "Timers_LLENEMY_Debug_LevelUp", "LLENEMY_Debug_LevelUp");
+*/
+
+IF
+StoryEvent((CHARACTERGUID)_Char, "LLENEMY_Debug_LevelUp")
+THEN
+CharacterLevelUp(_Char);
+
+//REGION SKILL_CHAIN_TEST
+IF
+CharacterUsedSkillOnTarget(_Char, _Target, "Target_SingleHandedAttack", _, _)
+THEN
+// Store the target of Sucker Punch for later use.
+DB_MyMod_Skills_Temp_CastSkill(_Char, _Target, "Target_HeavyAttack");
+
+IF
+SkillCast(_Char, "Target_SingleHandedAttack", _, _)
+THEN
+// Delay the scripted skill cast by 0.75 seconds
+ProcObjectTimer(_Char, "Timers_MyMod_CastNextSkill", 750);
+
+IF
+CharacterUsedSkillOnTarget(_Char, _Target, "Target_HeavyAttack", _, _)
+THEN
+DB_MyMod_Skills_Temp_CastSkill(_Char, _Target, "Target_EnemyCripplingBlow");
+
+IF
+SkillCast(_Char, "Target_HeavyAttack", _, _)
+THEN
+ProcObjectTimer(_Char, "Timers_MyMod_CastNextSkill", 750);
+
+IF
+CharacterUsedSkillOnTarget(_Char, _Target, "Target_EnemyCripplingBlow", _, _)
+THEN
+DB_MyMod_Skills_Temp_CastSkill(_Char, _Target, "Shout_EnemyWhirlwind");
+
+IF
+SkillCast(_Char, "Target_EnemyCripplingBlow", _, _)
+THEN
+ProcObjectTimer(_Char, "Timers_MyMod_CastNextSkill", 750);
+
+PROC
+ProcObjectTimerFinished((CHARACTERGUID)_Char, "Timers_MyMod_CastNextSkill")
+AND
+CharacterIsDead(_Char, 0)
+AND
+DB_MyMod_Skills_Temp_CastSkill(_Char, _Target, _NextSkill)
+THEN
+NOT DB_MyMod_Skills_Temp_CastSkill(_Char, _Target, _NextSkill);
+// Hacky action manager clearing START
+CharacterFlushQueue(_Char);
+CharacterMoveTo(_Char, _Char, 1, "", 1);
+CharacterSetStill(_Char);
+// Hacky action manager clearing END
+CharacterUseSkill(_Char, _NextSkill, _Target, 0, 1, 1);
+
+// Clear the stored target.
+PROC
+ProcObjectTimerFinished((CHARACTERGUID)_Char, "Timers_MyMod_CastNextSkill")
+AND
+CharacterIsDead(_Char, 1)
+AND
+DB_MyMod_Skills_Temp_CastSkill(_Char, _Target, _NextSkill)
+THEN
+NOT DB_MyMod_Skills_Temp_CastSkill(_Char, _Target, _NextSkill);
+//END_REGION
+
+IF
+TextEventSet("llenemy_voicetest")
+AND
+CharacterGetHostCharacter(_Host)
+THEN
+Proc_StartDialog(1, "CMB_AD_Comment_EvilLaugh", CHARACTERGUID_Lizards_Hero_Male_Undead_000_09478f32-8fbf-4502-a59d-011e4d1b3d4d);
+
+IF
+AutomatedDialogEnded("CMB_AD_Comment_EvilLaugh", _)
+THEN
+LeaderLib_Timers_StartObjectTimer(CHARACTERGUID_Lizards_Hero_Male_Undead_000_09478f32-8fbf-4502-a59d-011e4d1b3d4d, 1500, "Timers_LLENEMY_Debug_VoiceTest", "LLENEMY_Debug_VoiceTest");
+
+IF
+StoryEvent((CHARACTERGUID)_Char, "LLENEMY_Debug_VoiceTest")
+AND
+CharacterGetHostCharacter(_Host)
+THEN
+Proc_StartDialog(1, "CMB_AD_Comment_EvilLaugh", CHARACTERGUID_Lizards_Hero_Male_Undead_000_09478f32-8fbf-4502-a59d-011e4d1b3d4d);
+EXITSECTION
+
+ENDEXITSECTION
+ParentTargetEdge "LLENEMY_91_Debug__Start"

@@ -1,0 +1,21 @@
+Version 1
+SubGoalCombiner SGC_AND
+INITSECTION
+KBSECTION
+IF
+GameStarted(_Region,_)
+AND
+SysIsActive("CMP_Talents") // Divine Talents Gift Bag mod
+THEN
+LLENEMY_Talents_InitGiftBagTalents();
+LLENEMY_Elites_RegisterDivineTalentUpgrades(_Region);
+GoalCompleted;
+
+IF
+GlobalFlagSet("LLENEMY_TalentUpgrades_DivineTalentsAdded")
+THEN
+GoalCompleted;
+EXITSECTION
+
+ENDEXITSECTION
+ParentTargetEdge "LaughingLeader_EnemyUpgradeOverhaul"

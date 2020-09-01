@@ -1,0 +1,68 @@
+Version 1
+SubGoalCombiner SGC_AND
+INITSECTION
+LLENEMY_HardMode_Origins_InitScripts();
+LLENEMY_HardMode_Origins_EnableScriptsForCurrentLevel();
+KBSECTION
+
+//REGION SCRIPT_SETTINGS
+PROC
+LLENEMY_HardMode_Origins_InitScripts()
+AND
+NOT DB_LLENEMY_HardMode_Origins_Scripts(_,_)
+THEN
+DB_LLENEMY_HardMode_Origins_Scripts("TUT_Tutorial_A", "LLENEMY_31_Origins_HM_Tutorial");
+DB_LLENEMY_HardMode_Origins_Scripts("FJ_FortJoy_Main", "LLENEMY_31_Origins_HM_FortJoy");
+
+PROC
+LeaderLib_Mods_OnVersionChanged(046aafd8-ba66-4b37-adfb-519c1a5d04d7, (INTEGER)_LastVersion, (INTEGER)_NextVersion)
+THEN
+LLENEMY_HardMode_Origins_InitScripts();
+//END_REGION
+
+PROC
+LLENEMY_HardMode_Origins_EnableScriptsForCurrentLevel()
+AND
+DB_CurrentLevel(_Region)
+AND
+DB_LLENEMY_HardMode_Origins_Scripts(_Region, _Script)
+THEN
+SysActivateGoal(_Script);
+
+//REGION LEVEL_EVENTS
+IF
+RegionStarted(_Region)
+AND
+DB_LLENEMY_HardMode_Origins_Scripts(_Region, _Script)
+THEN
+SysActivateGoal(_Script);
+
+IF
+RegionEnded(_Region)
+AND
+DB_LLENEMY_HardMode_Origins_Scripts(_Region, _Script)
+THEN
+SysCompleteGoal(_Script);
+//END_REGION
+
+//REGION HENCHMAN_RECRUITER
+// [BEGIN_NO_OSITOOLS]
+PROC
+LLENEMY_HardMode_SetupRecruiter((STRING)_Region)
+THEN
+DB_NOOP(1);
+// [END_NO_OSITOOLS]
+
+/* [OSITOOLS_ONLY]
+PROC
+LLENEMY_HardMode_SetupRecruiter((STRING)_Region)
+THEN
+NRD_ModCall("EnemyUpgradeOverhaul", "SetupRecruiter", _Region);
+SysActivateGoal("GLO_LVHub_Henchmen");
+*/
+//END_REGION
+
+EXITSECTION
+LLENEMY_HardMode_DisableScripts();
+ENDEXITSECTION
+ParentTargetEdge "LLENEMY_30_Origins_HM_Parent"

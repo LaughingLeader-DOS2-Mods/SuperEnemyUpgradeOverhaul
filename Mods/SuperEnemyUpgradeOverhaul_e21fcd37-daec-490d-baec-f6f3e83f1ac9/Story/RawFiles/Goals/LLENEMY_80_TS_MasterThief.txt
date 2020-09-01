@@ -1,0 +1,64 @@
+Version 1
+SubGoalCombiner SGC_AND
+INITSECTION
+
+KBSECTION
+// [BEGIN_NO_OSITOOLS]
+IF
+CharacterStartAttackObject((CHARACTERGUID)_Target, _, (CHARACTERGUID)_Enemy)
+AND
+CharacterIsEnemy(_Target, _Enemy, 1)
+AND
+HasActiveStatus(_Enemy, "LLENEMY_TALENT_MASTERTHIEF", 1)
+AND
+HasActiveStatus(_Enemy, "LLENEMY_TALENT_MASTERTHIEF_COOLDOWN", 0)
+AND
+LeaderLib_Roll_QRY(300,999)
+THEN
+DB_LLENEMY_Talents_Temp_MasterThief_WaitForHit(_Enemy, _Target);
+
+IF
+CharacterStatusApplied(_Target, "HIT", (CHARACTERGUID)_Enemy)
+AND
+DB_LLENEMY_Talents_Temp_MasterThief_WaitForHit(_Enemy, _Target)
+THEN
+NOT DB_LLENEMY_Talents_Temp_MasterThief_WaitForHit(_Enemy, _Target);
+LLENEMY_Talents_MugTarget(_Enemy, _Target);
+
+IF
+CharacterMissedBy(_Target, _, _Enemy)
+AND
+DB_LLENEMY_Talents_Temp_MasterThief_WaitForHit(_Enemy, _Target)
+THEN
+NOT DB_LLENEMY_Talents_Temp_MasterThief_WaitForHit(_Enemy, _Target);
+
+IF
+CharacterDied(_Enemy)
+AND
+DB_LLENEMY_Talents_Temp_MasterThief_WaitForHit(_Enemy, _Target)
+THEN
+NOT DB_LLENEMY_Talents_Temp_MasterThief_WaitForHit(_Enemy, _Target);
+// [END_NO_OSITOOLS]
+
+/* [OSITOOLS_ONLY]
+IF
+NRD_OnHit((CHARACTERGUID)_Target, (CHARACTERGUID)_Attacker, _Damage, _Handle)
+AND
+_Damage > 0
+AND
+_Attacker != NULL_00000000-0000-0000-0000-000000000000
+AND
+CharacterIsEnemy(_Target, _Attacker, 1)
+AND
+HasActiveStatus(_Attacker, "LLENEMY_TALENT_MASTERTHIEF", 1)
+AND
+HasActiveStatus(_Attacker, "LLENEMY_TALENT_MASTERTHIEF_COOLDOWN", 0)
+AND
+LeaderLib_Roll_QRY(300,999)
+THEN
+NRD_ModCall("EnemyUpgradeOverhaul", "MugTarget_Start", (STRING)_Attacker, (STRING)_Target, (STRING)_Damage, (STRING)_Handle);
+*/
+EXITSECTION
+SysClear("DB_LLENEMY_Talents_Temp_MasterThief_WaitForHit", 2);
+ENDEXITSECTION
+ParentTargetEdge "LLENEMY_80_ToggledScripts"

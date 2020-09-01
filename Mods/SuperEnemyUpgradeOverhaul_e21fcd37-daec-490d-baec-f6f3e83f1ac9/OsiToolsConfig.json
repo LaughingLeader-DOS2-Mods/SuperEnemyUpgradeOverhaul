@@ -1,0 +1,9 @@
+{
+    "RequiredExtensionVersion": 50,
+    "ModTable": "EnemyUpgradeOverhaul",
+    "FeatureFlags": [
+        "OsirisExtensions",
+        "Lua",
+        "Preprocessor"
+    ]
+}

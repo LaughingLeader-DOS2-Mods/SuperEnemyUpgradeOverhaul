@@ -1,0 +1,242 @@
+Version 1
+SubGoalCombiner SGC_AND
+INITSECTION
+KBSECTION
+
+//REGION LEVEL_1_SAVE_BUG
+PROC
+LLENEMY_Scaling_SaveTransformedCharacterLevel((CHARACTERGUID)_Char)
+AND
+GetRegion(_Char, _Region)
+AND
+CharacterGetLevel(_Char, _Level)
+THEN
+DB_LLENEMY_Scaling_Temp_TransformedCharacters(_Region, _Char, _Level);
+
+PROC
+LLENEMY_Scaling_CheckTransformedCharacterLevel((STRING)_Region, (CHARACTERGUID)_Char, (INTEGER)_TargetLevel, 1)
+AND
+CharacterGetLevel(_Char, _Level)
+AND
+_Level < _TargetLevel
+THEN
+CharacterLevelUpTo(_Char, _TargetLevel);
+
+PROC
+LLENEMY_Scaling_CheckTransformedCharacterLevel((STRING)_Region, (CHARACTERGUID)_Char, (INTEGER)_TargetLevel, 0)
+THEN
+NOT DB_LLENEMY_Scaling_Temp_TransformedCharacters(_Region, _Char, _TargetLevel);
+
+IF
+RegionEnded(_Region)
+AND
+DB_LLENEMY_Scaling_Temp_TransformedCharacters(_Region, _Char, _Level)
+THEN
+NOT DB_LLENEMY_Scaling_Temp_TransformedCharacters(_Region, _Char, _Level);
+//END_REGION
+
+//REGION LEVELING
+PROC
+LLENEMY_Scaling_LevelUpCharacter((CHARACTERGUID)_Char)
+THEN
+LLENEMY_Scaling_LevelUpCharacter(_Char, 0);
+
+PROC
+LLENEMY_Scaling_LevelUpCharacter((CHARACTERGUID)_Char, (INTEGER)_Force)
+AND
+GlobalGetFlag("LLENEMY_EnemyLevelingEnabled", 1)
+AND
+GlobalGetFlag("LLENEMY_Debug_LevelCapDisabled", _CapDisabled)
+AND
+NOT DB_Origins(_Char) // Don't do anything for Origin characters, since they may be recruited again
+AND
+CharacterGetHostCharacter(_Host)
+AND
+CharacterGetLevel(_Host, _HostLevel)
+AND
+DB_LLENEMY_LevelModifier(_Modifier)
+AND
+IntegerSum(_HostLevel, _Modifier, _TargetLevel)
+THEN
+LLENEMY_Scaling_Internal_EvaluateCharacter(_Char, _TargetLevel, _HostLevel, _Force, _CapDisabled);
+
+PROC
+LLENEMY_Scaling_Internal_EvaluateCharacter((CHARACTERGUID)_Char, (INTEGER)_TargetLevel, (INTEGER)_HostLevel, 1, (INTEGER)_CapDisabled)
+AND
+NOT DB_LLENEMY_Scaling_Temp_EvaluationResolved(_Char)
+AND
+NOT LeaderLib_Helper_QRY_CharacterIsPlayer(_Char)
+AND
+NOT LLENEMY_QRY_IsAllyOfParty(_Char)
+THEN
+DB_LLENEMY_Scaling_Temp_EvaluationResolved(_Char);
+LLENEMY_Scaling_Internal_LevelUpCharacterWithCap(_Char, _TargetLevel, _CapDisabled);
+
+//All hostiles
+PROC
+LLENEMY_Scaling_Internal_EvaluateCharacter((CHARACTERGUID)_Char, (INTEGER)_TargetLevel, (INTEGER)_HostLevel, (INTEGER)_Force, (INTEGER)_CapDisabled)
+AND
+NOT DB_LLENEMY_Scaling_Temp_EvaluationResolved(_Char)
+AND
+LLENEMY_QRY_IsEnemyOfParty(_Char)
+//NOT LLENEMY_QRY_IsAllyOfParty(_Char)
+THEN
+DB_LLENEMY_Scaling_Temp_EvaluationResolved(_Char);
+LLENEMY_Scaling_Internal_LevelUpCharacterWithCap(_Char, _TargetLevel, _CapDisabled);
+
+//Neutrals in combat
+PROC
+LLENEMY_Scaling_Internal_EvaluateCharacter((CHARACTERGUID)_Char, (INTEGER)_TargetLevel, (INTEGER)_HostLevel, (INTEGER)_Force, (INTEGER)_CapDisabled)
+AND
+NOT DB_LLENEMY_Scaling_Temp_EvaluationResolved(_Char)
+AND
+LLENEMY_QRY_IsNeutralToParty(_Char)
+AND
+CharacterIsInCombat(_Char, 1)
+THEN
+DB_LLENEMY_Scaling_Temp_EvaluationResolved(_Char);
+LLENEMY_Scaling_Internal_LevelUpCharacterWithCap(_Char, _TargetLevel, _CapDisabled);
+
+//Allies get leveled up to the host's level
+PROC
+LLENEMY_Scaling_Internal_EvaluateCharacter((CHARACTERGUID)_Char, (INTEGER)_TargetLevel, (INTEGER)_HostLevel, (INTEGER)_Force, (INTEGER)_CapDisabled)
+AND
+NOT DB_LLENEMY_Scaling_Temp_EvaluationResolved(_Char)
+AND
+LLENEMY_QRY_IsAllyOfParty(_Char)
+THEN
+DB_LLENEMY_Scaling_Temp_EvaluationResolved(_Char);
+LLENEMY_Scaling_Internal_LevelUpCharacterWithCap(_Char, _HostLevel, _CapDisabled);
+
+PROC
+LLENEMY_Scaling_Internal_EvaluateCharacter((CHARACTERGUID)_Char, (INTEGER)_TargetLevel, (INTEGER)_HostLevel, (INTEGER)_Force, (INTEGER)_CapDisabled)
+AND
+DB_LLENEMY_Scaling_Temp_EvaluationResolved(_Char)
+THEN
+NOT DB_LLENEMY_Scaling_Temp_EvaluationResolved(_Char);
+
+PROC
+LLENEMY_Scaling_Internal_LevelUpCharacterWithCap((CHARACTERGUID)_Char, (INTEGER)_TargetLevel, 0)
+AND
+IntegerMin(_TargetLevel, 35, _CappedLevel)
+AND
+_CappedLevel > 1
+THEN
+LLENEMY_Scaling_Internal_StoreVitality(_Char);
+CharacterLevelUpTo(_Char, _CappedLevel);
+LLENEMY_Scaling_Internal_CheckVitality(_Char);
+
+//May crash if the target level is greater than 35
+PROC
+LLENEMY_Scaling_Internal_LevelUpCharacterWithCap((CHARACTERGUID)_Char, (INTEGER)_TargetLevel, 1)
+AND
+_TargetLevel > 1
+THEN
+LLENEMY_Scaling_Internal_StoreVitality(_Char);
+CharacterLevelUpTo(_Char, _TargetLevel);
+LLENEMY_Scaling_Internal_CheckVitality(_Char);
+
+PROC
+LLENEMY_Scaling_Internal_StoreVitality((CHARACTERGUID)_Char)
+AND
+CharacterGetHitpointsPercentage(_Char, _Current)
+AND
+_Current >= 99.0
+THEN
+DB_LLENEMY_Scaling_Temp_LastVitalityPercentage(_Char, _Current);
+
+PROC
+LLENEMY_Scaling_Internal_CheckVitality((CHARACTERGUID)_Char)
+AND
+CharacterGetHitpointsPercentage(_Char, _Current)
+AND
+DB_LLENEMY_Scaling_Temp_LastVitalityPercentage(_Char, _Last)
+AND
+_Current < _Last
+THEN
+CharacterSetHitpointsPercentage(_Char, 100.0);
+
+PROC
+LLENEMY_Scaling_Internal_CheckVitality((CHARACTERGUID)_Char)
+AND
+DB_LLENEMY_Scaling_Temp_LastVitalityPercentage(_Char, _Last)
+THEN
+NOT DB_LLENEMY_Scaling_Temp_LastVitalityPercentage(_Char, _Last);
+//END_REGION
+
+//REGION MASS_LEVELING
+PROC
+LLENEMY_Scaling_LevelAllInCombat()
+AND
+GlobalGetFlag("LLENEMY_Scaling_CommitToWorld_Enabled", 1)
+THEN
+CharacterLaunchOsirisOnlyIterator("Iterator_LLENEMY_Scaling_LevelUp");
+
+PROC
+LLENEMY_Scaling_LevelAllInCombat()
+AND
+GlobalGetFlag("LLENEMY_Scaling_CommitToWorld_Enabled", 0)
+AND
+DB_CombatCharacters(_Char, _CombatID)
+AND
+LLENEMY_QRY_IsEnemyOfParty(_Char, _CombatID)
+THEN
+LLENEMY_Scaling_LevelUpCharacter(_Char);
+
+IF
+StoryEvent((CHARACTERGUID)_Char, "Iterator_LLENEMY_Scaling_LevelUp")
+AND
+CharacterIsDead(_Char, 0)
+AND
+NOT LeaderLib_Helper_QRY_CharacterIsPlayer(_Char)
+THEN
+LLENEMY_Scaling_LevelUpCharacter(_Char);
+LLENEMY_Scaling_Internal_IncreaseCount();
+//END_REGION
+
+//REGION WORLD_COMMITTING
+//Committing
+IF
+ObjectFlagSet("LLENEMY_Scaling_CommitToWorld_OpenConfirmation", (CHARACTERGUID)_Char, _)
+THEN
+ObjectClearFlag(_Char, "LLENEMY_Scaling_CommitToWorld_OpenConfirmation", 0);
+OpenMessageBoxYesNo(_Char, "LLENEMY_MessageBox_ConfirmEnemyLevelingCommit");
+
+IF
+MessageBoxYesNoClosed(_Player, "LLENEMY_MessageBox_ConfirmEnemyLevelingCommit", 1)
+THEN
+GlobalSetFlag("LLENEMY_Scaling_CommitToWorld_Enabled");
+DB_LLENEMY_Scaling_Temp_TotalScaled(_Player, 0);
+TimerLaunch("Timers_LLENEMY_Scaling_DisplayTotalLeveled", 250);
+CharacterLaunchOsirisOnlyIterator("Iterator_LLENEMY_Scaling_LevelUp");
+
+IF
+MessageBoxYesNoClosed(_Player, "LLENEMY_MessageBox_ConfirmEnemyLevelingCommit", 0)
+THEN
+GlobalClearFlag("LLENEMY_Scaling_CommitToWorld_Enabled");
+SysClear("DB_LLENEMY_Scaling_Temp_TotalScaled", 2);
+
+PROC
+LLENEMY_Scaling_Internal_IncreaseCount()
+AND
+DB_LLENEMY_Scaling_Temp_TotalScaled(_Player, _Total)
+AND
+IntegerSum(_Total, 1, _Next)
+THEN
+NOT DB_LLENEMY_Scaling_Temp_TotalScaled(_Player, _Total);
+DB_LLENEMY_Scaling_Temp_TotalScaled(_Player, _Next);
+TimerCancel("Timers_LLENEMY_Scaling_DisplayTotalLeveled");
+TimerLaunch("Timers_LLENEMY_Scaling_DisplayTotalLeveled", 250);
+
+IF
+TimerFinished("Timers_LLENEMY_Scaling_DisplayTotalLeveled")
+AND
+DB_LLENEMY_Scaling_Temp_TotalScaled(_Player, _Total)
+THEN
+NOT DB_LLENEMY_Scaling_Temp_TotalScaled(_Player, _Total);
+CharacterDisplayTextWithParam(_Player, "LLENEMY_DisplayText_TotalCharactersLeveled", _Total);
+//END_REGION
+EXITSECTION
+
+ENDEXITSECTION
+ParentTargetEdge "LaughingLeader_EnemyUpgradeOverhaul"

@@ -1,0 +1,48 @@
+Version 1
+SubGoalCombiner SGC_AND
+INITSECTION
+
+KBSECTION
+// [BEGIN_NO_OSITOOLS]
+IF
+CharacterStartAttackObject(_Target, _, _Enemy)
+AND
+HasActiveStatus(_Enemy, "LLENEMY_TALENT_BULLY", 1)
+AND
+LLENEMY_Talents_QRY_BullyTarget(_Target)
+THEN
+ApplyStatus(_Enemy, "LLENEMY_TALENT_BULLY_DAMAGEBONUS", 6.0, 0, _Enemy);
+LeaderLib_Timers_StartObjectTimer(_Enemy, 2000, "Timers_LLENEMY_Bully_RemoveBonus", "LLENEMY_Bully_RemoveBonus");
+
+IF
+CharacterStatusApplied(_Target, "HIT", (CHARACTERGUID)_Enemy)
+AND
+HasActiveStatus(_Enemy, "LLENEMY_TALENT_BULLY_DAMAGEBONUS", 1)
+THEN
+LeaderLib_Timers_StartObjectTimer(_Enemy, 250, "Timers_LLENEMY_Bully_RemoveBonus", "LLENEMY_Bully_RemoveBonus");
+// [END_NO_OSITOOLS]
+
+/* [OSITOOLS_ONLY]
+IF
+NRD_OnHit(_Target, _Attacker, _Damage, _Handle)
+AND
+_Damage > 0
+AND
+_Target != _Attacker
+AND
+_Attacker != NULL_00000000-0000-0000-0000-000000000000
+AND
+HasActiveStatus(_Attacker, "LLENEMY_TALENT_BULLY", 1)
+AND
+LLENEMY_Talents_QRY_BullyTarget(_Target)
+AND
+LeaderLib_Hit_QRY_HitSucceeded(_Target, _Handle, 0)
+AND
+LeaderLib_Hit_QRY_HitDirectly(_Target, _Handle, 0)
+THEN
+LeaderLib_Hit_IncreaseDamage(_Target, _Attacker, _Handle, 0.50, 0);
+*/
+EXITSECTION
+
+ENDEXITSECTION
+ParentTargetEdge "LLENEMY_80_ToggledScripts"

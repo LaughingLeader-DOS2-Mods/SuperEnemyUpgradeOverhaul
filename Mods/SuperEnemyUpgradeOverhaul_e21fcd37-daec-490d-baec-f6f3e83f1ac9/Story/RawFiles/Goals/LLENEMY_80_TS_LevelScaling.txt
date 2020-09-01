@@ -1,0 +1,129 @@
+Version 1
+SubGoalCombiner SGC_AND
+INITSECTION
+LLENEMY_Scaling_LevelAllInCombat();
+KBSECTION
+
+//New region leveling
+PROC
+LeaderLib_Initialized((STRING)_Region)
+AND
+NOT DB_LLENEMY_Scaling_Temp_LeveledRegion(_Region)
+AND
+GlobalGetFlag("LLENEMY_Scaling_CommitToWorld_Enabled", 1)
+THEN
+DB_LLENEMY_Scaling_Temp_LeveledRegion(_Region);
+CharacterLaunchOsirisOnlyIterator("Iterator_LLENEMY_Scaling_LevelUp");
+
+PROC
+LLENEMY_OnCharacterJoinedCombat((CHARACTERGUID)_Enemy, (INTEGER)_CombatID)
+THEN
+LLENEMY_Scaling_LevelUpCharacter(_Enemy);
+
+IF
+RegionEnded(_Region)
+THEN
+NOT DB_LLENEMY_Scaling_Temp_LeveledRegion(_Region);
+SysClear("DB_LLENEMY_Scaling_Temp_WaitForCombat", 1);
+
+//REGION NEUTRAL_CRIMES
+// [BEGIN_NO_OSITOOLS]
+IF
+CharacterStartAttackObject((CHARACTERGUID)_Char, _PLayer, _)
+AND
+CharacterIsPlayer(_Player, 1)
+AND
+CharacterIsInCombat(_Char, 0)
+AND
+CharacterIsNeutral(_Char, _PLayer, 1)
+THEN
+LLENEMY_Scaling_LevelUpCharacter(_Char, 1);
+
+IF
+AttackedByObject((CHARACTERGUID)_Char, _, (CHARACTERGUID)_Player, _, _)
+AND
+CharacterIsPlayer(_Player, 1)
+AND
+CharacterIsInCombat(_Char, 0)
+AND
+CharacterIsNeutral(_Char, _PLayer, 1)
+THEN
+LLENEMY_Scaling_LevelUpCharacter(_Char, 1);
+// [END_NO_OSITOOLS]
+
+/* [OSITOOLS_ONLY]
+IF
+NRD_OnPrepareHit((CHARACTERGUID)_Char, (CHARACTERGUID)_Player, _Damage, _)
+AND
+_Damage > 0
+AND
+CharacterIsPlayer(_Player, 1)
+AND
+CharacterIsInCombat(_Char, 0)
+AND
+CharacterIsNeutral(_Char, _PLayer, 1)
+THEN
+LLENEMY_Scaling_LevelUpCharacter(_Char);
+*/
+
+/*
+IF
+CharacterUsedSkillOnTarget(_Player, (CHARACTERGUID)_Char, _Skill, _, _)
+AND
+DB_IsPlayer(_PLayer)
+AND
+CharacterIsInCombat(_Char, 0)
+AND
+NRD_StatGetInt(_Skill, "Damage Multiplier", _DamageMult)
+AND
+_DamageMult > 0
+AND
+CharacterIsNeutral(_Char, _PLayer, 1)
+THEN
+LLENEMY_Scaling_LevelUpCharacter(_Char);
+
+IF
+CharacterUsedSkillOnZoneWithTarget(_Player, (CHARACTERGUID)_Char, _Skill, _, _)
+AND
+DB_IsPlayer(_PLayer)
+AND
+CharacterIsInCombat(_Char, 0)
+AND
+NRD_StatGetInt(_Skill, "Damage Multiplier", _DamageMult)
+AND
+_DamageMult > 0
+AND
+CharacterIsNeutral(_Char, _PLayer, 1)
+THEN
+LLENEMY_Scaling_LevelUpCharacter(_Char);
+*/
+//END_REGION
+
+//REGION TRANSFORMED_CHARACTER_BUG_WORKAROUND
+
+/* There's a game bug that resets transformed characters back to level 1 when you load a save. */
+PROC
+LeaderLib_Initialized((STRING)_Region)
+AND
+DB_LLENEMY_Scaling_Temp_TransformedCharacters(_Region, _Char, _Level)
+AND
+ObjectExists(_Char, _Exists)
+THEN
+LLENEMY_Scaling_CheckTransformedCharacterLevel(_Region, _Char, _Level, _Exists);
+
+//Stat resetting
+IF
+ObjectTransformed(_Char, _)
+AND
+ObjectIsCharacter((CHARACTERGUID)_Char, 1)
+AND
+NOT LeaderLib_Helper_QRY_CharacterIsPlayer(_Char)
+THEN
+LLENEMY_Scaling_LevelUpCharacter(_Char);
+LLENEMY_Scaling_SaveTransformedCharacterLevel(_Char);
+//END_REGION
+
+EXITSECTION
+SysClear("DB_LLENEMY_Scaling_Temp_WaitForCombat", 1);
+ENDEXITSECTION
+ParentTargetEdge "LLENEMY_80_ToggledScripts"

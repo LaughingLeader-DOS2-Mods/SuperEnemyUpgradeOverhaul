@@ -1,0 +1,47 @@
+Version 1
+SubGoalCombiner SGC_AND
+INITSECTION
+LLENEMY_LeaderLib_EnableScripts();
+KBSECTION
+
+PROC
+LeaderUpdater_ModUpdated("EnemyUpgradeOverhaul", "LaughingLeader", (STRING)_OldVersion, (STRING)_NewVersion)
+THEN
+LLENEMY_LeaderLib_EnableScripts();
+
+PROC
+LLENEMY_LeaderLib_EnableScripts()
+THEN
+LeaderLib_ToggleScripts_EnableScript("LeaderLib_StatusEvents_DisableScriptEnabled", "EnemyUpgradeOverhaul");
+//LeaderLib_ToggleScripts_EnableScript("LeaderLib_ExplodeStatusListenerEnabled", "EnemyUpgradeOverhaul");
+
+PROC
+LLENEMY_LeaderLib_RegisterSettings()
+THEN
+LeaderLib_Register_ModMenu("046aafd8-ba66-4b37-adfb-519c1a5d04d7", "LLENEMY_Settings", "[Enemy Upgrade Overhaul] Settings");
+
+PROC
+LeaderLib_Mods_OnVersionChanged(046aafd8-ba66-4b37-adfb-519c1a5d04d7, (INTEGER)_LastVersion, (INTEGER)_NextVersion)
+AND
+NOT DB_LLENEMY_LeaderLib_Registered(1)
+THEN
+LLENEMY_LeaderLib_RegisterSettings();
+DB_LLENEMY_LeaderLib_Registered(1);
+
+//REGION EXTENDER_SUPPORT
+/*
+PROC
+LeaderLib_Extender_Enabled(1)
+THEN
+LeaderLib_ToggleScripts_EnableScript("LeaderLib_LuaEventListeners_Enabled", "EnemyUpgradeOverhaul");
+
+PROC
+LeaderLib_Extender_Disabled(0)
+THEN
+LeaderLib_ToggleScripts_DisableScript("LeaderLib_LuaEventListeners_Enabled", "EnemyUpgradeOverhaul");
+*/
+//END_REGION
+EXITSECTION
+
+ENDEXITSECTION
+ParentTargetEdge "LaughingLeader_EnemyUpgradeOverhaul"

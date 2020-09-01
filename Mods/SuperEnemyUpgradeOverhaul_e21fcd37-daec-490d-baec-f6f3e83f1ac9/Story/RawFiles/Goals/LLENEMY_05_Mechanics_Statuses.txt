@@ -1,0 +1,560 @@
+Version 1
+SubGoalCombiner SGC_AND
+INITSECTION
+LLENEMY_Mechanics_Statuses_InitSettings();
+
+KBSECTION
+//REGION SETTINGS
+PROC
+LLENEMY_Mechanics_Statuses_InitSettings()
+AND
+NOT DB_LLENEMY_Statuses_Rage(_,_,_,_)
+THEN
+DB_LLENEMY_Statuses_Rage(1, "LLENEMY_RAGE", 0, 20);
+DB_LLENEMY_Statuses_Rage(2, "LLENEMY_RAGE2", 20, 40);
+DB_LLENEMY_Statuses_Rage(3, "LLENEMY_RAGE3", 40, 60);
+DB_LLENEMY_Statuses_Rage(4, "LLENEMY_RAGE4", 60, 80);
+DB_LLENEMY_Statuses_Rage(5, "LLENEMY_RAGE5", 80, 999);
+
+/*
+Creatures_Voidwoken_Drillworm_A_7b733431-c58f-4c85-a163-4cecfa374a19
+Creatures_Voidwoken_Drillworm_A_Hatchling_B_9b929973-72a8-4e06-9357-acfcf3278f5e
+Creatures_Voidwoken_Drillworm_B_c8b96409-5ce4-4f83-80f0-b83084efcd60
+LLENEMY_Creatures_Voidwoken_Drillworm_A_b24d5c4c-8a5a-4cd7-8518-f4684509be66
+LLENEMY_Creatures_Voidwoken_Drillworm_B_8713b59d-a564-4b90-910c-e5c6a384c0d9
+*/
+
+PROC
+LLENEMY_Mechanics_Statuses_InitSettings()
+AND
+LeaderLib_Array_QRY_EmptyLength("LLENEMY_VoidlingTransformations")
+THEN
+//LeaderLib_Array_ClearArray("LLENEMY_VoidlingTransformations");
+//LeaderLib_Array_AddToArray("LLENEMY_VoidlingTransformations", "Creatures_Voidwoken_Drillworm_A_Hatchling_B_9b929973-72a8-4e06-9357-acfcf3278f5e");
+LeaderLib_Array_AddToArray("LLENEMY_VoidlingTransformations", "LLENEMY_Creatures_Voidwoken_Drillworm_A_b24d5c4c-8a5a-4cd7-8518-f4684509be66");
+LeaderLib_Array_AddToArray("LLENEMY_VoidlingTransformations", "LLENEMY_Creatures_Voidwoken_Drillworm_B_8713b59d-a564-4b90-910c-e5c6a384c0d9");
+
+/*
+PROC
+LLENEMY_Mechanics_Statuses_InitSettings()
+THEN
+LeaderLib_Auras_Register_TimerAura("LLENEMY_Auras_Seeker", 1000, 4.0, 1, 0);
+*/
+
+PROC
+LeaderUpdater_ModUpdated("EnemyUpgradeOverhaul", "LaughingLeader", (STRING)_OldVersion, (STRING)_NewVersion)
+THEN
+LLENEMY_Mechanics_Statuses_InitSettings();
+//END_REGION
+
+//REGION SEEKER
+QRY
+LLENEMY_Statuses_QRY_CanSeekerPulse((CHARACTERGUID)_Char)
+AND
+CharacterIsInCombat(_Char, _a)
+AND
+CharacterIsControlled(_Char, _b)
+AND
+GlobalGetFlag("LeaderLib_IsEditorMode", _c)
+AND
+LeaderLib_Math_QRY_IsEqualToAny(1, _a, _b, _c)
+THEN
+DB_NOOP(1);
+
+/* [OSITOOLS_ONLY]
+QRY
+LLENEMY_Statuses_QRY_AnyPlayerIsSneaking()
+AND
+DB_IsPlayer(_Player)
+AND
+LLENEMY_Ext_QRY_CharacterIsHidden(_Player, 1)
+THEN
+DB_NOOP(1);
+*/
+
+// [BEGIN_NO_OSITOOLS]
+QRY
+LLENEMY_Statuses_QRY_AnyPlayerIsSneaking()
+AND
+DB_IsPlayer(_PLayer)
+AND
+LeaderLib_Helper_QRY_HasAnyStatus((GUIDSTRING)_PLayer, "INVISIBLE", "SNEAKING")
+THEN
+DB_NOOP(1);
+// [END_NO_OSITOOLS]
+
+IF
+CharacterStatusRemoved(_Char, "LLENEMY_SEEKER", _)
+THEN
+DB_LLENEMY_StatusLogic_Temp_Seekers(_Char);
+
+IF
+CharacterStatusRemoved(_Char, "LLENEMY_SEEKER", _)
+AND
+NOT LeaderLib_Helper_QRY_HasStatus(_Char, "LLENEMY_SEEKER_DISABLED")
+THEN
+LeaderLib_ToggleScripts_DisableScriptForObjectAfterDelay(_Char, "LLENEMY_SeekerEnabled", "EnemyUpgradeOverhaul", 1000);
+LeaderLib_Timers_CancelObjectTimer(_Char, "Timers_LLENEMY_Statuses_Seeker_PulseNow");
+
+IF
+CharacterStatusApplied(_Char, "LLENEMY_SEEKER", _)
+THEN
+DB_LLENEMY_StatusLogic_Temp_Seekers(_Char);
+LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_SeekerEnabled", "EnemyUpgradeOverhaul");
+SetStoryEvent(_Char, "LLENEMY_Statuses_Seeker_PulseNow");
+
+IF
+CharacterStatusApplied(_Char, "LLENEMY_SEEKER", _)
+AND
+LLENEMY_Statuses_QRY_CanSeekerPulse(_Char)
+THEN
+LeaderLib_Timers_StartObjectTimer(_Char, 1000, "Timers_LLENEMY_Statuses_Seeker_PulseNow", "LLENEMY_Statuses_Seeker_PulseNow");
+
+/* [OSITOOLS_ONLY]
+IF
+CharacterStatusApplied(_Char, "LLENEMY_SEEKER", _)
+THEN
+NRD_CharacterSetPermanentBoostInt(_Char, "FOV", 360);
+NRD_CharacterSetPermanentBoostInt(_Char, "Sight", 2);
+CharacterAddAttribute(_Char, "Dummy", 0); // Force boost sync
+
+IF
+CharacterStatusRemoved(_Char, "LLENEMY_SEEKER", _)
+THEN
+NRD_CharacterSetPermanentBoostInt(_Char, "FOV", 0);
+NRD_CharacterSetPermanentBoostInt(_Char, "Sight", 0);
+CharacterAddAttribute(_Char, "Dummy", 0); // Force boost sync
+*/
+
+IF
+StoryEvent((CHARACTERGUID)_Char, "LLENEMY_Statuses_Seeker_PulseNow")
+AND
+HasActiveStatus(_Char, "LLENEMY_SEEKER", 1)
+AND
+LLENEMY_Statuses_QRY_CanSeekerPulse(_Char)
+THEN
+LeaderLib_Timers_StartObjectTimer(_Char, 1000, "Timers_LLENEMY_Statuses_Seeker_PulseNow", "LLENEMY_Statuses_Seeker_PulseNow");
+
+/* [OSITOOLS_ONLY]
+IF
+CharacterStatusApplied(_Char, "LLENEMY_SEEKER_CLEANSE_INVISIBLE", _Source)
+AND
+GetUUID(_Char, _UUID)
+AND
+GetUUID(_Source, _UUID2)
+THEN
+NRD_ModCall("EnemyUpgradeOverhaul", "RemoveInvisible", _UUID, _UUID2);
+*/
+
+// [BEGIN_NO_OSITOOLS]
+IF
+CharacterStatusApplied(_Char, "LLENEMY_SEEKER_CLEANSE_INVISIBLE", _Source)
+AND
+LeaderLib_Helper_QRY_HasAnyStatus((GUIDSTRING)_Char, "INVISIBLE", "SNEAKING")
+THEN
+RemoveStatus(_Char, "INVISIBLE");
+RemoveStatus(_Char, "SNEAKING");
+PlayEffect(_Source, "RS3_FX_GP_Status_Warning_Red_01", "Dummy_OverheadFX");
+CharacterStatusText((CHARACTERGUID)_Char, "LLENEMY_StatusText_SeekerDiscoveredTarget");
+// [END_NO_OSITOOLS]
+
+PROC
+LLENEMY_Mechanics_Statuses_Internal_SeekerTakeAction((CHARACTERGUID)_Char)
+AND
+CharacterIsInCombat(_Char, 1)
+AND
+LLENEMY_Statuses_QRY_AnyPlayerIsSneaking()
+THEN
+LLENEMY_Mechanics_Statuses_SeekerTakeAction(_Char);
+
+/* [OSITOOLS_ONLY]
+PROC
+LLENEMY_Mechanics_Statuses_SeekerTakeAction((CHARACTERGUID)_Char)
+AND
+NOT DB_LLENEMY_StatusLogic_Temp_SeekerTookAction(_Char)
+AND
+CharacterHasSkill(_Char, "Rain_Water", 1)
+AND
+NRD_SkillGetCooldown(_Char, "Rain_Water", 0.0)
+THEN
+DB_LLENEMY_StatusLogic_Temp_SeekerTookAction(_Char);
+CharacterUseSkill(_Char, "Rain_Water", _Char, 1, 0, 0);
+
+PROC
+LLENEMY_Mechanics_Statuses_SeekerTakeAction((CHARACTERGUID)_Char)
+AND
+NOT DB_LLENEMY_StatusLogic_Temp_SeekerTookAction(_Char)
+AND
+CharacterHasSkill(_Char, "Rain_EnemyWater", 1)
+AND
+NRD_SkillGetCooldown(_Char, "Rain_EnemyWater", 0.0)
+THEN
+DB_LLENEMY_StatusLogic_Temp_SeekerTookAction(_Char);
+CharacterUseSkill(_Char, "Rain_EnemyWater", _Char, 1, 0, 0);
+*/
+
+// [BEGIN_NO_OSITOOLS]
+PROC
+LLENEMY_Mechanics_Statuses_SeekerTakeAction((CHARACTERGUID)_Char)
+AND
+NOT DB_LLENEMY_StatusLogic_Temp_SeekerTookAction(_Char)
+AND
+CharacterHasSkill(_Char, "Rain_Water", 1)
+THEN
+DB_LLENEMY_StatusLogic_Temp_SeekerTookAction(_Char);
+CharacterUseSkill(_Char, "Rain_Water", _Char, 1, 0, 0);
+
+PROC
+LLENEMY_Mechanics_Statuses_SeekerTakeAction((CHARACTERGUID)_Char)
+AND
+NOT DB_LLENEMY_StatusLogic_Temp_SeekerTookAction(_Char)
+AND
+CharacterHasSkill(_Char, "Rain_EnemyWater", 1)
+THEN
+DB_LLENEMY_StatusLogic_Temp_SeekerTookAction(_Char);
+CharacterUseSkill(_Char, "Rain_EnemyWater", _Char, 1, 0, 0);
+// [END_NO_OSITOOLS]
+
+
+PROC
+LLENEMY_Mechanics_Statuses_SeekerTakeAction((CHARACTERGUID)_Char)
+AND
+DB_LLENEMY_StatusLogic_Temp_SeekerTookAction(_Char)
+THEN
+NOT DB_LLENEMY_StatusLogic_Temp_SeekerTookAction(_Char);
+//END_REGION
+
+//REGION INCREASE_RAGE
+PROC
+LLENEMY_Mechanics_Statuses_IncreaseRage((CHARACTERGUID)_Char, (INTEGER)_DamagePercentageInt, (GUIDSTRING)_Source)
+AND
+Real(_DamagePercentageInt, _DamagePercentage)
+AND
+RealProduct(_DamagePercentage, 0.8888, _RageR)
+AND
+RealMax(_RageR, 1.0, _ClampedRageR)
+AND
+Integer(_ClampedRageR, _AddRage)
+THEN
+LeaderLib_Variables_DB_ModifyVariableInt(_Char, "LLENEMY_Rage", _AddRage, 100, 0);
+
+PROC
+LeaderLib_Variables_OnVariableIntChanged((GUIDSTRING)_Char, "LLENEMY_Rage", (INTEGER)_LastValue, (INTEGER)_CurrentValue, (GUIDSTRING)_Source)
+THEN
+LeaderLib_Timers_StartObjectTimer(_Char, 250, "Timers_LLENEMY_Rage_ApplyRageStatus", "LLENEMY_Rage_ApplyRageStatus");
+
+IF
+StoryEvent((CHARACTERGUID)_Char, "LLENEMY_Rage_ApplyRageStatus")
+THEN
+LLENEMY_Mechanics_Statuses_ApplyRageStatus(_Char);
+
+PROC
+LLENEMY_Mechanics_Statuses_ApplyRageStatus((CHARACTERGUID)_Char)
+AND
+DB_LeaderLib_Variables_Integer((GUIDSTRING)_Char, "LLENEMY_Rage", _CurrentValue, _LastSource)
+AND
+DB_LLENEMY_Statuses_Rage(_Index, _Status, _Min, _Max)
+AND
+NOT DB_LLENEMY_StatusLogic_AppliedRage((CHARACTERGUID)_Char)
+AND
+_CurrentValue >= _Min
+AND
+_CurrentValue < _Max
+AND
+NOT LeaderLib_Helper_QRY_HasStatus(_Char, _Status)
+AND
+HasActiveStatus(_Char, "SLEEPING", _IsSleeping)
+THEN
+DB_LLENEMY_StatusLogic_AppliedRage(_Char);
+LeaderLog_Log("DEBUG", "[LLENEMY_05_Mechanics_Statuses:LLENEMY_Rage] Applying rage status (",_Status,")");
+ApplyStatus(_Char, _Status, -1.0, 1, _Char);
+LLENEMY_Mechanics_Statuses_Internal_PlayRageEffect((CHARACTERGUID)_Char, _IsSleeping);
+
+PROC
+LLENEMY_Mechanics_Statuses_ApplyRageStatus((CHARACTERGUID)_Char)
+AND
+DB_LLENEMY_StatusLogic_AppliedRage(_Char)
+THEN
+NOT DB_LLENEMY_StatusLogic_AppliedRage(_Char);
+
+PROC
+LLENEMY_Mechanics_Statuses_Internal_PlayRageEffect((CHARACTERGUID)_Char, 0)
+AND
+LeaderLib_Helper_QRY_CharacterIsHumanoid(_Char)
+THEN
+PlayEffect(_Char, "LLENEMY_FX_Status_Rage_Applied_01", "Dummy_BodyFX");
+
+PROC
+LLENEMY_Mechanics_Statuses_Internal_PlayRageEffect((CHARACTERGUID)_Char, 0)
+AND
+NOT LeaderLib_Helper_QRY_CharacterIsHumanoid(_Char)
+THEN
+PlayEffect(_Char, "LLENEMY_FX_Status_Rage_Applied_01", "Dummy_OverheadFX");
+//END_REGION
+
+//REGION DECREASE_RAGE
+//From Sleeping
+PROC
+LLENEMY_Mechanics_Statuses_LowerRage((CHARACTERGUID)_Char, (GUIDSTRING)_Source)
+AND
+NOT LeaderLib_Variables_DB_QRY_IntegerVariableIsLessThanOrEqualTo(_Char, "LLENEMY_Rage", 0)
+AND
+DB_LLENEMY_Statuses_Rage(_Index, _Status, _Min, _Max)
+AND
+NOT DB_LLENEMY_StatusLogic_RageLowered(_Char)
+AND
+HasActiveStatus(_Char, _Status, 1)
+AND
+IntegerSubtract(_Index, 1, _Previous)
+AND
+DB_LLENEMY_Statuses_Rage(_Previous, _NextStatus, _NextMin, _NextMax)
+THEN
+DB_LLENEMY_StatusLogic_RageLowered(_Char);
+LeaderLog_LogInt("DEBUG", "[LLENEMY_05_Mechanics_Statuses:LowerRage] Lowering rage to (",_NextMin,")");
+LeaderLib_Variables_DB_SetVariableInt(_Char, "LLENEMY_Rage", _NextMin, _Source);
+CharacterStatusText(_Char, "LLENEMY_StatusText_RageReduced");
+
+PROC
+LLENEMY_Mechanics_Statuses_LowerRage((CHARACTERGUID)_Char, (GUIDSTRING)_Source)
+AND
+DB_LLENEMY_StatusLogic_RageLowered(_Char)
+THEN
+NOT DB_LLENEMY_StatusLogic_RageLowered(_Char);
+//END_REGION
+
+//REGION RAGE_TS
+IF
+CharacterStatusApplied(_Char, "LLENEMY_RAGE", _)
+AND
+NOT LeaderLib_Variables_DB_QRY_IntegerVariableSet(_Char, "LLENEMY_Rage")
+THEN
+LeaderLib_Variables_DB_SetVariableInt(_Char, "LLENEMY_Rage", 1);
+
+IF
+CharacterStatusApplied(_Char, "LLENEMY_RAGE", _)
+THEN
+LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_Rage_Active", "EnemyUpgradeOverhaul");
+
+IF
+CharacterStatusApplied(_Char, "LLENEMY_RAGE2", _)
+AND
+NOT LeaderLib_ToggleScripts_QRY_ScriptIsEnabled(_Char, "LLENEMY_Rage_Active")
+AND
+DB_LLENEMY_Statuses_Rage(_Index, "LLENEMY_RAGE2", _Min, _Max)
+THEN
+LeaderLib_Variables_DB_SetVariableInt(_Char, "LLENEMY_Rage", _Min);
+LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_Rage_Active", "EnemyUpgradeOverhaul");
+
+IF
+CharacterStatusApplied(_Char, "LLENEMY_RAGE3", _)
+AND
+NOT LeaderLib_ToggleScripts_QRY_ScriptIsEnabled(_Char, "LLENEMY_Rage_Active")
+AND
+DB_LLENEMY_Statuses_Rage(_Index, "LLENEMY_RAGE3", _Min, _Max)
+THEN
+LeaderLib_Variables_DB_SetVariableInt(_Char, "LLENEMY_Rage", _Min);
+LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_Rage_Active", "EnemyUpgradeOverhaul");
+
+IF
+CharacterStatusApplied(_Char, "LLENEMY_RAGE4", _)
+AND
+NOT LeaderLib_ToggleScripts_QRY_ScriptIsEnabled(_Char, "LLENEMY_Rage_Active")
+AND
+DB_LLENEMY_Statuses_Rage(_Index, "LLENEMY_RAGE4", _Min, _Max)
+THEN
+LeaderLib_Variables_DB_SetVariableInt(_Char, "LLENEMY_Rage", _Min);
+LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_Rage_Active", "EnemyUpgradeOverhaul");
+
+IF
+CharacterStatusApplied(_Char, "LLENEMY_RAGE5", _)
+AND
+NOT LeaderLib_ToggleScripts_QRY_ScriptIsEnabled(_Char, "LLENEMY_Rage_Active")
+AND
+DB_LLENEMY_Statuses_Rage(_Index, "LLENEMY_RAGE5", _Min, _Max)
+THEN
+LeaderLib_Variables_DB_SetVariableInt(_Char, "LLENEMY_Rage", _Min);
+LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_Rage_Active", "EnemyUpgradeOverhaul");
+//END_REGION
+
+//REGION GATHERING_POWER_EMPOWERED
+PROC
+LLENEMY_Upgrades_CanApplyUpgrade((CHARACTERGUID)_Char, (STRING)_Group, (STRING)_Type, "LLENEMY_GATHERING_POWER", (REAL)_Duration)
+AND
+HasActiveStatus(_Char, "LLENEMY_EMPOWERED", _a)
+AND
+HasActiveStatus(_Char, "LLENEMY_GATHERING_POWER", _b)
+AND
+IntegerMax(_a, _b, 1)
+THEN
+DB_LLENEMY_StatusUpgradeBlocked(_Char, _Group, _Type, "LLENEMY_GATHERING_POWER");
+
+PROC
+LLENEMY_Upgrades_CanApplyUpgrade((CHARACTERGUID)_Char, (STRING)_Group, (STRING)_Type, "LLENEMY_GATHERING_POWER", (REAL)_Duration)
+AND
+DB_LLENEMY_Statuses_Temp_WaitForRemoval(_Char, "LLENEMY_GATHERING_POWER")
+THEN
+DB_LLENEMY_StatusUpgradeBlocked(_Char, _Group, _Type, "LLENEMY_GATHERING_POWER");
+
+QRY
+LLENEMY_Upgrades_QRY_ApplyStatus((CHARACTERGUID)_Char, (STRING)_Group, (STRING)_Type, "LLENEMY_GATHERING_POWER", (REAL)_Duration, 1)
+AND
+LeaderLib_Random_QRY(2,3)
+AND
+DB_LeaderLib_Random(_RanInt)
+AND
+Real(_RanInt, _RanReal)
+AND
+RealProduct(_RanReal, 6.0, _NewDuration)
+THEN
+NOT DB_LeaderLib_Random(_RanInt);
+ApplyStatus(_Char, "LLENEMY_GATHERING_POWER", _NewDuration, 0, _Char);
+
+IF
+CharacterStatusApplied(_Char, "LLENEMY_GATHERING_POWER", _)
+THEN
+DB_LLENEMY_Statuses_Temp_WaitForRemoval(_Char, "LLENEMY_GATHERING_POWER");
+
+IF
+StoryEvent((CHARACTERGUID)_Char, "LLENEMY_Statuses_ApplyEmpowered")
+AND
+CharacterIsDead(_Char, 0)
+AND
+IsTagged(_Char, "VOIDLING", _IsVoidling)
+AND
+GlobalGetFlag("LLENEMY_HardModeEnabled", _HardModeEnabled)
+THEN
+LLENEMY_Mechanics_Statuses_ApplyEmpowered(_Char, _IsVoidling, _HardModeEnabled);
+
+PROC
+LLENEMY_Mechanics_Statuses_ApplyEmpowered((CHARACTERGUID)_Char, (INTEGER)_IsVoidling, 0)
+THEN
+ApplyStatus(_Char, "LLENEMY_EMPOWERED", -1.0, 1, _Char);
+LLENEMY_Upgrades_IncreaseChallengePoints(_Char, 10);
+//END_REGION
+
+//REGION DRILLWORM_TRANSFORMATION
+PROC
+LLENEMY_Mechanics_Statuses_ApplyEmpowered((CHARACTERGUID)_Char, 1, 1)
+AND
+CharacterGetLevel(_Char, _Level)
+AND
+GetPosition(_Char, _x, _y, _z)
+AND
+LeaderLib_Array_QRY_Random("LLENEMY_VoidlingTransformations")
+AND
+DB_LeaderLib_Array_Temp_RandomResult("LLENEMY_VoidlingTransformations", _Index, _Template)
+THEN
+DB_LLENEMY_Statuses_Temp_PostTransformation(_Char, _Level);
+SetVarFloat3(_Char, "SkillTargetPos_Jump_EnemyDrillwormBurrow", _x, _y, _z);
+CharacterTransform(_Char, _Template, 1, 1, 1, 1, 1, 0, 0);
+//Transform(_Char, _Template, 1, 1, 1);
+//CharacterAddSkill(_Char, "Projectile_LLENEMY_EnemyDrillwormSpit", 0);
+//CharacterAddSkill(_Char, "Jump_EnemyDrillwormBurrow", 0);
+//CharacterAddSkill(_Char, "Jump_LLENEMY_EnemyDrillwormBurrow", 0);
+PlayAnimation(_Char, "spawn");
+PlayEffectAtPosition("RS3_FX_GP_ScriptedEvent_FJ_Worm_Voidwoken_Spawning_01", _x, _y, _z);
+CharacterStatusText(_Char, "LLENEMY_StatusText_VoidlingTransformed");
+LeaderLib_Timers_StartObjectTimer(_Char, 250, "Timers_LLENEMY_Statuses_PostTransformationEmpowered", "LLENEMY_Statuses_PostTransformationEmpowered");
+
+IF
+StoryEvent((CHARACTERGUID)_Char, "LLENEMY_Statuses_PostTransformationEmpowered")
+AND
+CharacterHasSkill(_Char,  "Projectile_EnemyFlight", 1)
+THEN
+CharacterRemoveSkill(_Char, "Projectile_EnemyFlight");
+
+/* [OSITOOLS_ONLY]
+IF
+StoryEvent((CHARACTERGUID)_Char, "LLENEMY_Statuses_PostTransformationEmpowered")
+THEN
+NRD_CharacterIterateSkills(_Char, "LLENEMY_Debug_PrintSkill");
+
+IF
+NRD_SkillIteratorEvent("LLENEMY_Debug_PrintSkill", _Char, _Skill, _IsLearned, _IsActive)
+AND
+String(_Char, _CharString)
+AND
+IntegertoString(_IsLearned, _IsLearnedStr)
+AND
+IntegertoString(_IsActive, _IsActiveStr)
+THEN
+LeaderLog_Log("DEBUG", "[LLENEMY_05_Mechanics_Statuses:LLENEMY_Debug_PrintSkill] (",_CharString,") has skill (",_Skill,") Learned(",_IsLearnedStr,") Active(",_IsActiveStr,")");
+*/
+
+IF
+StoryEvent((CHARACTERGUID)_Char, "LLENEMY_Statuses_PostTransformationEmpowered")
+AND
+DB_LLENEMY_Statuses_Temp_PostTransformation(_Char, _Level)
+THEN
+NOT DB_LLENEMY_Statuses_Temp_PostTransformation(_Char, _Level);
+CharacterLevelUpTo(_Char, _Level);
+ApplyStatus(_Char, "LLENEMY_EMPOWERED", -1.0, 1, _Char);
+LLENEMY_Upgrades_IncreaseChallengePoints(_Char, 10);
+CharacterSetHitpointsPercentage(_Char,100.0);
+CharacterSetArmorPercentage(_Char,100.0);
+CharacterSetMagicArmorPercentage(_Char,100.0);
+CharacterResetCooldowns(_Char);
+//END_REGION
+
+//REGION DEMONIC_HASTED
+IF
+CharacterStatusRemoved(_Char, "LLENEMY_DEMONIC_HASTED", _)
+THEN
+LeaderLib_ToggleScripts_DisableScriptForObject(_Char, "LLENEMY_DemonicHasted_Active", "EnemyUpgradeOverhaul");
+
+IF
+CharacterStatusApplied(_Char, "LLENEMY_DEMONIC_HASTED", _)
+THEN
+LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_DemonicHasted_Active", "EnemyUpgradeOverhaul");
+//END_REGION
+
+//REGION DEMONIC_HASTED_SLIPPING_WEAKNESS
+IF
+StoryEvent((CHARACTERGUID)_Char, "LLENEMY_DemonicHasted_CheckForMovement")
+AND
+HasActiveStatus(_Char, "KNOCKED_DOWN", 0)
+AND
+DB_LLENEMY_StatusLogic_Temp_DemonicHastedMoveCheck(_Char, _x, _y, _z)
+AND
+GetDistanceToPosition(_Char, _x, _y, _z, _Dist)
+AND
+_Dist >= 0.5
+THEN
+NOT DB_LLENEMY_StatusLogic_Temp_DemonicHastedMoveCheck(_Char, _x, _y, _z);
+SetStoryEvent(_Char, "LLENEMY_DemonicHasted_RollForSlip");
+
+IF
+StoryEvent((CHARACTERGUID)_Char, "LLENEMY_DemonicHasted_CheckForMovement")
+AND
+DB_LLENEMY_StatusLogic_Temp_DemonicHastedMoveCheck(_Char, _x, _y, _z)
+THEN
+NOT DB_LLENEMY_StatusLogic_Temp_DemonicHastedMoveCheck(_Char, _x, _y, _z);
+
+IF
+StoryEvent(_Char, "LLENEMY_DemonicHasted_RollForSlip")
+AND
+LeaderLib_Roll_QRY(800) // Very high chance to slip
+THEN
+ApplyStatus(_Char, "KNOCKED_DOWN", 6.0, 1, _Char);
+
+//Check for movement again if they didn't slip
+
+IF
+StoryEvent((CHARACTERGUID)_Char, "LLENEMY_DemonicHasted_RollForSlip")
+AND
+NOT LeaderLib_Helper_QRY_HasStatus(_Char, "KNOCKED_DOWN")
+AND
+LeaderLib_Combat_QRY_IsActiveTurn(_Char)
+AND
+GetSurfaceGroundAt(_Char, _Surface)
+AND
+StringContains(_Surface, "Frozen", 1)
+AND
+GetPosition(_Char, _x, _y, _z)
+THEN
+DB_LLENEMY_StatusLogic_Temp_DemonicHastedMoveCheck(_Char, _x, _y, _z);
+LeaderLib_Timers_StartObjectTimer(_Char, 750, "Timers_LLENEMY_DemonicHasted_CheckForMovement", "LLENEMY_DemonicHasted_CheckForMovement");
+//END_REGION
+EXITSECTION
+ENDEXITSECTION
+ParentTargetEdge "LaughingLeader_EnemyUpgradeOverhaul"

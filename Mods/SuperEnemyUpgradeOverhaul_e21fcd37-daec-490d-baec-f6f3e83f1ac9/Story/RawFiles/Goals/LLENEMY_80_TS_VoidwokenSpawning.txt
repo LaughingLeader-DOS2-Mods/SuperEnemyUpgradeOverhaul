@@ -1,0 +1,53 @@
+Version 1
+SubGoalCombiner SGC_AND
+INITSECTION
+KBSECTION
+/* [OSITOOLS_ONLY]
+IF
+SkillCast(_Char, _Skill, _SkillType, _SkillElement)
+AND
+LLENEMY_QRY_SkillCanSummonVoidwoken(_Char, _Skill, _SkillType, _SkillElement, _SP)
+AND
+GetUUID(_Char, _UUID)
+THEN
+SysClear("DB_LLENEMY_TrySummonVoidwoken_Temp_Caster", 1);
+DB_LLENEMY_TrySummonVoidwoken_Temp_Caster(_UUID);
+LLENEMY_HardMode_TrackTotalSourceUsed(_SP);
+TimerCancel("Timers_LLENEMY_TrySummonVoidwoken");
+TimerLaunch("Timers_LLENEMY_TrySummonVoidwoken", 750);
+
+IF
+TimerFinished("Timers_LLENEMY_TrySummonVoidwoken")
+AND
+DB_LLENEMY_TrySummonVoidwoken_Temp_Caster(_UUID)
+THEN
+NOT DB_LLENEMY_TrySummonVoidwoken_Temp_Caster(_UUID);
+NRD_ModCall("EnemyUpgradeOverhaul", "SpawnVoidwoken", _UUID);
+
+// Source accumulation degrades over time.
+// By default, the in-game hour speed is 1 hour = 5 minutes of real time.
+PROC
+UpdateTime((INTEGER)_Day,(INTEGER)_Hour)
+AND
+NOT DB_LeaderLib_Combat_ActiveCombat(_)
+AND
+DB_LLENEMY_HardMode_SourcePointsUsed(_Region, _TotalSP)
+AND
+_TotalSP > 0
+AND
+DB_GameHour(_GameHourSpeed)
+AND
+LLENEMY_Ext_QRY_GetSourceDegredation(_GameHourSpeed, _TotalSP, _Ran)
+AND
+IntegerSubtract(_TotalSP, _Ran, _Next)
+AND
+IntegerMax(_Next, 0, _CappedMin)
+THEN
+NOT DB_LLENEMY_HardMode_SourcePointsUsed(_Region, _TotalSP);
+LeaderLog_LogInt("DEBUG", "[LLENEMY_20_HardMode_Enabler:UpdateTime] Source used degraded (", _TotalSP, " => ", _CappedMin, ")");
+DB_LLENEMY_HardMode_SourcePointsUsed(_Region, _CappedMin);
+*/
+EXITSECTION
+SysClear("DB_LLENEMY_TrySummonVoidwoken_Temp_Caster", 1);
+ENDEXITSECTION
+ParentTargetEdge "LLENEMY_80_ToggledScripts"

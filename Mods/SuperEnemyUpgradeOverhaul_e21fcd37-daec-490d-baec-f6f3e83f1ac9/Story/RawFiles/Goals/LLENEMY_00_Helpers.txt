@@ -1,0 +1,182 @@
+Version 1
+SubGoalCombiner SGC_AND
+INITSECTION
+KBSECTION
+
+QRY
+LLENEMY_QRY_IsEnemyOrBadRelation((CHARACTERGUID)_NPC, (CHARACTERGUID)_Player)
+AND
+NOT DB_LLENEMY_System_Temp_IsEnemy(_NPC)
+AND
+CharacterGetRelationToCharacter(_NPC, _Player, _Relation)
+AND
+_Relation <= 0
+THEN
+DB_LLENEMY_System_Temp_IsEnemy(_NPC);
+
+QRY
+LLENEMY_QRY_IsEnemyOrBadRelation((CHARACTERGUID)_NPC, (CHARACTERGUID)_Player)
+AND
+NOT DB_LLENEMY_System_Temp_IsEnemy(_NPC)
+AND
+CharacterIsEnemy(_Player, _NPC, 1)
+THEN
+DB_LLENEMY_System_Temp_IsEnemy(_NPC);
+
+QRY
+LLENEMY_QRY_IsEnemyOrBadRelation((CHARACTERGUID)_NPC, (CHARACTERGUID)_Player)
+AND
+NOT DB_LLENEMY_System_Temp_IsEnemy(_NPC)
+AND
+GetFaction(_NPC, _Faction)
+AND
+DB_LLENEMY_EnemyAlignments(_Faction)
+THEN
+DB_LLENEMY_System_Temp_IsEnemy(_NPC);
+
+QRY
+LLENEMY_QRY_IsEnemyOrBadRelation((CHARACTERGUID)_NPC, (CHARACTERGUID)_Player)
+AND
+NOT DB_LLENEMY_System_Temp_IsEnemy(_NPC)
+AND
+CharacterIsAlly(_NPC, _Player, 0)
+AND
+DB_LLENEMY_EnemyTags(_Tag)
+AND
+IsTagged(_NPC, _Tag, 1)
+THEN
+DB_LLENEMY_System_Temp_IsEnemy(_NPC);
+
+QRY
+LLENEMY_QRY_IsEnemyOrBadRelation((CHARACTERGUID)_NPC, (CHARACTERGUID)_Player)
+AND
+DB_LLENEMY_System_Temp_IsEnemy(_NPC)
+THEN
+NOT DB_LLENEMY_System_Temp_IsEnemy(_NPC);
+
+QRY
+LLENEMY_QRY_IsEnemyOfParty((CHARACTERGUID)_Enemy)
+AND
+NOT DB_Origins(_Enemy) // Don't do anything for Origin characters, since they may be recruited again
+AND
+NOT DB_IsPlayer(_Enemy)
+AND
+DB_IsPlayer(_Player)
+AND
+LLENEMY_QRY_IsEnemyOrBadRelation(_Enemy, _Player)
+THEN
+DB_LLENEMY_System_Temp_IsEnemyOfPartyResolved(_Enemy);
+
+QRY
+LLENEMY_QRY_IsEnemyOfParty((CHARACTERGUID)_Enemy)
+AND
+NOT DB_LLENEMY_System_Temp_IsEnemyOfPartyResolved(_Enemy)
+AND
+ObjectGetFlag(_Enemy, "LLENEMY_JustAttackedByPlayer", 1)
+THEN
+DB_LLENEMY_System_Temp_IsEnemyOfPartyResolved(_Enemy);
+
+QRY
+LLENEMY_QRY_IsEnemyOfParty((CHARACTERGUID)_Enemy)
+AND
+DB_LLENEMY_System_Temp_IsEnemyOfPartyResolved(_Enemy)
+THEN
+NOT DB_LLENEMY_System_Temp_IsEnemyOfPartyResolved(_Enemy);
+
+QRY
+LLENEMY_QRY_IsEnemyOfParty((CHARACTERGUID)_Enemy, (INTEGER)_CombatID)
+AND
+NOT DB_Origins(_Enemy) // Don't do anything for Origin characters, since they may be recruited again
+AND
+NOT DB_IsPlayer(_Enemy)
+AND
+CharacterIsPartyFollower(_Enemy, 0)
+AND
+CharacterIsSummon(_Enemy, 0)
+AND
+CombatGetInvolvedPlayer(_CombatID, 1, _Player)
+AND
+CharacterIsEnemy(_Enemy, _Player, 1)
+THEN
+DB_NOOP(1);
+
+// GM NPC vs. NPC?
+QRY
+LLENEMY_QRY_IsEnemyOfParty((CHARACTERGUID)_Enemy)
+AND
+NOT DB_IsPlayer(_)
+AND
+CharacterIsPartyFollower(_Enemy, 0)
+AND
+CharacterIsSummon(_Enemy, 0)
+AND
+GetFaction(_Enemy, _Faction)
+AND
+StringContains(_Faction, "Evil", 1)
+THEN
+DB_LLENEMY_System_Temp_IsEnemyOfPartyResolved(_Enemy);
+
+QRY
+LLENEMY_QRY_IsAllyOfParty((CHARACTERGUID)_Char)
+AND
+NOT DB_IsPlayer(_Char)
+AND
+DB_Origins(_Char)
+THEN
+DB_NOOP(1);
+
+QRY
+LLENEMY_QRY_IsAllyOfParty((CHARACTERGUID)_Char)
+AND
+NOT DB_IsPlayer(_Char)
+AND
+DB_IsPlayer(_Player)
+AND
+CharacterIsAlly(_Player, _Char, 1)
+THEN
+DB_NOOP(1);
+
+QRY
+LLENEMY_QRY_IsNeutralToParty((CHARACTERGUID)_Char)
+AND
+NOT DB_IsPlayer(_Char)
+AND
+DB_IsPlayer(_Player)
+AND
+CharacterIsNeutral(_Char, _Player, 1)
+THEN
+DB_NOOP(1);
+
+QRY
+LLENEMY_QRY_CanScale((CHARACTERGUID)_Char)
+AND
+LLENEMY_QRY_IsEnemyOfParty(_Char)
+THEN
+DB_LLENEMY_System_Temp_CanScaleResolved(_Char);
+
+QRY
+LLENEMY_QRY_CanScale((CHARACTERGUID)_Char)
+AND
+NOT DB_LLENEMY_System_Temp_CanScaleResolved(_Char)
+AND
+LLENEMY_QRY_IsAllyOfParty(_Char)
+THEN
+DB_LLENEMY_System_Temp_CanScaleResolved(_Char);
+
+QRY
+LLENEMY_QRY_CanScale((CHARACTERGUID)_Char)
+AND
+DB_LLENEMY_System_Temp_CanScaleResolved(_Char)
+THEN
+NOT DB_LLENEMY_System_Temp_CanScaleResolved(_Char);
+
+PROC
+LLENEMY_Debug_ActivateGoal((STRING)_Goal)
+AND
+SysStatus(_Goal, _)
+THEN
+SysActivateGoal(_Goal);
+EXITSECTION
+
+ENDEXITSECTION
+ParentTargetEdge "LaughingLeader_EnemyUpgradeOverhaul"

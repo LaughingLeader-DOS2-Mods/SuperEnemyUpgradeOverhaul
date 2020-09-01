@@ -1,0 +1,159 @@
+Version 1
+SubGoalCombiner SGC_AND
+INITSECTION
+KBSECTION
+
+IF
+ObjectEnteredCombat((CHARACTERGUID)_Char, _)
+AND
+HasActiveStatus(_Char, "LLENEMY_SEEKER", 1)
+THEN
+LeaderLib_Timers_StartObjectTimer(_Char, 1000, "Timers_LLENEMY_Statuses_Seeker_PulseNow", "LLENEMY_Statuses_Seeker_PulseNow");
+
+IF
+ObjectLeftCombat(_Char, _)
+AND
+LeaderLib_Helper_QRY_HasAnyStatus(_Char, "LLENEMY_SEEKER", "LLENEMY_SEEKER_DISABLED")
+THEN
+LeaderLib_Timers_CancelObjectTimer(_Char, "Timers_LLENEMY_Statuses_Seeker_PulseNow");
+
+IF
+CharacterStatusApplied(_Char, "DRUNK", _)
+AND
+LeaderLib_Helper_QRY_HasStatus(_Char, "LLENEMY_SEEKER")
+THEN
+LeaderLib_Timers_CancelObjectTimer(_Char, "Timers_LLENEMY_Statuses_Seeker_PulseNow");
+ApplyStatus(_Char, "LLENEMY_SEEKER_DISABLED", -1.0, 1, _Char);
+
+IF
+CharacterStatusRemoved(_Char, "DRUNK", _)
+AND
+LeaderLib_Helper_QRY_HasStatus(_Char, "LLENEMY_SEEKER_DISABLED")
+AND
+IsTagged(_Char, "LeaderLib_IsDisabled", 0)
+THEN
+ApplyStatus(_Char, "LLENEMY_SEEKER", -1.0, 1, _Char);
+
+IF
+ObjectWasTagged((CHARACTERGUID)_Char, "LeaderLib_IsDisabled")
+AND
+LeaderLib_Helper_QRY_HasStatus(_Char, "LLENEMY_SEEKER")
+THEN
+ApplyStatus(_Char, "LLENEMY_SEEKER_DISABLED", -1.0, 1, _Char);
+
+IF
+ObjectLostTag((CHARACTERGUID)_Char, "LeaderLib_IsDisabled")
+AND
+LeaderLib_Helper_QRY_HasStatus(_Char, "LLENEMY_SEEKER_DISABLED")
+THEN
+ApplyStatus(_Char, "LLENEMY_SEEKER", -1.0, 1, _Char);
+
+//REGION SEEKER_SNEAK_FX
+IF
+CharacterStatusApplied(_Player, "SNEAKING", _)
+AND
+LeaderLog_QRY_Log("DEBUG", "[LLENEMY_80_TS_Seeker:] Checking if player is controlled")
+AND
+CharacterIsControlled(_Player, 1)
+AND
+LeaderLog_QRY_Log("DEBUG", "[LLENEMY_80_TS_Seeker:] Getting seekers")
+AND
+DB_LLENEMY_StatusLogic_Temp_Seekers(_Char)
+AND
+LeaderLog_QRY_Log("DEBUG", "[LLENEMY_80_TS_Seeker:] Checking relation")
+AND
+CharacterIsEnemy(_Char, _Player, 1)
+AND
+HasActiveStatus(_Char, "LLENEMY_SEEKER_FX", 0)
+THEN
+ApplyStatus(_Char, "LLENEMY_SEEKER_FX", -1.0, 0, _Char);
+
+IF
+CharacterStatusRemoved(_Player, "SNEAKING", _)
+AND
+NOT LLENEMY_Statuses_QRY_AnyPlayerIsSneaking()
+AND
+DB_LLENEMY_StatusLogic_Temp_Seekers(_Char)
+AND
+HasActiveStatus(_Char, "LLENEMY_SEEKER_FX", 1)
+THEN
+RemoveStatus(_Char, "LLENEMY_SEEKER_FX");
+
+IF
+CharacterStatusApplied(_Player, _Status, _)
+AND
+GetStatusType(_Status, "INVISIBLE")
+AND
+CharacterIsControlled(_Player, 1)
+AND
+DB_LLENEMY_StatusLogic_Temp_Seekers(_Char)
+AND
+CharacterIsEnemy(_Char, _Player, 1)
+AND
+HasActiveStatus(_Char, "LLENEMY_SEEKER_FX", 0)
+THEN
+ApplyStatus(_Char, "LLENEMY_SEEKER_FX", -1.0, 0, _Char);
+
+IF
+CharacterStatusRemoved(_Player, _Status, _)
+AND
+GetStatusType(_Status, "INVISIBLE")
+AND
+CharacterIsPlayer(_Player, 1)
+AND
+NOT LLENEMY_Statuses_QRY_AnyPlayerIsSneaking()
+AND
+DB_LLENEMY_StatusLogic_Temp_Seekers(_Char)
+AND
+HasActiveStatus(_Char, "LLENEMY_SEEKER_FX", 1)
+THEN
+RemoveStatus(_Char, "LLENEMY_SEEKER_FX");
+//END_REGION
+
+IF
+ObjectTurnStarted((CHARACTERGUID)_Char)
+AND
+LeaderLib_Helper_QRY_HasStatus(_Char, "LLENEMY_SEEKER")
+THEN
+DB_LLENEMY_StatusLogic_Temp_WaitForSeekerAction(_Char);
+
+IF
+CharacterUsedSkill(_Char,_,_,_)
+AND
+DB_LLENEMY_StatusLogic_Temp_WaitForSeekerAction(_Char)
+THEN
+NOT DB_LLENEMY_StatusLogic_Temp_WaitForSeekerAction(_Char);
+
+IF
+CharacterStartAttackObject(_,_, _Char)
+AND
+DB_LLENEMY_StatusLogic_Temp_WaitForSeekerAction(_Char)
+THEN
+NOT DB_LLENEMY_StatusLogic_Temp_WaitForSeekerAction(_Char);
+
+IF
+CharacterUsedItem(_Char, _)
+AND
+DB_LLENEMY_StatusLogic_Temp_WaitForSeekerAction(_Char)
+THEN
+NOT DB_LLENEMY_StatusLogic_Temp_WaitForSeekerAction(_Char);
+
+IF
+CharacterDied(_Char)
+AND
+DB_LLENEMY_StatusLogic_Temp_WaitForSeekerAction(_Char)
+THEN
+NOT DB_LLENEMY_StatusLogic_Temp_WaitForSeekerAction(_Char);
+
+IF
+ObjectTurnEnded((CHARACTERGUID)_Char)
+AND
+DB_LLENEMY_StatusLogic_Temp_WaitForSeekerAction(_Char)
+THEN
+NOT DB_LLENEMY_StatusLogic_Temp_WaitForSeekerAction(_Char);
+LLENEMY_Mechanics_Statuses_Internal_SeekerTakeAction(_Char);
+
+EXITSECTION
+SysClear("DB_LLENEMY_StatusLogic_Temp_WaitForSeekerAction", 1);
+ENDEXITSECTION
+ParentTargetEdge "LLENEMY_80_ToggledScripts"
