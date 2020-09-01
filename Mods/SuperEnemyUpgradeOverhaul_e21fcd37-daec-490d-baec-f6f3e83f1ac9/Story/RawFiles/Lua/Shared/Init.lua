@@ -3,6 +3,11 @@ GameHelpers = LeaderLib.GameHelpers
 Common = LeaderLib.Common
 StringHelpers = LeaderLib.StringHelpers
 
+Vars = {
+	UPGRADE_MAX_ROLL = 99999,
+	DefaultDropCount = 4,
+}
+
 ---@type table<string, boolean>
 IgnoredSkills = {}
 ---@type string[]

@@ -5,8 +5,7 @@ local UpgradeGroup = {
 	ID = "",
 	---@type UpgradeSubGroup[]
 	SubGroups = {},
-	DisabledFlag = "",
-	MaxRoll = 999,
+	DisabledFlag = ""
 }
 UpgradeGroup.__index = UpgradeGroup
 
@@ -18,8 +17,7 @@ function UpgradeGroup:Create(id, params)
     {
 		ID = id,
 		SubGroups = {},
-		DisabledFlag = "",
-		MaxRoll = 999,
+		DisabledFlag = ""
 	}
 	setmetatable(this, self)
 	if params ~= nil then
@@ -35,15 +33,9 @@ function UpgradeGroup:Add(subgroups)
 	if type(subgroups) == "table" then
 		for i,v in pairs(subgroups) do
 			self.SubGroups[#self.SubGroups+1] = v
-			if v.EndRange > self.MaxRoll then
-				self.MaxRoll = v.EndRange
-			end
 		end
 	else
 		self.SubGroups[#self.SubGroups+1] = subgroups
-		if subgroups.EndRange > self.MaxRoll then
-			self.MaxRoll = subgroups.EndRange
-		end
 	end
 end
 
@@ -51,11 +43,11 @@ end
 ---@return UpgradeGroup
 function UpgradeGroup:Apply(target)
 	if self.DisabledFlag == "" or GlobalGetFlag(self.DisabledFlag) == 0 then
-		local roll = Ext.Random(0,self.MaxRoll)
+		local roll = Ext.Random(0, Vars.UPGRADE_MAX_ROLL)
 		if roll > 0 then
 			for i,v in pairs(self.SubGroups) do
 				if v.StartRange >= roll and v.EndRange <= roll then
-					Ext.Print(string.format("[EUO] Roll success (%i/%i)! Group(%s:%s) Range(%i-%i)", roll, self.MaxRoll, self.ID, v.ID, v.StartRange, v.EndRange))
+					Ext.Print(string.format("[EUO] Roll success (%i/%i)! Group(%s:%s) Range(%i-%i)", roll, Vars.UPGRADE_MAX_ROLL, self.ID, v.ID, v.StartRange, v.EndRange))
 					v:Apply(target)
 				end
 			end

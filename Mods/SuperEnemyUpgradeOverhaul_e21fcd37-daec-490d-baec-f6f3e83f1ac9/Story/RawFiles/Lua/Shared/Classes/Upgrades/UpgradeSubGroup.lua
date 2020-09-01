@@ -5,24 +5,34 @@ local UpgradeSubGroup = {
 	ID = "",
 	---@type UpgradeEntry[]
 	Upgrades = {},
-	Chance = 100,
-	StartRange = 0,
-	EndRange = 0,
-	MaxRoll = 999,
 	OnApplied = nil,
 	DisabledFlag = "",
+	Frequency = 1,
+	StartRange = 0,
+	EndRange = 0,
+	CP = 1
 }
 UpgradeSubGroup.__index = UpgradeSubGroup
 
 ---@param value string
+---@param frequency integer
+---@param cp integer
 ---@param params table
 ---@return UpgradeSubGroup
-function UpgradeSubGroup:Create(id, params)
+function UpgradeSubGroup:Create(id, frequency, cp, params)
     local this =
     {
 		ID = id,
 		Upgrades = {},
 	}
+	if type(frequency) == "table" then
+		params = frequency
+	elseif type(cp) == "table" then
+		params = cp
+	else
+		this.Frequency = frequency or 1
+		this.CP = cp or 1
+	end
 	setmetatable(this, self)
 	if params ~= nil then
 		for k,v in pairs(params) do
@@ -37,42 +47,17 @@ function UpgradeSubGroup:Add(upgrades)
 	if type(upgrades) == "table" then
 		for i,v in pairs(upgrades) do
 			self.Upgrades[#self.Upgrades+1] = v
-			if v.EndRange > self.MaxRoll then
-				self.MaxRoll = v.EndRange
-			end
 		end
 	else
 		self.Upgrades[#self.Upgrades+1] = upgrades
-		if upgrades.EndRange > self.MaxRoll then
-			self.MaxRoll = upgrades.EndRange
-		end
 	end
-end
-
----@param upgrades UpgradeEntry[]
-function UpgradeSubGroup:SetRanges(upgrades)
-	local finalTable = {}
-	local rangeStart = 1
-	local rangeEnd = 1
-	for i=1,#upgrades do
-		local entry = upgrades[i]
-		if entry.Chance > 0 and entry.DropCount > 0 then
-			entry.StartRange = rangeStart
-			entry.EndRange = rangeStart + entry.Chance
-			rangeStart = entry.EndRange + 1
-			rangeEnd = entry.EndRange
-			finalTable[#finalTable+1] = entry
-		end	
-	end
-	self.MaxRoll = rangeEnd
-	return finalTable
 end
 
 function UpgradeSubGroup:BuildDropList()
 	local upgrades = {}
 	for i=1,#self.Upgrades do
 		local entry = self.Upgrades[i]
-		if entry.DropCount > 0 then
+		if entry.DropCount > 0 and (not entry.HardmodeOnly or GlobalGetFlag("LLENEMY_HardModeEnabled") == 1) then
 			upgrades[#upgrades+1] = entry
 		end
 	end
@@ -83,7 +68,7 @@ function UpgradeSubGroup:BuildDropList()
 			upgrades[#upgrades+1] = entry
 		end
 	end
-	upgrades = self:SetRanges(Common.ShuffleTable(upgrades))
+	upgrades = UpgradeSystem.SetRanges(Common.ShuffleTable(upgrades))
 	return upgrades
 end
 
@@ -91,13 +76,13 @@ end
 ---@return UpgradeSubGroup
 function UpgradeSubGroup:Apply(target)
 	if self.DisabledFlag == "" or GlobalGetFlag(self.DisabledFlag) == 0 then
-		local roll = Ext.Random(0,self.MaxRoll)
+		local roll = Ext.Random(0, Vars.UPGRADE_MAX_ROLL)
 		if roll > 0 then
 			local successes = 0
 			local upgrades = self:BuildDropList()
 			for i,v in pairs(upgrades) do
 				if v.StartRange >= roll and v.EndRange <= roll then
-					Ext.Print(string.format("[EUO] Roll success (%i/%i)! SubGroup(%s:%s) Range(%i-%i)", roll, self.MaxRoll, self.ID, v.Value, v.StartRange, v.EndRange))
+					Ext.Print(string.format("[EUO] Roll success (%i/%i)! SubGroup(%s:%s) Range(%i-%i)", roll, Vars.UPGRADE_MAX_ROLL, self.ID, v.Value, v.StartRange, v.EndRange))
 					v:Apply(target)
 					successes = successes + 1
 				end

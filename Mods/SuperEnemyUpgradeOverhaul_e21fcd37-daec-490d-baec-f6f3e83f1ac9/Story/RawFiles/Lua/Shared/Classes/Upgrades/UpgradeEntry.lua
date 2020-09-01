@@ -4,30 +4,50 @@ local UpgradeEntry = {
 	Type = "UpgradeEntry",
 	UpgradeType = "Status",
 	Value = "",
-	Duration = 6.0,
-	Chance = 100,
+	Duration = -1.0,
+	Frequency = 1,
 	StartRange = 0,
 	EndRange = 0,
-	DropCount = 1,
-	DefaultDropCount = 1,
+	DropCount = -1,
+	DefaultDropCount = 4,
 	OnApplied = nil,
+	HardmodeOnly = false,
+	CP = 1
 }
 UpgradeEntry.__index = UpgradeEntry
 
 ---@param value string
+---@param frequency integer
+---@param cp integer
 ---@param upgradeType string
 ---@return UpgradeEntry
-function UpgradeEntry:Create(value, params)
+function UpgradeEntry:Create(value, frequency, cp, params)
     local this =
     {
 		Value = value,
 		UpgradeType = "Status"
 	}
+	if type(frequency) == "table" then
+		params = frequency
+	elseif type(cp) == "table" then
+		params = cp
+	else
+		this.Frequency = frequency or 1
+		this.CP = cp or 1
+	end
 	setmetatable(this, self)
 	if params ~= nil then
 		for k,v in pairs(params) do
 			this[k] = v
+			if k == "DropCount" then
+				this.DefaultDropCount = v
+			elseif k == "DefaultDropCount" then
+				this.DropCount = v
+			end
 		end
+	end
+	if this.DropCount == -1 then
+		this.DropCount = this.DefaultDropCount or Vars.DefaultDropCount
 	end
     return this
 end
