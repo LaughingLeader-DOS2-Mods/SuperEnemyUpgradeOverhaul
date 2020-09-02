@@ -15,7 +15,7 @@ local upgrades = g:Create("Aura", {
 			u:Create("LLENEMY_VENOM_AURA", 4, 3),
 			u:Create("LLENEMY_ACTIVATE_HEALING_TEARS", 4, 3, {Duration = 0.0}),
 		}}),
-		sg:Create("Immunities", 10, {DisabledFlag = "LLENEMY_ImmunityUpgradesDisabled", 
+		sg:Create("Immunity", 10, {DisabledFlag = "LLENEMY_ImmunityUpgradesDisabled", 
 		Upgrades = {
 			u:Create("AIR_IMMUNITY_AURA", 10, 4, {Duration = 6.0}),
 			u:Create("EARTH_IMMUNITY_AURA", 10, 4, {Duration = 6.0}),

@@ -378,31 +378,14 @@ local function AddRandomBoostsToItem(item,stat,statType,level,cloned)
 	end
 end
 
-local function GetClone(item,stat,statType,forceRarity)
-	local baseStat,rarity,level,seed = NRD_ItemGetGenerationParams(item)
-	if level == nil then
-		level = NRD_ItemGetInt(item, "LevelOverride")
-		if level == 0 or level == nil then
-			level = CharacterGetLevel(CharacterGetHostCharacter())
-		end
-	end
-    local template = GetTemplate(item)
-	local last_underscore = string.find(template, "_[^_]*$")
-	local stripped_template = string.sub(template, last_underscore+1)
-	NRD_ItemCloneBegin(item)
-	--NRD_ItemCloneResetProgression()
-	NRD_ItemCloneSetString("RootTemplate", stripped_template)
-	NRD_ItemCloneSetString("OriginalRootTemplate", stripped_template)
-	if stat == nil or stat == "" then
-		stat = baseStat
-	end
-	-- if seed ~= nil and seed > 0 then
-	-- 	NRD_ItemCloneSetInt("GenerationRandom", seed)
-	-- else
-	-- 	NRD_ItemCloneSetInt("GenerationRandom", Ext.Random(1,9999999))
-	-- end
+local function GetClone(uuid,stat,statType,forceRarity)
+	local item = Ext.GetItem(uuid)
+	local constructor = Ext.CreateItemConstructor(item)
+	---@type ItemDefinition
+	local props = constructor[1]
+	props.GoldValueOverwrite = math.floor(item.Stats.Value * 0.4)
 
-	if statType == "Weapon" then
+	if item.ItemType == "Weapon" then
 		-- Damage type fix
 		-- Deltamods with damage boosts may make the weapon's damage type be all of that type, so overwriting the statType
 		-- fixes this issue.
@@ -414,26 +397,28 @@ local function GetClone(item,stat,statType,forceRarity)
 
 	NRD_ItemCloneSetString("GenerationStatsId", stat)
 	NRD_ItemCloneSetString("StatsEntryName", stat)
-	NRD_ItemCloneSetInt("HasGeneratedStats", 1)
-	NRD_ItemCloneSetInt("GenerationLevel", level)
-	NRD_ItemCloneSetInt("StatsLevel", level)
-	NRD_ItemCloneSetInt("IsIdentified", 1)
+	--NRD_ItemCloneSetInt("HasGeneratedStats", 1)
+	--NRD_ItemCloneSetInt("GenerationLevel", level)
+	--NRD_ItemCloneSetInt("StatsLevel", level)
+	--NRD_ItemCloneSetInt("IsIdentified", 1)
 	--NRD_ItemCloneSetInt("GMFolding", 0)
 
-	if forceRarity == "Random" then
-		rarity = Common.GetRandomTableEntry(AllRarities)
-	elseif forceRarity ~= nil then
-		rarity = forceRarity
-	end
+	-- if forceRarity == "Random" then
+	-- 	rarity = Common.GetRandomTableEntry(AllRarities)
+	-- 	NRD_ItemCloneSetString("ItemType", rarity)
+	-- 	NRD_ItemCloneSetString("GenerationItemType", rarity)
+	-- elseif forceRarity ~= nil then
+	-- 	rarity = forceRarity
+	-- 	NRD_ItemCloneSetString("ItemType", rarity)
+	-- 	NRD_ItemCloneSetString("GenerationItemType", rarity)
+	-- end
 
-	if rarity == nil or (rarityValue[rarity] < rarityValue["Epic"] and Ext.Random(0,100) <= 25) then
-		rarity = "Epic"
-	end
-	NRD_ItemCloneSetString("ItemType", rarity)
-	if statType == "Weapon" then
-		NRD_ItemCloneSetString("ItemType", "Epic") -- Since the name is custom anyway
-	end
-	NRD_ItemCloneSetString("GenerationItemType", rarity)
+	-- if rarity == nil or (rarityValue[rarity] < rarityValue["Epic"] and Ext.Random(0,100) <= 25) then
+	-- 	print(string.format("[EUO:GetClone] Upgrading item rarity from %s to Epic for %s", rarity, item))
+	-- 	rarity = "Epic"
+	-- 	NRD_ItemCloneSetString("ItemType", rarity)
+	-- 	NRD_ItemCloneSetString("GenerationItemType", rarity)
+	-- end
 
 	local value = ItemGetGoldValue(item)
 	if value > 0 then
@@ -442,13 +427,11 @@ local function GetClone(item,stat,statType,forceRarity)
 	end
 	
 	SetRandomShadowName(item, statType)
-	local cloned = NRD_ItemClone()
-	SetTag(cloned, "LLENEMY_ShadowItem")
 
-	if Ext.IsDeveloperMode() then
-		--NRD_ItemIterateDeltaModifiers(cloned, "Iterator_LeaderLib_Debug_PrintDeltamods")
-	end
-	local status,err = xpcall(AddRandomBoostsToItem, debug.traceback, item, stat, statType, level, cloned)
+	local cloned = constructor:Construct()
+	SetTag(cloned.MyGuid, "LLENEMY_ShadowItem")
+
+	local status,err = xpcall(AddRandomBoostsToItem, debug.traceback, item, stat, statType, cloned.Stats.Level, cloned.MyGuid)
 	if not status then
 		print("[EnemyUpgradeOverhaul] Error calling AddRandomBoostsToItem:\n", err)
 	end
