@@ -8,6 +8,45 @@ end
 local upgradeInfoEntryColorText = TranslatedString:Create("ha4587526ge140g42f9g9a98gc92b537d4209", "<font color='[2]' size='18'>[1]</font>")
 local upgradeInfoEntryColorlessText = TranslatedString:Create("h869a7616gfbb7g4cc2ga233g7c22612af67b", "<font size='18'>[1]</font>")
 
+local FormatColor = {
+	White = "#FFFFFF",
+	DarkGray = "#454545",
+	Gray = "#A8A8A8",
+	LightGray = "#DBDBDB",
+	Red = "#C80030",
+	Blue = "#188EDE",
+	DarkBlue = "#004672",
+	LightBlue = "#CFECFF",
+	Green = "#40B606",
+	PoisonGreen = "#00AA00",
+	Yellow = "#FCD203",
+	Orange = "#FF9600",
+	Pink = "#FFC3C3",
+	Purple = "#7F00FF",
+	Brown = "#B97A57",
+	Gold = "#C7A758",
+	Black = "#000000",
+	Normal = "#FFFFFF",
+	StoryItem = "#D040D0",
+	Blackrock = "#797980",
+	Poison = "#65C900",
+	Earth = "#7F3D00",
+	Air = "#7D71D9",
+	Water = "#4197E2",
+	Fire = "#FE6E27",
+	Source = "#46B195",
+	Decay = "#B823CB",
+	Polymorph = "#F7BA14",
+	Ranger = "#81AB00",
+	Rogue = "#639594",
+	Summoner = "#7F25D4",
+	Void = "#73F6FF",
+	Warrior = "#DA2512",
+	Special = "#C9AA58",
+	Healing = "#97FBFF",
+	Charm = "#FFB8B8",
+}
+
 ---@param character EsvCharacter
 local function GetUpgradeInfoText(character, isControllerMode)
 	if Ext.IsDeveloperMode() then
@@ -24,7 +63,7 @@ local function GetUpgradeInfoText(character, isControllerMode)
 		end)
 	end
 	local upgradeKeys = {}
-	for status,data in pairs(UpgradeData.Statuses) do
+	for status,loreMin in pairs(UpgradeData.Statuses) do
 		if character:GetStatus(status) ~= nil then
 			table.insert(upgradeKeys, status)
 		end
@@ -37,55 +76,32 @@ local function GetUpgradeInfoText(character, isControllerMode)
 			output = "" -- No Icon_Line
 		end
 		local i = 0
-		for _,status in ipairs(upgradeKeys) do
-			local infoText = UpgradeInfo_GetText(status)
-			if infoText ~= nil then
-				local color = infoText.Color
-				if HighestLoremaster > 0 then
-					---@type TranslatedString
-					local translatedString = infoText.Name
-					if translatedString ~= nil then
-						local nameText = translatedString.Value
-						if infoText.Lore > 0 and HighestLoremaster < infoText.Lore then
-							nameText = "???"
-						end
-						if color ~= nil and color ~= "" then
-							local text = string.gsub(upgradeInfoEntryColorText.Value, "%[1%]", nameText):gsub("%[2%]", color)
-							if isControllerMode ~= true then
-								text = "<img src='Icon_BulletPoint'>"..text
-							end
-							output = output..text
-						else
-							if isControllerMode ~= true then
-								output = output.."<img src='Icon_BulletPoint'>"..string.gsub(upgradeInfoEntryColorlessText.Value, "%[1%]", nameText)
-							else
-								output = output..string.gsub(upgradeInfoEntryColorlessText.Value, "%[1%]", nameText)
-							end
-						end
-					end
-				else
-					if color ~= nil and color ~= "" then
-						local text = string.gsub(upgradeInfoEntryColorText.Value, "%[1%]", "???"):gsub("%[2%]", color)
-						if isControllerMode ~= true then
-							text = "<img src='Icon_BulletPoint'>"..text
-						end
-						output = output..text
-					else
-						if isControllerMode ~= true then
-							output = output.."<img src='Icon_BulletPoint'>"..string.gsub(upgradeInfoEntryColorlessText.Value, "%[1%]", "???")
-						else
-							output = output..string.gsub(upgradeInfoEntryColorlessText.Value, "%[1%]", "???")
-						end
-					end
+		for _,status in pairs(upgradeKeys) do
+			local loreMin = UpgradeData.Statuses[status]
+			local nameText = Ext.GetTranslatedStringFromKey(Ext.StatGetAttribute(status, "DisplayName")) or ""
+			if nameText == "" then
+				local potion = Ext.StatGetAttribute(status, "StatsId") or ""
+				if potion ~= "" then
+					nameText = Ext.GetTranslatedStringFromKey(potion) or ""
 				end
+			end
+			if nameText ~= "" then
+				local colorName = Ext.StatGetAttribute(status, "FormatColor") or "Special"
+				local color = FormatColor(colorName)
+				if HighestLoremaster < loreMin then
+					nameText = "???"
+				end
+				local text = string.gsub(upgradeInfoEntryColorText.Value, "%[1%]", nameText):gsub("%[2%]", color)
+				if isControllerMode ~= true then
+					text = "<img src='Icon_BulletPoint'>"..text
+				end
+				output = output..text
 				if i < count - 1 then
 					output = output.."<br>"
 				end
+				i = i + 1
 			end
-			i = i + 1
 		end
-		--LeaderLib.PrintDebug("[EnemyUpgradeOverhaul:LLENEMY_DescriptionParams.lua] Upgrade info for (" .. uuid .. ") is nil or empty ("..LeaderLib.Common.Dump(data)..")")
-		--LeaderLib.PrintDebug("Upgrade info (".. tostring(uuid)..") = ("..output..")")
 		return output
 	end
 	return ""
