@@ -1,0 +1,15 @@
+Key	Content	Handle
+LLENEMY_ShadowBonus_Madness	<font color='#7D71D9'>Empowered by Madness</font>	hc7c70ba4g0bfdg4afbg8db1ga39d0eead1eb
+LLENEMY_ShadowBonus_Madness_Description	<font color='#00FF00'>[ExtraData:LLENEMY_ShadowBonus_Madness_ChanceOnTurn]%</font> chance to gain <font color='#B823CB'>Madness</font> when your turn ends.<br><font color='#B823CB'>Madness</font> grants you bonuses and full control over your actions.	h19593f3fg3755g47f5gb70dg61954a8a6bf3
+LLENEMY_ShadowBonus_StunDefense	<font color='#C7A758'>King's Defense</font>	h41bd5db2gef31g44f0gb660g3f7c9a4fcf0a
+LLENEMY_ShadowBonus_StunDefense_Description	When <font color='#FF0000'>disabled</font> (Knocked Down, Stunned, etc), <font color='#FFAB00'>incoming damage is reduced by [ExtraData:LLENEMY_ShadowBonus_StunDefense_DamageReduction]%</font>. 	h0fd762dcg98f8g4483g9cd5ga74f7c4b02c8
+LLENEMY_ShadowBonus_DotCleanser	<font color='#99CC00'>Immune Boost</font>	h0ec991aag3f8dg4100gb60bg272af43d6334
+LLENEMY_ShadowBonus_DotCleanser_Description	When your turn ends, harmful damage-over-time statuses are <font color='#4197E2'>cleansed</font>, restoring <font color='#97FBFF'>[ExtraData:LLENEMY_ShadowBonus_ImmuneBoost_HealPercentage]% Vitality</font> per status. 	ha9bac902g50e1g46dagb76fg74085358d300
+LLENEMY_ShadowBonus_CursedFire	<font color='#B823FF'>Cursed Fire</font>	h31a9398eg9fa7g4bb9ga1a0gf17ad0f74f11
+LLENEMY_ShadowBonus_CursedFire_Description	Damaging <font color='#FE6E27'>fire spells</font> have a [ExtraData:LLENEMY_ShadowBonus_CursedFire_Chance]% chance to apply <font color='#B823CB'>Necrofire</font>. 	h11435de3g7c5fg4a04ga59fg3c0e3e0cc836
+LLENEMY_ShadowBonus_ShockingRain	<font color='#7D71D9'>Shocking Rain</font>	ha5b5dafeg1804g494dg92a2gcc7af36a3092
+LLENEMY_ShadowBonus_ShockingRain_Description	<font color='#4197E2'>[Key:Rain_Water_DisplayName]</font> creates a mild <font color='#7D71D9'>lightning storm</font> at the target location. 	h185353bfgd688g4ac3ga6f8gb7b57293b96f
+LLENEMY_ShadowBonus_SlipperyRogue	<font color='#639594'>Slippery Rogue</font>	h2e0d9032g35a0g454cga82age8e8bc9ee5a6
+LLENEMY_ShadowBonus_SlipperyRogue_Description	Start combat by going [Key:INVISIBLE_DisplayName].	hb5046330g2473g4d21g80ecgc49d05235e4e
+LLENEMY_ShadowBonus_DefensiveStart	<font color='#FCD203'>Defensive Start</font>	h37849b58g7693g4058g88e2g9c3e934eedca
+LLENEMY_ShadowBonus_DefensiveStart_Description	Start combat with [Key:FORTIFIED_DisplayName] and [Key:MAGIC_SHELL_DisplayName]. 	h4cbda363g10cfg4587g94c4gdc6e539d4397

@@ -1,0 +1,73 @@
+Key	Content	Handle
+"h194ac7f5g9da2g4067g83efgf23de735ad79", "Bonus Treasure"			LLENEMY_BONUS_TREASURE_ROLL_DisplayName
+"h7040a2f0g29d3g43d6ga656gb5eb0aac1934", "Elite Skillset"			LLENEMY_BONUSSKILLS_SET_ELITE_DisplayName
+"h5aa2a41bgbaa4g46d0g9987ge5c19c4b4aa4", "Bonus Skillset"			LLENEMY_BONUSSKILLS_SET_NORMAL_DisplayName
+"he79478e5gfa95g4461gba2bg9122ba540b28", "Bonus Skill"			LLENEMY_BONUSSKILLS_SINGLE_DisplayName
+"hd1a568b1g2c56g4343gb1fcg4ae8f47c28e4", "Bonus Source Skill"			LLENEMY_BONUSSKILLS_SOURCE_DisplayName
+"h9bc9d98ag9fa9g4d23g88c4ge55de8f8c73a", "Chicken Overlord"			LLENEMY_CHICKEN_OVERLORD_DisplayName
+"hf180561cge97ag426cg84ddg83dd257ce95d", "Double Dip"			LLENEMY_DOUBLE_DIP_DisplayName
+"hf91deedcga4c7g427eg8153g2e347c06d3e8", "Shadow Duplicant"			LLENEMY_DUPLICANT_DisplayName
+"he2172050g115bg4345gae5eg4a45798086b4", "Empowered"			LLENEMY_EMPOWERED_DisplayName
+"hdace76dag01cbg499dg9777geb2c80877c7c", "Dead"			LLENEMY_FAKE_DYING_DisplayName
+"h18c28f76g6913g4685g81b9g6a6326ac81a3", "Gathering Power"			LLENEMY_GATHERING_POWER_DisplayName
+"h77532147gd01fg47efgb317gbf00813dbcb6", "Grenade Enthusiast"			LLENEMY_GRANADA_DisplayName
+"h8cfd1ba3gcfb3g4f0cga950gc29672af34c9", "Perfect Control"			LLENEMY_IMMUNITY_LOSECONTROL_DisplayName
+"h8074f9d7g5360g49fbgb949gce8a729c7755", "Piercing Immunity"			LLENEMY_IMMUNITY_PIERCING_DisplayName
+"he9cb8fddg5db3g4d64ga27cgb93613250725", "Melter"			LLENEMY_INF_ACID_DisplayName
+"h1049b802g537bg4815gb5b6g34c387f9aa9c", "Elite Melter"			LLENEMY_INF_ACID_G_DisplayName
+"h6e85fa28gc76eg423egaf24g5c0c278717bf", "Heatsapper"			LLENEMY_INF_BLESSED_ICE_DisplayName
+"h9cf11b15g91d4g4d12gae38ga5a8f70272be", "Elite Heatsapper"			LLENEMY_INF_BLESSED_ICE_G_DisplayName
+"h0d2c2ac4g44e2g48dfg835dgcc860fcdd0d9", "Bloodbender"			LLENEMY_INF_BLOOD_DisplayName
+"h31d032dcg2e05g4d91gb846g125bbed07f42", "Elite Bloodbender"			LLENEMY_INF_BLOOD_G_DisplayName
+"hd71fe8a1g0247g42c5g8bfcg2408029eca06", "Teslacoil"			LLENEMY_INF_CURSED_ELECTRIC_DisplayName
+"hdcdcd727gc9e6g4548g88dag25a265517c1b", "Elite Teslacoil"			LLENEMY_INF_CURSED_ELECTRIC_G_DisplayName
+"hd419ca09g8d69g4af6g840egdd4a81f7587f", "Circuitbreaker"			LLENEMY_INF_ELECTRIC_DisplayName
+"h24cc83b3g5ce3g44d2ga7fbg7c743030b0a2", "Elite Circuitbreaker"			LLENEMY_INF_ELECTRIC_G_DisplayName
+"hc3f8497bg97acg449ag910ag07b825f3b8bb", "Firestarter"			LLENEMY_INF_FIRE_DisplayName
+"hd880d646g45b4g4fa6ga6cbgd746dcd242bd", "Elite Firestarter"			LLENEMY_INF_FIRE_G_DisplayName
+"h8e75cbbdg06d7g4404gbfb2g92f6fd11147d", "Infernoblazer"			LLENEMY_INF_NECROFIRE_DisplayName
+"had606e03g6713g4064g84c0gf28395d81019", "Elite Infernoblazer"			LLENEMY_INF_NECROFIRE_G_DisplayName
+"hba68eb52gbd87g443fga8acgb61922bf4211", "Earthcracker"			LLENEMY_INF_OIL_DisplayName
+"he7dfdae3gf1bbg47ecg84edg1a094e326d94", "Elite Earthcracker"			LLENEMY_INF_OIL_G_DisplayName
+"h78f9641bgaf92g4bc4gb27bg759d63a0353f", "Venomstriker"			LLENEMY_INF_POISON_DisplayName
+"h0e137225ge71fg4b5dg9822g1f73a6646671", "Elite Venomstriker"			LLENEMY_INF_POISON_G_DisplayName
+"h645270dag6b15g47a8gad4bgfcc34034a77e", "Cascader"			LLENEMY_INF_WATER_DisplayName
+"h70e74b6fg7c33g41e5g8bf4g6fe9a096a69d", "Elite Cascader"			LLENEMY_INF_WATER_G_DisplayName
+"h77bbc2b5gb387g4ba2g97c6gbbc058bbb5c6", "Infused"			LLENEMY_INFUSION_INFO_DisplayName
+"hffc4903fg3cb8g48e0gb183g8e5d9eeaa066", "Super-Infused"			LLENEMY_INFUSION_INFO_ELITE_DisplayName
+"hdaeb8fa0g4a4fg4cd5gbf0eg0c7cbe96c990", "Perseverance Mastery"			LLENEMY_PERSEVERANCE_MASTERY_DisplayName
+"h51f428d7gd529g4b83gad1ag674a188d1492", "Rage"			LLENEMY_RAGE_DisplayName
+"hdfeb0377gbab4g4fc6ga428g98aa0a12eb88", "Rage (II)"			LLENEMY_RAGE2_DisplayName
+"h7987a4c4ge79ag4b93gbb98g63644b6ab4ef", "Rage (III)"			LLENEMY_RAGE3_DisplayName
+"h752158cdg06beg4034gaddeg66921ff01d83", "Rage (IV)"			LLENEMY_RAGE4_DisplayName
+"h10a8c3f8g6fedg4baag91f7g5b421eaa770c", "Rage (V)"			LLENEMY_RAGE5_DisplayName
+"h420749e5g8297g4de6ga556g9b67569e6c38", "Seeker (Disabled)"			LLENEMY_SEEKER_DISABLED_DisplayName
+"h2a92d66eg220eg4196gb8dag81570a513978", "Seeker"			LLENEMY_SEEKER_DisplayName
+"hac3946feg2bc8g4337gbcb7ge3980e905f1b", "Talent: Backstabber"			LLENEMY_TALENT_BACKSTAB_DisplayName
+"h1ad605c4gb69bg4562ga6adgc2d42e102770", "Talent"			LLENEMY_TALENT_BASE_DisplayName
+"hdd62da1agf6adg438dg811cg08c9e58e07c9", "Talent: Bully"			LLENEMY_TALENT_BULLY_DisplayName
+"h3c47b59cgd1f6g49a4g9e6bg9624181d40d1", "Talent: Counter"			LLENEMY_TALENT_COUNTER_DisplayName
+"h3d6d46bbg4819g48fbga980gcb521d5c49d8", "Talent: Gladiator"			LLENEMY_TALENT_GLADIATOR_DisplayName
+"h4cf1c406gceb1g411fga0d9gc9832cc4d2f5", "Talent: Greedy Vessel"			LLENEMY_TALENT_GREEDYVESSEL_DisplayName
+"h0dda4bf0g924ag4c8bgaf5ag1d6e7e643b50", "Talent: Haymaker"			LLENEMY_TALENT_HAYMAKER_DisplayName
+"hb52d1ac1g7c4fg45a4g87d8g52056a5a2ba2", "Talent: Indomitable"			LLENEMY_TALENT_INDOMITABLE_DisplayName
+"h7e28471fg1959g47e6g9d58g4d4f8ce054f6", "Talent: Leech"			LLENEMY_TALENT_LEECH_DisplayName
+"hbc7f9c3dg471bg47c6ga015g77c92a439e4e", "Talent: Lightning Rod"			LLENEMY_TALENT_LIGHTNINGROD_DisplayName
+"h3b229661g43b9g44e1gbaebgc33ab487ce44", "Talent: Lone Wolf"			LLENEMY_TALENT_LONEWOLF_DisplayName
+"h09ee507ag16fag471cg9e13gf4b0a614dcb8", "Talent: Magic Cycles"			LLENEMY_TALENT_MAGICCYCLES_DisplayName
+"hbfafd8eeg3703g4b46g837eg2389c8302f35", "Cooldown (Master Thief)"			LLENEMY_TALENT_MASTERTHIEF_COOLDOWN_DisplayName
+"hba05c2f9g55f0g4b5agb936g5ff5daa6877e", "Talent: Master Thief"			LLENEMY_TALENT_MASTERTHIEF_DisplayName
+"h52b7f26cg0535g416bgb820ge7e49b19197f", "Talent: Natural Conductor"			LLENEMY_TALENT_NATURALCONDUCTOR_DisplayName
+"h79f5b874g6cb3g4a99ga1cfg9f472c12036f", "Talent: The Pawn"			LLENEMY_TALENT_QUICKSTEP_DisplayName
+"h15a9ae98gb2d3g49d5gbccbg0aecd38fe18c", "Talent: Quickdraw"			LLENEMY_TALENT_RANGERRANGE_DisplayName
+"h12db0e65g1dceg4d56g8857gb018ab29f393", "Talent:  Comeback Kid"			LLENEMY_TALENT_RESISTDEAD_DisplayName
+"haec75225g4305g4fcdg8e61g0f9b4de56075", "Talent: Elite Comeback Kid"			LLENEMY_TALENT_RESISTDEAD2_DisplayName
+"h1c81c46bg9330g4d43gba21g6b72b951b3fd", "Talent: Sadist"			LLENEMY_TALENT_SADIST_DisplayName
+"h9a2a7390gc764g4fa0g8e97gf73ffac2a93c", "Talent: Soulcatcher"			LLENEMY_TALENT_SOULCATCHER_DisplayName
+"h18ff40ffg5d06g48c6gb09egaec569a55aa8", "Talent: Torturer"			LLENEMY_TALENT_TORTURER_DisplayName
+"h2b8ca96eg181cg4d13gaef5g84d2bb6f88fc", "Talent: Unstable"			LLENEMY_TALENT_UNSTABLE_DisplayName
+"hdb001da6g340cg4f00g9190g13e8c1a96f90", "Talent: Weatherproof"			LLENEMY_TALENT_WEATHERPROOF_DisplayName
+"hd0938a28g404dg47bagb7afg1ab9a2215f9d", "Talent: What a Rush"			LLENEMY_TALENT_WHATARUSH_DisplayName
+"h6ea17edfgea06g402eg9a78gc538e1959ead", "Fleeing"			LLENEMY_TREASURE_GOBLIN_DisplayName
+"h84c27debgd38dg4844g84d4g75eb558eb5de", "Upgraded"			LLENEMY_UPGRADE_INFO_DisplayName
+"h398b5931gfa52g4a26gadb9gf94bbb7d35e2", "Void Empowered"			LLENEMY_VOID_EMPOWERED_DisplayName
