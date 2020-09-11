@@ -7,7 +7,7 @@
 	<content contentuid="h0301fb1cg95a6g47e5gade7g8ccfc0ffef2f">&lt;font color=&apos;[1]&apos;&gt;[2]&lt;/font&gt;</content>
 	<content contentuid="h034ae0a4g858eg4d30g82dege3c983c8b18a">&lt;font color=&apos;#BBFF00&apos; size=&apos;23&apos;&gt;*[1] beings gained a new level of power...*&lt;/font&gt;</content>
 	<content contentuid="h03823bf7g9de8g48eag9e05g44ffcddb1a73">Today, we&apos;ll be playing Easy Mode.</content>
-	<content contentuid="h044ae60egd895g431fga21dgffdf784593c7">Power Boost</content>
+	<content contentuid="h044ae60egd895g431fga21dgffdf784593c7">Power Infusion</content>
 	<content contentuid="h04644a8dg313cg4d53gb2b4g1dc1a5fea103">Character is infused with a mysterious power, granting a variety of bonuses and extra skills.</content>
 	<content contentuid="h05040c61g84bfg4989ga083g48f7642fbeb5">Armor Boost</content>
 	<content contentuid="h055079e8g89f6g4275gb06ag48f70f0c7e1b">Character has immunity to Stunned, Frozen, Knocked Down, Polymorphed, Petrified, Crippled for 1 turn after being affected by one of these statuses.&lt;br&gt;Can happen once every 3 turns.</content>
@@ -22,12 +22,12 @@
 	<content contentuid="h09982c04g289bg4d01gad23gaa88d6fc43fc">Only the host can edit these settings.</content>
 	<content contentuid="h09ee507ag16fag471cg9e13gf4b0a614dcb8">Talent: Magic Cycles</content>
 	<content contentuid="h0a5513b9g841bg4565g8384g33d9251b832f">Upgrade the world. Unleash the power!</content>
-	<content contentuid="h0ab60959ga9a0g49b3g9f1cgc98d30ea13f1">Heatsapper</content>
+	<content contentuid="h0ab60959ga9a0g49b3g9f1cgc98d30ea13f1">Blessed Ice Infusion</content>
 	<content contentuid="h0c13903cgd246g4a35gbce9g19db61af1db9">Disable Commit Level Modifier to the World - &lt;b&gt;*NOTE* &lt;/b&gt;This will not down-level enemies. Leveling only works one way! (Currently &lt;font color=&apos;#8AFF49&apos;&gt;Enabled&lt;/font&gt;)</content>
 	<content contentuid="h0c6343ecg8be2g4c1ag90b6g4549612a33e0">Armor Boost</content>
 	<content contentuid="h0c6fe9ccg70f0g434dgbe60gc2275abaa7d1">&lt;font color=&apos;#73F6FF&apos; size=&apos;26&apos;&gt;Empowered Evolution&lt;/font&gt;</content>
 	<content contentuid="h0c772f3fg8417g46ecgbd71g3c435eb25bb5">Necro-wing Voidwoken</content>
-	<content contentuid="h0d2a065eg9cbag47fdgabe7gf919c9a87875">Melter</content>
+	<content contentuid="h0d2a065eg9cbag47fdgabe7gf919c9a87875">Acid Infusion</content>
 	<content contentuid="h0d2c2ac4g44e2g48dfg835dgcc860fcdd0d9">Bloodbender</content>
 	<content contentuid="h0d80c25ag2866g4c58g9cdag227856e9e48c">Damage Boost</content>
 	<content contentuid="h0dda4bf0g924ag4c8bgaf5ag1d6e7e643b50">Talent: Haymaker</content>
@@ -38,7 +38,7 @@
 	<content contentuid="h0fac50d9g63c1g4dc1gb769g9fba10e602df">Piercing Immunity</content>
 	<content contentuid="h0fd762dcg98f8g4483g9cd5ga74f7c4b02c8">When &lt;font color=&apos;#FF0000&apos;&gt;disabled&lt;/font&gt; (Knocked Down, Stunned, etc), &lt;font color=&apos;#FFAB00&apos;&gt;incoming damage is reduced by [ExtraData:LLENEMY_ShadowBonus_StunDefense_DamageReduction]%&lt;/font&gt;. </content>
 	<content contentuid="h1049b802g537bg4815gb5b6g34c387f9aa9c">Elite Melter</content>
-	<content contentuid="h106bb9f5ge8a1g4019g9d9dgebb27474f992">Elite Heatsapper</content>
+	<content contentuid="h106bb9f5ge8a1g4019g9d9dgebb27474f992">Elite Blessed Ice Infusion</content>
 	<content contentuid="h10a8c3f8g6fedg4baag91f7g5b421eaa770c">Rage (V)</content>
 	<content contentuid="h113eaf38g98cfg4905gbdcbge7974c230658">Source-Hungry Void Flayer</content>
 	<content contentuid="h11435de3g7c5fg4a04ga59fg3c0e3e0cc836">Damaging &lt;font color=&apos;#FE6E27&apos;&gt;fire spells&lt;/font&gt; have a [ExtraData:LLENEMY_ShadowBonus_CursedFire_Chance]% chance to apply &lt;font color=&apos;#B823CB&apos;&gt;Necrofire&lt;/font&gt;. </content>
@@ -65,7 +65,7 @@
 	<content contentuid="h1a306bc6gbee4g4d46g9748g69148e74ded0">Character rolled a &lt;font color=&apos;#FF0000&apos;&gt;Critical Failure (0)&lt;/font&gt;, and now has to give bonus treasure if killed before this status expires. Hurry!</content>
 	<content contentuid="h1ad605c4gb69bg4562ga6adgc2d42e102770">Talent</content>
 	<content contentuid="h1b0212d3g8ecfg4bcagac01g6b8c69043f94">Shiny enough to attract a magpie, sharp enough to kill it.</content>
-	<content contentuid="h1b451d33g304bg4112gab43g51a4721adab7">Elite Earthcracker</content>
+	<content contentuid="h1b451d33g304bg4112gab43g51a4721adab7">Elite Oil Infusion</content>
 	<content contentuid="h1c2d5b0eg1592g498aga1dfg0c9d7fe116dc">Source-Hungry Voidwoken Nightmare</content>
 	<content contentuid="h1c81c46bg9330g4d43gba21g6b72b951b3fd">Talent: Sadist</content>
 	<content contentuid="h1d2be7b0gea03g4bfagbeaag02c29c65b877">Summons your glorious chicken armada to the battlefield. Bwak!</content>
@@ -82,9 +82,9 @@
 	<content contentuid="h250561a9g4ce0g4989ga495g3150b4f80015">Disable Duplication Upgrades. This is a chance for clones of enemies to appear in battle. (Currently Enabled)</content>
 	<content contentuid="h256557fbg1d49g45d9g8690gb86b39d2a135">shadow Damage</content>
 	<content contentuid="h279bcad6g5064g45ccg8e09g870c92e0cf6e">[Host Required] Upgrade Group Settings</content>
-	<content contentuid="h27f6719cgc82fg4176g8f60g170b786d3c24">Elite Venomstriker</content>
+	<content contentuid="h27f6719cgc82fg4176g8f60g170b786d3c24">Elite Poison Infusion</content>
 	<content contentuid="h29213ad2gd012g4426g93b6g7ac6a0d15d6b">Blunt Shovel</content>
-	<content contentuid="h29ba8b31g5c24g4d12ga056gb4a3880fadf5">Firestarter</content>
+	<content contentuid="h29ba8b31g5c24g4d12ga056gb4a3880fadf5">Fire Infusion</content>
 	<content contentuid="h2a92d66eg220eg4196gb8dag81570a513978">Seeker</content>
 	<content contentuid="h2b3daf7egef57g4286g9247gf5c0b9752757">Character has a new bonus source skill.</content>
 	<content contentuid="h2b8ca96eg181cg4d13gaef5g84d2bb6f88fc">Talent: Unstable</content>
@@ -92,7 +92,7 @@
 	<content contentuid="h2e424a5ag2a45g4c6bg9ca3gd3302a0c31ed">[DEBUG] Enable Enemy Level Limit [&lt;b&gt;Recommended&lt;/b&gt;] - Enemy levels above 35 may crash the game, so enable the limit to prevent leveling above 35. (Enemy Level Limit Currently &lt;font color=&apos;#FF4949&apos;&gt;Disabled&lt;/font&gt;)</content>
 	<content contentuid="h2e45720ag8842g4c73g917fg7e1d2044cb52">Character has a set of new bonus skills.</content>
 	<content contentuid="h2f3fff9cge409g42a9gb29fgff5fc6065221">Summon Chicken Armada</content>
-	<content contentuid="h2f7446a2gcb4ag4ee6gbf5age4425fa2851b">Elite Teslacoil</content>
+	<content contentuid="h2f7446a2gcb4ag4ee6gbf5age4425fa2851b">Elite Necrolectric Infusion</content>
 	<content contentuid="h31a9398eg9fa7g4bb9ga1a0gf17ad0f74f11">&lt;font color=&apos;#B823FF&apos;&gt;Cursed Fire&lt;/font&gt;</content>
 	<content contentuid="h31d032dcg2e05g4d91gb846g125bbed07f42">Elite Bloodbender</content>
 	<content contentuid="h34700b60g0ce9g4882gb6b3gc2e82bf65f77">Source-Hungry Voidwoken Spider</content>
@@ -106,7 +106,7 @@
 	<content contentuid="h37849b58g7693g4058g88e2g9c3e934eedca">&lt;font color=&apos;#FCD203&apos;&gt;Defensive Start&lt;/font&gt;</content>
 	<content contentuid="h3784f369g657fg462dg8381g97d55c3229aa">Character is as quick as a demon.&lt;br&gt;&lt;font color=&apos;#CD1F1F&apos;&gt;With how fast this character can move, they&apos;re almost guaranteed to slip on ice.&lt;/font&gt;</content>
 	<content contentuid="h38491eddg4d2cg40adg96f3g33994e1a96d6">Character will revive once when killed, coming back with 30% health.</content>
-	<content contentuid="h387574fbg27c8g4eafg97bfg00d5ebd19c95">Circuitbreaker</content>
+	<content contentuid="h387574fbg27c8g4eafg97bfg00d5ebd19c95">Electric Infusion</content>
 	<content contentuid="h398b5931gfa52g4a26gadb9gf94bbb7d35e2">Void Empowered</content>
 	<content contentuid="h3ab830begfaf4g4524g9b76g97e55e6b1703">At the start of an encounter, you gain one of two statuses: Cycle of Fire and Water or Cycle of Earth and Air. Cyle of Fire and Water increases Pyro and Hyro by 2. Cyle of Earth and Air increases Geo and Aero by 2. Statuses swap each turn.</content>
 	<content contentuid="h3b229661g43b9g44e1gbaebgc33ab487ce44">Talent: Lone Wolf</content>
@@ -146,7 +146,7 @@
 	<content contentuid="h55545e7ag3290g4520g9adfg6dcd737ca8c4">Source-Hungry Voidwoken Fire Beetle</content>
 	<content contentuid="h56071a05g1af6g4a52gaefagd001861c2c1e">Empowered by Madness</content>
 	<content contentuid="h570287eeg1beeg45efgb7b0g4eb6f2a1f501">Source-Hungry Abyssal Void Devourer</content>
-	<content contentuid="h57740f6ag6754g45bbg8310g304b3f91ab87">Infernoblazer</content>
+	<content contentuid="h57740f6ag6754g45bbg8310g304b3f91ab87">Necrofire Infusion</content>
 	<content contentuid="h57ae12ebg419eg4f53g8780g350576cd63c9">Source-Hungry Voidwoken Hound</content>
 	<content contentuid="h5a190392g61c4g439dgbd08gc227c5e69923">Disable Immunity Upgrades. Includes limited duration elemental immunities like Fire Skin (2 turns), to Immune to Electrifying (3 turns). (Currently Enabled)</content>
 	<content contentuid="h5aa2a41bgbaa4g46d0g9987ge5c19c4b4aa4">Bonus Skillset</content>
@@ -156,14 +156,14 @@
 	<content contentuid="h5b647354gce9dg4797gadc0g78ed927e407c">Vitality Boost</content>
 	<content contentuid="h5bf766cag0d92g4374gac83g28032389d45b">Perseverance Mastery</content>
 	<content contentuid="h5bf7f290gc323g4ad5g97ffgdcc13b20fb5c">Demonic Celerity</content>
-	<content contentuid="h5c8f2c50g5a43g4a6agac29ge06c1f5ad378">Elite Melter</content>
+	<content contentuid="h5c8f2c50g5a43g4a6agac29ge06c1f5ad378">Elite Acid Infusion</content>
 	<content contentuid="h5c8f7ecbg1aecg45f9g8be1gde4a3e95d448">Seeker</content>
 	<content contentuid="h5ca4298dgb15dg4b4cgb7ceg13938b2d93ba">Character is empowered by madness.&lt;br&gt;&lt;font color=&apos;#BB00FF&apos;&gt;When their turn ends, otherwordly tentacles lash out upon, dealing [SkillDamage:Projectile_LLENEMY_ShadowBonus_Madness_Damage] in a [ExtraData:LLENEMY_ShadowBonus_Madness_DamageRadius]m radius.&lt;/font&gt;</content>
-	<content contentuid="h5cee1628g461bg4ac8ga1e9ga90077d376e4">Shadoweaver</content>
+	<content contentuid="h5cee1628g461bg4ac8ga1e9ga90077d376e4">Shadow Infusion</content>
 	<content contentuid="h5e8fe6a0g52c0g4435gaa3fg56987228c7f6">Upgrade Group Settings</content>
 	<content contentuid="h5ec49a5ag418ag4d15ga917g2a406406060f">Reflect 20% of melee damage as shadow damage</content>
 	<content contentuid="h5f654029g8f4ag454egbbd9g42e75c7fdfc1">&lt;font color=&apos;#FF3737&apos; size=&apos;23&apos;&gt;Rage Reduced&lt;/font&gt;</content>
-	<content contentuid="h5f6eb2f9g93d6g4054gae42gd34eb9d7bbf6">Elite Circuitbreaker</content>
+	<content contentuid="h5f6eb2f9g93d6g4054gae42gd34eb9d7bbf6">Elite Electric Infusion</content>
 	<content contentuid="h5ff7ce69gb95ag417ag8a63g5fe67a7fb7f7">Character has a chance to counter-attack when attacked within weapon range.</content>
 	<content contentuid="h623a7ed0gaaacg4c3egacdfg56f3c23a1dec">&lt;font color=&apos;#00FFAA&apos; size=&apos;16&apos;&gt;Will drop &lt;textformat leftmargin=&apos;1&apos; rightmargin=&apos;1&apos;&gt;[1]&lt;/textformat&gt; on death.&lt;/font&gt;</content>
 	<content contentuid="h623a9ed0gaaacg4c3egacdfg56f1c23a1dec">&lt;font color=&apos;#00FFAA&apos; size=&apos;16&apos;&gt;Drops ??? on death.&lt;/font&gt;</content>
@@ -174,7 +174,7 @@
 	<content contentuid="h645270dag6b15g47a8gad4bgfcc34034a77e">Cascader</content>
 	<content contentuid="h6493380bgf46eg46fdga0f8g399ed299b249">[DEBUG] Disable Enemy Level Limit - &lt;b&gt;WARNING&lt;/b&gt; - Enemy levels above 35 may crash the game. Uncap at your own risk! (Level Limit Currently &lt;font color=&apos;#8AFF49&apos;&gt;Enabled&lt;/font&gt;)</content>
 	<content contentuid="h662390f7gfd9eg4a56g95e5g658283cc548a">&lt;font color=&apos;#9B30FF&apos; size=&apos;16&apos;&gt;Grants Treasure of the Shadow Realm (&lt;textformat leftmargin=&apos;1&apos; rightmargin=&apos;1&apos;&gt;[1]&lt;/textformat&gt;) on death.&lt;/font&gt;</content>
-	<content contentuid="h66ec71efgc7eeg47f2g920bgcbe909afcee4">Bloodbender</content>
+	<content contentuid="h66ec71efgc7eeg47f2g920bgcbe909afcee4">Blood Infusion</content>
 	<content contentuid="h6819a20fg7aefg4b55g919bg3dbe4b22cb81">Source-Hungry Voidwoken Statue</content>
 	<content contentuid="h68b2574cgb7d7g46d8g9c8bge4edff270a17">Damage taken increases &lt;font color=&apos;#FF3333&apos; size=&apos;20&apos;&gt;Rage&lt;/font&gt;.&lt;br&gt;At max &lt;font color=&apos;#FF3333&apos; size=&apos;20&apos;&gt;Rage&lt;/font&gt;, character gains &lt;font color=&apos;#43FF22&apos;&gt;+100% critical chance&lt;/font&gt; and &lt;font color=&apos;#DDCC22&apos;&gt;immunity to disabling statuses&lt;/font&gt;.&lt;/font&gt;&lt;br&gt;&lt;font color=&apos;#FF00CC&apos;&gt;Sleeping reduces Rage.&lt;/font&gt;</content>
 	<content contentuid="h69105e78g0e37g4ec7gbaf0g5bb716ed673e">Cold-crawler Voidwoken</content>
@@ -202,15 +202,15 @@
 	<content contentuid="h77e60cc9g0b40g40d9ga0e0g5aad6e789633">Automaton (Reinforcements)</content>
 	<content contentuid="h78190c63gaa74g4228gb184g7cc2e09afb27">Armor Boost</content>
 	<content contentuid="h785703b8g60c4g4264g8810gb50962fa237c">Source-Hungry Voidwoken Statue</content>
-	<content contentuid="h786bb4a3gfc26g4a8dgab1bg0261c03bf617">Warper</content>
+	<content contentuid="h786bb4a3gfc26g4a8dgab1bg0261c03bf617">Warp Infusion</content>
 	<content contentuid="h78f9641bgaf92g4bc4gb27bg759d63a0353f">Venomstriker</content>
 	<content contentuid="h7987a4c4ge79ag4b93gbb98g63644b6ab4ef">Rage (III)</content>
 	<content contentuid="h79f5b874g6cb3g4a99ga1cfg9f472c12036f">Talent: The Pawn</content>
-	<content contentuid="h7a8c8cd6ge3f7g4f9bgb0a3g98c51b7e9066">Elite Firestarter</content>
+	<content contentuid="h7a8c8cd6ge3f7g4f9bgb0a3g98c51b7e9066">Elite Fire Infusion</content>
 	<content contentuid="h7b2278b0g94ccg4e74gab1fg11be249cae5a">Harbinger of Doom</content>
 	<content contentuid="h7b712de8ga474g487bgb2d8gd05c1e1d71c6">Increase Level Modifier +1</content>
 	<content contentuid="h7c05fad0gf6f3g44c6g8a28g7eb8f9bc548c">Loot Generator</content>
-	<content contentuid="h7ce216e9gc9f4g4753gb39dgf42c27bfc01a">Range Boost</content>
+	<content contentuid="h7ce216e9gc9f4g4753gb39dgf42c27bfc01a">Farsight Infusion</content>
 	<content contentuid="h7dc61280g5743g4a60g85c1g8bde41a13abb">Magic Armor Boost</content>
 	<content contentuid="h7e28471fg1959g47e6g9d58g4d4f8ce054f6">Talent: Leech</content>
 	<content contentuid="h7f1bd517g489fg4d87g91b7g9ded2561a976">Incarnate King</content>
@@ -218,7 +218,7 @@
 	<content contentuid="h8074f9d7g5360g49fbgb949gce8a729c7755">Piercing Immunity</content>
 	<content contentuid="h80df5eb1gf3cag41cfgbaecg1c053ae7e83c">Every time character is hit with a melee attack while wielding a shield, they perform a counterattack.&lt;br&gt;Can happen only once per turn. </content>
 	<content contentuid="h80e776e3gfe62g41c6g9bb0g4fc913baf4a4">Vitality Boost</content>
-	<content contentuid="h81f47302g60dag426agb491g72452b206a43">Teslacoil</content>
+	<content contentuid="h81f47302g60dag426agb491g72452b206a43">Necrolectric Infusion</content>
 	<content contentuid="h82758d47g38eeg4cafg9d24gf84edc578577">[GLOBAL] Disable source spells having a chance to lure Voidwoken into battle. (Currently Enabled)</content>
 	<content contentuid="h830f867bgc14cg47c2gb90bg4988469422fc">Upgrade Settings</content>
 	<content contentuid="h8311eb63g89cfg41c1g961cgde31f8d79927"></content>
@@ -273,7 +273,7 @@
 	<content contentuid="h9dbcfa86gbc12g474eg805bg72b4d3e381a3">Character is summoning reinforcements!</content>
 	<content contentuid="h9edeb358g11e7g4372g92e7g8a164695e1e4">Vitality Boost</content>
 	<content contentuid="h9f11e267gfe5bg41c6gad9ag7315b3f9e57b">&lt;font color=&apos;#e6bc53&apos;&gt;Treasure Goblin&apos;s Hoard&lt;/font&gt;</content>
-	<content contentuid="h9f5a8ee9gda2dg4e5bg96fcgb6c8c3f7cc50">Earthcracker</content>
+	<content contentuid="h9f5a8ee9gda2dg4e5bg96fcgb6c8c3f7cc50">Oil Infusion</content>
 	<content contentuid="h9fc5d19eg4f21g4b1cg8c36g56370f2c5bb2">Level Scaling Settings&lt;br&gt;Level Modifier: [LLENEMY_EnemyLeveling_Modifier_374d0f1d-bd61-4736-ad24-b1876a803c2f]&lt;br&gt;Scaled Enemy Level: [LLENEMY_EnemyLeveling_ExpectedLevel_4f2c6435-4ddc-4e2c-90d9-6506acb179ba]</content>
 	<content contentuid="ha0190ec0g350eg4c71g9456g078481ad4128">&lt;font color=&apos;#FF3737&apos; size=&apos;18&apos;&gt;Immune to Movement-Based Damage Statuses&lt;/font&gt;</content>
 	<content contentuid="ha01be380g46ddg41a4g8408g41eb724325d2">Seeker (Disabled)</content>
@@ -282,7 +282,7 @@
 	<content contentuid="ha144654bga205g4a9cgb015g8204f41c45bd">A dark, mysterious substance inches from realms unknown into this curious orb.</content>
 	<content contentuid="ha3ccca0bg576dg4a64gb2edg8819d8f2cdc0">Chicken Infantry</content>
 	<content contentuid="ha4587526ge140g42f9g9a98gc92b537d4209">&lt;font color=&apos;[2]&apos; size=&apos;18&apos;&gt;[1]&lt;/font&gt;</content>
-	<content contentuid="ha4a3d3cfg755ag46deg86d2g4f1060841ee2">Elite Bloodbender</content>
+	<content contentuid="ha4a3d3cfg755ag46deg86d2g4f1060841ee2">Elite Blood Infusion</content>
 	<content contentuid="ha5b5dafeg1804g494dg92a2gcc7af36a3092">&lt;font color=&apos;#7D71D9&apos;&gt;Shocking Rain&lt;/font&gt;</content>
 	<content contentuid="ha5f6b750g5322g4043gac1dgfc82734fde21">Updated settings.</content>
 	<content contentuid="ha78e3050g202cg4650g8df9g2ef53c2463a2">Source-Hungry Slippery Voidling</content>
@@ -308,7 +308,7 @@
 	<content contentuid="hb5ed98e3g8acbg404cgaab9gdf882ba463ce">&lt;font color=&apos;#33FF33&apos; size=&apos;23&apos;&gt;*Stole &lt;/font&gt;&lt;font color=&apos;#C7A758&apos; size=&apos;26&apos;&gt;[1]&lt;/font&gt; &lt;font color=&apos;#33FF33&apos; size=&apos;23&apos;&gt;Gold!*&lt;/font&gt;</content>
 	<content contentuid="hb7ee58faga3c6g41e0gad2age7b6783006dc">Source-Hungry Slippery Voidling</content>
 	<content contentuid="hb8e49700gfb78g4a25gb451g21026ea98f20">Enable Buff Upgrades. Includes upgrade types Weak, Normal, and Elite. (Currently Disabled)</content>
-	<content contentuid="hb992f98bg2019g4e2agb1f6g54d713d3ae4f">Venomstriker</content>
+	<content contentuid="hb992f98bg2019g4e2agb1f6g54d713d3ae4f">Poison Infusion</content>
 	<content contentuid="hba05c2f9g55f0g4b5agb936g5ff5daa6877e">Talent: Master Thief</content>
 	<content contentuid="hba37a70cg63f9g491eg94f0gdf69970ff0e6">Character is fully powered up.</content>
 	<content contentuid="hba3c1e10g095eg4478ga6f5g1619938b7560">Source-Hungry Fluorescent Voidling</content>
@@ -349,7 +349,7 @@
 	<content contentuid="hd58a85d5g8c13g41a7gb3fegd9a7fbdd4e9d">Armor Boost</content>
 	<content contentuid="hd65fa52bge450g485cg8d08g084b1ef35990">Magic Armor Boost</content>
 	<content contentuid="hd71fe8a1g0247g42c5g8bfcg2408029eca06">Teslacoil</content>
-	<content contentuid="hd7df35a9gde1fg4d22g93f6gcb11fba955a0">Cascader</content>
+	<content contentuid="hd7df35a9gde1fg4d22g93f6gcb11fba955a0">Water Infusion</content>
 	<content contentuid="hd80e21d0gc2ffg4df8gbc9fgcdd3f5248980">Decrease Level Modifier -1</content>
 	<content contentuid="hd880d646g45b4g4fa6ga6cbgd746dcd242bd">Elite Firestarter</content>
 	<content contentuid="hd8e442d5ge3fag4dbfg87d1g7403c979c4f7">Perfect Control</content>
@@ -361,7 +361,7 @@
 	<content contentuid="hdc4e3c6dg30acg45c6ga046g0182ff2c70de">Damage Boost</content>
 	<content contentuid="hdcdcd727gc9e6g4548g88dag25a265517c1b">Elite Teslacoil</content>
 	<content contentuid="hdd62da1agf6adg438dg811cg08c9e58e07c9">Talent: Bully</content>
-	<content contentuid="hdee6d2a6gee37g4892g84e8g83a79ebfd9ed">Elite Cascader</content>
+	<content contentuid="hdee6d2a6gee37g4892g84e8g83a79ebfd9ed">Elite Water Infusion</content>
 	<content contentuid="hdef9a124ga8d8g4662ga946g843dccecb5a1">Miscellaneous</content>
 	<content contentuid="hdf051e8cg6151g4f9dgab2bg2f6207ba84a3">Source-Hungry Voidwoken Troll</content>
 	<content contentuid="hdf0ea9a2g01cbg481dg8107g6ee870f53548">Talent: Unstable</content>
@@ -403,7 +403,7 @@
 	<content contentuid="hf7be0d92gdf63g4dabg8284gd4a8752d9d70">Curved like the moon and twice as shiny, this sickle can be used to trim crops or hack limbs.</content>
 	<content contentuid="hf91deedcga4c7g427eg8153g2e347c06d3e8">Shadow Duplicant</content>
 	<content contentuid="hfb82117ag09acg4668ga5ccg081651aff9a9">Character has a [1] chance to counter-attack when attacked within weapon range.</content>
-	<content contentuid="hfd58a531g37f8g4573gbce3gdbac65d61add">Elite Infernoblazer</content>
+	<content contentuid="hfd58a531g37f8g4573gbce3gdbac65d61add">Elite Necrofire Infusion</content>
 	<content contentuid="hfd7e86eag59d8g44ebgb158g019d6de9b814">Armor Boost</content>
 	<content contentuid="hfe5af913g4943g4a55g9572gb009a79c71a2">Vitality Boost</content>
 	<content contentuid="hfe69818cgb11eg4957gbdfbg5dd37b13cadc">Source-Hungry Voidwoken Spider</content>
