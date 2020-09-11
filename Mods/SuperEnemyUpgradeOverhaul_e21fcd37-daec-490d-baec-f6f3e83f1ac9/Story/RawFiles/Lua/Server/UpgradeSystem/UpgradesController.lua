@@ -90,8 +90,9 @@ Upgrades = Ext.Require("Shared/Data/Upgrades/_Init.lua")
 
 function UpgradeSystem.RollForUpgrades(uuid)
 	local successes = 0
+	local character = Ext.GetCharacter(uuid)
 	for id,group in pairs(Upgrades) do
-		if group:Apply(uuid) then
+		if group:Apply(character) then
 			successes = successes + 1
 		end
 	end

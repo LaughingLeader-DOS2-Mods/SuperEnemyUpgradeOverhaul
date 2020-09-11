@@ -3,6 +3,8 @@
 local UpgradeEntry = {
 	Type = "UpgradeEntry",
 	UpgradeType = "Status",
+	---@type UpgradeSubGroup
+	Parent = nil,
 	Value = "",
 	Duration = -1.0,
 	FixedDuration = false,
@@ -13,7 +15,9 @@ local UpgradeEntry = {
 	DefaultDropCount = 4,
 	OnApplied = nil,
 	HardmodeOnly = false,
-	CP = 1
+	CP = 1,
+	---@type fun(target:EsvCharacter, entry:UpgradeEntry):boolean
+	CanApply = nil
 }
 UpgradeEntry.__index = UpgradeEntry
 
@@ -53,14 +57,20 @@ function UpgradeEntry:Create(value, frequency, cp, params)
     return this
 end
 
----@param target string
+---@param target EsvCharacter
 ---@return boolean
 function UpgradeEntry:Apply(target)
+	if self.CanApply ~= nil then
+		if not self.CanApply(target, self) then
+			return false
+		end
+	end
+
 	local applied = false
 	if self.UpgradeType == "Status" then
 		if UpgradeSystem.ApplyStatus(target, self) then
 			self.DropCount = self.DropCount - 1
-			UpgradeSystem.IncreaseChallengePoints(target, self.CP)
+			UpgradeSystem.IncreaseChallengePoints(target.MyGuid, self.CP)
 			applied = true
 		end
 	end

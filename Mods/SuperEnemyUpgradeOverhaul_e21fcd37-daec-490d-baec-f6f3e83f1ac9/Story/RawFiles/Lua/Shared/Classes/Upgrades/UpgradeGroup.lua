@@ -5,7 +5,9 @@ local UpgradeGroup = {
 	ID = "",
 	---@type UpgradeSubGroup[]
 	SubGroups = {},
-	DisabledFlag = ""
+	DisabledFlag = "",
+	---@type fun(target:EsvCharacter, entry:UpgradeGroup):boolean
+	CanApply = nil
 }
 UpgradeGroup.__index = UpgradeGroup
 
@@ -33,16 +35,25 @@ function UpgradeGroup:Add(subgroups)
 	if type(subgroups) == "table" then
 		for i,v in pairs(subgroups) do
 			self.SubGroups[#self.SubGroups+1] = v
+			v.Parent = self
 		end
 	else
 		self.SubGroups[#self.SubGroups+1] = subgroups
+		subgroups.Parent = self
 	end
 end
 
----@param target string
+function UpgradeGroup:CanApplyGroupToTarget(target)
+	if self.CanApply ~= nil then
+		return self.CanApply(target, self)
+	end
+	return true
+end
+
+---@param target EsvCharacter
 ---@return boolean
 function UpgradeGroup:Apply(target)
-	if self.DisabledFlag == "" or GlobalGetFlag(self.DisabledFlag) == 0 then
+	if self.DisabledFlag == "" or GlobalGetFlag(self.DisabledFlag) == 0 and self:CanApplyGroupToTarget(target) then
 		local roll = Ext.Random(0, Vars.UPGRADE_MAX_ROLL)
 		if roll > 0 then
 			local successes = 0

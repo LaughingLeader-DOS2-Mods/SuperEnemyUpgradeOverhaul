@@ -3,6 +3,8 @@
 local UpgradeSubGroup = {
 	Type = "UpgradeSubGroup",
 	ID = "",
+	---@type UpgradeGroup
+	Parent = nil,
 	---@type UpgradeEntry[]
 	Upgrades = {},
 	OnApplied = nil,
@@ -10,7 +12,9 @@ local UpgradeSubGroup = {
 	Frequency = 1,
 	StartRange = 0,
 	EndRange = 0,
-	CP = 1
+	CP = 1,
+	---@type fun(target:EsvCharacter, entry:UpgradeSubGroup):boolean
+	CanApply = nil
 }
 UpgradeSubGroup.__index = UpgradeSubGroup
 
@@ -47,9 +51,11 @@ function UpgradeSubGroup:Add(upgrades)
 	if type(upgrades) == "table" then
 		for i,v in pairs(upgrades) do
 			self.Upgrades[#self.Upgrades+1] = v
+			v.Parent = self
 		end
 	else
 		self.Upgrades[#self.Upgrades+1] = upgrades
+		upgrades.Parent = self
 	end
 end
 
@@ -73,10 +79,15 @@ function UpgradeSubGroup:BuildDropList()
 	return upgrades
 end
 
----@param target string
+---@param target EsvCharacter
 ---@return boolean
 function UpgradeSubGroup:Apply(target)
 	if self.DisabledFlag == "" or GlobalGetFlag(self.DisabledFlag) == 0 then
+		if self.CanApply ~= nil then
+			if not self.CanApply(target, self) then
+				return false
+			end
+		end
 		local roll = Ext.Random(0, Vars.UPGRADE_MAX_ROLL)
 		if roll > 0 then
 			local successes = 0
@@ -86,7 +97,7 @@ function UpgradeSubGroup:Apply(target)
 					Ext.Print(string.format("[EUO] Roll success (%i/%i)! SubGroup(%s:%s) Range(%i-%i)", roll, Vars.UPGRADE_MAX_ROLL, self.ID, v.Value, v.StartRange, v.EndRange))
 					if v:Apply(target) then
 						successes = successes + 1
-						UpgradeSystem.IncreaseChallengePoints(target, self.CP)
+						UpgradeSystem.IncreaseChallengePoints(target.MyGuid, self.CP)
 					end
 				end
 			end
