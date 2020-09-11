@@ -21,7 +21,7 @@ local upgrades = g:Create("Aura", {
 			u:Create("EARTH_IMMUNITY_AURA", 10, 4, {Duration = 6.0}),
 			u:Create("WATER_IMMUNITY_AURA", 10, 4, {Duration = 12.0}),
 			u:Create("FIRE_IMMUNITY_AURA", 10, 4, {Duration = 12.0}),
-			u:Create("EVASION_AURA", 1, 4, {Duration = 6.0}),
+			u:Create("EVASION_AURA", 1, 4, {Duration = 6.0, FixedDuration = true}),
 			u:Create("ELEMENTAL_IMMUNITY_AURA", 1, 6, {Duration = 6.0, FixedDuration = true}),
 			u:Create("PHYSICAL_IMMUNITY_AURA", 1, 4, {Duration = 6.0, FixedDuration = true}),
 		}}),

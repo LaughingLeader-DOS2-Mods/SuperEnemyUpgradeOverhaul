@@ -5,6 +5,7 @@ local UpgradeEntry = {
 	UpgradeType = "Status",
 	Value = "",
 	Duration = -1.0,
+	FixedDuration = false,
 	Frequency = 1,
 	StartRange = 0,
 	EndRange = 0,
