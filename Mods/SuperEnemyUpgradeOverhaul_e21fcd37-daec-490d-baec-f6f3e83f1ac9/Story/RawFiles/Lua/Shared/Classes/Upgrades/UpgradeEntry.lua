@@ -54,18 +54,25 @@ function UpgradeEntry:Create(value, frequency, cp, params)
 end
 
 ---@param target string
----@return UpgradeEntry
+---@return boolean
 function UpgradeEntry:Apply(target)
+	local applied = false
 	if self.UpgradeType == "Status" then
 		if UpgradeSystem.ApplyStatus(target, self) then
 			self.DropCount = self.DropCount - 1
+			UpgradeSystem.IncreaseChallengePoints(target, self.CP)
+			applied = true
 		end
 	end
 	if self.OnApplied ~= nil then
 		if type(self.OnApplied) == "table" then
 			local success = false
 			for i,callback in pairs(self.OnApplied) do
-				if pcall(callback, target, self) then
+				local b,err = xpcall(callback, debug.traceback, target, self)
+				if not b then
+					Ext.PrintError("[EUO] Error invoking OnApplied callback for:", self.Value)
+					Ext.PrintError(err)
+				else
 					success = true
 				end
 			end
@@ -82,6 +89,7 @@ function UpgradeEntry:Apply(target)
 			end
 		end
 	end
+	return applied
 end
 
 ---@type UpgradeEntry

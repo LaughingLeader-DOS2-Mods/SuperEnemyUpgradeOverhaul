@@ -53,6 +53,7 @@ function UpgradeSubGroup:Add(upgrades)
 	end
 end
 
+---@return UpgradeEntry[]
 function UpgradeSubGroup:BuildDropList()
 	local upgrades = {}
 	for i=1,#self.Upgrades do
@@ -73,7 +74,7 @@ function UpgradeSubGroup:BuildDropList()
 end
 
 ---@param target string
----@return UpgradeSubGroup
+---@return boolean
 function UpgradeSubGroup:Apply(target)
 	if self.DisabledFlag == "" or GlobalGetFlag(self.DisabledFlag) == 0 then
 		local roll = Ext.Random(0, Vars.UPGRADE_MAX_ROLL)
@@ -83,8 +84,10 @@ function UpgradeSubGroup:Apply(target)
 			for i,v in pairs(upgrades) do
 				if v.StartRange >= roll and v.EndRange <= roll then
 					Ext.Print(string.format("[EUO] Roll success (%i/%i)! SubGroup(%s:%s) Range(%i-%i)", roll, Vars.UPGRADE_MAX_ROLL, self.ID, v.Value, v.StartRange, v.EndRange))
-					v:Apply(target)
-					successes = successes + 1
+					if v:Apply(target) then
+						successes = successes + 1
+						UpgradeSystem.IncreaseChallengePoints(target, self.CP)
+					end
 				end
 			end
 			if successes > 0 and self.OnApplied ~= nil then
@@ -99,11 +102,13 @@ function UpgradeSubGroup:Apply(target)
 						Ext.PrintError(err)
 					end
 				end
+				return true
 			end
 		else
 			UpgradeSystem.OnRollFailed(target, self.ID)
 		end
 	end
+	return false
 end
 
 ---@type UpgradeSubGroup

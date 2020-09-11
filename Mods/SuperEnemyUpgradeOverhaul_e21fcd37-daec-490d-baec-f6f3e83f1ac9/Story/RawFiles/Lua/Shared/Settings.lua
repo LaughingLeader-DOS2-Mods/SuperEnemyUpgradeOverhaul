@@ -22,6 +22,8 @@ settings.Global:AddFlags({
 settings.Global:AddVariable("LLENEMY_Scaling_LevelModifier", 0)
 settings.Global:AddVariable("Hardmode_MinBonusRolls", 1)
 settings.Global:AddVariable("Hardmode_MaxBonusRolls", 4)
+settings.Global:AddVariable("Hardmode_StatusBonusTurnsMin", 0)
+settings.Global:AddVariable("Hardmode_StatusBonusTurnsMax", 3)
 settings.Global:AddVariable("EnemySkillIgnoreList", {})
 
 ---@param self SettingsData

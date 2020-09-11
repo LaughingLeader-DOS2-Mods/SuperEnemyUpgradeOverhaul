@@ -40,21 +40,29 @@ function UpgradeGroup:Add(subgroups)
 end
 
 ---@param target string
----@return UpgradeGroup
+---@return boolean
 function UpgradeGroup:Apply(target)
 	if self.DisabledFlag == "" or GlobalGetFlag(self.DisabledFlag) == 0 then
 		local roll = Ext.Random(0, Vars.UPGRADE_MAX_ROLL)
 		if roll > 0 then
+			local successes = 0
 			for i,v in pairs(self.SubGroups) do
 				if v.StartRange >= roll and v.EndRange <= roll then
 					Ext.Print(string.format("[EUO] Roll success (%i/%i)! Group(%s:%s) Range(%i-%i)", roll, Vars.UPGRADE_MAX_ROLL, self.ID, v.ID, v.StartRange, v.EndRange))
-					v:Apply(target)
+					if v:Apply(target) then
+						successes = successes + 1
+					end
 				end
+			end
+			if successes > 0 then
+				Ext.Print(string.format("[EUO] Applied (%i) subgroups for group(%s) to target(%s)", successes, self.ID, target))
+				return true
 			end
 		else
 			UpgradeSystem.OnRollFailed(target, self.ID)
 		end
 	end
+	return false
 end
 
 ---@type UpgradeGroup
