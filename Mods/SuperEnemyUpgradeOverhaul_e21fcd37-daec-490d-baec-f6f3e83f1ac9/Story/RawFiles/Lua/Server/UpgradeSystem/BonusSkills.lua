@@ -1,3 +1,5 @@
+local printd = LeaderLib.PrintDebug
+
 local ATTEMPTS_MAX = 40
 
 local ignored_skills = Ext.Require("Server/BonusSkills/IgnoredSkills.lua")
@@ -97,7 +99,7 @@ local function LLENEMY_ParentSkillIsInvalid(skill)
 	local parent = Ext.StatGetAttribute(skill, "Using")
 	if parent ~= nil then
 		if Ext.StatGetAttribute(parent, "SkillType") == nil then
-			Ext.Print("[LLENEMY_BonusSkills.lua] [*ERROR*] Parent skill for '" .. tostring(skill) .. "' does not exist! Skipping!")
+			Ext.Print("[EUO:BonusSkills] [*ERROR*] Parent skill for '" .. tostring(skill) .. "' does not exist! Skipping!")
 			return true
 		end
 	end
@@ -134,7 +136,7 @@ function BuildEnemySkills()
 	for k,skill in pairs(skills) do
 		if redirected_skills[skill] ~= nil then
 			local swapped_skill = redirected_skills[skill]
-			LeaderLib.PrintDebug("[LLENEMY_BonusSkills.lua] Swapping skill '" .. tostring(skill) .. "' for '"..swapped_skill .. "'")
+			printd("[EUO:BonusSkills] Swapping skill '" .. tostring(skill) .. "' for '"..swapped_skill .. "'")
 			skill = swapped_skill
 		end
 		local isenemy = Ext.StatGetAttribute(skill, "IsEnemySkill")
@@ -162,7 +164,7 @@ function BuildEnemySkills()
 							end
 						end
 					else
-						LeaderLib.PrintDebug("[LLENEMY_BonusSkills.lua] Skill '" .. tostring(skill) .. "' is invalid? pcall (".. tostring(b) ..") invalidSkill(".. tostring(invalidSkill)..")")
+						printd("[EUO:BonusSkills] Skill '" .. tostring(skill) .. "' is invalid? pcall (".. tostring(b) ..") invalidSkill(".. tostring(invalidSkill)..")")
 					end
 				end
 			else
@@ -206,7 +208,7 @@ local function GetHighestAbility(enemy)
 	for _,skillgroup in pairs(EnemySkills) do
 		if skillgroup.id ~= "None" then
 			local ability_val = CharacterGetAbility(enemy, tostring(skillgroup.id))
-			---LeaderLib.PrintDebug("[LLENEMY_BonusSkills.lua:GetHighestAbility] ---- Ability (" .. tostring(skillgroup.id) .. ") = ("..tostring(ability_val)..")")
+			---printd("[EUO:BonusSkills:GetHighestAbility] ---- Ability (" .. tostring(skillgroup.id) .. ") = ("..tostring(ability_val)..")")
 			if ability_val ~= nil and ability_val > 0 and ability_val > last_highest_val then
 				last_highest_ability = skillgroup.id
 				last_highest_val = ability_val
@@ -274,7 +276,7 @@ local function GetWeaponRequirement(enemy)
 end
 
 local function GetPreferredSkillGroup(ability,requirement,lastgroup)
-	--LeaderLib.PrintDebug("EnemySkills count: " .. tostring(#EnemySkills) .. " | Looking for " .. ability)
+	--printd("EnemySkills count: " .. tostring(#EnemySkills) .. " | Looking for " .. ability)
 	if ability ~= "None" and (lastgroup == nil or lastgroup ~= nil and lastgroup.id ~= ability) then
 		for k,v in pairs(EnemySkills) do
 			if v.id == ability or v.ability == ability then return v end
@@ -290,12 +292,12 @@ local function GetPreferredSkillGroup(ability,requirement,lastgroup)
 						return rantable
 					end
 					if type(requirement) == "string" and ranskill.requirement == requirement then
-						--LeaderLib.PrintDebug("[LLENEMY_BonusSkills.lua:GetPreferredSkillGroup] ---- Matched skill (" .. tostring(ranskill.id) .. ") to requirement ("..requirement..") for group ("..rantable.id..")")
+						--printd("[EUO:BonusSkills:GetPreferredSkillGroup] ---- Matched skill (" .. tostring(ranskill.id) .. ") to requirement ("..requirement..") for group ("..rantable.id..")")
 						return rantable
 					elseif type(requirement) == "table" then
 						for k,v in pairs(requirement) do
 							if v == ranskill.requirement then
-								--LeaderLib.PrintDebug("[LLENEMY_BonusSkills.lua:GetPreferredSkillGroup] ---- Matched skill (" .. tostring(ranskill.id) .. ") to requirement ("..v..") for group ("..rantable.id..")")
+								--printd("[EUO:BonusSkills:GetPreferredSkillGroup] ---- Matched skill (" .. tostring(ranskill.id) .. ") to requirement ("..v..") for group ("..rantable.id..")")
 								return rantable
 							end
 						end
@@ -323,29 +325,29 @@ local function SkillIsBlockedByUser(skill)
 	return false
 end
 
-function AddBonusSkills(enemy,remainingstr,source_skills_remainingstr)
-	local remaining = math.max(tonumber(remainingstr), 1)
-	local source_skills_remaining = math.max(tonumber(source_skills_remainingstr), 0)
+---@param enemy EsvCharacter
+local function TryAddBonusSkills(enemy,remaining,remainingSourceSkills)
 	local preferred_ability = GetHighestAbility(enemy)
 	local preferred_requirement = GetWeaponRequirement(enemy)
 	--local sp_max = CharacterGetMaxSourcePoints(enemy)
-	local level = CharacterGetLevel(enemy)
+	local level = enemy.Stats.Level
 
-	LeaderLib.PrintDebug("[LLENEMY_BonusSkills.lua] Enemy '" .. tostring(enemy) .. "' preferred Ability (".. tostring(preferred_ability) ..") Requirement (".. tostring(LeaderLib.Common.Dump(preferred_requirement)) ..") Bonus Skills ("..tostring(remaining)..") Source Skills ("..tostring(source_skills_remaining)..").")
+	printd(string.format("[EUO:BonusSkills] Enemy(%s:%s) Ability(%s) Requirement(%s) Remaining(%s)", enemy.DisplayName, enemy.MyGuid, preferred_ability, LeaderLib.Common.Dump(preferred_requirement), remaining))
+
 	local skillgroup = GetPreferredSkillGroup(preferred_ability, preferred_requirement, nil)
 	if skillgroup == nil then
-		LeaderLib.PrintDebug("[LLENEMY_BonusSkills.lua] -- Can't get a skillgroup for Enemy '" .. tostring(enemy) .. "'. Skipping.")
+		printd("[EUO:BonusSkills] -- Can't get a skillgroup for Enemy. Skipping.")
 		return false
 	end
 	local attempts = 0
 	while remaining > 0 and attempts < ATTEMPTS_MAX do
 		local success = false
-		local skill = skillgroup:GetRandomSkill(enemy, preferred_requirement, level, source_skills_remaining)
+		local skill = skillgroup:GetRandomSkill(enemy, preferred_requirement, level, remainingSourceSkills)
 		if skill ~= nil and not SkillIsBlockedByUser(skill) then
 			if skill.sp > 0 then
-				source_skills_remaining = source_skills_remaining - 1
+				remainingSourceSkills = remainingSourceSkills - 1
 			end
-			LeaderLib.PrintDebug("[LLENEMY_BonusSkills.lua] -- Adding skill (".. tostring(skill.id) ..") to enemy '" .. tostring(enemy) .. "'.")
+			printd(string.format("[EUO:BonusSkills] Enemy(%s:%s) gained skill (%s)", enemy.DisplayName, enemy.MyGuid, skill.id))
 			CharacterAddSkill(enemy, skill.id, 0)
 			success = true
 		end
@@ -364,7 +366,27 @@ function AddBonusSkills(enemy,remainingstr,source_skills_remainingstr)
 		attempts = attempts + 1
 	end
 	if attempts >= ATTEMPTS_MAX then
-		LeaderLib.PrintDebug("[LLENEMY_BonusSkills.lua] Enemy '" .. tostring(enemy) .. "' hit the maximum amount of random attempts when getting a skill from group ("..skillgroup.id..").")
+		printd(string.format("[EUO:BonusSkills] Enemy(%s:%s) hit the maximum amount of random attempts when getting a skill from group (%s)", enemy.DisplayName, enemy.MyGuid, skillgroup.id))
+	end
+end
+
+---@param target EsvCharacter
+function AddBonusSkills(target)
+	local min = Settings.Global.Variables.BonusSkills_Min.Value or 0
+	local max = Settings.Global.Variables.BonusSkills_Min.Value or 3
+
+	local totalBonusSkills = Ext.Random(min, max)
+
+	local totalSourceSkills = 0
+	local canUseSource = not Settings.Global.Flags.LLENEMY_SourceBonusSkillsDisabled.Enabled and (target:HasTag("MAGISTER") == false or IsBoss(target.MyGuid) == 1)
+	if canUseSource and CharacterGetMaxSourcePoints(target.MyGuid) > 0 then
+		totalSourceSkills = Ext.Random(0,1)
+	end
+
+	if totalBonusSkills > 0 then
+		for i=totalBonusSkills,0,1 do
+			TryAddBonusSkills(target, i, totalSourceSkills)
+		end
 	end
 end
 
