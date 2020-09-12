@@ -6,42 +6,28 @@ KBSECTION
 PROC
 LLENEMY_Origins_InitRegistration("FJ_FortJoy_Main")
 THEN
-DB_LLENEMY_Duplication_Blacklist(S_FTJ_Torturer_Golem_01_584db8ce-8dcf-4906-bc6f-e51eb057de08);
-DB_LLENEMY_Duplication_Blacklist(S_FTJ_Torturer_Golem_02_aff8be39-58b0-4bff-8fa6-7cf501b5060b);
-DB_LLENEMY_Duplication_Blacklist(S_FTJ_Torturer_Golem_03_d32d32b2-c05b-4acd-944c-f2b802ec7234);
+LLENEMY_Duplication_AddToBlacklist(S_FTJ_Torturer_Golem_01_584db8ce-8dcf-4906-bc6f-e51eb057de08);
+LLENEMY_Duplication_AddToBlacklist(S_FTJ_Torturer_Golem_02_aff8be39-58b0-4bff-8fa6-7cf501b5060b);
+LLENEMY_Duplication_AddToBlacklist(S_FTJ_Torturer_Golem_03_d32d32b2-c05b-4acd-944c-f2b802ec7234);
 
-//REGION UPDATES
-//Wrong level name
-PROC
-LeaderUpdater_ModUpdated("SuperEnemyUpgradeOverhaul", "LaughingLeader", (STRING)_OldVersion, (STRING)_NewVersion)
-AND
-LeaderLib_StringExt_QRY_VersionIsLessThan(_OldVersion, 1,5,0,0)
-AND
-DB_CurrentLevel("FJ_FortJoy_Main")
+IF
+DB_SW_IllusionistsIllusions(_Char)
 THEN
-LLENEMY_Elites_ClearUpgradesForLevel("FJ_FortJoy");
-LLENEMY_Elites_InitLevel("FJ_FortJoy_Main");
-//END_REGION
+LLENEMY_Duplication_AddToBlacklist(_Char);
 
-//REGION BLOCK_DUPLICATION
-// Preventing shadow clones on Trompdoy illusions
 PROC
-LLENEMY_Upgrades_CanApplyUpgrade((CHARACTERGUID)_Char, "Duplication", (STRING)_Type, (STRING)_Status, (REAL)_Duration)
-AND
-NOT DB_LLENEMY_Origins_DuplicationBlocked(_Char)
+LLENEMY_Origins_InitRegistration("FJ_FortJoy_Main")
 AND
 DB_SW_IllusionistsIllusions((CHARACTERGUID)_Char)
 THEN
-DB_LLENEMY_Origins_DuplicationBlocked(_Char);
-LLENEMY_Upgrades_RedirectUpgradeToGroupType(_Char, "Duplication", _Type, _Status, "Buffs", "Normal");
-//END_REGION
+LLENEMY_Duplication_AddToBlacklist(_Char);
 
 //REGION IGNORED
 PROC
 LLENEMY_Origins_InitRegistration("FJ_FortJoy_Main")
 THEN
 // Magister Atusa - She ded
-DB_LLENEMY_IgnoredCharacters((CHARACTERGUID)S_FTJ_Florence_c272a37a-85ea-438f-9871-1551ef45d338);
+LLENEMY_Upgrades_AddToIgnoreList((CHARACTERGUID)S_FTJ_Florence_c272a37a-85ea-438f-9871-1551ef45d338);
 //END_REGION
 
 //REGION CUSTOM
@@ -70,15 +56,15 @@ LLENEMY_Elites_AddUpgradeChance("FJ_FortJoy_Main", S_FTJ_HighPriest_2a09f30c-0a3
 LLENEMY_Elites_AddUpgradeChance("FJ_FortJoy_Main", S_FTJ_SW_IllusionistFinal_1a3b44d4-0ba4-4289-b158-a54111b83e1d, "Bonus", "Infusion_Elite");
 
 PROC
-LLENEMY_Elites_RegisterExtenderUpgrades("FJ_FortJoy_Main")
+LLENEMY_Elites_InitLevel("FJ_FortJoy_Main")
 THEN
-LLENEMY_Elites_AddGuaranteedUpgrade("FJ_FortJoy_Main", S_GLO_Alexandar_03e6345f-1bd3-403c-80e2-a443a74f6349, "LLENEMY_BONUSSKILLS_SOURCE");
-LLENEMY_Elites_AddGuaranteedUpgrade("FJ_FortJoy_Main", S_GLO_Alexandar_03e6345f-1bd3-403c-80e2-a443a74f6349, "LLENEMY_BONUSSKILLS_SET_NORMAL");
-LLENEMY_Elites_AddGuaranteedUpgrade("FJ_FortJoy_Main", S_GLO_Dallis_69b951dc-55a4-44b8-a2d5-5efedbd7d572, "LLENEMY_BONUSSKILLS_SET_ELITE");
-LLENEMY_Elites_AddGuaranteedUpgrade("FJ_FortJoy_Main", S_FTJ_SW_Witch_4014aee0-56f1-47e0-a8eb-89c4b5a1da83, "LLENEMY_BONUSSKILLS_SOURCE");
-LLENEMY_Elites_AddGuaranteedUpgrade("FJ_FortJoy_Main", S_FTJ_SW_IllusionistFinal_1a3b44d4-0ba4-4289-b158-a54111b83e1d, "LLENEMY_BONUSSKILLS_SOURCE");
-LLENEMY_Elites_AddGuaranteedUpgrade("FJ_FortJoy_Main", S_FTJ_BruteAssassin_d2df547d-852e-4644-ac6c-db99dacc539b, "LLENEMY_BONUSSKILLS_SET_NORMAL");
-LLENEMY_Elites_AddGuaranteedUpgrade("FJ_FortJoy_Main", S_FTJ_SW_PurgedDragon_c099caa6-1938-4b4f-9365-d0881c611e71, "LLENEMY_BONUSSKILLS_SOURCE");
+LLENEMY_Elites_AddGuaranteedUpgrade("FJ_FortJoy_Main", S_GLO_Alexandar_03e6345f-1bd3-403c-80e2-a443a74f6349);
+LLENEMY_Elites_AddGuaranteedUpgrade("FJ_FortJoy_Main", S_GLO_Alexandar_03e6345f-1bd3-403c-80e2-a443a74f6349);
+LLENEMY_Elites_AddGuaranteedUpgrade("FJ_FortJoy_Main", S_GLO_Dallis_69b951dc-55a4-44b8-a2d5-5efedbd7d572);
+LLENEMY_Elites_AddGuaranteedUpgrade("FJ_FortJoy_Main", S_FTJ_SW_Witch_4014aee0-56f1-47e0-a8eb-89c4b5a1da83);
+LLENEMY_Elites_AddGuaranteedUpgrade("FJ_FortJoy_Main", S_FTJ_SW_IllusionistFinal_1a3b44d4-0ba4-4289-b158-a54111b83e1d);
+LLENEMY_Elites_AddGuaranteedUpgrade("FJ_FortJoy_Main", S_FTJ_BruteAssassin_d2df547d-852e-4644-ac6c-db99dacc539b);
+LLENEMY_Elites_AddGuaranteedUpgrade("FJ_FortJoy_Main", S_FTJ_SW_PurgedDragon_c099caa6-1938-4b4f-9365-d0881c611e71);
 
 PROC
 LLENEMY_Elites_RegisterDivineTalentUpgrades("FJ_FortJoy_Main")

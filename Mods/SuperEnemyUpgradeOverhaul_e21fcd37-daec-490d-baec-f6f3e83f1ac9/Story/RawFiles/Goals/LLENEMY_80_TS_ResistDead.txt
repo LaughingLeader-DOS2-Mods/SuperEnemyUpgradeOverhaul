@@ -34,10 +34,7 @@ THEN
 NOT DB_LLENEMY_Talents_Temp_ReviveNext(_Enemy, _Amount);
 PlayEffect(_Enemy, "LLENEMY_FX_Status_ComebackKid_Resurrect_01");
 CharacterSetHitpointsPercentage(_Enemy, _Percentage);
-//Reroll buffs! Let the evil floowwwww.
 LeaderLib_ToggleScripts_DisableScriptForObject(_Enemy, "LLENEMY_ResistDead_Active", "SuperEnemyUpgradeOverhaul");
-LLENEMY_Upgrades_ClearFlags(_Enemy);
-LLENEMY_Upgrades_RollForUpgrades(_Enemy);
 
 EXITSECTION
 SysClear("DB_LLENEMY_Talents_Temp_ReviveNext", 2);

@@ -20,11 +20,11 @@ LLENEMY_Elites_AddUpgradeChance("RC_Main", S_RC_GY_PurgedDaughter_70f3182f-3c18-
 LLENEMY_Elites_AddUpgradeChance("RC_Main", S_RC_DW_Tavern_ArenaChamp_aa7f67da-aece-4487-83cf-96f10a018ed1);
 
 PROC
-LLENEMY_Elites_RegisterExtenderUpgrades("RC_Main")
+LLENEMY_Elites_InitLevel("RC_Main")
 THEN
-LLENEMY_Elites_AddGuaranteedUpgrade("RC_Main", S_RC_DW_SourceLich_Stronger_2c8d84ef-bfd0-4ff7-93fe-b3728d05ee87, "LLENEMY_BONUSSKILLS_SET_ELITE");
-LLENEMY_Elites_AddGuaranteedUpgrade("RC_Main", S_RC_DW_SourceLich_Stronger_2c8d84ef-bfd0-4ff7-93fe-b3728d05ee87, "LLENEMY_BONUSSKILLS_SOURCE");
-LLENEMY_Elites_AddGuaranteedUpgrade("RC_Main", S_RC_WH_BottledWish_Djinn_838283f5-a45f-4892-a4ac-fae2f99d4de0, "LLENEMY_BONUSSKILLS_SOURCE");
+LLENEMY_Elites_AddGuaranteedUpgrade("RC_Main", S_RC_DW_SourceLich_Stronger_2c8d84ef-bfd0-4ff7-93fe-b3728d05ee87);
+LLENEMY_Elites_AddGuaranteedUpgrade("RC_Main", S_RC_DW_SourceLich_Stronger_2c8d84ef-bfd0-4ff7-93fe-b3728d05ee87);
+LLENEMY_Elites_AddGuaranteedUpgrade("RC_Main", S_RC_WH_BottledWish_Djinn_838283f5-a45f-4892-a4ac-fae2f99d4de0);
 
 PROC
 LLENEMY_Elites_RegisterDivineTalentUpgrades("RC_Main")

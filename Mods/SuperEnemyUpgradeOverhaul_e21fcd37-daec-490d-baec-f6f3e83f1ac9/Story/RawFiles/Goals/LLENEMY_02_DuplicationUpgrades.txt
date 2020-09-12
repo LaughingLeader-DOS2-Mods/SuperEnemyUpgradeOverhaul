@@ -3,6 +3,18 @@ SubGoalCombiner SGC_AND
 INITSECTION
 KBSECTION
 
+PROC
+LLENEMY_Duplication_AddToBlacklist((CHARACTERGUID)_Char)
+THEN
+DB_LLENEMY_Duplication_Blacklist(_Char);
+
+QRY
+LLENEMY_Duplication_QRY_CanDuplicate((CHARACTERGUID)_Char)
+AND
+NOT DB_LLENEMY_Duplication_Blacklist(_Char)
+THEN
+DB_NOOP(1);
+
 //REGION COPY_STATUSES
 QRY
 LLENEMY_Duplication_QRY_IgnoreStatus((CHARACTERGUID)_Dupe, (STRING)_Status, (REAL)_Duration)

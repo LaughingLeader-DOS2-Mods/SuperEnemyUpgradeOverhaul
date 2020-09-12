@@ -3,6 +3,30 @@ SubGoalCombiner SGC_AND
 INITSECTION
 KBSECTION
 
+QRY
+LLENEMY_Upgrades_QRY_CanAddUpgrades((CHARACTERGUID)_Char)
+AND
+NOT DB_LLENEMY_IgnoredCharacters(_Char)
+AND
+CharacterIsDead(_Char, 0)
+AND
+NOT LeaderLib_Helper_QRY_IgnoreCharacter(_Char)
+AND
+NOT LeaderLib_Helper_QRY_CharacterIsPlayer(_Char)
+AND
+CharacterIsSummon(_Char, 0)
+AND
+IsTagged(_Char, "LLENEMY_UpgradesDisabled", 0)
+AND
+ObjectGetFlag(_Char, "LLENEMY_UpgradesAdded", 0)
+THEN
+DB_NOOP(1);
+
+PROC
+LLENEMY_Upgrades_AddToIgnoreList((CHARACTERGUID)_Char)
+THEN
+DB_LLENEMY_IgnoredCharacters(_Char);
+
 PROC
 LLENEMY_Upgrades_StoreUpgrade((CHARACTERGUID)_Char, (STRING)_Upgrade, (STRING)_Type, (REAL)_Duration)
 THEN
@@ -15,6 +39,17 @@ DB_LLENEMY_Upgrades_RolledUpgrades(_Char, _Upgrade, _Type, _Duration)
 THEN
 DB_NOOP(1);
 
+QRY
+LLENEMY_QRY_CanAddBonusSkills((CHARACTERGUID)_Char)
+AND
+NOT DB_LLENEMY_DoNotAddSkills(_Char)
+THEN
+DB_NOOP(1);
+
+PROC
+LLENEMY_AddToBonusSkillIgnoreList((CHARACTERGUID)_Char)
+THEN
+DB_LLENEMY_DoNotAddSkills(_Char);
 EXITSECTION
 
 ENDEXITSECTION

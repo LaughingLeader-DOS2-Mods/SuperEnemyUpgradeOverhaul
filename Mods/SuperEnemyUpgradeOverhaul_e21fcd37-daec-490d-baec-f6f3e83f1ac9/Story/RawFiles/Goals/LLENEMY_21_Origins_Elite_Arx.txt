@@ -14,20 +14,6 @@ LLENEMY_Upgrades_RedirectUpgrade(S_ARX_DoctorsHouse_TheDoctor_83083470-c543-45b3
 */
 //END_REGION
 
-//REGION CUSTOM
-/*
-PROC
-LLENEMY_Elites_InitLevel("Arx_Main")
-THEN
-DB_NOOP(1);
-*/
-PROC
-LLENEMY_Elites_RegisterExtenderUpgrades("Arx_Main")
-THEN
-LLENEMY_Elites_AddGuaranteedUpgrade("Arx_Main", S_ARX_DoctorsHouse_TheDoctor_83083470-c543-45b3-ac8a-108df0daca8d, "LLENEMY_BONUSSKILLS_SOURCE");
-LLENEMY_Elites_AddGuaranteedUpgrade("Arx_Main", S_ARX_DoctorsHouse_TheDoctor_83083470-c543-45b3-ac8a-108df0daca8d, "LLENEMY_BONUSSKILLS_SET_ELITE");
-//END_REGION
-
 //REGION AUTO_GENERATED
 PROC
 LLENEMY_Elites_InitLevel("Arx_Main")

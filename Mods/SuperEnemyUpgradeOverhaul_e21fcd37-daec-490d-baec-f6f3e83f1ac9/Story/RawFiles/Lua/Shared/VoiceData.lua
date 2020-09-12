@@ -1,5 +1,5 @@
 
-local soundsPath = "Mods/EnemyUpgradeOverhaul_046aafd8-ba66-4b37-adfb-519c1a5d04d7/Localization/English/Soundbanks/"
+local soundsPath = "Mods/SuperEnemyUpgradeOverhaul_e21fcd37-daec-490d-baec-f6f3e83f1ac9/Localization/English/Soundbanks/"
 local DEFAULT_PRIORITY = 0--"P1_StoryDialog"
 
 VoiceMetaData = {

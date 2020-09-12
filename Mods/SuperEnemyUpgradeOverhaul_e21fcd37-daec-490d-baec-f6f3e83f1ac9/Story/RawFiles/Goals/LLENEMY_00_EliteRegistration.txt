@@ -79,13 +79,6 @@ DB_LLENEMY_Elites_InitializedElitesForLevel(_Level);
 LeaderLog_Log("DEBUG", "[LLENEMY:RegionStarted] Registering elites for level [",_Level,"]");
 LLENEMY_Elites_InitLevel(_Level);
 
-PROC
-LLENEMY_Elites_InitLevel((STRING)_Level)
-AND
-LeaderLib_QRY_ExtenderIsActive()
-THEN
-LLENEMY_Elites_RegisterExtenderUpgrades(_Level);
-
 //Guaranteed Divine Talents
 PROC
 LLENEMY_Elites_InitLevel((STRING)_Level)

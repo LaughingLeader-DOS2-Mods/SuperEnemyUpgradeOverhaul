@@ -97,22 +97,34 @@ end
 ---@type table<string, UpgradeGroup>
 Upgrades = Ext.Require("Shared/Data/Upgrades/_Init.lua")
 
+local function IgnoreCharacter(uuid)
+	if Osi.LLENEMY_Upgrades_QRY_CanAddUpgrades(uuid) == true then
+		return false
+	end
+	return true
+end
+
 function UpgradeSystem.RollForUpgrades(uuid)
-	local successes = 0
-	local character = Ext.GetCharacter(uuid)
-	for id,group in pairs(Upgrades) do
-		if group:Apply(character) then
-			successes = successes + 1
+	if not IgnoreCharacter(uuid) then
+		local successes = 0
+		local character = Ext.GetCharacter(uuid)
+		for id,group in pairs(Upgrades) do
+			if group:Apply(character) then
+				successes = successes + 1
+			end
 		end
-	end
 
-	UpgradeSystem.AddBonusSkills(character)
-	if successes > 0 then
-		UpgradeSystem.SaveChallengePoints(uuid)
-		UpgradeInfo_ApplyInfoStatus(uuid)
+		if Osi.LLENEMY_QRY_CanAddBonusSkills(uuid) == true then
+			UpgradeSystem.AddBonusSkills(character)
+		end
+		
+		if successes > 0 then
+			UpgradeSystem.SaveChallengePoints(uuid)
+			UpgradeInfo_ApplyInfoStatus(uuid)
+		end
+	
+		Duplication.StartDuplicating(character)
 	end
-
-	Duplication.StartDuplicating(character)
 end
 
 function OnDoubleDipApplied(uuid)

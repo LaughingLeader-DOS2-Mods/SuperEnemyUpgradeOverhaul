@@ -22,12 +22,12 @@ LLENEMY_Elites_AddUpgradeChance("CoS_Main", S_CoS_Temples_BlackRingHub_Captain_7
 /*LLENEMY_Elites_AddUpgradeChance("CoS_Main", S_CoS_Temples_Dwarf_KnightOfDuna_Ghost_6de0b387-a8f5-471b-9906-12d91724770c);*/
 
 PROC
-LLENEMY_Elites_RegisterExtenderUpgrades("CoS_Main")
+LLENEMY_Elites_InitLevel("CoS_Main")
 THEN
-LLENEMY_Elites_AddGuaranteedUpgrade("CoS_Main", S_CoS_MonolithBoss_Char_c963ad5d-72f7-4c0e-8f08-910ffe11a0a3, "LLENEMY_BONUSSKILLS_SOURCE");
-LLENEMY_Elites_AddGuaranteedUpgrade("CoS_Main", S_CoS_MonolithBoss_Char_c963ad5d-72f7-4c0e-8f08-910ffe11a0a3, "LLENEMY_BONUSSKILLS_SET_ELITE");
-LLENEMY_Elites_AddGuaranteedUpgrade("CoS_Main", S_CoS_Temples_SallowMan_d07e0f6b-c473-47f2-9d1c-e1f6f0ef61af, "LLENEMY_BONUSSKILLS_SOURCE");
-LLENEMY_Elites_AddGuaranteedUpgrade("CoS_Main", S_CoS_Temples_SallowMan_d07e0f6b-c473-47f2-9d1c-e1f6f0ef61af, "LLENEMY_BONUSSKILLS_SET_NORMAL");
+LLENEMY_Elites_AddGuaranteedUpgrade("CoS_Main", S_CoS_MonolithBoss_Char_c963ad5d-72f7-4c0e-8f08-910ffe11a0a3);
+LLENEMY_Elites_AddGuaranteedUpgrade("CoS_Main", S_CoS_MonolithBoss_Char_c963ad5d-72f7-4c0e-8f08-910ffe11a0a3);
+LLENEMY_Elites_AddGuaranteedUpgrade("CoS_Main", S_CoS_Temples_SallowMan_d07e0f6b-c473-47f2-9d1c-e1f6f0ef61af);
+LLENEMY_Elites_AddGuaranteedUpgrade("CoS_Main", S_CoS_Temples_SallowMan_d07e0f6b-c473-47f2-9d1c-e1f6f0ef61af);
 LLENEMY_Elites_AddGuaranteedUpgrade("CoS_Main", S_GLO_Academy_TempleAutomation_681a2c86-0ff0-4622-a6fc-1ee085d38178, "LLENEMY_SUMMON_AUTOMATON");
 //END_REGION
 

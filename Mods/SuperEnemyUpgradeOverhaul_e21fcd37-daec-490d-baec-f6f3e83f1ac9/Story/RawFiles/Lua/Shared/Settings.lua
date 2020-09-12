@@ -1,6 +1,6 @@
 ---@type ModSettings
 local ModSettings = LeaderLib.Classes.ModSettingsClasses.ModSettings
-local settings = ModSettings:Create("046aafd8-ba66-4b37-adfb-519c1a5d04d7")
+local settings = ModSettings:Create("e21fcd37-daec-490d-baec-f6f3e83f1ac9")
 settings.Global:AddFlags({
 	"LLENEMY_Debug_LevelCapDisabled",
 	"LLENEMY_EnemyLevelingEnabled",
