@@ -614,7 +614,7 @@ ItemIsDestroyed(_Item, 0)
 AND
 GetUUID(_Item, _UUID)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "DestroyEmptyContainer", _UUID);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "DestroyEmptyContainer", _UUID);
 
 IF
 StoryEvent((ITEMGUID)_Item, "LLENEMY_EmptyContainer_CheckContents")
@@ -634,7 +634,7 @@ ItemIsDestroyed(_Item, 0)
 AND
 GetUUID(_Item, _UUID)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "DestroyEmptyContainer", _UUID);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "DestroyEmptyContainer", _UUID);
 */
 
 IF
@@ -668,21 +668,21 @@ StoryEvent((ITEMGUID)_Container, "LLENEMY_Duplication_CorruptShadowRewards")
 AND
 GetUUID(_Container, _UUID)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "ShadowCorruptContainerItems", _UUID);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "ShadowCorruptContainerItems", _UUID);
 
 IF
 StoryEvent((ITEMGUID)_Container, "LLENEMY_ShadowOrb_CheckEmpty")
 AND
 GetUUID(_Container, _UUID)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "CheckEmptyShadowOrb", _UUID);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "CheckEmptyShadowOrb", _UUID);
 
 IF
 StoryEvent((ITEMGUID)_Item, "Iterators_LLENEMY_CorruptItem")
 AND
 GetUUID(_Item, _UUID)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "ShadowCorruptItem", _UUID);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "ShadowCorruptItem", _UUID);
 */
 //END_REGION
 

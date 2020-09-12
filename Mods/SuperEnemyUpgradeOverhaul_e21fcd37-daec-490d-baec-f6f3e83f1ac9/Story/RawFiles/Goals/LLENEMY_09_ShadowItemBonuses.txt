@@ -9,14 +9,14 @@ ItemEquipped(_Item, _Char)
 AND
 IsTagged(_Item, "LLENEMY_ShadowItem", 1)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "ShadowItem_OnEquipped", (STRING)_Char, (STRING)_Item);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "ShadowItem_OnEquipped", (STRING)_Char, (STRING)_Item);
 
 IF
 ItemUnEquipped(_Item, _Char)
 AND
 IsTagged(_Item, "LLENEMY_ShadowItem", 1)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "ShadowItem_OnUnEquipped", (STRING)_Char, (STRING)_Item);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "ShadowItem_OnUnEquipped", (STRING)_Char, (STRING)_Item);
 */
 
 IF
@@ -24,7 +24,7 @@ CharacterStatusApplied(_Char, "LLENEMY_SHADOWBONUS_MADNESS_TICK", _)
 AND
 GetUUID(_Char, _UUID)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "ShadowItem_OnMadnessTick", _UUID);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "ShadowItem_OnMadnessTick", _UUID);
 
 IF
 CharacterCharacterEvent(_Source, _Char, "LLENEMY_Madness_TentacleDamage")
@@ -33,7 +33,7 @@ GetUUID(_Char, _UUID)
 AND
 GetUUID(_Source, _SourceUUID)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "ShadowItem_ApplyMadnessTentacleDamage", _SourceUUID, _UUID);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "ShadowItem_ApplyMadnessTentacleDamage", _SourceUUID, _UUID);
 EXITSECTION
 ENDEXITSECTION
 ParentTargetEdge "LaughingLeader_EnemyUpgradeOverhaul"

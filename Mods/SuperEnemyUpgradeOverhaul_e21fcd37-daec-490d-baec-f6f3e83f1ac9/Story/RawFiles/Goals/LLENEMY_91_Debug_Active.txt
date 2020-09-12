@@ -56,7 +56,7 @@ LeaderLog_Log("DEBUG", "[LLENEMY_08_TreasureGoblins:TreasureFound] Get position 
 IF
 StoryEvent((ITEMGUID)_Item, "LLENEMY_TreasureGoblins_TreasureFound")
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "Debug_TraceItemOwnership", (STRING)_Item);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "Debug_TraceItemOwnership", (STRING)_Item);
 */
 
 //END_REGION
@@ -114,7 +114,7 @@ AND
 String(_Target, _CharStr)
 THEN
 /* [OSITOOLS_ONLY]
-NRD_ModCall("EnemyUpgradeOverhaul", "TraceCharacterStats", _CharStr);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "TraceCharacterStats", _CharStr);
 */
 SetVarFixedString(_Target, "LLENEMY_ApplyStats_Stats", _Stats);
 SetStoryEvent(_Target, "LLENEMY_ApplyStats");
@@ -130,7 +130,7 @@ StoryEvent((CHARACTERGUID)_Char, "LLENEMY_ApplyStats_Done")
 AND
 String(_Char, _CharStr)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "TraceCharacterStats", _CharStr);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "TraceCharacterStats", _CharStr);
 */
 
 //REGION CP_DEBUG
@@ -176,7 +176,7 @@ GetTextEventParamString(1, _Channel)
 AND
 GetTextEventParamString(2, _Payload)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "TestNetMessage", _Channel, _Payload);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "TestNetMessage", _Channel, _Payload);
 
 IF
 TextEventSet("llenemy_luareset")
@@ -231,7 +231,7 @@ NRD_ModCall("LeaderLib", "Log", _Msg6, ") Group(",_Group,") Type(",_Type,") Hard
 IF
 TextEventSet("llenemy_dumptables")
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "DumpUpgradeTables");
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "DumpUpgradeTables");
 */
 
 IF
@@ -243,13 +243,13 @@ SetStoryEvent(CHARACTERGUID_Lizards_Hero_Male_Undead_000_09478f32-8fbf-4502-a59d
 IF
 TextEventSet("llenemy_xptest")
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "GrantExperience", "Lizards_Hero_Male_Undead_000_09478f32-8fbf-4502-a59d-011e4d1b3d4d");
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "GrantExperience", "Lizards_Hero_Male_Undead_000_09478f32-8fbf-4502-a59d-011e4d1b3d4d");
 
 IF
 TextEventSet("llenemy_rescale")
 THEN
 NRD_DebugLog("[LLENEMY_ExperienceScaling:llenemy_rescale] Trying to reroll character level scaling.");
-NRD_ModCall("EnemyUpgradeOverhaul", "Debug_RerollLevel", "09478f32-8fbf-4502-a59d-011e4d1b3d4d");
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "Debug_RerollLevel", "09478f32-8fbf-4502-a59d-011e4d1b3d4d");
 LeaderLib_Timers_StartObjectTimer(09478f32-8fbf-4502-a59d-011e4d1b3d4d, 1000, "Timers_LLENEMY_Debug_LevelUp", "LLENEMY_Debug_LevelUp");
 */
 

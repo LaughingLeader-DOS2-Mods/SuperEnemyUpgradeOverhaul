@@ -26,12 +26,12 @@ StoryEvent((CHARACTERGUID)_Char, "LLENEMY_SetCPTag")
 AND
 GetUUID(_Char, _UUID)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "SetChallengePointsTag", _UUID);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "SetChallengePointsTag", _UUID);
 
 IF
 TimerFinished("Timers_LLENEMY_SyncHighestLoremaster")
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "SetHighestPartyLoremaster");
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "SetHighestPartyLoremaster");
 */
 //END_REGION
 

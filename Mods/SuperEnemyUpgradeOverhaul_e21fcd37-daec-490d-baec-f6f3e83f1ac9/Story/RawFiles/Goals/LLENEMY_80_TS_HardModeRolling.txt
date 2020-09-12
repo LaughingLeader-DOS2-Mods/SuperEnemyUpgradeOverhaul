@@ -50,7 +50,7 @@ LLENEMY_Upgrades_OnRollingDone((CHARACTERGUID)_Char, (STRING)_Region)
 AND
 GlobalGetFlag("LLENEMY_HardModeRollingDisabled", 0)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "HM_RollAdditionalUpgrades", (STRING)_Char);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "HM_RollAdditionalUpgrades", (STRING)_Char);
 */
 
 //Cleanup

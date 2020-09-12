@@ -57,7 +57,7 @@ DB_NOOP(1);
 PROC
 LLENEMY_HardMode_SetupRecruiter((STRING)_Region)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "SetupRecruiter", _Region);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "SetupRecruiter", _Region);
 SysActivateGoal("GLO_LVHub_Henchmen");
 */
 //END_REGION

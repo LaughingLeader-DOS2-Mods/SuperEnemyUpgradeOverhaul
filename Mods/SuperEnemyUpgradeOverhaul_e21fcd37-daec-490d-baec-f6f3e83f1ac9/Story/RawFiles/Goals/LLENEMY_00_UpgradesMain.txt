@@ -323,7 +323,7 @@ CharacterIsDead(_Char, 0)
 AND
 GetUUID(_Char, _UUID)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "UpgradeInfo_ApplyInfoStatus", _UUID);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "UpgradeInfo_ApplyInfoStatus", _UUID);
 */
 //END_REGION
 

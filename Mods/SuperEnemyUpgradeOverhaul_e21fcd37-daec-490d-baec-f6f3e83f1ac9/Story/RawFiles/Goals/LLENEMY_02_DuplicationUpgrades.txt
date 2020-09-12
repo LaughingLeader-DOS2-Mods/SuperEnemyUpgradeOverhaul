@@ -59,14 +59,14 @@ AND
 GetUUID(_Dupe, _UUID)
 THEN
 CharacterLevelUpTo(_Dupe, _Level);
-NRD_ModCall("EnemyUpgradeOverhaul", "ClearGain", _UUID);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "ClearGain", _UUID);
 
 IF
 StoryEvent((CHARACTERGUID)_Dupe, "LLENEMY_ApplyStats_Done")
 AND
 GetUUID(_Dupe, _UUID)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "ClearGain", _UUID);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "ClearGain", _UUID);
 */
 //END_REGION
 
@@ -172,7 +172,7 @@ CharacterTransformAppearanceTo(_Dupe, _Source, 1, 1);
 SetFaction(_Dupe, _Faction);
 //ChangeAttitude(_Source, _Dupe, 200);
 //ChangeAttitude(_Dupe, _Source, 200);
-NRD_ModCall("EnemyUpgradeOverhaul", "Duplication_CopySource", _SourceUUID, _DupeUUID);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "Duplication_CopySource", _SourceUUID, _DupeUUID);
 LeaderLib_Timers_StartObjectTimer(_Source, 750, "Timers_LLENEMY_Duplication_SetCPTag", "LLENEMY_Duplication_SetCPTag");
 
 PROC
@@ -186,7 +186,7 @@ StoryEvent(_Dupe, "LLENEMY_Duplication_SetCPTag")
 AND
 GetUUID(_Dupe, _UUID)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "SetChallengePointsTag", _UUID);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "SetChallengePointsTag", _UUID);
 */
 //END_REGION
 
@@ -270,7 +270,7 @@ GetUUID(_Source, _SourceUUID)
 AND
 GetUUID(_Dupe, _DupeUUID)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "Duplication_CopyStatus", _SourceUUID, _DupeUUID, _Status, (STRING)_Handle);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "Duplication_CopyStatus", _SourceUUID, _DupeUUID, _Status, (STRING)_Handle);
 */
 
 PROC
@@ -406,7 +406,7 @@ GetUUID(_Dupe, _DupeUUID)
 AND
 GetUUID(_Source, _SourceUUID)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "Duplication_CopyName", _SourceUUID, _DupeUUID);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "Duplication_CopyName", _SourceUUID, _DupeUUID);
 */
 //END_REGION
 

@@ -2,8 +2,19 @@ local g = Classes.UpgradeGroup
 local sg = Classes.UpgradeSubGroup
 local u = Classes.UpgradeEntry
 
+---@param target EsvCharacter
+---@param entry UpgradeGroup
+---@return boolean
+local function CanApplyUpgrade(target, entry)
+	if Osi.LeaderLib_Helper_QRY_CharacterIsHumanoid(target.MyGuid) == false then
+		return false
+	end
+	return true
+end
+
 local upgrades = g:Create("BonusSkills", {
 	DisabledFlag = "LLENEMY_BonusSkillsUpgradesDisabled",
+	CanApply = CanApplyUpgrade,
 	SubGroups = {
 		sg:Create("Normal", 10, {Upgrades = {
 			u:Create("LLENEMY_BONUSSKILLS_SINGLE", 10, 1),

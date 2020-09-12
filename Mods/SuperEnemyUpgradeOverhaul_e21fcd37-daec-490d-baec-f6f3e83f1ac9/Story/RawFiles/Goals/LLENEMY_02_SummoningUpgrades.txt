@@ -2,48 +2,8 @@ Version 1
 SubGoalCombiner SGC_AND
 INITSECTION
 KBSECTION
-//REGION SETTINGS
-PROC
-LLENEMY_Upgrades_RegisterAll((INTEGER)_HardModeEnabled)
-THEN
-LLENEMY_Upgrades_AddGroup("Summoning", "LLENEMY_SummoningUpgradesDisabled", "LLENEMY_SummoningUpgradesRolled", "LLENEMY_SummoningUpgradesUpgradeAdded");
-
-LLENEMY_Upgrades_AddType("Summoning", "Passive", 556, 612, 2);
-
-PROC
-LLENEMY_Upgrades_RegisterAll(0)
-THEN
-LLENEMY_Upgrades_AddType("Summoning", "Class", 120, 180, 2);
-
-PROC
-LLENEMY_Upgrades_RegisterAll(1)
-THEN
-LLENEMY_Upgrades_AddType("Summoning", "Class", 1, 240, 2);
-
-PROC
-LLENEMY_Upgrades_Register_TypeUpgrades("Summoning", "Class", (INTEGER)_HardModeEnabled)
-THEN
-LLENEMY_Upgrades_AddStatusToRange("Summoning", "Class", "LLENEMY_CLASS_TOTEMANCER", 425, 512, 2, -1.0);
-LLENEMY_Upgrades_AddStatusToRange("Summoning", "Class", "LLENEMY_CLASS_INCARNATEKING", 777, 790, 4, -1.0);
-
-PROC
-LLENEMY_Upgrades_Register_TypeUpgrades("Summoning", "Passive", (INTEGER)_HardModeEnabled)
-THEN
-DB_LLENEMY_Statuses_FixedDuration("LLENEMY_SUMMON_AUTOMATON");
-LLENEMY_Upgrades_AddStatusToRange("Summoning", "Passive", "LLENEMY_SUMMON_AUTOMATON", 275, 325, 2, 24.0);
-//END_REGION
-
-//REGION BLOCKING
-PROC
-LLENEMY_Upgrades_CanApplyGroupTypeUpgrades((CHARACTERGUID)_Enemy, "Summoning", (STRING)_Type)
-AND
-IsTagged(_Enemy, "LLENEMY_Duplicant", 1)
-THEN
-DB_LLENEMY_StatusUpgradeBlocked(_Enemy, "Summoning", _Type);
-//END_REGION
 
 //REGION INCARNATEKING
-/* [OSITOOLS_ONLY]
 IF
 CharacterStatusAttempt(_Summon, "LLENEMY_INF_SET_ELEMENT", _Owner)
 AND
@@ -51,15 +11,14 @@ GetUUID(_Summon, _UUID)
 AND
 GetUUID(_Owner, _UUID2)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "SetIncarnateSurfaceBuff", _UUID, _UUID2);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "SetIncarnateSurfaceBuff", _UUID, _UUID2);
 
 IF
 CharacterStatusApplied(_Enemy, "LLENEMY_CLASS_INCARNATEKING", _)
 AND
 GetUUID(_Enemy, _UUID)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "ModifySummoningAbility", _UUID);
-*/
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "ModifySummoningAbility", _UUID);
 //END_REGION
 
 //REGION AUTOMATON
@@ -73,20 +32,19 @@ StoryEvent(_Automaton, "LLENEMY_Automaton_PlayActivateAnimation")
 THEN
 PlayAnimation(_Automaton, "Custom_Activate_01", "LLENEMY_Automaton_ClearInactive");
 
-/* [OSITOOLS_ONLY]
 IF
 StoryEvent((CHARACTERGUID)_Char, "LLENEMY_Statuses_SummonAutomaton")
 AND
 GetUUID(_Char, _UUID)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "SummonAutomaton", _UUID);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "SummonAutomaton", _UUID);
 
 IF
 StoryEvent(_Automaton, "LLENEMY_Automaton_PlayActivateAnimation")
 AND
 GetUUID(_Automaton, _UUID)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "SummonSetFaction", _UUID);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "SummonSetFaction", _UUID);
 
 IF
 CharacterStatusRemoved(_Automaton, "LLENEMY_AUTOMATON_INACTIVE", _)
@@ -96,7 +54,6 @@ AND
 NRD_CharacterGetReal(_Automaton, "LifeTime", _Duration)
 THEN
 ApplyStatus(_Automaton, "SUMMONING_ABILITY", _Duration, 1, _Owner);
-*/
 //END_REGION
 EXITSECTION
 

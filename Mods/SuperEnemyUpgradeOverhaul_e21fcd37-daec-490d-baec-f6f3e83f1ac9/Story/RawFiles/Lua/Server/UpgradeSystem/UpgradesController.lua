@@ -27,13 +27,22 @@ function UpgradeSystem.SaveChallengePoints(target)
 	tempChallengePoints[target] = nil
 end
 
----@param target string
+---@param target EsvCharacter
+local function FinallyApplyStatus(target, status, duration)
+	if status == "BLESSED" and target:HasTag("VOIDWOKEN") then
+		ApplyStatus(target.MyGuid, "LLENEMY_VOID_EMPOWERED", duration, 1, target.MyGuid)
+	else
+		ApplyStatus(target.MyGuid, status, duration, 1, target.MyGuid)
+	end
+end
+
+---@param target EsvCharacter
 ---@param entry UpgradeEntry
 ---@return boolean
 function UpgradeSystem.ApplyStatus(target, entry)
 	if Settings.Global.Flags.LLENEMY_HardModeEnabled.Enabled then
 		if entry.FixedDuration then
-			ApplyStatus(target, entry.Value, 1, entry.Duration, target)
+			FinallyApplyStatus(target, entry.Value, entry.Duration)
 		else
 			local min = Settings.Global.Variables.Hardmode_StatusBonusTurnsMin.Value or 0
 			local max = Settings.Global.Variables.Hardmode_StatusBonusTurnsMax.Value or 3
@@ -43,11 +52,11 @@ function UpgradeSystem.ApplyStatus(target, entry)
 				status.CurrentLifeTime = math.max(bonusDuration, status.CurrentLifeTime)
 				status.RequestClientSync = true
 			else
-				ApplyStatus(target, entry.Value, 1, bonusDuration, target)
+				FinallyApplyStatus(target, entry.Value, bonusDuration)
 			end
 		end
 	else
-		ApplyStatus(target, entry.Value, 1, entry.Duration, target)
+		FinallyApplyStatus(target, entry.Value, entry.Duration)
 	end
 	return true
 end

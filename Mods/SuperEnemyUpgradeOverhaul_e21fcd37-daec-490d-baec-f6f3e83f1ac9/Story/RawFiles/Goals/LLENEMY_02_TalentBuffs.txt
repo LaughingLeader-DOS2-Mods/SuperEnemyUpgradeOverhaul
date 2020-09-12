@@ -349,63 +349,63 @@ RemoveStatus(_Enemy, "LLENEMY_TALENT_BULLY_DAMAGEBONUS");
 IF
 CharacterStatusApplied(_Char, "LLENEMY_TALENT_TORTURER", _)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "AddTalent", (STRING)_Char, "Torturer");
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "AddTalent", (STRING)_Char, "Torturer");
 
 IF
 CharacterStatusApplied(_Char, "LLENEMY_TALENT_WHATARUSH", _)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "AddTalent", (STRING)_Char, "WhatARush");
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "AddTalent", (STRING)_Char, "WhatARush");
 
 IF
 CharacterStatusApplied(_Char, "LLENEMY_TALENT_LEECH", _)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "AddTalent", (STRING)_Char, "Leech");
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "AddTalent", (STRING)_Char, "Leech");
 
 IF
 CharacterStatusApplied(_Char, "LLENEMY_TALENT_QUICKSTEP", _)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "AddTalent", (STRING)_Char, "QuickStep");
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "AddTalent", (STRING)_Char, "QuickStep");
 
 IF
 CharacterStatusApplied(_Char, "LLENEMY_TALENT_SADIST", _)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "AddTalent", (STRING)_Char, "Sadist");
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "AddTalent", (STRING)_Char, "Sadist");
 
 IF
 CharacterStatusApplied(_Char, "LLENEMY_TALENT_GLADIATOR", _)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "AddTalent", (STRING)_Char, "Gladiator");
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "AddTalent", (STRING)_Char, "Gladiator");
 
 IF
 CharacterStatusApplied(_Char, "LLENEMY_TALENT_HAYMAKER", _)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "AddTalent", (STRING)_Char, "Haymaker");
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "AddTalent", (STRING)_Char, "Haymaker");
 
 IF
 CharacterStatusApplied(_Char, "LLENEMY_TALENT_INDOMITABLE", _)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "AddTalent", (STRING)_Char, "Indomitable");
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "AddTalent", (STRING)_Char, "Indomitable");
 
 IF
 CharacterStatusApplied(_Char, "LLENEMY_TALENT_SOULCATCHER", _)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "AddTalent", (STRING)_Char, "Soulcatcher");
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "AddTalent", (STRING)_Char, "Soulcatcher");
 
 IF
 CharacterStatusApplied(_Char, "LLENEMY_TALENT_MAGICCYCLES", _)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "AddTalent", (STRING)_Char, "MagicCycles");
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "AddTalent", (STRING)_Char, "MagicCycles");
 
 IF
 CharacterStatusApplied(_Char, "LLENEMY_TALENT_GREEDYVESSEL", _)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "AddTalent", (STRING)_Char, "GreedyVessel");
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "AddTalent", (STRING)_Char, "GreedyVessel");
 
 IF
 CharacterStatusApplied(_Char, "LLENEMY_TALENT_BACKSTAB", _)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "AddTalent", (STRING)_Char, "RogueLoreDaggerBackStab");
-//NRD_ModCall("EnemyUpgradeOverhaul", "AddTalent", (STRING)_Char, "Backstab");
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "AddTalent", (STRING)_Char, "RogueLoreDaggerBackStab");
+//NRD_ModCall("SuperEnemyUpgradeOverhaul", "AddTalent", (STRING)_Char, "Backstab");
 */
 //END_REGION
 
@@ -414,7 +414,7 @@ NRD_ModCall("EnemyUpgradeOverhaul", "AddTalent", (STRING)_Char, "RogueLoreDagger
 IF
 CharacterStatusApplied(_Char, "LLENEMY_TALENT_LONEWOLF", _)
 THEN
-NRD_ModCall("EnemyUpgradeOverhaul", "ApplyLoneWolfBonuses", (STRING)_Char);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "ApplyLoneWolfBonuses", (STRING)_Char);
 */
 //END_REGION
 

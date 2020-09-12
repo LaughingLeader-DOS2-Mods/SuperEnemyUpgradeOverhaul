@@ -54,6 +54,9 @@ function UpgradeEntry:Create(value, frequency, cp, params)
 	if this.DropCount == -1 then
 		this.DropCount = this.DefaultDropCount or Vars.DefaultDropCount
 	end
+	if this.UpgradeType == "Status" then
+		this.StatusType = Ext.StatGetAttribute(this.Value, "StatusType") or "CONSUME"
+	end
     return this
 end
 

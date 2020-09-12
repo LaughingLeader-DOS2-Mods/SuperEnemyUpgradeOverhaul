@@ -79,21 +79,23 @@ function UpgradeSubGroup:BuildDropList()
 	return upgrades
 end
 
+function UpgradeSubGroup:CanApplyUpgradeToTarget(target, upgrade)
+	if self.CanApply ~= nil then
+		return self.CanApply(target, upgrade, self)
+	end
+	return true
+end
+
 ---@param target EsvCharacter
 ---@return boolean
 function UpgradeSubGroup:Apply(target)
 	if self.DisabledFlag == "" or GlobalGetFlag(self.DisabledFlag) == 0 then
-		if self.CanApply ~= nil then
-			if not self.CanApply(target, self) then
-				return false
-			end
-		end
 		local roll = Ext.Random(0, Vars.UPGRADE_MAX_ROLL)
 		if roll > 0 then
 			local successes = 0
 			local upgrades = self:BuildDropList()
 			for i,v in pairs(upgrades) do
-				if v.StartRange >= roll and v.EndRange <= roll then
+				if v.StartRange >= roll and v.EndRange <= roll and self:CanApplyUpgradeToTarget(target, v) then
 					Ext.Print(string.format("[EUO] Roll success (%i/%i)! SubGroup(%s:%s) Range(%i-%i)", roll, Vars.UPGRADE_MAX_ROLL, self.ID, v.Value, v.StartRange, v.EndRange))
 					if v:Apply(target) then
 						successes = successes + 1
