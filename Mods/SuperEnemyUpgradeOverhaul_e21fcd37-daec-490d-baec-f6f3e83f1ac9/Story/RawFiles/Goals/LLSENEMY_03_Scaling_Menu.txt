@@ -107,4 +107,4 @@ LLENEMY_Scaling_UpdateDialogVariables();
 EXITSECTION
 
 ENDEXITSECTION
-ParentTargetEdge "LaughingLeader_EnemyUpgradeOverhaul"
+ParentTargetEdge "LaughingLeader_SuperEnemyUpgradeOverhaul"

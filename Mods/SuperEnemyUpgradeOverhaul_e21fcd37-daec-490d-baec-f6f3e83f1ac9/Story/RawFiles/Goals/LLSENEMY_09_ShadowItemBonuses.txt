@@ -36,4 +36,4 @@ THEN
 NRD_ModCall("SuperEnemyUpgradeOverhaul", "ShadowItem_ApplyMadnessTentacleDamage", _SourceUUID, _UUID);
 EXITSECTION
 ENDEXITSECTION
-ParentTargetEdge "LaughingLeader_EnemyUpgradeOverhaul"
+ParentTargetEdge "LaughingLeader_SuperEnemyUpgradeOverhaul"

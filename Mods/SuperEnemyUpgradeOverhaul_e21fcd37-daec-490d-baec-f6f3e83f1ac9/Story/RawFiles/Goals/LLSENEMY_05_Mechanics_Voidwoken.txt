@@ -91,4 +91,4 @@ DB_LLENEMY_HardMode_SourcePointsUsed(_Region, 0);
 //END_REGION
 EXITSECTION
 ENDEXITSECTION
-ParentTargetEdge "LaughingLeader_EnemyUpgradeOverhaul"
+ParentTargetEdge "LaughingLeader_SuperEnemyUpgradeOverhaul"

@@ -365,4 +365,4 @@ CharacterDisplayTextWithParam(_Goblin, "LLENEMY_DisplayText_TreasureGoblins_Turn
 EXITSECTION
 
 ENDEXITSECTION
-ParentTargetEdge "LaughingLeader_EnemyUpgradeOverhaul"
+ParentTargetEdge "LaughingLeader_SuperEnemyUpgradeOverhaul"

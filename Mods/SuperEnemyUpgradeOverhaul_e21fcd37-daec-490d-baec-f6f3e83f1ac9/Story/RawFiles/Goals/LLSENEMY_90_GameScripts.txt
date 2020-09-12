@@ -20,4 +20,4 @@ NOT DB_LLENEMY_Origins_DuplicationBlocked(_Char);
 EXITSECTION
 
 ENDEXITSECTION
-ParentTargetEdge "LaughingLeader_EnemyUpgradeOverhaul"
+ParentTargetEdge "LaughingLeader_SuperEnemyUpgradeOverhaul"

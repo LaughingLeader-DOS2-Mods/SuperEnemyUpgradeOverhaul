@@ -698,4 +698,4 @@ LeaderLog_LogTarget("NOTIFICATION", _Char, "LLENEMY_Notification_ShadowItem_NoCr
 EXITSECTION
 
 ENDEXITSECTION
-ParentTargetEdge "LaughingLeader_EnemyUpgradeOverhaul"
+ParentTargetEdge "LaughingLeader_SuperEnemyUpgradeOverhaul"

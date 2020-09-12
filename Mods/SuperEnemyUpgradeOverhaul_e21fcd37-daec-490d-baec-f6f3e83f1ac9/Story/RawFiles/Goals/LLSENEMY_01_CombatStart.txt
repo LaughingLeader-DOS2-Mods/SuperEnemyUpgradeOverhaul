@@ -22,4 +22,4 @@ NOT DB_LLENEMY_SkipCombat(_CombatID);
 EXITSECTION
 
 ENDEXITSECTION
-ParentTargetEdge "LaughingLeader_EnemyUpgradeOverhaul"
+ParentTargetEdge "LaughingLeader_SuperEnemyUpgradeOverhaul"

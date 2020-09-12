@@ -44,4 +44,4 @@ LeaderLib_ToggleScripts_DisableScript("LeaderLib_LuaEventListeners_Enabled", "Su
 EXITSECTION
 
 ENDEXITSECTION
-ParentTargetEdge "LaughingLeader_EnemyUpgradeOverhaul"
+ParentTargetEdge "LaughingLeader_SuperEnemyUpgradeOverhaul"

@@ -507,4 +507,4 @@ LeaderLib_Timers_StartObjectTimer(_Char, 750, "Timers_LLENEMY_DemonicHasted_Chec
 //END_REGION
 EXITSECTION
 ENDEXITSECTION
-ParentTargetEdge "LaughingLeader_EnemyUpgradeOverhaul"
+ParentTargetEdge "LaughingLeader_SuperEnemyUpgradeOverhaul"

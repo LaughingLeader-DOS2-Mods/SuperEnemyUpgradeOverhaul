@@ -91,4 +91,4 @@ LeaderLib_ToggleScripts_EnableScriptForObject(_Enemy, "LLENEMY_NaturalConductor_
 EXITSECTION
 
 ENDEXITSECTION
-ParentTargetEdge "LaughingLeader_EnemyUpgradeOverhaul"
+ParentTargetEdge "LaughingLeader_SuperEnemyUpgradeOverhaul"

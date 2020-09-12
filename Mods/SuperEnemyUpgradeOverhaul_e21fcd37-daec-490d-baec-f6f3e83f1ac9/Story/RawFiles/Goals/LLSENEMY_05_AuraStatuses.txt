@@ -91,4 +91,4 @@ ApplyStatus(_Ally, _Status, 12.0, 0, _Source);
 
 EXITSECTION
 ENDEXITSECTION
-ParentTargetEdge "LaughingLeader_EnemyUpgradeOverhaul"
+ParentTargetEdge "LaughingLeader_SuperEnemyUpgradeOverhaul"

@@ -160,4 +160,4 @@ SetVarFloat3(_Worm, "SkillTargetPos_Jump_EnemyDrillwormBurrow", _X, _Y, _Z);
 EXITSECTION
 
 ENDEXITSECTION
-ParentTargetEdge "LaughingLeader_EnemyUpgradeOverhaul"
+ParentTargetEdge "LaughingLeader_SuperEnemyUpgradeOverhaul"

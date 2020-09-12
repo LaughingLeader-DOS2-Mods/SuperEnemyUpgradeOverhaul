@@ -58,4 +58,4 @@ ApplyStatus(_Automaton, "SUMMONING_ABILITY", _Duration, 1, _Owner);
 EXITSECTION
 
 ENDEXITSECTION
-ParentTargetEdge "LaughingLeader_EnemyUpgradeOverhaul"
+ParentTargetEdge "LaughingLeader_SuperEnemyUpgradeOverhaul"

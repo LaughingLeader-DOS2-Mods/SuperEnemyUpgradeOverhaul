@@ -44,4 +44,4 @@ NRD_ModCall("SuperEnemyUpgradeOverhaul", "SetHighestPartyLoremaster");
 EXITSECTION
 
 ENDEXITSECTION
-ParentTargetEdge "LaughingLeader_EnemyUpgradeOverhaul"
+ParentTargetEdge "LaughingLeader_SuperEnemyUpgradeOverhaul"

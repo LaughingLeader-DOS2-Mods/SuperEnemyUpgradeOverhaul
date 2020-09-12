@@ -16,4 +16,4 @@ DB_NOOP(1);
 //END_REGION
 EXITSECTION
 ENDEXITSECTION
-ParentTargetEdge "LaughingLeader_EnemyUpgradeOverhaul"
+ParentTargetEdge "LaughingLeader_SuperEnemyUpgradeOverhaul"

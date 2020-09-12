@@ -190,4 +190,4 @@ CharacterSetHitpointsPercentage(_Dupe, 100.0);
 EXITSECTION
 
 ENDEXITSECTION
-ParentTargetEdge "LaughingLeader_EnemyUpgradeOverhaul"
+ParentTargetEdge "LaughingLeader_SuperEnemyUpgradeOverhaul"

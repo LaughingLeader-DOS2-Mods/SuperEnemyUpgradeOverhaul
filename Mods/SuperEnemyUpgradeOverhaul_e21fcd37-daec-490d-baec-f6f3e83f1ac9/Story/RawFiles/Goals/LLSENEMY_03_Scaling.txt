@@ -272,4 +272,4 @@ CharacterDisplayTextWithParam(_Player, "LLENEMY_DisplayText_TotalCharactersLevel
 EXITSECTION
 
 ENDEXITSECTION
-ParentTargetEdge "LaughingLeader_EnemyUpgradeOverhaul"
+ParentTargetEdge "LaughingLeader_SuperEnemyUpgradeOverhaul"

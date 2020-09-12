@@ -6,7 +6,7 @@ KBSECTION
 PROC
 LLENEMY_Internal_Start()
 THEN
-DebugBreak("[LLENEMY] Starting Enemy Upgrade Overhaul.");
+DebugBreak("[LLENEMY] Starting Super Enemy Upgrade Overhaul.");
 GoalCompleted;
 
 IF
