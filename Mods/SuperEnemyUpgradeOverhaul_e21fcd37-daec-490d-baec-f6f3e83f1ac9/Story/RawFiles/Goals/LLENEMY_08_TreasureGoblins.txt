@@ -294,14 +294,14 @@ LLENEMY_Rewards_TreasureGoblin_ToggleScript(1)
 AND
 NOT LeaderLib_ToggleScripts_QRY_ScriptIsEnabled("LLENEMY_TreasureGoblin_Active")
 THEN
-LeaderLib_ToggleScripts_EnableScript("LLENEMY_TreasureGoblin_Active", "EnemyUpgradeOverhaul");
+LeaderLib_ToggleScripts_EnableScript("LLENEMY_TreasureGoblin_Active", "SuperEnemyUpgradeOverhaul");
 
 PROC
 LLENEMY_Rewards_TreasureGoblin_ToggleScript(0)
 AND
 NOT DB_LLENEMY_TreasureGoblins_Temp_Active(_)
 THEN
-LeaderLib_ToggleScripts_DisableScript("LLENEMY_TreasureGoblin_Active", "EnemyUpgradeOverhaul");
+LeaderLib_ToggleScripts_DisableScript("LLENEMY_TreasureGoblin_Active", "SuperEnemyUpgradeOverhaul");
 //END_REGION
 
 //REGION ITEM_MOVING_TO_BAG

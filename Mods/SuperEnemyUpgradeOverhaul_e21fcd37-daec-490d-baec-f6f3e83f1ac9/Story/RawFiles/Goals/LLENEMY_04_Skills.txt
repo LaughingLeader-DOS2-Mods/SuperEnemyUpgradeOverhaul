@@ -34,7 +34,7 @@ LLENEMY_SKills_InitSettings();
 
 //REGION UPDATES
 PROC
-LeaderUpdater_ModUpdated("EnemyUpgradeOverhaul", "LaughingLeader", (STRING)_OldVersion, (STRING)_NewVersion)
+LeaderUpdater_ModUpdated("SuperEnemyUpgradeOverhaul", "LaughingLeader", (STRING)_OldVersion, (STRING)_NewVersion)
 AND
 LeaderLib_StringExt_QRY_VersionIsLessThan(_OldVersion, 1, 1, 1, 0)
 THEN

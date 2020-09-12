@@ -5,15 +5,15 @@ LLENEMY_LeaderLib_EnableScripts();
 KBSECTION
 
 PROC
-LeaderUpdater_ModUpdated("EnemyUpgradeOverhaul", "LaughingLeader", (STRING)_OldVersion, (STRING)_NewVersion)
+LeaderUpdater_ModUpdated("SuperEnemyUpgradeOverhaul", "LaughingLeader", (STRING)_OldVersion, (STRING)_NewVersion)
 THEN
 LLENEMY_LeaderLib_EnableScripts();
 
 PROC
 LLENEMY_LeaderLib_EnableScripts()
 THEN
-LeaderLib_ToggleScripts_EnableScript("LeaderLib_StatusEvents_DisableScriptEnabled", "EnemyUpgradeOverhaul");
-//LeaderLib_ToggleScripts_EnableScript("LeaderLib_ExplodeStatusListenerEnabled", "EnemyUpgradeOverhaul");
+LeaderLib_ToggleScripts_EnableScript("LeaderLib_StatusEvents_DisableScriptEnabled", "SuperEnemyUpgradeOverhaul");
+//LeaderLib_ToggleScripts_EnableScript("LeaderLib_ExplodeStatusListenerEnabled", "SuperEnemyUpgradeOverhaul");
 
 PROC
 LLENEMY_LeaderLib_RegisterSettings()
@@ -33,12 +33,12 @@ DB_LLENEMY_LeaderLib_Registered(1);
 PROC
 LeaderLib_Extender_Enabled(1)
 THEN
-LeaderLib_ToggleScripts_EnableScript("LeaderLib_LuaEventListeners_Enabled", "EnemyUpgradeOverhaul");
+LeaderLib_ToggleScripts_EnableScript("LeaderLib_LuaEventListeners_Enabled", "SuperEnemyUpgradeOverhaul");
 
 PROC
 LeaderLib_Extender_Disabled(0)
 THEN
-LeaderLib_ToggleScripts_DisableScript("LeaderLib_LuaEventListeners_Enabled", "EnemyUpgradeOverhaul");
+LeaderLib_ToggleScripts_DisableScript("LeaderLib_LuaEventListeners_Enabled", "SuperEnemyUpgradeOverhaul");
 */
 //END_REGION
 EXITSECTION

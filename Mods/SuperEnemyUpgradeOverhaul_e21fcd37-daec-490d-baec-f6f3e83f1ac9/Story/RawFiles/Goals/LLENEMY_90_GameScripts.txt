@@ -6,7 +6,7 @@ KBSECTION
 PROC
 LLENEMY_GameScripts_InitSettings()
 THEN
-LeaderLib_GameScripts_RegisterScript("EnemyUpgradeOverhaul", "LLENEMY_90_GS_StatusRemovals");
+LeaderLib_GameScripts_RegisterScript("SuperEnemyUpgradeOverhaul", "LLENEMY_90_GS_StatusRemovals");
 
 //REGION END_RULES
 // Rules that need to run after other scripts

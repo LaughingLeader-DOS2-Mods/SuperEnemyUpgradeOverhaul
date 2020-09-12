@@ -11,7 +11,7 @@ LeaderLib_Auras_Register_TurnAura("LLENEMY_FIRE_BRAND_AURA", 1, 8.0, 1, 1, 0, 0,
 LeaderLib_Auras_Register_TurnAura("LLENEMY_VENOM_AURA", 1, 8.0, 1, 1, 0, 0, 1);
 
 PROC
-LeaderUpdater_ModUpdated("EnemyUpgradeOverhaul", "LaughingLeader", (STRING)_OldVersion, (STRING)_NewVersion)
+LeaderUpdater_ModUpdated("SuperEnemyUpgradeOverhaul", "LaughingLeader", (STRING)_OldVersion, (STRING)_NewVersion)
 THEN
 LLENEMY_Auras_InitSettings();
 

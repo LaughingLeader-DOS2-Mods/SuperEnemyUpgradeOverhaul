@@ -98,7 +98,7 @@ JumpToTurn(_Goblin);
 IF
 RegionEnded(_)
 THEN
-LeaderLib_ToggleScripts_DisableScript("LLENEMY_TreasureGoblin_Active", "EnemyUpgradeOverhaul");
+LeaderLib_ToggleScripts_DisableScript("LLENEMY_TreasureGoblin_Active", "SuperEnemyUpgradeOverhaul");
 
 EXITSECTION
 SysClear("DB_LLENEMY_TreasureGoblins_Temp_Active", 1);

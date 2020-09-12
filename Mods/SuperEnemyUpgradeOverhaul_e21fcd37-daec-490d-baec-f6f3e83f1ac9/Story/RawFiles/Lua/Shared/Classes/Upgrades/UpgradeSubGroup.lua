@@ -59,12 +59,27 @@ function UpgradeSubGroup:Add(upgrades)
 	end
 end
 
+---@param upgrade UpgradeEntry
+---@return boolean
+local function CanAddUpgradeToList(entry)
+	if entry.DropCount <= 0 then
+		return false
+	end
+	if entry.HardmodeOnly and GlobalGetFlag("LLENEMY_HardModeEnabled") == 0 then
+		return false
+	end
+	if entry.ModRequirement ~= nil and not Ext.IsModLoaded(entry.ModRequirement) then
+		return false
+	end
+	return true
+end
+
 ---@return UpgradeEntry[]
 function UpgradeSubGroup:BuildDropList()
 	local upgrades = {}
 	for i=1,#self.Upgrades do
 		local entry = self.Upgrades[i]
-		if entry.DropCount > 0 and (not entry.HardmodeOnly or GlobalGetFlag("LLENEMY_HardModeEnabled") == 1) then
+		if CanAddUpgradeToList(entry) then
 			upgrades[#upgrades+1] = entry
 		end
 	end
@@ -72,7 +87,9 @@ function UpgradeSubGroup:BuildDropList()
 		for i=1,#self.Upgrades do
 			local entry = self.Upgrades[i]
 			entry.DropCount = entry.DefaultDropCount
-			upgrades[#upgrades+1] = entry
+			if CanAddUpgradeToList(entry) then
+				upgrades[#upgrades+1] = entry
+			end
 		end
 	end
 	upgrades = UpgradeSystem.SetRanges(Common.ShuffleTable(upgrades))

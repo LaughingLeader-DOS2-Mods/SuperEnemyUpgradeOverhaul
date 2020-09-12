@@ -13,7 +13,7 @@ DB_LLENEMY_Duplication_Blacklist(S_FTJ_Torturer_Golem_03_d32d32b2-c05b-4acd-944c
 //REGION UPDATES
 //Wrong level name
 PROC
-LeaderUpdater_ModUpdated("EnemyUpgradeOverhaul", "LaughingLeader", (STRING)_OldVersion, (STRING)_NewVersion)
+LeaderUpdater_ModUpdated("SuperEnemyUpgradeOverhaul", "LaughingLeader", (STRING)_OldVersion, (STRING)_NewVersion)
 AND
 LeaderLib_StringExt_QRY_VersionIsLessThan(_OldVersion, 1,5,0,0)
 AND

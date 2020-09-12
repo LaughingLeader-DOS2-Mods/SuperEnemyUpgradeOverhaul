@@ -2,7 +2,9 @@ Ext.Require("Shared/Init.lua")
 Ext.Require("Server/_InitServer.lua")
 
 PersistentVars = {
-	NewCorruptionStats = {}
+	NewCorruptionStats = {},
+	TotalDuplicants = {},
+	RolledUpgrades = {}
 }
 
 local function LLENEMY_Server_ModuleLoading()

@@ -7,7 +7,7 @@ KBSECTION
 IF
 CharacterStatusApplied(_Enemy, "LLENEMY_GRANADA", _)
 THEN
-LeaderLib_ToggleScripts_EnableScriptForObject(_Enemy, "LLENEMY_Granada_Active", "EnemyUpgradeOverhaul");
+LeaderLib_ToggleScripts_EnableScriptForObject(_Enemy, "LLENEMY_Granada_Active", "SuperEnemyUpgradeOverhaul");
 
 IF
 CharacterStatusApplied(_Enemy, "LLENEMY_GRANADA", _)
@@ -22,16 +22,14 @@ ObjectSetFlag(_Enemy, "LLENEMY_AddedGrenadeStash", 0);
 //REGION SPECIAL_UPGRADES
 IF
 CharacterStatusApplied(_Character, "LLENEMY_DOUBLE_DIP", _)
+AND
+GetUUID(_Character, _UUID)
 THEN
 PlayEffect(_Character, "LLENEMY_FX_Status_DoubleDip_Overlay_01", "");
-LLENEMY_Upgrades_ResetRolledFlags(_Character);
-LLENEMY_Upgrades_RollForUpgrades(_Character);
-LLENEMY_Upgrades_OnRollingDone(_Character);
-RemoveStatus(_Character, "LLENEMY_DOUBLE_DIP");
+NRD_ModCall("SuperEnemyOverhaul", "OnDoubleDipApplied", _UUID);
 //END_REGION
 
 //REGION ACTIVE_DEFENSE_TYPES
-/* [OSITOOLS_ONLY]
 IF
 CharacterStatusApplied(_Char, "LLENEMY_ACTIVATE_FLAMING_TONGUES", _Cause)
 AND
@@ -45,7 +43,6 @@ AND
 NRD_ApplyActiveDefense(_Char, "HEALING_TEARS", -1.0, _Handle)
 THEN
 DB_NOOP(1);
-*/
 //END_REGION
 EXITSECTION
 

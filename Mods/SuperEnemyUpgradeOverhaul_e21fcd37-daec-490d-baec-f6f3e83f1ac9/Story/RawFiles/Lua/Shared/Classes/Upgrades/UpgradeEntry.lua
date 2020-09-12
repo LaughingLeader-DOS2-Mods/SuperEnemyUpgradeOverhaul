@@ -15,6 +15,7 @@ local UpgradeEntry = {
 	DefaultDropCount = 4,
 	OnApplied = nil,
 	HardmodeOnly = false,
+	ModRequirement = nil,
 	CP = 1,
 	---@type fun(target:EsvCharacter, entry:UpgradeEntry):boolean
 	CanApply = nil

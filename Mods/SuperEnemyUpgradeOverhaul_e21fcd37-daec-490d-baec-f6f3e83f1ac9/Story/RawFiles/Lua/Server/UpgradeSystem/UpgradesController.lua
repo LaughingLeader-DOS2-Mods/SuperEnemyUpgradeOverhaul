@@ -105,11 +105,34 @@ function UpgradeSystem.RollForUpgrades(uuid)
 			successes = successes + 1
 		end
 	end
+
 	UpgradeSystem.AddBonusSkills(character)
 	if successes > 0 then
 		UpgradeSystem.SaveChallengePoints(uuid)
 		UpgradeInfo_ApplyInfoStatus(uuid)
 	end
 
-	UpgradeSystem.StartDuplicating(character)
+	Duplication.StartDuplicating(character)
 end
+
+function OnDoubleDipApplied(uuid)
+	local character = Ext.GetCharacter(uuid)
+	local successes = 0
+	for id,group in pairs(Upgrades) do
+		if group:Apply(character) then
+			successes = successes + 1
+		end
+	end
+	if successes > 0 then
+		Ext.Print(string.format("[EUO] (Double Dip) Character (%s:%s) gained new upgrades! (%s)", character.DisplayName, uuid, successes))
+	end
+end
+
+Ext.RegisterOsirisListener("ObjectEnteredCombat", 2, "after", function(object, id)
+	local uuid = GetUUID(object)
+
+end)
+
+Ext.RegisterOsirisListener("CombatStarted", 1, "after", function(id)
+
+end)

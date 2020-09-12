@@ -3,7 +3,7 @@ function ShadowItem_OnEquipped(char, item)
 	for tag,entry in pairs(ItemCorruption.TagBoosts) do
 		if not StringHelpers.IsNullOrEmpty(entry.Flag) and IsTagged(item, tag) == 1 then
 			if entry.HasToggleScript == true then
-				Osi.LeaderLib_ToggleScripts_EnableScriptForObject(char, entry.Flag, "EnemyUpgradeOverhaul", 1)
+				Osi.LeaderLib_ToggleScripts_EnableScriptForObject(char, entry.Flag, "SuperEnemyUpgradeOverhaul", 1)
 			else
 				ObjectSetFlag(char, entry.Flag, 0)
 			end
@@ -16,7 +16,7 @@ function ShadowItem_OnUnEquipped(char, item)
 	local removedTags = {}
 	for tag,entry in pairs(ItemCorruption.TagBoosts) do
 		if not StringHelpers.IsNullOrEmpty(entry.Flag) and IsTagged(item, tag) == 1 then
-			--LeaderLib_ToggleScripts_DisableScriptForObject(char, flag, "EnemyUpgradeOverhaul", 1)
+			--LeaderLib_ToggleScripts_DisableScriptForObject(char, flag, "SuperEnemyUpgradeOverhaul", 1)
 			table.insert(removedTags, entry)
 		end
 	end
@@ -31,7 +31,7 @@ function ShadowItem_OnUnEquipped(char, item)
 		end
 		if not hasTaggedItem then
 			if entry.HasToggleScript == true then
-				Osi.LeaderLib_ToggleScripts_DisableScriptForObject(char, entry.Flag, "EnemyUpgradeOverhaul", 1)
+				Osi.LeaderLib_ToggleScripts_DisableScriptForObject(char, entry.Flag, "SuperEnemyUpgradeOverhaul", 1)
 			else
 				ObjectClearFlag(char, entry.Flag, 0)
 			end

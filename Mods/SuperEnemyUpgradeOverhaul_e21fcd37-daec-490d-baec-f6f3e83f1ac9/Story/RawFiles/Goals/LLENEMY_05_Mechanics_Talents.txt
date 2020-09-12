@@ -17,62 +17,62 @@ DB_LLENEMY_Talents_MasterThief_Tags("Potion");
 IF
 CharacterStatusRemoved(_Char, "LLENEMY_TALENT_RESISTDEAD", _)
 THEN
-LeaderLib_ToggleScripts_DisableScriptForObjectAfterDelay(_Char, "LLENEMY_ResistDead_Active", "EnemyUpgradeOverhaul", 3000);
+LeaderLib_ToggleScripts_DisableScriptForObjectAfterDelay(_Char, "LLENEMY_ResistDead_Active", "SuperEnemyUpgradeOverhaul", 3000);
 
 IF
 CharacterStatusRemoved(_Char, "LLENEMY_TALENT_RESISTDEAD2", _)
 THEN
-LeaderLib_ToggleScripts_DisableScriptForObjectAfterDelay(_Char, "LLENEMY_ResistDead_Active", "EnemyUpgradeOverhaul", 3000);
+LeaderLib_ToggleScripts_DisableScriptForObjectAfterDelay(_Char, "LLENEMY_ResistDead_Active", "SuperEnemyUpgradeOverhaul", 3000);
 
 IF
 CharacterStatusApplied(_Char, "LLENEMY_TALENT_RESISTDEAD", _)
 THEN
-LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_ResistDead_Active", "EnemyUpgradeOverhaul");
+LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_ResistDead_Active", "SuperEnemyUpgradeOverhaul");
 
 IF
 CharacterStatusApplied(_Char, "LLENEMY_TALENT_RESISTDEAD2", _)
 THEN
-LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_ResistDead_Active", "EnemyUpgradeOverhaul");
+LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_ResistDead_Active", "SuperEnemyUpgradeOverhaul");
 
 IF
 CharacterStatusRemoved(_Char, "LLENEMY_TALENT_BULLY", _)
 THEN
-LeaderLib_ToggleScripts_DisableScriptForObject(_Char, "LLENEMY_Bully_Active", "EnemyUpgradeOverhaul");
+LeaderLib_ToggleScripts_DisableScriptForObject(_Char, "LLENEMY_Bully_Active", "SuperEnemyUpgradeOverhaul");
 
 IF
 CharacterStatusApplied(_Char, "LLENEMY_TALENT_BULLY", _)
 THEN
-LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_Bully_Active", "EnemyUpgradeOverhaul");
+LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_Bully_Active", "SuperEnemyUpgradeOverhaul");
 
 IF
 CharacterStatusRemoved(_Char, "LLENEMY_TALENT_COUNTER", _)
 THEN
-LeaderLib_ToggleScripts_DisableScriptForObject(_Char, "LLENEMY_Counter_Active", "EnemyUpgradeOverhaul");
+LeaderLib_ToggleScripts_DisableScriptForObject(_Char, "LLENEMY_Counter_Active", "SuperEnemyUpgradeOverhaul");
 
 IF
 CharacterStatusApplied(_Char, "LLENEMY_TALENT_COUNTER", _)
 THEN
-LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_Counter_Active", "EnemyUpgradeOverhaul");
+LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_Counter_Active", "SuperEnemyUpgradeOverhaul");
 
 IF
 CharacterStatusRemoved(_Char, "LLENEMY_TALENT_MASTERTHIEF", _)
 THEN
-LeaderLib_ToggleScripts_DisableScriptForObject(_Char, "LLENEMY_MasterThief_Active", "EnemyUpgradeOverhaul");
+LeaderLib_ToggleScripts_DisableScriptForObject(_Char, "LLENEMY_MasterThief_Active", "SuperEnemyUpgradeOverhaul");
 
 IF
 CharacterStatusApplied(_Char, "LLENEMY_TALENT_MASTERTHIEF", _)
 THEN
-LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_MasterThief_Active", "EnemyUpgradeOverhaul");
+LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_MasterThief_Active", "SuperEnemyUpgradeOverhaul");
 
 IF
 CharacterStatusRemoved(_Char, "LLENEMY_TALENT_NATURALCONDUCTOR", _)
 THEN
-LeaderLib_ToggleScripts_DisableScriptForObject(_Char, "LLENEMY_NaturalConductor_Active", "EnemyUpgradeOverhaul");
+LeaderLib_ToggleScripts_DisableScriptForObject(_Char, "LLENEMY_NaturalConductor_Active", "SuperEnemyUpgradeOverhaul");
 
 IF
 CharacterStatusApplied(_Char, "LLENEMY_TALENT_NATURALCONDUCTOR", _)
 THEN
-LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_NaturalConductor_Active", "EnemyUpgradeOverhaul");
+LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_NaturalConductor_Active", "SuperEnemyUpgradeOverhaul");
 //END_REGION
 
 //REGION MASTER_THIEF_MUG

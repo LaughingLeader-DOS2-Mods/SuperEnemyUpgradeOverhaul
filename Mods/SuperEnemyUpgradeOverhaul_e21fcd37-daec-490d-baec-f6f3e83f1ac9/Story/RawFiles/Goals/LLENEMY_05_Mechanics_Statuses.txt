@@ -42,7 +42,7 @@ LeaderLib_Auras_Register_TimerAura("LLENEMY_Auras_Seeker", 1000, 4.0, 1, 0);
 */
 
 PROC
-LeaderUpdater_ModUpdated("EnemyUpgradeOverhaul", "LaughingLeader", (STRING)_OldVersion, (STRING)_NewVersion)
+LeaderUpdater_ModUpdated("SuperEnemyUpgradeOverhaul", "LaughingLeader", (STRING)_OldVersion, (STRING)_NewVersion)
 THEN
 LLENEMY_Mechanics_Statuses_InitSettings();
 //END_REGION
@@ -93,14 +93,14 @@ CharacterStatusRemoved(_Char, "LLENEMY_SEEKER", _)
 AND
 NOT LeaderLib_Helper_QRY_HasStatus(_Char, "LLENEMY_SEEKER_DISABLED")
 THEN
-LeaderLib_ToggleScripts_DisableScriptForObjectAfterDelay(_Char, "LLENEMY_SeekerEnabled", "EnemyUpgradeOverhaul", 1000);
+LeaderLib_ToggleScripts_DisableScriptForObjectAfterDelay(_Char, "LLENEMY_SeekerEnabled", "SuperEnemyUpgradeOverhaul", 1000);
 LeaderLib_Timers_CancelObjectTimer(_Char, "Timers_LLENEMY_Statuses_Seeker_PulseNow");
 
 IF
 CharacterStatusApplied(_Char, "LLENEMY_SEEKER", _)
 THEN
 DB_LLENEMY_StatusLogic_Temp_Seekers(_Char);
-LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_SeekerEnabled", "EnemyUpgradeOverhaul");
+LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_SeekerEnabled", "SuperEnemyUpgradeOverhaul");
 SetStoryEvent(_Char, "LLENEMY_Statuses_Seeker_PulseNow");
 
 IF
@@ -333,7 +333,7 @@ LeaderLib_Variables_DB_SetVariableInt(_Char, "LLENEMY_Rage", 1);
 IF
 CharacterStatusApplied(_Char, "LLENEMY_RAGE", _)
 THEN
-LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_Rage_Active", "EnemyUpgradeOverhaul");
+LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_Rage_Active", "SuperEnemyUpgradeOverhaul");
 
 IF
 CharacterStatusApplied(_Char, "LLENEMY_RAGE2", _)
@@ -343,7 +343,7 @@ AND
 DB_LLENEMY_Statuses_Rage(_Index, "LLENEMY_RAGE2", _Min, _Max)
 THEN
 LeaderLib_Variables_DB_SetVariableInt(_Char, "LLENEMY_Rage", _Min);
-LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_Rage_Active", "EnemyUpgradeOverhaul");
+LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_Rage_Active", "SuperEnemyUpgradeOverhaul");
 
 IF
 CharacterStatusApplied(_Char, "LLENEMY_RAGE3", _)
@@ -353,7 +353,7 @@ AND
 DB_LLENEMY_Statuses_Rage(_Index, "LLENEMY_RAGE3", _Min, _Max)
 THEN
 LeaderLib_Variables_DB_SetVariableInt(_Char, "LLENEMY_Rage", _Min);
-LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_Rage_Active", "EnemyUpgradeOverhaul");
+LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_Rage_Active", "SuperEnemyUpgradeOverhaul");
 
 IF
 CharacterStatusApplied(_Char, "LLENEMY_RAGE4", _)
@@ -363,7 +363,7 @@ AND
 DB_LLENEMY_Statuses_Rage(_Index, "LLENEMY_RAGE4", _Min, _Max)
 THEN
 LeaderLib_Variables_DB_SetVariableInt(_Char, "LLENEMY_Rage", _Min);
-LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_Rage_Active", "EnemyUpgradeOverhaul");
+LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_Rage_Active", "SuperEnemyUpgradeOverhaul");
 
 IF
 CharacterStatusApplied(_Char, "LLENEMY_RAGE5", _)
@@ -373,42 +373,10 @@ AND
 DB_LLENEMY_Statuses_Rage(_Index, "LLENEMY_RAGE5", _Min, _Max)
 THEN
 LeaderLib_Variables_DB_SetVariableInt(_Char, "LLENEMY_Rage", _Min);
-LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_Rage_Active", "EnemyUpgradeOverhaul");
+LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_Rage_Active", "SuperEnemyUpgradeOverhaul");
 //END_REGION
 
 //REGION GATHERING_POWER_EMPOWERED
-PROC
-LLENEMY_Upgrades_CanApplyUpgrade((CHARACTERGUID)_Char, (STRING)_Group, (STRING)_Type, "LLENEMY_GATHERING_POWER", (REAL)_Duration)
-AND
-HasActiveStatus(_Char, "LLENEMY_EMPOWERED", _a)
-AND
-HasActiveStatus(_Char, "LLENEMY_GATHERING_POWER", _b)
-AND
-IntegerMax(_a, _b, 1)
-THEN
-DB_LLENEMY_StatusUpgradeBlocked(_Char, _Group, _Type, "LLENEMY_GATHERING_POWER");
-
-PROC
-LLENEMY_Upgrades_CanApplyUpgrade((CHARACTERGUID)_Char, (STRING)_Group, (STRING)_Type, "LLENEMY_GATHERING_POWER", (REAL)_Duration)
-AND
-DB_LLENEMY_Statuses_Temp_WaitForRemoval(_Char, "LLENEMY_GATHERING_POWER")
-THEN
-DB_LLENEMY_StatusUpgradeBlocked(_Char, _Group, _Type, "LLENEMY_GATHERING_POWER");
-
-QRY
-LLENEMY_Upgrades_QRY_ApplyStatus((CHARACTERGUID)_Char, (STRING)_Group, (STRING)_Type, "LLENEMY_GATHERING_POWER", (REAL)_Duration, 1)
-AND
-LeaderLib_Random_QRY(2,3)
-AND
-DB_LeaderLib_Random(_RanInt)
-AND
-Real(_RanInt, _RanReal)
-AND
-RealProduct(_RanReal, 6.0, _NewDuration)
-THEN
-NOT DB_LeaderLib_Random(_RanInt);
-ApplyStatus(_Char, "LLENEMY_GATHERING_POWER", _NewDuration, 0, _Char);
-
 IF
 CharacterStatusApplied(_Char, "LLENEMY_GATHERING_POWER", _)
 THEN
@@ -463,24 +431,6 @@ CharacterHasSkill(_Char,  "Projectile_EnemyFlight", 1)
 THEN
 CharacterRemoveSkill(_Char, "Projectile_EnemyFlight");
 
-/* [OSITOOLS_ONLY]
-IF
-StoryEvent((CHARACTERGUID)_Char, "LLENEMY_Statuses_PostTransformationEmpowered")
-THEN
-NRD_CharacterIterateSkills(_Char, "LLENEMY_Debug_PrintSkill");
-
-IF
-NRD_SkillIteratorEvent("LLENEMY_Debug_PrintSkill", _Char, _Skill, _IsLearned, _IsActive)
-AND
-String(_Char, _CharString)
-AND
-IntegertoString(_IsLearned, _IsLearnedStr)
-AND
-IntegertoString(_IsActive, _IsActiveStr)
-THEN
-LeaderLog_Log("DEBUG", "[LLENEMY_05_Mechanics_Statuses:LLENEMY_Debug_PrintSkill] (",_CharString,") has skill (",_Skill,") Learned(",_IsLearnedStr,") Active(",_IsActiveStr,")");
-*/
-
 IF
 StoryEvent((CHARACTERGUID)_Char, "LLENEMY_Statuses_PostTransformationEmpowered")
 AND
@@ -500,12 +450,12 @@ CharacterResetCooldowns(_Char);
 IF
 CharacterStatusRemoved(_Char, "LLENEMY_DEMONIC_HASTED", _)
 THEN
-LeaderLib_ToggleScripts_DisableScriptForObject(_Char, "LLENEMY_DemonicHasted_Active", "EnemyUpgradeOverhaul");
+LeaderLib_ToggleScripts_DisableScriptForObject(_Char, "LLENEMY_DemonicHasted_Active", "SuperEnemyUpgradeOverhaul");
 
 IF
 CharacterStatusApplied(_Char, "LLENEMY_DEMONIC_HASTED", _)
 THEN
-LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_DemonicHasted_Active", "EnemyUpgradeOverhaul");
+LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_DemonicHasted_Active", "SuperEnemyUpgradeOverhaul");
 //END_REGION
 
 //REGION DEMONIC_HASTED_SLIPPING_WEAKNESS

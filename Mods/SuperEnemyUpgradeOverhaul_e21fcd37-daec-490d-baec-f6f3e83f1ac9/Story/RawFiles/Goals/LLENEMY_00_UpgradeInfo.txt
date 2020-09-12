@@ -14,8 +14,16 @@ SysClear("DB_LLENEMY_UpgradeInfo_Info", 2);
 SysClear("DB_LLENEMY_UpgradeInfo_Temp_InfoString", 2);
 //END_REGION
 
+IF
+StoryEvent((CHARACTERGUID)_Char, "LLENEMY_ApplyInfoStatus")
+AND
+CharacterIsDead(_Char, 0)
+AND
+GetUUID(_Char, _UUID)
+THEN
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "UpgradeInfo_ApplyInfoStatus", _UUID);
+
 //REGION CP_TAGS
-/* [OSITOOLS_ONLY]
 PROC
 LLENEMY_Upgrades_IncreaseChallengePoints((CHARACTERGUID)_Char, (INTEGER)_CP)
 THEN
@@ -32,10 +40,7 @@ IF
 TimerFinished("Timers_LLENEMY_SyncHighestLoremaster")
 THEN
 NRD_ModCall("SuperEnemyUpgradeOverhaul", "SetHighestPartyLoremaster");
-*/
 //END_REGION
-
-
 EXITSECTION
 
 ENDEXITSECTION

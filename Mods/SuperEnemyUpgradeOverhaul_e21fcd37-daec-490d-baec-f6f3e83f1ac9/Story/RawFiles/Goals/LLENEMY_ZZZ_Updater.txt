@@ -2,9 +2,9 @@ Version 1
 SubGoalCombiner SGC_AND
 INITSECTION
 // [BEGIN_NO_OSITOOLS]
-LeaderUpdater_Register_Mod("EnemyUpgradeOverhaul", "LaughingLeader", 2,0,5,2);
-LeaderUpdater_Register_ActiveGoal("EnemyUpgradeOverhaul", "LaughingLeader", "LLENEMY_ZZZ_Updater");
-LeaderLib_Register_ModMenu("EnemyUpgradeOverhaul.Settings", "[Enemy Upgrade Overhaul] Settings", "LLENEMY_Settings", "EnemyUpgradeOverhaul", "LaughingLeader");
+LeaderUpdater_Register_Mod("SuperEnemyUpgradeOverhaul", "LaughingLeader", 2,0,5,2);
+LeaderUpdater_Register_ActiveGoal("SuperEnemyUpgradeOverhaul", "LaughingLeader", "LLENEMY_ZZZ_Updater");
+LeaderLib_Register_ModMenu("EnemyUpgradeOverhaul.Settings", "[Enemy Upgrade Overhaul] Settings", "LLENEMY_Settings", "SuperEnemyUpgradeOverhaul", "LaughingLeader");
 // [END_NO_OSITOOLS]
 GlobalSetFlag("LLENEMY_DuplicationUpgradesDisabled"); // Opt-in
 GlobalSetFlag("LLENEMY_VoidwokenSourceSpawningEnabled");
@@ -17,22 +17,22 @@ AND
 NOT DB_LLENEMY_Updater_RegisteredNonExtender(_)
 THEN
 DB_LLENEMY_Updater_RegisteredNonExtender(1);
-LeaderUpdater_Register_Mod("EnemyUpgradeOverhaul", "LaughingLeader", 2,0,5,2);
-LeaderUpdater_Register_ActiveGoal("EnemyUpgradeOverhaul", "LaughingLeader", "LLENEMY_ZZZ_Updater");
-LeaderLib_Register_ModMenu("EnemyUpgradeOverhaul.Settings", "[Enemy Upgrade Overhaul] Settings", "LLENEMY_Settings", "EnemyUpgradeOverhaul", "LaughingLeader");
+LeaderUpdater_Register_Mod("SuperEnemyUpgradeOverhaul", "LaughingLeader", 2,0,5,2);
+LeaderUpdater_Register_ActiveGoal("SuperEnemyUpgradeOverhaul", "LaughingLeader", "LLENEMY_ZZZ_Updater");
+LeaderLib_Register_ModMenu("EnemyUpgradeOverhaul.Settings", "[Enemy Upgrade Overhaul] Settings", "LLENEMY_Settings", "SuperEnemyUpgradeOverhaul", "LaughingLeader");
 
 IF
 GameStarted(_Level, _)
 AND
 IsGameLevel(_Level, 1)
 AND
-LeaderUpdater_QRY_ModUpdateNeeded("EnemyUpgradeOverhaul", "LaughingLeader", 2,0,5,2)
+LeaderUpdater_QRY_ModUpdateNeeded("SuperEnemyUpgradeOverhaul", "LaughingLeader", 2,0,5,2)
 THEN
-LeaderUpdater_Register_Mod("EnemyUpgradeOverhaul", "LaughingLeader", 2,0,5,2);
+LeaderUpdater_Register_Mod("SuperEnemyUpgradeOverhaul", "LaughingLeader", 2,0,5,2);
 // [END_NO_OSITOOLS]
 
 PROC
-LeaderUpdater_ModUpdated("EnemyUpgradeOverhaul", "LaughingLeader", (STRING)_OldVersion, (STRING)_NewVersion)
+LeaderUpdater_ModUpdated("SuperEnemyUpgradeOverhaul", "LaughingLeader", (STRING)_OldVersion, (STRING)_NewVersion)
 THEN
 DB_NOOP(1);
 

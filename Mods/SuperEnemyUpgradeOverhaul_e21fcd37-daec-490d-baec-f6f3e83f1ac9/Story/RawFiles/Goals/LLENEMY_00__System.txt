@@ -59,30 +59,9 @@ SysClear("DB_LLENEMY_IgnoredCharacters", 1);
 DB_LLENEMY_IgnoredCharacters((CHARACTERGUID)CHARACTERGUID_S_FTJ_Florence_c272a37a-85ea-438f-9871-1551ef45d338);
 
 PROC
-LeaderUpdater_ModUpdated("EnemyUpgradeOverhaul", "LaughingLeader", (STRING)_OldVersion, (STRING)_NewVersion)
+LeaderUpdater_ModUpdated("SuperEnemyUpgradeOverhaul", "LaughingLeader", (STRING)_OldVersion, (STRING)_NewVersion)
 THEN
 LLENEMY_System_InitSettings();
-
-//REGION ACTIVE_MODS_CHANGED
-IF
-SavegameLoaded(_,_,_,_)
-AND
-DB_LLENEMY_Upgrades_Temp_ModUpgradesActive(_UUID, _GoalName, 1)
-AND
-NOT LLENEMY_Upgrades_QRY_ModIsActive(_UUID, _GoalName)
-THEN
-NOT DB_LLENEMY_Upgrades_Temp_ModUpgradesActive(_UUID, _GoalName, 1);
-DB_LLENEMY_Upgrades_Temp_ModsChanged(1);
-
-IF
-SavegameLoaded(_,_,_,_)
-AND
-DB_LLENEMY_Upgrades_Temp_ModsChanged(1)
-THEN
-NOT DB_LLENEMY_Upgrades_Temp_ModsChanged(1);
-LeaderLog_Log("DEBUG", "[LLENEMY_19_ModdedUpgrades_Start:SavegameLoaded] Re-registering upgrades since active mods have changed.");
-LLENEMY_Upgrades_Internal_Register_Start();
-//END_REGION
 
 //REGION QUERIES
 QRY

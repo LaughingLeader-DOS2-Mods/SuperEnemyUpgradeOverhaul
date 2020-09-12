@@ -9,15 +9,6 @@ LLENEMY_Duplication_QRY_IgnoreStatus((CHARACTERGUID)_Dupe, (STRING)_Status, (REA
 AND
 NOT DB_LLENEMY_Duplication_IgnoredStatus(_Status)
 AND
-DB_LLENEMY_Upgrades_Statuses("Duplication", _Type, _Status, _Start, _End, _Duration, _CP)
-THEN
-DB_LLENEMY_Duplication_IgnoredStatus(_Status);
-
-QRY
-LLENEMY_Duplication_QRY_IgnoreStatus((CHARACTERGUID)_Dupe, (STRING)_Status, (REAL)_Duration)
-AND
-NOT DB_LLENEMY_Duplication_IgnoredStatus(_Status)
-AND
 DB_LLENEMY_IgnoredDuplicantStatuses(_Status)
 THEN
 DB_LLENEMY_Duplication_IgnoredStatus(_Status);
@@ -30,28 +21,6 @@ AND
 GetStatusType(_Status, _StatusType)
 AND
 DB_LLENEMY_IgnoredDuplicantStatusTypes(_StatusType)
-THEN
-DB_LLENEMY_Duplication_IgnoredStatus(_Status);
-
-QRY
-LLENEMY_Duplication_QRY_IgnoreStatus((CHARACTERGUID)_Dupe, (STRING)_Status)
-AND
-NOT DB_LLENEMY_Duplication_IgnoredStatus(_Status)
-AND
-DB_LLENEMY_Upgrades_Statuses(_Group, _Type, _Status, _StartInt, _EndInt, _Duration, _ChallengePoints)
-AND
-NOT LLENEMY_Upgrades_QRY_CanApplyGroupTypeUpgrades(_Dupe, _Group, _Type)
-THEN
-DB_LLENEMY_Duplication_IgnoredStatus(_Status);
-
-QRY
-LLENEMY_Duplication_QRY_IgnoreStatus((CHARACTERGUID)_Dupe, (STRING)_Status)
-AND
-NOT DB_LLENEMY_Duplication_IgnoredStatus(_Status)
-AND
-DB_LLENEMY_Upgrades_Statuses(_Group, _Type, _Status, _StartInt, _EndInt, _Duration, _ChallengePoints)
-AND
-NOT LLENEMY_Upgrades_QRY_CanApplyUpgrade(_Dupe, _Group, _Type, _Status, 6.0)
 THEN
 DB_LLENEMY_Duplication_IgnoredStatus(_Status);
 

@@ -307,13 +307,14 @@ local function IgnoreCharacter(enemy)
 end
 
 ---@param source EsvCharacter
-function UpgradeSystem.StartDuplicating(source)
+function Duplication.StartDuplicating(source)
 	if not Settings.Global.Flags.LLENEMY_DuplicationUpgradesDisabled.Enabled then
 		if IgnoreCharacter(source) then
 			return false
 		end
-		local min = Settings.Global.Variables.Duplication_Min.Value or 0
-		local max = Settings.Global.Variables.Duplication_Max.Value or 1
+		--local maxTotal = Settings.Global.Variables.Duplication_MaxTotal.Value or -1
+		local min = Settings.Global.Variables.Duplication_MinDupesPerEnemy.Value or 0
+		local max = Settings.Global.Variables.Duplication_MaxDupesPerEnemy.Value or 1
 		local chance = Settings.Global.Variables.Duplication_Chance.Value or 30
 		if chance >= 100 or Ext.Random(1,100) <= chance then
 			local amount = Ext.Random(min, max)

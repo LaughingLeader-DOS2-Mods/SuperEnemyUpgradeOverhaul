@@ -14,13 +14,26 @@ end
 ---@param target EsvCharacter
 ---@param entry UpgradeEntry
 local function CanApplyUpgrade(target, entry)
-	if entry.StatusType == "SPARK" and (target.Stats.MainWeapon ~= nil and Game.Math.IsRangedWeapon(target.Stats.MainWeapon)) then
+	if entry == "LLENEMY_GATHERING_POWER" 
+	and (HasActiveStatus(target.MyGuid, "LLENEMY_GATHERING_POWER") == 1 
+	or HasActiveStatus(target.MyGuid, "LLENEMY_EMPOWERED") == 1)  then
+		return false
+	elseif entry.StatusType == "SPARK" and (target.Stats.MainWeapon ~= nil and Game.Math.IsRangedWeapon(target.Stats.MainWeapon)) then
 		return false
 	elseif entry.Value == "LLENEMY_GRANADA" and Osi.LeaderLib_Helper_QRY_CharacterIsHumanoid(target.MyGuid) == false then
 		return false
 	end
 	return true
 end
+
+local MODID = {
+	OdinAero = "961ae59d-2964-46dd-9762-073697915dc2",
+	OdinGeo = "ffb501cc-ab6d-46de-be89-732c9e289f3e",
+	OdinHydro = "02ca48b9-e4ef-a8e4-91d7-0b9df70bb595",
+	OdinPyro = "aab53301-4f38-1d49-91f7-28dfa468084b",
+	OdinNecro = "8700ba4e-7d4b-40ca-a23f-b43816794957",
+	OdinHuntsman = "7db12ae8-0e96-4050-adb2-06c906897b70",
+}
 
 local upgrades = g:Create("GeneralBuff", {
 	DisabledFlag = "LLENEMY_BuffUpgradesDisabled",
@@ -37,6 +50,13 @@ local upgrades = g:Create("GeneralBuff", {
 			u:Create("HASTED", 6, {Duration = 12.0}),
 			u:Create("LLENEMY_FARSIGHT", 4),
 			u:Create("DRUNK", 1, 0, {Duration = 12.0}),
+			u:Create("OdinAERO_THUNDERBRAND", 1, 1, {ModRequirement=MODID.OdinAero}),
+			u:Create("OdinPyro_BLAZING", 1, 1, {ModRequirement=MODID.OdinPyro}),
+			u:Create("OdinPyro_FLAMEBELLY", 1, 1, {ModRequirement=MODID.OdinPyro}),
+			u:Create("OdinGEO_Earthbrand", 1, 1, {ModRequirement=MODID.OdinGeo}),
+			u:Create("OdinWater_FROSTBLADE", 1, 1, {ModRequirement=MODID.OdinHydro}),
+			u:Create("OdinNECRO_TRANSFIXED_IMMUNITY", 1, 1, {ModRequirement=MODID.OdinNecro}),
+			u:Create("OdinHUN_NIMBLE", 1, 1, {ModRequirement=MODID.OdinHuntsman}),
 		}}),
 		sg:Create("Normal", 6, {
 		CanApply = CanApplyUpgrade,
@@ -52,6 +72,10 @@ local upgrades = g:Create("GeneralBuff", {
 			u:Create("LLENEMY_HERBMIX_FEROCITY", 6),
 			u:Create("LLENEMY_GRANADA", 1, 4),
 			u:Create("SPARKING_SWINGS", 5, 3),
+			u:Create("OdinAERO_VOLTSWINGS", 2, 2, {ModRequirement=MODID.OdinAero}),
+			u:Create("OdinWater_ICEARMOUR", 1, 2, {ModRequirement=MODID.OdinHydro}),
+			u:Create("OdinNECRO_REANIMATOR", 1, 2, {ModRequirement=MODID.OdinNecro}),
+			u:Create("OdinNECRO_OATHOFDESECRATION", 1, 3, {ModRequirement=MODID.OdinNecro}),
 		}}),
 		sg:Create("Elite", 1, {
 		CanApply = CanApplyUpgrade,
@@ -63,6 +87,9 @@ local upgrades = g:Create("GeneralBuff", {
 			u:Create("LLENEMY_ACTIVATE_FLAMING_TONGUES", 8, 3, {Duration = 0.0}),
 			u:Create("LLENEMY_CHICKEN_OVERLORD", 2, 7, {Duration = 12.0}),
 			u:Create("SPARK_MASTER", 10, 6),
+			u:Create("OdinAERO_VOLTMASTER", 1, 6, {ModRequirement=MODID.OdinAero}),
+			u:Create("OdinGEO_Ironbark", 1, 4, {ModRequirement=MODID.OdinGeo}),
+			u:Create("OdinGEO_ParasiticAffliction", 1, 3, {ModRequirement=MODID.OdinGeo}),
 		}}),
 		sg:Create("Polymorph", 2, {DisabledFlag = "LLENEMY_PolymorphSkillUpgradesDisabled",
 		Upgrades = {
@@ -80,6 +107,9 @@ local upgrades = g:Create("GeneralBuff", {
 			u:Create("LLENEMY_GATHERING_POWER", 8, 2, {Duration=24.0, FixedDuration=true}),
 			u:Create("LLENEMY_RAGE", 4, 1),
 		}}),
+	},
+	SessionLoaded = {
+
 	}
 })
 

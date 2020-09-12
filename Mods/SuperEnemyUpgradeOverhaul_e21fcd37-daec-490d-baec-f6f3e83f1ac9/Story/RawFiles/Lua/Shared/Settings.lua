@@ -28,8 +28,9 @@ settings.Global:AddVariable("BonusSkills_Min", 0)
 settings.Global:AddVariable("BonusSkills_Max", 3)
 settings.Global:AddVariable("EnemySkillIgnoreList", {})
 settings.Global:AddVariable("Hardmode_StatusBonusTurnsMax", 3)
-settings.Global:AddVariable("Duplication_Min", 0)
-settings.Global:AddVariable("Duplication_Max", 1)
+settings.Global:AddVariable("Duplication_MinDupesPerEnemy", 0)
+settings.Global:AddVariable("Duplication_MaxDupesPerEnemy", 1)
+settings.Global:AddVariable("Duplication_MaxTotal", -1)
 settings.Global:AddVariable("Duplication_Chance", 30)
 
 ---@param self SettingsData
