@@ -2,314 +2,20 @@ Version 1
 SubGoalCombiner SGC_AND
 INITSECTION
 KBSECTION
-//REGION SETTINGS
-PROC
-LLENEMY_Upgrades_RegisterAll((INTEGER)_HardModeEnabled)
-THEN
-LLENEMY_Upgrades_AddGroup("Talents", "LLENEMY_TalentUpgradesDisabled", "LLENEMY_TalentUpgradeRolled", "LLENEMY_TalentUpgradeAdded");
-LLENEMY_Upgrades_AddType("Talents", "Elite", 1, 99, 8);
-LLENEMY_Upgrades_AddType("Talents", "Normal", 360, 499, 5);
-LLENEMY_Upgrades_AddType("Talents", "Weapon", 50, 600, 4);
-
-PROC
-LLENEMY_Upgrades_Register_TypeUpgrades("Talents", "Elite", 0)
-THEN
-LLENEMY_Upgrades_AddStatus("Talents", "Elite", "LLENEMY_TALENT_LIGHTNINGROD", 20, 4);
-LLENEMY_Upgrades_AddStatus("Talents", "Elite", "LLENEMY_TALENT_LONEWOLF", 100, 12);
-LLENEMY_Upgrades_AddStatus("Talents", "Elite", "LLENEMY_TALENT_RESISTDEAD", 125, 8);
-LLENEMY_Upgrades_AddStatus("Talents", "Elite", "LLENEMY_TALENT_RESISTDEAD2", 20, 10);
-LLENEMY_Upgrades_AddStatus("Talents", "Elite", "LLENEMY_TALENT_TORTURER", 259, 4);
-LLENEMY_Upgrades_AddStatus("Talents", "Elite", "LLENEMY_TALENT_UNSTABLE", 70, 5);
-LLENEMY_Upgrades_AddStatus("Talents", "Elite", "LLENEMY_TALENT_WHATARUSH", 240, 6);
-LLENEMY_Upgrades_AddStatus("Talents", "Elite", "LLENEMY_TALENT_BULLY", 200, 6);
-LLENEMY_Upgrades_AddStatus("Talents", "Elite", "LLENEMY_TALENT_BACKSTAB", 50, 4);
-
-PROC
-LLENEMY_Upgrades_Register_TypeUpgrades("Talents", "Elite", 1)
-THEN
-LLENEMY_Upgrades_AddStatus("Talents", "Elite", "LLENEMY_TALENT_LIGHTNINGROD", 20, 4);
-LLENEMY_Upgrades_AddStatus("Talents", "Elite", "LLENEMY_TALENT_LONEWOLF", 150, 12);
-LLENEMY_Upgrades_AddStatus("Talents", "Elite", "LLENEMY_TALENT_RESISTDEAD", 150, 8);
-LLENEMY_Upgrades_AddStatus("Talents", "Elite", "LLENEMY_TALENT_RESISTDEAD2", 100, 10);
-LLENEMY_Upgrades_AddStatus("Talents", "Elite", "LLENEMY_TALENT_TORTURER", 259, 4);
-LLENEMY_Upgrades_AddStatus("Talents", "Elite", "LLENEMY_TALENT_UNSTABLE", 150, 5);
-LLENEMY_Upgrades_AddStatus("Talents", "Elite", "LLENEMY_TALENT_BULLY", 250, 6);
-LLENEMY_Upgrades_AddStatus("Talents", "Elite", "LLENEMY_TALENT_BACKSTAB", 125, 4);
-
-PROC
-LLENEMY_Upgrades_Register_TypeUpgrades("Talents", "Normal", (INTEGER)_HardModeEnabled)
-THEN
-LLENEMY_Upgrades_AddStatus("Talents", "Normal", "LLENEMY_TALENT_LEECH", 399, 2);
-LLENEMY_Upgrades_AddStatus("Talents", "Normal", "LLENEMY_TALENT_QUICKSTEP", 400, 4);
-LLENEMY_Upgrades_AddStatus("Talents", "Normal", "LLENEMY_TALENT_NATURALCONDUCTOR", 99, 4);
-LLENEMY_Upgrades_AddStatus("Talents", "Normal", "LLENEMY_TALENT_MASTERTHIEF", 90, 4);
-LLENEMY_Upgrades_AddStatus("Talents", "Normal", "LLENEMY_TALENT_WHATARUSH", 100, 3);
-
-PROC
-LLENEMY_Upgrades_Register_TypeUpgrades("Talents", "Weapon", (INTEGER)_HardModeEnabled)
-THEN
-LLENEMY_Upgrades_AddStatus("Talents", "Weapon", "LLENEMY_TALENT_RANGERRANGE", 500, 3);
-
-
-PROC
-LLENEMY_Upgrades_Register_TypeUpgrades("Talents", "Normal", (INTEGER)_HardModeEnabled)
-AND
-SysIsActive("CMP_Talents")
-THEN
-LLENEMY_Upgrades_AddStatus("Talents", "Normal", "LLENEMY_TALENT_GREEDYVESSEL", 90, 4);
-
-PROC
-LLENEMY_Upgrades_Register_TypeUpgrades("Talents", "Elite", (INTEGER)_HardModeEnabled)
-AND
-SysIsActive("CMP_Talents")
-THEN
-LLENEMY_Upgrades_AddStatus("Talents", "Elite", "LLENEMY_TALENT_HAYMAKER", 100, 8);
-LLENEMY_Upgrades_AddStatus("Talents", "Elite", "LLENEMY_TALENT_SOULCATCHER", 20, 12);
-LLENEMY_Upgrades_AddStatus("Talents", "Elite", "LLENEMY_TALENT_MAGICCYCLES", 100, 6);
-
-PROC
-LLENEMY_Upgrades_Register_TypeUpgrades("Talents", "Elite", (INTEGER)_HardModeEnabled)
-AND
-SysIsActive("CMP_Talents")
-AND
-//IndomitableForAll_7f5124c0-da04-4ce1-aa73-e22ed00bb711
-//NOT LeaderUpdater_QRY_ModIsActive_ByUUID(7f5124c0-da04-4ce1-aa73-e22ed00bb711)
-NOT SysIsActive("LaughingLeader_IndomitableForAll")
-THEN
-LLENEMY_Upgrades_AddStatus("Talents", "Elite", "LLENEMY_TALENT_INDOMITABLE", 50, 12);
-
-PROC
-LLENEMY_Upgrades_Register_TypeUpgrades("Talents", "Weapon", (INTEGER)_HardModeEnabled)
-AND
-SysIsActive("CMP_Talents")
-THEN
-LLENEMY_Upgrades_AddStatus("Talents", "Weapon", "LLENEMY_TALENT_SADIST", 50, 10);
-LLENEMY_Upgrades_AddStatus("Talents", "Weapon", "LLENEMY_TALENT_GLADIATOR", 100, 6);
-
-PROC
-LLENEMY_Upgrades_Register_TypeUpgrades("Talents", (STRING)_Type, (INTEGER)_HardModeEnabled)
-AND
-SysIsActive("CMP_Talents")
-THEN
-GlobalSetFlag("LLENEMY_TalentUpgrades_DivineTalentsAdded");
-//END_REGION
-
-//REGION GIFTBAG_TALENTS
-PROC
-LLENEMY_Talents_InitGiftBagTalents()
-AND
-GlobalGetFlag("LLENEMY_TalentUpgrades_DivineTalentsAdded", 0)
-AND
-SysIsActive("CMP_Talents")
-THEN
-GlobalSetFlag("LLENEMY_TalentUpgrades_DivineTalentsAdded");
-LLENEMY_Upgrades_Clear_UpgradesForType("Talents", "Normal");
-LLENEMY_Upgrades_Clear_UpgradesForType("Talents", "Elite");
-LLENEMY_Upgrades_Clear_UpgradesForType("Talents", "Weapon");
-
-LLENEMY_Upgrades_Register_TypeUpgrades("Talents", "Normal");
-LLENEMY_Upgrades_Register_TypeUpgrades("Talents", "Elite");
-LLENEMY_Upgrades_Register_TypeUpgrades("Talents", "Weapon");
-
-//Re-register modded talents
-LLENEMY_Upgrades_Register_ModUpgradesForType("Talents", "Normal");
-LLENEMY_Upgrades_Register_ModUpgradesForType("Talents", "Elite");
-LLENEMY_Upgrades_Register_ModUpgradesForType("Talents", "Weapon");
-//END_REGION
-
-//REGION ALREADY_HAS_TALENT_BELT
-// [BEGIN_NO_OSITOOLS]
-PROC
-LLENEMY_Upgrades_CanApplyGroupTypeUpgrades((CHARACTERGUID)_Enemy, "Talents", (STRING)_Type)
-AND
-CharacterGetEquippedItem(_Enemy, "Belt", _Belt)
-AND
-_Belt != NULL_00000000-0000-0000-0000-000000000000
-THEN
-DB_LLENEMY_StatusUpgradeBlocked(_Enemy, "Talents", _Type);
-// [END_NO_OSITOOLS]
-//END_REGION
-
-//REGION MELEE_WEAPON_TALENT
-PROC
-LLENEMY_Upgrades_CanApplyGroupTypeUpgrades((CHARACTERGUID)_Enemy, "Talents", "Melee")
-THEN
-DB_LLENEMY_StatusUpgradeBlocked(_Enemy, "Talents", "Melee");
-//END_REGION
-
-//REGION WEAPON_TALENT_ROLLING
-PROC
-LLENEMY_Upgrades_CanApplyGroupTypeUpgrades((CHARACTERGUID)_Enemy, "Talents", "Weapon")
-THEN
-DB_LLENEMY_StatusUpgradeBlocked(_Enemy, "Talents", "Weapon");
-
-PROC
-LLENEMY_Upgrades_Internal_RollGroupTypeUpgrades((CHARACTERGUID)_Enemy, "Talents", "Weapon")
-AND
-NOT DB_LLENEMY_Talents_Temp_WeaponTalentAdded(_Enemy)
-AND
-CharacterGetEquippedWeapon(_Enemy, (ITEMGUID)_Weapon)
-AND
-LeaderLib_Helper_QRY_IsNonMagicalRangedWeapon(_Weapon)
-AND
-LeaderLib_Random_QRY(999)
-AND
-DB_LeaderLib_Random(_Roll)
-AND
-LLENEMY_Upgrades_QRY_Internal_CheckForTypeCriticalFailure(_Enemy, "Talents", "Weapon", _Roll)
-AND
-DB_LLENEMY_Upgrades_Statuses(_Group, _Type, "LLENEMY_TALENT_RANGERRANGE", _MinRoll, _MaxRoll, _Duration, _ChallengePoints)
-AND
-_Roll <= _MaxRoll
-AND
-_Roll >= _MinRoll
-THEN
-NOT DB_LeaderLib_Random(_Roll);
-LeaderLog_Log("TRACE", "[LLENEMY:Talents:RollForStatusUpgrade] Roll successful for weapon talent status [LLENEMY_TALENT_RANGERRANGE].");
-LLENEMY_Upgrades_ApplyUpgrade(_Enemy, _Group, _Type, "LLENEMY_TALENT_RANGERRANGE", _Duration, _ChallengePoints);
-DB_LLENEMY_Talents_Temp_WeaponTalentAdded(_Enemy);
-
-//Gladiator
-PROC
-LLENEMY_Upgrades_Internal_RollGroupTypeUpgrades((CHARACTERGUID)_Enemy, "Talents", "Weapon")
-AND
-NOT DB_LLENEMY_Talents_Temp_WeaponTalentAdded(_Enemy)
-AND
-CharacterGetEquippedShield(_Enemy, _Shield)
-AND
-_Shield != NULL_00000000-0000-0000-0000-000000000000
-AND
-LeaderLib_Random_QRY(999)
-AND
-DB_LeaderLib_Random(_Roll)
-AND
-LLENEMY_Upgrades_QRY_Internal_CheckForTypeCriticalFailure(_Enemy, "Talents", "Weapon", _Roll)
-AND
-DB_LLENEMY_Upgrades_Statuses(_Group, _Type, "LLENEMY_TALENT_GLADIATOR", _MinRoll, _MaxRoll, _Duration, _ChallengePoints)
-AND
-_Roll <= _MaxRoll
-AND
-_Roll >= _MinRoll
-THEN
-NOT DB_LeaderLib_Random(_Roll);
-LeaderLog_Log("TRACE", "[LLENEMY:Talents:RollForStatusUpgrade] Roll successful for weapon talent status [LLENEMY_TALENT_GLADIATOR].");
-LLENEMY_Upgrades_ApplyUpgrade(_Enemy, _Group, _Type, "LLENEMY_TALENT_GLADIATOR", _Duration, _ChallengePoints);
-DB_LLENEMY_Talents_Temp_WeaponTalentAdded(_Enemy);
-
-//Sadist
-PROC
-LLENEMY_Upgrades_Internal_RollGroupTypeUpgrades((CHARACTERGUID)_Enemy, "Talents", "Weapon")
-AND
-NOT DB_LLENEMY_Talents_Temp_WeaponTalentAdded(_Enemy)
-AND
-CharacterGetEquippedShield(_Enemy, _Shield)
-AND
-_Shield != NULL_00000000-0000-0000-0000-000000000000
-AND
-LeaderLib_Random_QRY(999)
-AND
-DB_LeaderLib_Random(_Roll)
-AND
-LLENEMY_Upgrades_QRY_Internal_CheckForTypeCriticalFailure(_Enemy, "Talents", "Weapon", _Roll)
-AND
-DB_LLENEMY_Upgrades_Statuses(_Group, _Type, "LLENEMY_TALENT_SADIST", _MinRoll, _MaxRoll, _Duration, _ChallengePoints)
-AND
-_Roll <= _MaxRoll
-AND
-_Roll >= _MinRoll
-THEN
-NOT DB_LeaderLib_Random(_Roll);
-LeaderLog_Log("TRACE", "[LLENEMY:Talents:RollForStatusUpgrade] Roll successful for weapon talent status [LLENEMY_TALENT_SADIST].");
-LLENEMY_Upgrades_ApplyUpgrade(_Enemy, _Group, _Type, "LLENEMY_TALENT_SADIST", _Duration, _ChallengePoints);
-DB_LLENEMY_Talents_Temp_WeaponTalentAdded(_Enemy);
-
-PROC
-LLENEMY_Upgrades_Internal_RollGroupTypeUpgrades((CHARACTERGUID)_Enemy, "Talents", "Weapon")
-AND
-DB_LLENEMY_Talents_Temp_WeaponTalentAdded(_Enemy)
-THEN
-NOT DB_LLENEMY_Talents_Temp_WeaponTalentAdded(_Enemy);
-//END_REGION
-
-//REGION LEVELING_TALENT_BELTS
-PROC
-LeaderUpdater_ModUpdated("EnemyUpgradeOverhaul", "LaughingLeader", (STRING)_OldVersion, (STRING)_NewVersion)
-AND
-LeaderLib_StringExt_QRY_VersionIsLessThan(_OldVersion, 1,3,0,0)
-THEN
-SysClear("DB_LLENEMY_Talents_Temp_DeleteItem", 2);
-
-
-/* // No longer needed since the belt stats now start with an underscore, which let them auto-level and make them hidden from the UI
-IF
-CharacterStatusApplied(_Enemy, _Status, _)
-AND
-DB_LLENEMY_Upgrades_Statuses("Talents", _Type, _Status, _MinRoll, _MaxRoll, _Duration, _ChallengePoints)
-THEN
-LLENEMY_Talents_LevelUpTalentItems(_Enemy);
-
-PROC
-LLENEMY_Talents_LevelUpTalentItems((CHARACTERGUID)_Enemy)
-AND
-CharacterGetEquippedItem(_Enemy, "Belt", (ITEMGUID)_Belt)
-AND
-CharacterGetLevel(_Enemy, _Level)
-THEN
-ItemLevelUpTo(_Belt, _Level);
-DB_LLENEMY_Talents_Temp_DeleteItem(_Enemy, _Belt);
-
-PROC
-LLENEMY_Talents_LevelUpTalentItems((CHARACTERGUID)_Enemy)
-AND
-CharacterGetEquippedItem(_Enemy, "Ring", (ITEMGUID)_Ring)
-AND
-CharacterGetLevel(_Enemy, _Level)
-THEN
-ItemLevelUpTo(_Ring, _Level);
-DB_LLENEMY_Talents_Temp_DeleteItem(_Enemy, _Ring);
-
-PROC
-LLENEMY_Talents_LevelUpTalentItems((CHARACTERGUID)_Enemy)
-AND
-CharacterGetEquippedItem(_Enemy, "Ring2", (ITEMGUID)_Ring)
-AND
-CharacterGetLevel(_Enemy, _Level)
-THEN
-ItemLevelUpTo(_Ring, _Level);
-DB_LLENEMY_Talents_Temp_DeleteItem(_Enemy, _Ring);
-
-IF
-CharacterDied(_Enemy)
-AND
-DB_LLENEMY_Talents_Temp_DeleteItem(_Enemy, _Item)
-AND
-ObjectExists(_Item, 1)
-THEN
-ItemRemove(_Item);
-
-IF
-CharacterDied(_Enemy)
-AND
-DB_LLENEMY_Talents_Temp_DeleteItem(_Enemy, _Item)
-THEN
-NOT DB_LLENEMY_Talents_Temp_DeleteItem(_Enemy, _Item);
-*/
-//END_REGION
-
 //REGION NATURAL_CONDUCTOR_QRY
 QRY
-LLENEMY_QRY_IsInElectrifiedSurface((CHARACTERGUID)_Character)
+LLENEMY_QRY_IsInElectrifiedSurface((CHARACTERGUID)_Char)
 AND
-GetSurfaceGroundAt(_Character, _Surface)
+GetSurfaceGroundAt(_Char, _Surface)
 AND
 StringContains(_Surface, "Electrified", 1)
 THEN
 DB_NOOP(1);
 
 QRY
-LLENEMY_QRY_IsInElectrifiedSurface((CHARACTERGUID)_Character)
+LLENEMY_QRY_IsInElectrifiedSurface((CHARACTERGUID)_Char)
 AND
-GetSurfaceCloudAt(_Character, _Surface)
+GetSurfaceCloudAt(_Char, _Surface)
 AND
 StringContains(_Surface, "Electrified", 1)
 THEN
@@ -345,7 +51,6 @@ RemoveStatus(_Enemy, "LLENEMY_TALENT_BULLY_DAMAGEBONUS");
 //END_REGION
 
 //REGION EXTENDER_TALENT_ADDING
-/* [OSITOOLS_ONLY]
 IF
 CharacterStatusApplied(_Char, "LLENEMY_TALENT_TORTURER", _)
 THEN
@@ -406,120 +111,106 @@ CharacterStatusApplied(_Char, "LLENEMY_TALENT_BACKSTAB", _)
 THEN
 NRD_ModCall("SuperEnemyUpgradeOverhaul", "AddTalent", (STRING)_Char, "RogueLoreDaggerBackStab");
 //NRD_ModCall("SuperEnemyUpgradeOverhaul", "AddTalent", (STRING)_Char, "Backstab");
-*/
 //END_REGION
 
 //REGION LONE_WOLF_POINTS_BOOST
-/* [OSITOOLS_ONLY]
 IF
 CharacterStatusApplied(_Char, "LLENEMY_TALENT_LONEWOLF", _)
 THEN
 NRD_ModCall("SuperEnemyUpgradeOverhaul", "ApplyLoneWolfBonuses", (STRING)_Char);
-*/
 //END_REGION
 
 //REGION TALENT_BLOCKING
-PROC
-LLENEMY_Upgrades_CanApplyUpgrade((CHARACTERGUID)_Character, (STRING)_Group, (STRING)_Type, "LLENEMY_TALENT_MASTERTHIEF", (REAL)_Duration)
+QRY
+LLENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_GLADIATOR")
 AND
-CharacterGetEquippedWeapon(_Character, (ITEMGUID)_Weapon)
-AND
-_Weapon != NULL_00000000-0000-0000-0000-000000000000
-AND
-LeaderLib_Helper_QRY_IsRangedWeapon(_Weapon)
+CharacterHasTalent(_Char, "Gladiator", 1)
 THEN
-DB_LLENEMY_StatusUpgradeBlocked(_Character, _Group, _Type, "LLENEMY_TALENT_MASTERTHIEF");
+DB_NOOP(1);
 
-PROC
-LLENEMY_Upgrades_CanApplyUpgrade((CHARACTERGUID)_Character, (STRING)_Group, (STRING)_Type, "LLENEMY_TALENT_GLADIATOR", (REAL)_Duration)
+QRY
+LLENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_GREEDYVESSEL")
 AND
-CharacterHasTalent(_Character, "Gladiator", 1)
+CharacterHasTalent(_Char, "GreedyVessel", 1)
 THEN
-DB_LLENEMY_StatusUpgradeBlocked(_Character, _Group, _Type, "LLENEMY_TALENT_GLADIATOR");
+DB_NOOP(1);
 
-PROC
-LLENEMY_Upgrades_CanApplyUpgrade((CHARACTERGUID)_Character, (STRING)_Group, (STRING)_Type, "LLENEMY_TALENT_GREEDYVESSEL", (REAL)_Duration)
+QRY
+LLENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_HAYMAKER")
 AND
-CharacterHasTalent(_Character, "GreedyVessel", 1)
+CharacterHasTalent(_Char, "Haymaker", 1)
 THEN
-DB_LLENEMY_StatusUpgradeBlocked(_Character, _Group, _Type, "LLENEMY_TALENT_GREEDYVESSEL");
+DB_NOOP(1);
 
-PROC
-LLENEMY_Upgrades_CanApplyUpgrade((CHARACTERGUID)_Character, (STRING)_Group, (STRING)_Type, "LLENEMY_TALENT_HAYMAKER", (REAL)_Duration)
+QRY
+LLENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_INDOMITABLE")
 AND
-CharacterHasTalent(_Character, "Haymaker", 1)
+CharacterHasTalent(_Char, "Indomitable", 1)
 THEN
-DB_LLENEMY_StatusUpgradeBlocked(_Character, _Group, _Type, "LLENEMY_TALENT_HAYMAKER");
+DB_NOOP(1);
 
-PROC
-LLENEMY_Upgrades_CanApplyUpgrade((CHARACTERGUID)_Character, (STRING)_Group, (STRING)_Type, "LLENEMY_TALENT_INDOMITABLE", (REAL)_Duration)
+QRY
+LLENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_LEECH")
 AND
-CharacterHasTalent(_Character, "Indomitable", 1)
+CharacterHasTalent(_Char, "Leech", 1)
 THEN
-DB_LLENEMY_StatusUpgradeBlocked(_Character, _Group, _Type, "LLENEMY_TALENT_INDOMITABLE");
+DB_NOOP(1);
 
-PROC
-LLENEMY_Upgrades_CanApplyUpgrade((CHARACTERGUID)_Character, (STRING)_Group, (STRING)_Type, "LLENEMY_TALENT_LEECH", (REAL)_Duration)
+QRY
+LLENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_LONEWOLF")
 AND
-CharacterHasTalent(_Character, "Leech", 1)
+CharacterHasTalent(_Char, "LoneWolf", 1)
 THEN
-DB_LLENEMY_StatusUpgradeBlocked(_Character, _Group, _Type, "LLENEMY_TALENT_LEECH");
+DB_NOOP(1);
 
-PROC
-LLENEMY_Upgrades_CanApplyUpgrade((CHARACTERGUID)_Character, (STRING)_Group, (STRING)_Type, "LLENEMY_TALENT_LONEWOLF", (REAL)_Duration)
+QRY
+LLENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_MAGICCYCLES")
 AND
-CharacterHasTalent(_Character, "LoneWolf", 1)
+CharacterHasTalent(_Char, "MagicCycles", 1)
 THEN
-DB_LLENEMY_StatusUpgradeBlocked(_Character, _Group, _Type, "LLENEMY_TALENT_LONEWOLF");
+DB_NOOP(1);
 
-PROC
-LLENEMY_Upgrades_CanApplyUpgrade((CHARACTERGUID)_Character, (STRING)_Group, (STRING)_Type, "LLENEMY_TALENT_MAGICCYCLES", (REAL)_Duration)
+QRY
+LLENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_QUICKSTEP")
 AND
-CharacterHasTalent(_Character, "MagicCycles", 1)
+CharacterHasTalent(_Char, "QuickStep", 1)
 THEN
-DB_LLENEMY_StatusUpgradeBlocked(_Character, _Group, _Type, "LLENEMY_TALENT_MAGICCYCLES");
+DB_NOOP(1);
 
-PROC
-LLENEMY_Upgrades_CanApplyUpgrade((CHARACTERGUID)_Character, (STRING)_Group, (STRING)_Type, "LLENEMY_TALENT_QUICKSTEP", (REAL)_Duration)
+QRY
+LLENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_SADIST")
 AND
-CharacterHasTalent(_Character, "QuickStep", 1)
+CharacterHasTalent(_Char, "Sadist", 1)
 THEN
-DB_LLENEMY_StatusUpgradeBlocked(_Character, _Group, _Type, "LLENEMY_TALENT_QUICKSTEP");
+DB_NOOP(1);
 
-PROC
-LLENEMY_Upgrades_CanApplyUpgrade((CHARACTERGUID)_Character, (STRING)_Group, (STRING)_Type, "LLENEMY_TALENT_SADIST", (REAL)_Duration)
+QRY
+LLENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_SOULCATCHER")
 AND
-CharacterHasTalent(_Character, "Sadist", 1)
+CharacterHasTalent(_Char, "Soulcatcher", 1)
 THEN
-DB_LLENEMY_StatusUpgradeBlocked(_Character, _Group, _Type, "LLENEMY_TALENT_SADIST");
+DB_NOOP(1);
 
-PROC
-LLENEMY_Upgrades_CanApplyUpgrade((CHARACTERGUID)_Character, (STRING)_Group, (STRING)_Type, "LLENEMY_TALENT_SOULCATCHER", (REAL)_Duration)
+QRY
+LLENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_TORTURER")
 AND
-CharacterHasTalent(_Character, "Soulcatcher", 1)
+CharacterHasTalent(_Char, "Torturer", 1)
 THEN
-DB_LLENEMY_StatusUpgradeBlocked(_Character, _Group, _Type, "LLENEMY_TALENT_SOULCATCHER");
+DB_NOOP(1);
 
-PROC
-LLENEMY_Upgrades_CanApplyUpgrade((CHARACTERGUID)_Character, (STRING)_Group, (STRING)_Type, "LLENEMY_TALENT_TORTURER", (REAL)_Duration)
+QRY
+LLENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_UNSTABLE")
 AND
-CharacterHasTalent(_Character, "Torturer", 1)
+CharacterHasTalent(_Char, "Unstable", 1)
 THEN
-DB_LLENEMY_StatusUpgradeBlocked(_Character, _Group, _Type, "LLENEMY_TALENT_TORTURER");
+DB_NOOP(1);
 
-PROC
-LLENEMY_Upgrades_CanApplyUpgrade((CHARACTERGUID)_Character, (STRING)_Group, (STRING)_Type, "LLENEMY_TALENT_UNSTABLE", (REAL)_Duration)
+QRY
+LLENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_WHATARUSH")
 AND
-CharacterHasTalent(_Character, "Unstable", 1)
+CharacterHasTalent(_Char, "WhatARush", 1)
 THEN
-DB_LLENEMY_StatusUpgradeBlocked(_Character, _Group, _Type, "LLENEMY_TALENT_UNSTABLE");
-
-PROC
-LLENEMY_Upgrades_CanApplyUpgrade((CHARACTERGUID)_Character, (STRING)_Group, (STRING)_Type, "LLENEMY_TALENT_WHATARUSH", (REAL)_Duration)
-AND
-CharacterHasTalent(_Character, "WhatARush", 1)
-THEN
-DB_LLENEMY_StatusUpgradeBlocked(_Character, _Group, _Type, "LLENEMY_TALENT_WHATARUSH");
+DB_NOOP(1);
 //END_REGION
 
 EXITSECTION
