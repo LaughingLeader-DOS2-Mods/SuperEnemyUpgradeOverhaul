@@ -4,7 +4,7 @@ INITSECTION
 KBSECTION
 //REGION NATURAL_CONDUCTOR_QRY
 QRY
-LLENEMY_QRY_IsInElectrifiedSurface((CHARACTERGUID)_Char)
+LLSENEMY_QRY_IsInElectrifiedSurface((CHARACTERGUID)_Char)
 AND
 GetSurfaceGroundAt(_Char, _Surface)
 AND
@@ -13,7 +13,7 @@ THEN
 DB_NOOP(1);
 
 QRY
-LLENEMY_QRY_IsInElectrifiedSurface((CHARACTERGUID)_Char)
+LLSENEMY_QRY_IsInElectrifiedSurface((CHARACTERGUID)_Char)
 AND
 GetSurfaceCloudAt(_Char, _Surface)
 AND
@@ -24,21 +24,21 @@ DB_NOOP(1);
 
 //REGION BULLY_QRY
 QRY
-LLENEMY_Talents_QRY_BullyTarget((GUIDSTRING)_Target)
+LLSENEMY_Talents_QRY_BullyTarget((GUIDSTRING)_Target)
 AND
 HasActiveStatus(_Target, "KNOCKED_DOWN", 1)
 THEN
 DB_NOOP(1);
 
 QRY
-LLENEMY_Talents_QRY_BullyTarget((GUIDSTRING)_Target)
+LLSENEMY_Talents_QRY_BullyTarget((GUIDSTRING)_Target)
 AND
 HasActiveStatus(_Target, "CRIPPLED", 1)
 THEN
 DB_NOOP(1);
 
 QRY
-LLENEMY_Talents_QRY_BullyTarget((GUIDSTRING)_Target)
+LLSENEMY_Talents_QRY_BullyTarget((GUIDSTRING)_Target)
 AND
 HasActiveStatus(_Target, "SLOWED", 1)
 THEN
@@ -122,91 +122,91 @@ NRD_ModCall("SuperEnemyUpgradeOverhaul", "ApplyLoneWolfBonuses", (STRING)_Char);
 
 //REGION TALENT_BLOCKING
 QRY
-LLENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_GLADIATOR")
+LLSENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_GLADIATOR")
 AND
 CharacterHasTalent(_Char, "Gladiator", 1)
 THEN
 DB_NOOP(1);
 
 QRY
-LLENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_GREEDYVESSEL")
+LLSENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_GREEDYVESSEL")
 AND
 CharacterHasTalent(_Char, "GreedyVessel", 1)
 THEN
 DB_NOOP(1);
 
 QRY
-LLENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_HAYMAKER")
+LLSENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_HAYMAKER")
 AND
 CharacterHasTalent(_Char, "Haymaker", 1)
 THEN
 DB_NOOP(1);
 
 QRY
-LLENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_INDOMITABLE")
+LLSENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_INDOMITABLE")
 AND
 CharacterHasTalent(_Char, "Indomitable", 1)
 THEN
 DB_NOOP(1);
 
 QRY
-LLENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_LEECH")
+LLSENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_LEECH")
 AND
 CharacterHasTalent(_Char, "Leech", 1)
 THEN
 DB_NOOP(1);
 
 QRY
-LLENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_LONEWOLF")
+LLSENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_LONEWOLF")
 AND
 CharacterHasTalent(_Char, "LoneWolf", 1)
 THEN
 DB_NOOP(1);
 
 QRY
-LLENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_MAGICCYCLES")
+LLSENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_MAGICCYCLES")
 AND
 CharacterHasTalent(_Char, "MagicCycles", 1)
 THEN
 DB_NOOP(1);
 
 QRY
-LLENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_QUICKSTEP")
+LLSENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_QUICKSTEP")
 AND
 CharacterHasTalent(_Char, "QuickStep", 1)
 THEN
 DB_NOOP(1);
 
 QRY
-LLENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_SADIST")
+LLSENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_SADIST")
 AND
 CharacterHasTalent(_Char, "Sadist", 1)
 THEN
 DB_NOOP(1);
 
 QRY
-LLENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_SOULCATCHER")
+LLSENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_SOULCATCHER")
 AND
 CharacterHasTalent(_Char, "Soulcatcher", 1)
 THEN
 DB_NOOP(1);
 
 QRY
-LLENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_TORTURER")
+LLSENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_TORTURER")
 AND
 CharacterHasTalent(_Char, "Torturer", 1)
 THEN
 DB_NOOP(1);
 
 QRY
-LLENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_UNSTABLE")
+LLSENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_UNSTABLE")
 AND
 CharacterHasTalent(_Char, "Unstable", 1)
 THEN
 DB_NOOP(1);
 
 QRY
-LLENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_WHATARUSH")
+LLSENEMY_Upgrades_QRY_BlockTalentUpgrade((CHARACTERGUID)_Char, "LLENEMY_TALENT_WHATARUSH")
 AND
 CharacterHasTalent(_Char, "WhatARush", 1)
 THEN

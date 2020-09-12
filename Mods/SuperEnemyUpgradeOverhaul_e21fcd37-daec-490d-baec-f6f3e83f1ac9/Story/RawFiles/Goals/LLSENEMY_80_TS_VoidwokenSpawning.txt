@@ -6,22 +6,22 @@ KBSECTION
 IF
 SkillCast(_Char, _Skill, _SkillType, _SkillElement)
 AND
-LLENEMY_QRY_SkillCanSummonVoidwoken(_Char, _Skill, _SkillType, _SkillElement, _SP)
+LLSENEMY_QRY_SkillCanSummonVoidwoken(_Char, _Skill, _SkillType, _SkillElement, _SP)
 AND
 GetUUID(_Char, _UUID)
 THEN
-SysClear("DB_LLENEMY_TrySummonVoidwoken_Temp_Caster", 1);
-DB_LLENEMY_TrySummonVoidwoken_Temp_Caster(_UUID);
-LLENEMY_HardMode_TrackTotalSourceUsed(_SP);
+SysClear("DB_LLSENEMY_TrySummonVoidwoken_Temp_Caster", 1);
+DB_LLSENEMY_TrySummonVoidwoken_Temp_Caster(_UUID);
+LLSENEMY_HardMode_TrackTotalSourceUsed(_SP);
 TimerCancel("Timers_LLENEMY_TrySummonVoidwoken");
 TimerLaunch("Timers_LLENEMY_TrySummonVoidwoken", 750);
 
 IF
 TimerFinished("Timers_LLENEMY_TrySummonVoidwoken")
 AND
-DB_LLENEMY_TrySummonVoidwoken_Temp_Caster(_UUID)
+DB_LLSENEMY_TrySummonVoidwoken_Temp_Caster(_UUID)
 THEN
-NOT DB_LLENEMY_TrySummonVoidwoken_Temp_Caster(_UUID);
+NOT DB_LLSENEMY_TrySummonVoidwoken_Temp_Caster(_UUID);
 NRD_ModCall("SuperEnemyUpgradeOverhaul", "SpawnVoidwoken", _UUID);
 
 // Source accumulation degrades over time.
@@ -31,23 +31,23 @@ UpdateTime((INTEGER)_Day,(INTEGER)_Hour)
 AND
 NOT DB_LeaderLib_Combat_ActiveCombat(_)
 AND
-DB_LLENEMY_HardMode_SourcePointsUsed(_Region, _TotalSP)
+DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, _TotalSP)
 AND
 _TotalSP > 0
 AND
 DB_GameHour(_GameHourSpeed)
 AND
-LLENEMY_Ext_QRY_GetSourceDegredation(_GameHourSpeed, _TotalSP, _Ran)
+LLSENEMY_Ext_QRY_GetSourceDegredation(_GameHourSpeed, _TotalSP, _Ran)
 AND
 IntegerSubtract(_TotalSP, _Ran, _Next)
 AND
 IntegerMax(_Next, 0, _CappedMin)
 THEN
-NOT DB_LLENEMY_HardMode_SourcePointsUsed(_Region, _TotalSP);
+NOT DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, _TotalSP);
 LeaderLog_LogInt("DEBUG", "[LLENEMY_20_HardMode_Enabler:UpdateTime] Source used degraded (", _TotalSP, " => ", _CappedMin, ")");
-DB_LLENEMY_HardMode_SourcePointsUsed(_Region, _CappedMin);
+DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, _CappedMin);
 */
 EXITSECTION
-SysClear("DB_LLENEMY_TrySummonVoidwoken_Temp_Caster", 1);
+SysClear("DB_LLSENEMY_TrySummonVoidwoken_Temp_Caster", 1);
 ENDEXITSECTION
 ParentTargetEdge "LLENEMY_80_ToggledScripts"

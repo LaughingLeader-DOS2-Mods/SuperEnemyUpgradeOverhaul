@@ -4,44 +4,44 @@ INITSECTION
 KBSECTION
 
 PROC
-LLENEMY_Duplication_AddToBlacklist((CHARACTERGUID)_Char)
+LLSENEMY_Duplication_AddToBlacklist((CHARACTERGUID)_Char)
 THEN
-DB_LLENEMY_Duplication_Blacklist(_Char);
+DB_LLSENEMY_Duplication_Blacklist(_Char);
 
 QRY
-LLENEMY_Duplication_QRY_CanDuplicate((CHARACTERGUID)_Char)
+LLSENEMY_Duplication_QRY_CanDuplicate((CHARACTERGUID)_Char)
 AND
-NOT DB_LLENEMY_Duplication_Blacklist(_Char)
+NOT DB_LLSENEMY_Duplication_Blacklist(_Char)
 THEN
 DB_NOOP(1);
 
 //REGION COPY_STATUSES
 QRY
-LLENEMY_Duplication_QRY_IgnoreStatus((CHARACTERGUID)_Dupe, (STRING)_Status, (REAL)_Duration)
+LLSENEMY_Duplication_QRY_IgnoreStatus((CHARACTERGUID)_Dupe, (STRING)_Status, (REAL)_Duration)
 AND
-NOT DB_LLENEMY_Duplication_IgnoredStatus(_Status)
+NOT DB_LLSENEMY_Duplication_IgnoredStatus(_Status)
 AND
-DB_LLENEMY_IgnoredDuplicantStatuses(_Status)
+DB_LLSENEMY_IgnoredDuplicantStatuses(_Status)
 THEN
-DB_LLENEMY_Duplication_IgnoredStatus(_Status);
+DB_LLSENEMY_Duplication_IgnoredStatus(_Status);
 
 QRY
-LLENEMY_Duplication_QRY_IgnoreStatus((CHARACTERGUID)_Dupe, (STRING)_Status)
+LLSENEMY_Duplication_QRY_IgnoreStatus((CHARACTERGUID)_Dupe, (STRING)_Status)
 AND
-NOT DB_LLENEMY_Duplication_IgnoredStatus(_Status)
+NOT DB_LLSENEMY_Duplication_IgnoredStatus(_Status)
 AND
 GetStatusType(_Status, _StatusType)
 AND
-DB_LLENEMY_IgnoredDuplicantStatusTypes(_StatusType)
+DB_LLSENEMY_IgnoredDuplicantStatusTypes(_StatusType)
 THEN
-DB_LLENEMY_Duplication_IgnoredStatus(_Status);
+DB_LLSENEMY_Duplication_IgnoredStatus(_Status);
 
 QRY
-LLENEMY_Duplication_QRY_CanCopyStatus((CHARACTERGUID)_Dupe, (STRING)_Status)
+LLSENEMY_Duplication_QRY_CanCopyStatus((CHARACTERGUID)_Dupe, (STRING)_Status)
 AND
 NOT DB_LeaderLib_EngineStatus(_Status)
 AND
-NOT DB_LLENEMY_Duplication_IgnoredStatus(_Status)
+NOT DB_LLSENEMY_Duplication_IgnoredStatus(_Status)
 AND
 NOT LLENEMY_Duplication_QRY_IgnoreStatus(_Dupe, _Status)
 THEN
@@ -50,14 +50,14 @@ DB_NOOP(1);
 IF
 StoryEvent((CHARACTERGUID)_Char, "DummyIgnoreEvent")
 AND
-LLENEMY_Duplication_QRY_CanCopyStatus(_Char, "Test")
+LLSENEMY_Duplication_QRY_CanCopyStatus(_Char, "Test")
 THEN
 DB_NOOP(1);
 //END_REGION
 
 //REGION DUPE_ARENA
 PROC
-LLENEMY_Duplication_SetupArena((CHARACTERGUID)_Source, (CHARACTERGUID)_Dupe)
+LLSENEMY_Duplication_SetupArena((CHARACTERGUID)_Source, (CHARACTERGUID)_Dupe)
 AND
 //DB_ArenaPresets_Mobs(_Arena, _Source, _Trigger)
 DB_Arena_MobParticipants(_Inst, _Source, _Trig, _Team)
@@ -69,14 +69,14 @@ SetFaction(_Dupe, _Team);
 
 //REGION COMBAT_HANDLING
 PROC
-LLENEMY_Duplication_AddActive((CHARACTERGUID)_Source, (CHARACTERGUID)_Dupe, (STRING)_Region)
+LLSENEMY_Duplication_AddActive((CHARACTERGUID)_Source, (CHARACTERGUID)_Dupe, (STRING)_Region)
 THEN
-DB_LLENEMY_Duplication_Temp_Active(_Source, _Dupe, _Region);
+DB_LLSENEMY_Duplication_Temp_Active(_Source, _Dupe, _Region);
 
 IF
 StoryEvent((CHARACTERGUID)_Dupe, "LLENEMY_DupeCharacterTeleported")
 AND
-DB_LLENEMY_Duplication_Temp_Active(_Source, _Dupe, _Region)
+DB_LLSENEMY_Duplication_Temp_Active(_Source, _Dupe, _Region)
 AND
 CharacterIsInCombat(_Dupe, 0)
 AND
@@ -89,7 +89,7 @@ StoryEvent((CHARACTERGUID)_Dupe, "LLENEMY_DupeCharacterTeleported")
 AND
 ObjectIsOnStage(_Dupe, 0)
 AND
-DB_LLENEMY_Duplication_Temp_Active(_Source, _Dupe, _Region)
+DB_LLSENEMY_Duplication_Temp_Active(_Source, _Dupe, _Region)
 AND
 CharacterIsInCombat(_Source, 1)
 AND
@@ -101,7 +101,7 @@ CharacterSetDetached(_Dupe, 0);
 IF
 ObjectEnteredCombat((CHARACTERGUID)_Source, _CombatID)
 AND
-DB_LLENEMY_Duplication_Temp_Active(_Source, _Dupe, _Region)
+DB_LLSENEMY_Duplication_Temp_Active(_Source, _Dupe, _Region)
 AND
 CharacterIsDead(_Dupe, 0)
 AND
@@ -118,7 +118,7 @@ CharacterSetDetached(_Dupe, 0);
 IF
 ObjectLeftCombat((CHARACTERGUID)_Source, _CombatID)
 AND
-DB_LLENEMY_Duplication_Temp_Active(_Source, _Dupe, _Region)
+DB_LLSENEMY_Duplication_Temp_Active(_Source, _Dupe, _Region)
 AND
 CharacterIsDead(_Source, 0)
 AND
@@ -132,7 +132,7 @@ SetOnStage(_Dupe, 0);
 IF
 CharacterRelationChangedTo(_Source, _Target, _Attitude)
 AND
-DB_LLENEMY_Duplication_Temp_Active(_Source, _Dupe, _Region)
+DB_LLSENEMY_Duplication_Temp_Active(_Source, _Dupe, _Region)
 AND
 CharacterIsDead(_Dupe, 0)
 THEN
@@ -159,20 +159,20 @@ SetOnStage(_Dupe, 0);
 IF
 CharacterDied(_Dupe)
 AND
-DB_LLENEMY_Duplication_Temp_Active(_Source, _Dupe, _Region)
+DB_LLSENEMY_Duplication_Temp_Active(_Source, _Dupe, _Region)
 AND
-NOT DB_LLENEMY_Talents_Temp_ReviveNext(_Dupe, _)
+NOT DB_LLSENEMY_Talents_Temp_ReviveNext(_Dupe, _)
 THEN
-NOT DB_LLENEMY_Duplication_Temp_Active(_Source, _Dupe, _Region);
+NOT DB_LLSENEMY_Duplication_Temp_Active(_Source, _Dupe, _Region);
 LeaderLib_Tags_ClearAllPreservedTagData(_Dupe);
 SetOnStage(_Dupe, 0);
 
 IF
 RegionEnded(_Region)
 AND
-DB_LLENEMY_Duplication_Temp_Active(_Source, _Dupe, _Region)
+DB_LLSENEMY_Duplication_Temp_Active(_Source, _Dupe, _Region)
 THEN
-NOT DB_LLENEMY_Duplication_Temp_Active(_Source, _Dupe, _Region);
+NOT DB_LLSENEMY_Duplication_Temp_Active(_Source, _Dupe, _Region);
 LeaderLib_Tags_ClearAllPreservedTagData(_Dupe);
 SetOnStage(_Dupe, 0);
 //END_REGION
@@ -181,7 +181,7 @@ SetOnStage(_Dupe, 0);
 IF
 CharacterStatusRemoved(_Dupe, "LEADERLIB_RECALC", _)
 AND
-DB_LLENEMY_Duplication_Temp_Active(_Source, _Dupe, _Region)
+DB_LLSENEMY_Duplication_Temp_Active(_Source, _Dupe, _Region)
 THEN
 CharacterSetArmorPercentage(_Dupe, 100.0);
 CharacterSetMagicArmorPercentage(_Dupe, 100.0);

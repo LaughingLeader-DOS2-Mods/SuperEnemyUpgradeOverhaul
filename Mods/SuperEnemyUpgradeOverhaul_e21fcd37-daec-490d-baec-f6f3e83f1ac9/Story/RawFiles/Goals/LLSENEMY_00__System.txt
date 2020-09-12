@@ -1,60 +1,60 @@
 Version 1
 SubGoalCombiner SGC_AND
 INITSECTION
-LLENEMY_System_InitSettings();
+LLSENEMY_System_InitSettings();
 KBSECTION
 
 PROC
-LLENEMY_System_InitSettings()
+LLSENEMY_System_InitSettings()
 THEN
-LLENEMY_System_RegisterAlignments();
-LLENEMY_System_RegisterTags();
-LLENEMY_System_RegisterIgnoredCopyStatuses();
+LLSENEMY_System_RegisterAlignments();
+LLSENEMY_System_RegisterTags();
+LLSENEMY_System_RegisterIgnoredCopyStatuses();
 
 /* Alignments that are checked to see if a character is an "Enemy", for the purpose of adding upgrades in world commitment mode. */
 PROC
-LLENEMY_System_RegisterAlignments()
+LLSENEMY_System_RegisterAlignments()
 THEN
-SysClear("DB_LLENEMY_EnemyAlignments", 1);
-DB_LLENEMY_EnemyAlignments("Evil");
-DB_LLENEMY_EnemyAlignments("Evil NPC");
+SysClear("DB_LLSENEMY_EnemyAlignments", 1);
+DB_LLSENEMY_EnemyAlignments("Evil");
+DB_LLSENEMY_EnemyAlignments("Evil NPC");
 
 /* Tags that are checked to see if a character is an "Enemy", for the purpose of adding upgrades in world commitment mode. */
 PROC
-LLENEMY_System_RegisterTags()
+LLSENEMY_System_RegisterTags()
 THEN
-SysClear("DB_LLENEMY_EnemyTags", 1);
-DB_LLENEMY_EnemyTags("MAGISTER");
-DB_LLENEMY_EnemyTags("AGGRESSIVEANIMAL");
-DB_LLENEMY_EnemyTags("VOIDWOKEN");
-DB_LLENEMY_EnemyTags("MONSTROUS");
-DB_LLENEMY_EnemyTags("BADASSCIVILIAN");
-DB_LLENEMY_EnemyTags("AI_PREFERRED_TARGET");
+SysClear("DB_LLSENEMY_EnemyTags", 1);
+DB_LLSENEMY_EnemyTags("MAGISTER");
+DB_LLSENEMY_EnemyTags("AGGRESSIVEANIMAL");
+DB_LLSENEMY_EnemyTags("VOIDWOKEN");
+DB_LLSENEMY_EnemyTags("MONSTROUS");
+DB_LLSENEMY_EnemyTags("BADASSCIVILIAN");
+DB_LLSENEMY_EnemyTags("AI_PREFERRED_TARGET");
 
 /* Statuses that shouldn't be copied by Shadow Duplicants. */
 PROC
-LLENEMY_System_RegisterIgnoredCopyStatuses()
+LLSENEMY_System_RegisterIgnoredCopyStatuses()
 THEN
-SysClear("DB_LLENEMY_IgnoredDuplicantStatuses", 1);
-SysClear("DB_LLENEMY_IgnoredDuplicantStatusTypes", 1);
-DB_LLENEMY_IgnoredDuplicantStatuses("NULL");
-DB_LLENEMY_IgnoredDuplicantStatuses("LLENEMY_UPGRADE_INFO");
-DB_LLENEMY_IgnoredDuplicantStatuses("LLENEMY_FAKE_DYING");
-DB_LLENEMY_IgnoredDuplicantStatuses("LLENEMY_SKILL_MASS_SHACKLES");
-DB_LLENEMY_IgnoredDuplicantStatuses("LLENEMY_TALENT_RESISTDEAD");
-DB_LLENEMY_IgnoredDuplicantStatuses("LLENEMY_TALENT_RESISTDEAD2");
-DB_LLENEMY_IgnoredDuplicantStatusTypes("BLIND");
-DB_LLENEMY_IgnoredDuplicantStatusTypes("CHARMED");
-DB_LLENEMY_IgnoredDuplicantStatusTypes("DAMAGE_ON_MOVE");
-DB_LLENEMY_IgnoredDuplicantStatusTypes("INCAPACITATED");
-DB_LLENEMY_IgnoredDuplicantStatusTypes("INVISIBLE");
-DB_LLENEMY_IgnoredDuplicantStatusTypes("KNOCKED_DOWN");
-DB_LLENEMY_IgnoredDuplicantStatusTypes("MUTED");
+SysClear("DB_LLSENEMY_IgnoredDuplicantStatuses", 1);
+SysClear("DB_LLSENEMY_IgnoredDuplicantStatusTypes", 1);
+DB_LLSENEMY_IgnoredDuplicantStatuses("NULL");
+DB_LLSENEMY_IgnoredDuplicantStatuses("LLENEMY_UPGRADE_INFO");
+DB_LLSENEMY_IgnoredDuplicantStatuses("LLENEMY_FAKE_DYING");
+DB_LLSENEMY_IgnoredDuplicantStatuses("LLENEMY_SKILL_MASS_SHACKLES");
+DB_LLSENEMY_IgnoredDuplicantStatuses("LLENEMY_TALENT_RESISTDEAD");
+DB_LLSENEMY_IgnoredDuplicantStatuses("LLENEMY_TALENT_RESISTDEAD2");
+DB_LLSENEMY_IgnoredDuplicantStatusTypes("BLIND");
+DB_LLSENEMY_IgnoredDuplicantStatusTypes("CHARMED");
+DB_LLSENEMY_IgnoredDuplicantStatusTypes("DAMAGE_ON_MOVE");
+DB_LLSENEMY_IgnoredDuplicantStatusTypes("INCAPACITATED");
+DB_LLSENEMY_IgnoredDuplicantStatusTypes("INVISIBLE");
+DB_LLSENEMY_IgnoredDuplicantStatusTypes("KNOCKED_DOWN");
+DB_LLSENEMY_IgnoredDuplicantStatusTypes("MUTED");
 
 PROC
 LeaderUpdater_ModUpdated("SuperEnemyUpgradeOverhaul", "LaughingLeader", (STRING)_OldVersion, (STRING)_NewVersion)
 THEN
-LLENEMY_System_InitSettings();
+LLSENEMY_System_InitSettings();
 
 EXITSECTION
 

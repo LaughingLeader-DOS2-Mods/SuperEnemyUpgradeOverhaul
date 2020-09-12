@@ -47,10 +47,10 @@ function RollForMadness(char)
 		local turnDuration = (Ext.ExtraData["LLENEMY_ShadowBonus_Madness_TurnDuration"] or 2) * 6.0
 		if chance >= 100 then
 			ApplyStatus(char, "LLENEMY_SHADOWBONUS_MADNESS", turnDuration, 0, char)
-			Osi.DB_LLENEMY_ItemBonuses_Temp_MadnessCooldown(char, rollCooldown)
+			Osi.DB_LLSENEMY_ItemBonuses_Temp_MadnessCooldown(char, rollCooldown)
 		elseif Ext.Random(0, 100) <= chance then
 			ApplyStatus(char, "LLENEMY_SHADOWBONUS_MADNESS", turnDuration, 0, char)
-			Osi.DB_LLENEMY_ItemBonuses_Temp_MadnessCooldown(char, rollCooldown)
+			Osi.DB_LLSENEMY_ItemBonuses_Temp_MadnessCooldown(char, rollCooldown)
 		end
 	end
 end

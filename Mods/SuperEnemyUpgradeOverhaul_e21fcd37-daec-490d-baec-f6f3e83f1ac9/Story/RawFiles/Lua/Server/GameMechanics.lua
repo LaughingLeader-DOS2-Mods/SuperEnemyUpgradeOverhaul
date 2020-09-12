@@ -74,7 +74,7 @@ function MugTarget_StealGold(character, target)
 end
 
 function MugTarget_End(character, target)
-	local items = Osi.DB_LLENEMY_Talents_Temp_MasterThief_Items:Get(target, nil, nil)
+	local items = Osi.DB_LLSENEMY_Talents_Temp_MasterThief_Items:Get(target, nil, nil)
 	LeaderLib.PrintDebug("[LLENEMY_GameMechanics.lua:MugTarget_End] Picking items from:\n",LeaderLib.Common.Dump(items))
 	local item_entry = LeaderLib.Common.GetRandomTableEntry(items)	
 	if item_entry ~= nil then
@@ -154,7 +154,7 @@ function SpawnTreasureGoblin(x,y,z,level,combatid)
 	end
 	local goblin = CharacterCreateAtPosition(x, y, z, "444e50a0-e59b-4866-b548-49a0197a0de1", 1)
 	CharacterLevelUpTo(goblin, level)
-	Osi.DB_LLENEMY_TreasureGoblins_Temp_Active(goblin)
+	Osi.DB_LLSENEMY_TreasureGoblins_Temp_Active(goblin)
 	--SetStoryEvent(goblin, "LeaderLib_Commands_EnterCombatWithPlayers")
 	Osi.LLENEMY_TreasureGoblins_Internal_OnGoblinSpawned(goblin, combatid, x, y, z)
 	Osi.LLENEMY_Rewards_TreasureGoblin_ToggleScript(1)

@@ -1,21 +1,21 @@
 Version 1
 SubGoalCombiner SGC_AND
 INITSECTION
-LLENEMY_GameScripts_InitSettings();
+LLSENEMY_GameScripts_InitSettings();
 KBSECTION
 PROC
-LLENEMY_GameScripts_InitSettings()
+LLSENEMY_GameScripts_InitSettings()
 THEN
 LeaderLib_GameScripts_RegisterScript("SuperEnemyUpgradeOverhaul", "LLENEMY_90_GS_StatusRemovals");
 
 //REGION END_RULES
 // Rules that need to run after other scripts
 PROC
-LLENEMY_Upgrades_CanApplyUpgrade((CHARACTERGUID)_Char, "Duplication", (STRING)_Type, (STRING)_Status, (REAL)_Duration)
+LLSENEMY_Upgrades_CanApplyUpgrade((CHARACTERGUID)_Char, "Duplication", (STRING)_Type, (STRING)_Status, (REAL)_Duration)
 AND
-DB_LLENEMY_Origins_DuplicationBlocked(_Char)
+DB_LLSENEMY_Origins_DuplicationBlocked(_Char)
 THEN
-NOT DB_LLENEMY_Origins_DuplicationBlocked(_Char);
+NOT DB_LLSENEMY_Origins_DuplicationBlocked(_Char);
 //END_REGION
 EXITSECTION
 

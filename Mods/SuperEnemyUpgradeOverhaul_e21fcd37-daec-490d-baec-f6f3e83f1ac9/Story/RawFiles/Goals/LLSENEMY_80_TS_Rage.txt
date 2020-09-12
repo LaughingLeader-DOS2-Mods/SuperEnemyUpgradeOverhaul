@@ -29,7 +29,7 @@ CharacterIsDead(_Char, 0)
 AND
 ObjectGetFlag(_Char, "LLENEMY_Rage_Active", 1)
 THEN
-LLENEMY_Mechanics_Statuses_IncreaseRage(_Char, _Percentage, _Source);
+LLSENEMY_Mechanics_Statuses_IncreaseRage(_Char, _Percentage, _Source);
 // [END_NO_OSITOOLS]
 
 IF
@@ -37,7 +37,7 @@ CharacterStatusApplied(_Char, "SLEEPING", _Source)
 AND
 ObjectGetFlag(_Char, "LLENEMY_Rage_Active", 1)
 THEN
-LLENEMY_Mechanics_Statuses_LowerRage(_Char, _Source);
+LLSENEMY_Mechanics_Statuses_LowerRage(_Char, _Source);
 EXITSECTION
 ENDEXITSECTION
 ParentTargetEdge "LLENEMY_80_ToggledScripts"

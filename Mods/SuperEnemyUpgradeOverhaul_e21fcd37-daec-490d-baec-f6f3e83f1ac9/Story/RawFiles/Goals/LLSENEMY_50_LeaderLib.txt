@@ -1,32 +1,32 @@
 Version 1
 SubGoalCombiner SGC_AND
 INITSECTION
-LLENEMY_LeaderLib_EnableScripts();
+LLSENEMY_LeaderLib_EnableScripts();
 KBSECTION
 
 PROC
 LeaderUpdater_ModUpdated("SuperEnemyUpgradeOverhaul", "LaughingLeader", (STRING)_OldVersion, (STRING)_NewVersion)
 THEN
-LLENEMY_LeaderLib_EnableScripts();
+LLSENEMY_LeaderLib_EnableScripts();
 
 PROC
-LLENEMY_LeaderLib_EnableScripts()
+LLSENEMY_LeaderLib_EnableScripts()
 THEN
 LeaderLib_ToggleScripts_EnableScript("LeaderLib_StatusEvents_DisableScriptEnabled", "SuperEnemyUpgradeOverhaul");
 //LeaderLib_ToggleScripts_EnableScript("LeaderLib_ExplodeStatusListenerEnabled", "SuperEnemyUpgradeOverhaul");
 
 PROC
-LLENEMY_LeaderLib_RegisterSettings()
+LLSENEMY_LeaderLib_RegisterSettings()
 THEN
 LeaderLib_Register_ModMenu("e21fcd37-daec-490d-baec-f6f3e83f1ac9", "LLENEMY_Settings", "[Enemy Upgrade Overhaul] Settings");
 
 PROC
 LeaderLib_Mods_OnVersionChanged(e21fcd37-daec-490d-baec-f6f3e83f1ac9, (INTEGER)_LastVersion, (INTEGER)_NextVersion)
 AND
-NOT DB_LLENEMY_LeaderLib_Registered(1)
+NOT DB_LLSENEMY_LeaderLib_Registered(1)
 THEN
-LLENEMY_LeaderLib_RegisterSettings();
-DB_LLENEMY_LeaderLib_Registered(1);
+LLSENEMY_LeaderLib_RegisterSettings();
+DB_LLSENEMY_LeaderLib_Registered(1);
 
 //REGION EXTENDER_SUPPORT
 /*

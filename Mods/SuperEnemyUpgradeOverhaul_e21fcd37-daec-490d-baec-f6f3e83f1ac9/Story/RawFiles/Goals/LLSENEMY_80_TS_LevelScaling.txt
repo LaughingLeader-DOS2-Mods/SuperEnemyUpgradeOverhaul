@@ -1,30 +1,30 @@
 Version 1
 SubGoalCombiner SGC_AND
 INITSECTION
-LLENEMY_Scaling_LevelAllInCombat();
+LLSENEMY_Scaling_LevelAllInCombat();
 KBSECTION
 
 //New region leveling
 PROC
 LeaderLib_Initialized((STRING)_Region)
 AND
-NOT DB_LLENEMY_Scaling_Temp_LeveledRegion(_Region)
+NOT DB_LLSENEMY_Scaling_Temp_LeveledRegion(_Region)
 AND
 GlobalGetFlag("LLENEMY_Scaling_CommitToWorld_Enabled", 1)
 THEN
-DB_LLENEMY_Scaling_Temp_LeveledRegion(_Region);
+DB_LLSENEMY_Scaling_Temp_LeveledRegion(_Region);
 CharacterLaunchOsirisOnlyIterator("Iterator_LLENEMY_Scaling_LevelUp");
 
 PROC
-LLENEMY_OnCharacterJoinedCombat((CHARACTERGUID)_Enemy, (INTEGER)_CombatID)
+LLSENEMY_OnCharacterJoinedCombat((CHARACTERGUID)_Enemy, (INTEGER)_CombatID)
 THEN
-LLENEMY_Scaling_LevelUpCharacter(_Enemy);
+LLSENEMY_Scaling_LevelUpCharacter(_Enemy);
 
 IF
 RegionEnded(_Region)
 THEN
-NOT DB_LLENEMY_Scaling_Temp_LeveledRegion(_Region);
-SysClear("DB_LLENEMY_Scaling_Temp_WaitForCombat", 1);
+NOT DB_LLSENEMY_Scaling_Temp_LeveledRegion(_Region);
+SysClear("DB_LLSENEMY_Scaling_Temp_WaitForCombat", 1);
 
 //REGION NEUTRAL_CRIMES
 // [BEGIN_NO_OSITOOLS]
@@ -37,7 +37,7 @@ CharacterIsInCombat(_Char, 0)
 AND
 CharacterIsNeutral(_Char, _PLayer, 1)
 THEN
-LLENEMY_Scaling_LevelUpCharacter(_Char, 1);
+LLSENEMY_Scaling_LevelUpCharacter(_Char, 1);
 
 IF
 AttackedByObject((CHARACTERGUID)_Char, _, (CHARACTERGUID)_Player, _, _)
@@ -48,7 +48,7 @@ CharacterIsInCombat(_Char, 0)
 AND
 CharacterIsNeutral(_Char, _PLayer, 1)
 THEN
-LLENEMY_Scaling_LevelUpCharacter(_Char, 1);
+LLSENEMY_Scaling_LevelUpCharacter(_Char, 1);
 // [END_NO_OSITOOLS]
 
 /* [OSITOOLS_ONLY]
@@ -63,7 +63,7 @@ CharacterIsInCombat(_Char, 0)
 AND
 CharacterIsNeutral(_Char, _PLayer, 1)
 THEN
-LLENEMY_Scaling_LevelUpCharacter(_Char);
+LLSENEMY_Scaling_LevelUpCharacter(_Char);
 */
 
 /*
@@ -80,7 +80,7 @@ _DamageMult > 0
 AND
 CharacterIsNeutral(_Char, _PLayer, 1)
 THEN
-LLENEMY_Scaling_LevelUpCharacter(_Char);
+LLSENEMY_Scaling_LevelUpCharacter(_Char);
 
 IF
 CharacterUsedSkillOnZoneWithTarget(_Player, (CHARACTERGUID)_Char, _Skill, _, _)
@@ -95,7 +95,7 @@ _DamageMult > 0
 AND
 CharacterIsNeutral(_Char, _PLayer, 1)
 THEN
-LLENEMY_Scaling_LevelUpCharacter(_Char);
+LLSENEMY_Scaling_LevelUpCharacter(_Char);
 */
 //END_REGION
 
@@ -105,11 +105,11 @@ LLENEMY_Scaling_LevelUpCharacter(_Char);
 PROC
 LeaderLib_Initialized((STRING)_Region)
 AND
-DB_LLENEMY_Scaling_Temp_TransformedCharacters(_Region, _Char, _Level)
+DB_LLSENEMY_Scaling_Temp_TransformedCharacters(_Region, _Char, _Level)
 AND
 ObjectExists(_Char, _Exists)
 THEN
-LLENEMY_Scaling_CheckTransformedCharacterLevel(_Region, _Char, _Level, _Exists);
+LLSENEMY_Scaling_CheckTransformedCharacterLevel(_Region, _Char, _Level, _Exists);
 
 //Stat resetting
 IF
@@ -119,11 +119,11 @@ ObjectIsCharacter((CHARACTERGUID)_Char, 1)
 AND
 NOT LeaderLib_Helper_QRY_CharacterIsPlayer(_Char)
 THEN
-LLENEMY_Scaling_LevelUpCharacter(_Char);
-LLENEMY_Scaling_SaveTransformedCharacterLevel(_Char);
+LLSENEMY_Scaling_LevelUpCharacter(_Char);
+LLSENEMY_Scaling_SaveTransformedCharacterLevel(_Char);
 //END_REGION
 
 EXITSECTION
-SysClear("DB_LLENEMY_Scaling_Temp_WaitForCombat", 1);
+SysClear("DB_LLSENEMY_Scaling_Temp_WaitForCombat", 1);
 ENDEXITSECTION
 ParentTargetEdge "LLENEMY_80_ToggledScripts"

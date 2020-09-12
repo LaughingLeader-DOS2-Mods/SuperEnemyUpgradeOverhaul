@@ -1,18 +1,18 @@
 Version 1
 SubGoalCombiner SGC_AND
 INITSECTION
-LLENEMY_HardMode_InitLevel("TUT_Tutorial_A");
+LLSENEMY_HardMode_InitLevel("TUT_Tutorial_A");
 KBSECTION
 //REGION TOPDECK_INIT
 PROC
-LLENEMY_HardMode_InitLevel("TUT_Tutorial_A")
+LLSENEMY_HardMode_InitLevel("TUT_Tutorial_A")
 AND
-NOT DB_LLENEMY_HM_InitializedLevel("TUT_Tutorial_A")
+NOT DB_LLSENEMY_HM_InitializedLevel("TUT_Tutorial_A")
 THEN
-DB_LLENEMY_HM_InitializedLevel("TUT_Tutorial_A");
-LLENEMY_Upgrades_AddToIgnoreList(S_TUT_TopDeck_LivingMagister1_b5e74192-498f-4eb3-844a-4a817f9802d3);
-LLENEMY_HardMode_SetupNPC(S_TUT_TopDeckMagister1_de400bda-b14e-4cff-b5f5-737781437902, "TUT_Tutorial_A", 1);
-LLENEMY_HardMode_SetupNPC(S_TUT_TopDeckMagister2_e2d47d73-4f9d-4de2-8a3c-c774a0ea114a, "TUT_Tutorial_A", 1);
+DB_LLSENEMY_HM_InitializedLevel("TUT_Tutorial_A");
+LLSENEMY_Upgrades_AddToIgnoreList(S_TUT_TopDeck_LivingMagister1_b5e74192-498f-4eb3-844a-4a817f9802d3);
+LLSENEMY_HardMode_SetupNPC(S_TUT_TopDeckMagister1_de400bda-b14e-4cff-b5f5-737781437902, "TUT_Tutorial_A", 1);
+LLSENEMY_HardMode_SetupNPC(S_TUT_TopDeckMagister2_e2d47d73-4f9d-4de2-8a3c-c774a0ea114a, "TUT_Tutorial_A", 1);
 //LLENEMY_HardMode_SetupNPC(S_TUT_TopDeck_LivingMagister1_b5e74192-498f-4eb3-844a-4a817f9802d3, "TUT_Tutorial_A", 0);
 // This dood starts at 50% health
 CharacterSetHitpointsPercentage(TUT_CargoDeck_Humans_Male_Magister_Grunt_000_a06e61dd-58c6-4119-99be-716c3a4fc1ef, 100.0);
@@ -20,9 +20,9 @@ LeaderLib_Helper_AddAndEquipItemTemplate(TUT_CargoDeck_Humans_Male_Magister_Grun
 LeaderLib_Helper_AddAndEquipItemTemplate(TUT_CargoDeck_Humans_Male_Magister_Grunt_000_a06e61dd-58c6-4119-99be-716c3a4fc1ef, "ec4769e6-bcfc-44e0-9e9c-de62e0bdf407", 0);
 
 PROC
-LLENEMY_HardMode_InitLevel("TUT_Tutorial_A")
+LLSENEMY_HardMode_InitLevel("TUT_Tutorial_A")
 THEN
-LLENEMY_HardMode_SetupRecruiter("TUT_Tutorial_A");
+LLSENEMY_HardMode_SetupRecruiter("TUT_Tutorial_A");
 
 //NOT DB_TUT_TopDeckTentacles((CHARACTERGUID)CHARACTERGUID_S_TUT_TopDeck_Tentacle1_6cbd4fbf-a9f0-403c-8ee1-5679e4ae03a6, (TRIGGERGUID)TRIGGERGUID_S_TUT_TopDeck_TentacleTarget1_1a80890f-b410-4ddf-a21e-f50f169b0cce);
 //END_REGION
@@ -32,7 +32,7 @@ LeaderLib_Mods_OnVersionChanged(e21fcd37-daec-490d-baec-f6f3e83f1ac9, (INTEGER)_
 AND
 _LastVersion < 537198595
 THEN
-LLENEMY_HardMode_SetupRecruiter("TUT_Tutorial_A");
+LLSENEMY_HardMode_SetupRecruiter("TUT_Tutorial_A");
 
 //REGION LEVEL_UP_TENTACLES 
 IF
@@ -44,15 +44,15 @@ CharacterGetHostCharacter(_Host)
 AND
 CharacterGetLevel(_Host, _HostLevel)
 AND
-DB_LLENEMY_LevelModifier(_Modifier)
+DB_LLSENEMY_LevelModifier(_Modifier)
 AND
 IntegerSum(_HostLevel, _Modifier, _TargetLevel)
 THEN
 //LLENEMY_Scaling_Internal_LevelUpCharacterWithCap(S_TUT_MiddleDeckTentacle_1_80c1f2cb-1596-4dec-a127-bec0e5ced33a, _TargetLevel, 0);
 //LLENEMY_Scaling_Internal_LevelUpCharacterWithCap(S_TUT_MiddleDeckTentacle_2_23461d8e-fcab-415d-8be4-0def913dfbb4, _TargetLevel, 0);
 //LLENEMY_Scaling_Internal_LevelUpCharacterWithCap(S_TUT_MiddleDeckTentacle_3_82776900-ea28-435c-8e32-fb9135ca38b7, _TargetLevel, 0);
-LLENEMY_Scaling_Internal_LevelUpCharacterWithCap(S_TUT_TopDeck_Tentacle1_6cbd4fbf-a9f0-403c-8ee1-5679e4ae03a6, _TargetLevel, 0);
-LLENEMY_Scaling_Internal_LevelUpCharacterWithCap(S_TUT_TopDeck_Tentacle4_488645e1-3d74-4b3e-83fb-ab2dde52387b, _TargetLevel, 0);
+LLSENEMY_Scaling_Internal_LevelUpCharacterWithCap(S_TUT_TopDeck_Tentacle1_6cbd4fbf-a9f0-403c-8ee1-5679e4ae03a6, _TargetLevel, 0);
+LLSENEMY_Scaling_Internal_LevelUpCharacterWithCap(S_TUT_TopDeck_Tentacle4_488645e1-3d74-4b3e-83fb-ab2dde52387b, _TargetLevel, 0);
 //END_REGION
 
 //REGION KEEP_BOSS_ALIVE
@@ -85,7 +85,7 @@ IF
 //SkillCast(S_TUT_TopDeck_Tentacle4_488645e1-3d74-4b3e-83fb-ab2dde52387b, "Zone_Quest_EnemyTentacleSweep", _, _)
 OnStageChanged(ITEMGUID_S_TUT_FireSurfaceHelper_77d9fcb1-c857-4db9-bd31-19b5cfa4af5a, 0)
 THEN
-DB_LLENEMY_HM_TUT_LarianTriedToKillCaptain(1);
+DB_LLSENEMY_HM_TUT_LarianTriedToKillCaptain(1);
 SetVarInteger(CHARACTERGUID_S_TUT_TopDeckMagister1_de400bda-b14e-4cff-b5f5-737781437902, "FleeFromDangerousSurface", 0);
 SetVarInteger(CHARACTERGUID_S_TUT_TopDeckMagister2_e2d47d73-4f9d-4de2-8a3c-c774a0ea114a, "FleeFromDangerousSurface", 0);
 ProcObjectTimerCancel(CHARACTERGUID_S_TUT_TopDeckMagister1_de400bda-b14e-4cff-b5f5-737781437902, "Timers_LLENEMY_Elites_TUT_TopDeck_MakeMortal");
@@ -97,9 +97,9 @@ ProcObjectTimer(CHARACTERGUID_S_TUT_TopDeckMagister2_e2d47d73-4f9d-4de2-8a3c-c77
 IF
 ObjectEnteredCombat(CHARACTERGUID_S_TUT_TopDeckMagister1_de400bda-b14e-4cff-b5f5-737781437902, _)
 AND
-DB_LLENEMY_HM_TUT_LarianTriedToKillCaptain(1)
+DB_LLSENEMY_HM_TUT_LarianTriedToKillCaptain(1)
 AND
-NOT DB_LLENEMY_HM_TUT_MadeMortal(CHARACTERGUID_S_TUT_TopDeckMagister1_de400bda-b14e-4cff-b5f5-737781437902)
+NOT DB_LLSENEMY_HM_TUT_MadeMortal(CHARACTERGUID_S_TUT_TopDeckMagister1_de400bda-b14e-4cff-b5f5-737781437902)
 THEN
 ProcObjectTimerCancel(CHARACTERGUID_S_TUT_TopDeckMagister1_de400bda-b14e-4cff-b5f5-737781437902, "Timers_LLENEMY_Elites_TUT_TopDeck_MakeMortal");
 ProcObjectTimer(CHARACTERGUID_S_TUT_TopDeckMagister1_de400bda-b14e-4cff-b5f5-737781437902, "Timers_LLENEMY_Elites_TUT_TopDeck_MakeMortal", 1000);
@@ -107,9 +107,9 @@ ProcObjectTimer(CHARACTERGUID_S_TUT_TopDeckMagister1_de400bda-b14e-4cff-b5f5-737
 IF
 ObjectEnteredCombat(CHARACTERGUID_S_TUT_TopDeckMagister2_e2d47d73-4f9d-4de2-8a3c-c774a0ea114a, _)
 AND
-DB_LLENEMY_HM_TUT_LarianTriedToKillCaptain(1)
+DB_LLSENEMY_HM_TUT_LarianTriedToKillCaptain(1)
 AND
-NOT DB_LLENEMY_HM_TUT_MadeMortal(CHARACTERGUID_S_TUT_TopDeckMagister2_e2d47d73-4f9d-4de2-8a3c-c774a0ea114a)
+NOT DB_LLSENEMY_HM_TUT_MadeMortal(CHARACTERGUID_S_TUT_TopDeckMagister2_e2d47d73-4f9d-4de2-8a3c-c774a0ea114a)
 THEN
 ProcObjectTimerCancel(CHARACTERGUID_S_TUT_TopDeckMagister2_e2d47d73-4f9d-4de2-8a3c-c774a0ea114a, "Timers_LLENEMY_Elites_TUT_TopDeck_MakeMortal");
 ProcObjectTimer(CHARACTERGUID_S_TUT_TopDeckMagister2_e2d47d73-4f9d-4de2-8a3c-c774a0ea114a, "Timers_LLENEMY_Elites_TUT_TopDeck_MakeMortal", 1000);
@@ -118,9 +118,9 @@ ProcObjectTimer(CHARACTERGUID_S_TUT_TopDeckMagister2_e2d47d73-4f9d-4de2-8a3c-c77
 PROC
 ProcObjectTimerFinished((CHARACTERGUID)_Char, "Timers_LLENEMY_Elites_TUT_TopDeck_MakeMortal")
 AND
-NOT DB_LLENEMY_HM_TUT_MadeMortal(_Char)
+NOT DB_LLSENEMY_HM_TUT_MadeMortal(_Char)
 THEN
-DB_LLENEMY_HM_TUT_MadeMortal(_Char);
+DB_LLSENEMY_HM_TUT_MadeMortal(_Char);
 ProcSetInvulnerable(_Char, 0);
 CharacterSetImmortal(_Char, 0);
 //SetFaction(_Char, "Evil NPC");
@@ -165,7 +165,7 @@ IF
 //CharacterUsedSkill(S_TUT_TopDeck_Tentacle1_6cbd4fbf-a9f0-403c-8ee1-5679e4ae03a6, "Zone_Quest_EnemyTentacleSweep", _, _)
 StoryEvent(_Tentacle, "TUT_TopDeckTentacle_Appeared")
 AND
-NOT DB_LLENEMY_HM_TUT_SlapWorkaround(_)
+NOT DB_LLSENEMY_HM_TUT_SlapWorkaround(_)
 AND
 CharacterIsDead(S_TUT_TopDeck_LivingMagister1_b5e74192-498f-4eb3-844a-4a817f9802d3, 0)
 AND
@@ -175,7 +175,7 @@ _Dist > 2.0
 AND
 GetPosition(TRIGGERGUID_S_TUT_TopDeck_TentacleTarget1_1a80890f-b410-4ddf-a21e-f50f169b0cce, _x, _y, _z)
 THEN
-DB_LLENEMY_HM_TUT_SlapWorkaround(1);
+DB_LLSENEMY_HM_TUT_SlapWorkaround(1);
 //LeaderLib_Helper_ClearActionQueue(S_TUT_TopDeck_Tentacle1_6cbd4fbf-a9f0-403c-8ee1-5679e4ae03a6, 1);
 //CharacterUseSkill(S_TUT_TopDeck_Tentacle1_6cbd4fbf-a9f0-403c-8ee1-5679e4ae03a6, "Zone_Quest_EnemyTentacleSweep", S_TUT_TopDeck_LivingMagister1_b5e74192-498f-4eb3-844a-4a817f9802d3, 1,1,1);
 SetVarFloat3(S_TUT_TopDeck_LivingMagister1_b5e74192-498f-4eb3-844a-4a817f9802d3, "LeaderLib_Teleport_TargetPosition", _x, _y, _z);
@@ -216,7 +216,7 @@ PlayEffectAtPosition("RS3_FX_Items_Weapons_Impact_Weapon_AllIn_Root_01", _x, _y,
 IF
 CharacterDied(S_TUT_TopDeck_LivingMagister1_b5e74192-498f-4eb3-844a-4a817f9802d3)
 AND
-NOT DB_LLENEMY_TUT_Temp_ReplacementMagister(S_TUT_TopDeck_LivingMagister1_b5e74192-498f-4eb3-844a-4a817f9802d3, _)
+NOT DB_LLSENEMY_TUT_Temp_ReplacementMagister(S_TUT_TopDeck_LivingMagister1_b5e74192-498f-4eb3-844a-4a817f9802d3, _)
 AND
 ObjectGetFlag(S_TUT_TopDeck_LivingMagister1_b5e74192-498f-4eb3-844a-4a817f9802d3, "LLENEMY_TopMagister_Resurrected", 0)
 AND
@@ -225,23 +225,23 @@ AND
 CharacterCreateOutOfSightToObject(_MagisterTemplate, S_TUT_TopDeck_LivingMagister1_b5e74192-498f-4eb3-844a-4a817f9802d3, S_TUT_TopDeck_Tentacle1_6cbd4fbf-a9f0-403c-8ee1-5679e4ae03a6, 0, "", _Replacement)
 THEN
 SetCanJoinCombat(_Replacement, 0);
-LLENEMY_Upgrades_AddToIgnoreList(_Replacement);
+LLSENEMY_Upgrades_AddToIgnoreList(_Replacement);
 ObjectSetFlag(S_TUT_TopDeck_LivingMagister1_b5e74192-498f-4eb3-844a-4a817f9802d3, "LLENEMY_TopMagister_Resurrected", 0);
 //SetOnStage(_Replacement, 0);
 ApplyStatus(_Replacement, "LEADERLIB_NO_VISUAL", -1.0, 1, _Replacement);
 CharacterTransformFromCharacter(_Replacement, S_TUT_TopDeck_LivingMagister1_b5e74192-498f-4eb3-844a-4a817f9802d3, 0, 1, 1, 1, 1, 0, 0);
 SetStoryEvent(_Replacement, "GEN_FallAndLie");
 ObjectSetFlag(_Replacement, "LLENEMY_TopMagister_ResurrectedClone", 0);
-DB_LLENEMY_TUT_Temp_ReplacementMagister(S_TUT_TopDeck_LivingMagister1_b5e74192-498f-4eb3-844a-4a817f9802d3, _Replacement);
+DB_LLSENEMY_TUT_Temp_ReplacementMagister(S_TUT_TopDeck_LivingMagister1_b5e74192-498f-4eb3-844a-4a817f9802d3, _Replacement);
 //ProcObjectTimer(S_TUT_TopDeck_LivingMagister1_b5e74192-498f-4eb3-844a-4a817f9802d3, "Timers_LLENEMY_Elites_TUT_TopDeckLiving_SetupDying", 500);
 ProcObjectTimerFinished(S_TUT_TopDeck_LivingMagister1_b5e74192-498f-4eb3-844a-4a817f9802d3, "Timers_LLENEMY_Elites_TUT_TopDeckLiving_SetupDying");
 ProcObjectTimer(_Replacement, "Timers_LLENEMY_Elites_TUT_TopDeckLiving_SetupCombatTracker", 500);
-LLENEMY_HardMode_SetupNPC(_Replacement, "TUT_Tutorial_A", 0);
+LLSENEMY_HardMode_SetupNPC(_Replacement, "TUT_Tutorial_A", 0);
 
 PROC
 ProcObjectTimerFinished((CHARACTERGUID)S_TUT_TopDeck_LivingMagister1_b5e74192-498f-4eb3-844a-4a817f9802d3, "Timers_LLENEMY_Elites_TUT_TopDeckLiving_SetupDying")
 AND
-DB_LLENEMY_TUT_Temp_ReplacementMagister(S_TUT_TopDeck_LivingMagister1_b5e74192-498f-4eb3-844a-4a817f9802d3, _Replacement)
+DB_LLSENEMY_TUT_Temp_ReplacementMagister(S_TUT_TopDeck_LivingMagister1_b5e74192-498f-4eb3-844a-4a817f9802d3, _Replacement)
 AND
 GetPosition(S_TUT_TopDeck_LivingMagister1_b5e74192-498f-4eb3-844a-4a817f9802d3, _x, _y, _z)
 THEN
@@ -270,10 +270,10 @@ LeaderLib_Turns_TrackCombat(_CombatID, "LLENEMY_TopDeckLivingMagister_GetUp", 5)
 PROC
 LeaderLib_Turns_OnTurnCounterComplete_Combat((STRING)_ID, (INTEGER)_CombatID, "LLENEMY_TopDeckLivingMagister_GetUp")
 AND
-DB_LLENEMY_TUT_Temp_ReplacementMagister(S_TUT_TopDeck_LivingMagister1_b5e74192-498f-4eb3-844a-4a817f9802d3, _Replacement)
+DB_LLSENEMY_TUT_Temp_ReplacementMagister(S_TUT_TopDeck_LivingMagister1_b5e74192-498f-4eb3-844a-4a817f9802d3, _Replacement)
 THEN
-NOT DB_LLENEMY_TUT_Temp_ReplacementMagister(S_TUT_TopDeck_LivingMagister1_b5e74192-498f-4eb3-844a-4a817f9802d3, _Replacement);
-NOT DB_LLENEMY_IgnoredCharacters(_Replacement);
+NOT DB_LLSENEMY_TUT_Temp_ReplacementMagister(S_TUT_TopDeck_LivingMagister1_b5e74192-498f-4eb3-844a-4a817f9802d3, _Replacement);
+NOT DB_LLSENEMY_IgnoredCharacters(_Replacement);
 RemoveStatus(_Replacement, "LLENEMY_FAKE_DYING");
 CharacterSetAnimationOverride(_Replacement, "");
 PlayAnimation(_Replacement, "knockdown_getup", "LLENEMY_TopLivingMagister_StoodUp");
@@ -288,7 +288,7 @@ SetCanJoinCombat(_Replacement, 1);
 ProcSetInvulnerable(_Replacement, 0);
 CharacterSetImmortal(_Replacement, 0);
 LeaderLib_Helper_MakeHostileToPlayers(_Replacement);
-LLENEMY_Rewards_GenerateTreasure(_Replacement, "ST_RingAmuletBeltRare", 1);
+LLSENEMY_Rewards_GenerateTreasure(_Replacement, "ST_RingAmuletBeltRare", 1);
 
 /* [OSITOOLS_ONLY]
 IF
@@ -309,8 +309,8 @@ AND
 NRD_CharacterGetInt(S_TUT_TopDeckMagister2_e2d47d73-4f9d-4de2-8a3c-c774a0ea114a, "Resurrected", 0) // Never resurrected
 */
 THEN
-LLENEMY_Rewards_GenerateTreasure(S_TUT_TopDeckMagister2_e2d47d73-4f9d-4de2-8a3c-c774a0ea114a, "RewardBig", 1);
-LLENEMY_Rewards_GenerateTreasure(S_TUT_TopDeckMagister2_e2d47d73-4f9d-4de2-8a3c-c774a0ea114a, "ST_SkillbookPolymorph", 1);
+LLSENEMY_Rewards_GenerateTreasure(S_TUT_TopDeckMagister2_e2d47d73-4f9d-4de2-8a3c-c774a0ea114a, "RewardBig", 1);
+LLSENEMY_Rewards_GenerateTreasure(S_TUT_TopDeckMagister2_e2d47d73-4f9d-4de2-8a3c-c774a0ea114a, "ST_SkillbookPolymorph", 1);
 
 IF
 CharacterDied(S_TUT_TopDeckMagister1_de400bda-b14e-4cff-b5f5-737781437902)
@@ -319,8 +319,8 @@ AND
 NRD_CharacterGetInt(S_TUT_TopDeckMagister1_de400bda-b14e-4cff-b5f5-737781437902, "Resurrected", 0) // Never resurrected
 */
 THEN
-LLENEMY_Rewards_GenerateTreasure(S_TUT_TopDeckMagister1_de400bda-b14e-4cff-b5f5-737781437902, "ST_SkillbookWarrior", 1);
-LLENEMY_Rewards_GenerateTreasure(S_TUT_TopDeckMagister1_de400bda-b14e-4cff-b5f5-737781437902, "ST_SkillbookStarter", 1);
+LLSENEMY_Rewards_GenerateTreasure(S_TUT_TopDeckMagister1_de400bda-b14e-4cff-b5f5-737781437902, "ST_SkillbookWarrior", 1);
+LLSENEMY_Rewards_GenerateTreasure(S_TUT_TopDeckMagister1_de400bda-b14e-4cff-b5f5-737781437902, "ST_SkillbookStarter", 1);
 //END_REGION
 
 //REGION BLOCK_HATCH
@@ -366,21 +366,21 @@ DialogSetVariableInt(_Dialog,_VarName,0);
 IF
 GameStarted("TUT_Tutorial_A", _)
 AND
-NOT DB_LLENEMY_HM_TUT_ReruiterFreed(1)
+NOT DB_LLSENEMY_HM_TUT_ReruiterFreed(1)
 AND
 ItemIsOpened(S_TUT_CargoDeck_Isolation_CageDoor_000_2584e8a5-1fbe-4848-a368-55aeff1a2435, _HasDialog)
 THEN
-DB_LLENEMY_HM_TUT_ReruiterFreed(_HasDialog);
+DB_LLSENEMY_HM_TUT_ReruiterFreed(_HasDialog);
 SetHasDialog(S_GLO_LV_HenchmenRecruiter_ed64ea06-9060-4b29-88dd-623ab008fae6, _HasDialog);
 
 IF
 ItemOpened(S_TUT_CargoDeck_Isolation_CageDoor_000_2584e8a5-1fbe-4848-a368-55aeff1a2435)
 AND
-NOT DB_LLENEMY_HM_TUT_ReruiterFreed(1)
+NOT DB_LLSENEMY_HM_TUT_ReruiterFreed(1)
 THEN
 SetHasDialog(S_GLO_LV_HenchmenRecruiter_ed64ea06-9060-4b29-88dd-623ab008fae6, 1);
-SysClear("DB_LLENEMY_HM_TUT_ReruiterFreed", 1);
-DB_LLENEMY_HM_TUT_ReruiterFreed(1);
+SysClear("DB_LLSENEMY_HM_TUT_ReruiterFreed", 1);
+DB_LLSENEMY_HM_TUT_ReruiterFreed(1);
 //END_REGION
 
 //REGION REGAIN_WEAPONS
@@ -395,11 +395,11 @@ NOT DB_TUT_LostWeapon(_Char, _Slot, _Item);
 //END_REGION
 
 EXITSECTION
-SysClear("DB_LLENEMY_TUT_Temp_ReplacementMagister", 2);
-SysClear("DB_LLENEMY_HM_TUT_LarianTriedToKillCaptain", 1);
-SysClear("DB_LLENEMY_HM_TUT_MadeMortal", 1);
-SysClear("DB_LLENEMY_HM_TUT_SlapWorkaround", 1);
-SysClear("DB_LLENEMY_HM_TUT_ReruiterFreed", 1);
+SysClear("DB_LLSENEMY_TUT_Temp_ReplacementMagister", 2);
+SysClear("DB_LLSENEMY_HM_TUT_LarianTriedToKillCaptain", 1);
+SysClear("DB_LLSENEMY_HM_TUT_MadeMortal", 1);
+SysClear("DB_LLSENEMY_HM_TUT_SlapWorkaround", 1);
+SysClear("DB_LLSENEMY_HM_TUT_ReruiterFreed", 1);
 ProcSetInvulnerable(CHARACTERGUID_S_TUT_TopDeckMagister1_de400bda-b14e-4cff-b5f5-737781437902, 0);
 CharacterSetImmortal(CHARACTERGUID_S_TUT_TopDeckMagister1_de400bda-b14e-4cff-b5f5-737781437902, 0);
 ProcSetInvulnerable(CHARACTERGUID_S_TUT_TopDeckMagister2_e2d47d73-4f9d-4de2-8a3c-c774a0ea114a, 0);

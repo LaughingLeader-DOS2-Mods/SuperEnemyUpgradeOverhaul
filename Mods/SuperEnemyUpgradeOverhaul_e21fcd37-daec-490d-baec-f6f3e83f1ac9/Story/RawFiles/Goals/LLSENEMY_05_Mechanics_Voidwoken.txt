@@ -10,10 +10,10 @@ DB_Arena_MobParticipants(_Inst,_Source,_Trig,_Team)
 AND
 CharacterIsPlayer(_Source, _IsPlayer)
 THEN
-LLENEMY_Voidwoken_ArenaSetup(_Source, _Voidwoken, _Inst, _Trig, _Team, _IsPlayer);
+LLSENEMY_Voidwoken_ArenaSetup(_Source, _Voidwoken, _Inst, _Trig, _Team, _IsPlayer);
 
 PROC
-LLENEMY_Voidwoken_ArenaSetup((CHARACTERGUID)_Source, (CHARACTERGUID)_Voidwoken, (INTEGER)_Instance, (TRIGGERGUID)_Trigger, (STRING)_Team, 0)
+LLSENEMY_Voidwoken_ArenaSetup((CHARACTERGUID)_Source, (CHARACTERGUID)_Voidwoken, (INTEGER)_Instance, (TRIGGERGUID)_Trigger, (STRING)_Team, 0)
 THEN
 DB_Arena_MobParticipants(_Instance,_Voidwoken,_Trigger,_Team);
 SetInArena(_Voidwoken, 1);
@@ -21,7 +21,7 @@ SetFaction(_Voidwoken, _Team);
 
 // Player source
 PROC
-LLENEMY_Voidwoken_ArenaSetup((CHARACTERGUID)_Source, (CHARACTERGUID)_Voidwoken, (INTEGER)_Instance, (TRIGGERGUID)_Trigger, (STRING)_Team, 1)
+LLSENEMY_Voidwoken_ArenaSetup((CHARACTERGUID)_Source, (CHARACTERGUID)_Voidwoken, (INTEGER)_Instance, (TRIGGERGUID)_Trigger, (STRING)_Team, 1)
 AND
 DB_Arena_MobParticipants(_Instance, _Enemy, _OtherTrigger, _OtherTeam)
 AND
@@ -36,58 +36,58 @@ SetFaction(_Voidwoken, _OtherTeam);
 
 //REGION TRACKING_SOURCE_USED
 PROC
-LLENEMY_HardMode_TrackTotalSourceUsed((INTEGER)_SourcePointsUsed)
+LLSENEMY_HardMode_TrackTotalSourceUsed((INTEGER)_SourcePointsUsed)
 AND
 DB_CurrentLevel(_Region)
 AND
-NOT DB_LLENEMY_HardMode_SourcePointsUsed(_Region, _)
+NOT DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, _)
 THEN
-DB_LLENEMY_HardMode_SourcePointsUsed(_Region, 0);
+DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, 0);
 
 PROC
-LLENEMY_HardMode_TrackTotalSourceUsed((INTEGER)_SourcePointsUsed)
+LLSENEMY_HardMode_TrackTotalSourceUsed((INTEGER)_SourcePointsUsed)
 AND
 DB_CurrentLevel(_Region)
 AND
-DB_LLENEMY_HardMode_SourcePointsUsed(_Region, _LastSP)
+DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, _LastSP)
 AND
 IntegerSum(_LastSP, _SourcePointsUsed, _Next)
 THEN
-NOT DB_LLENEMY_HardMode_SourcePointsUsed(_Region, _LastSP);
-DB_LLENEMY_HardMode_SourcePointsUsed(_Region, _Next);
+NOT DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, _LastSP);
+DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, _Next);
 
 IF
 RegionEnded(_Region)
 AND
-DB_LLENEMY_HardMode_SourcePointsUsed(_Region, _LastSP)
+DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, _LastSP)
 THEN
-NOT DB_LLENEMY_HardMode_SourcePointsUsed(_Region, _LastSP);
+NOT DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, _LastSP);
 
 PROC
-LLENEMY_HardMode_ReduceTotalSourceUsed((INTEGER)_Amount)
+LLSENEMY_HardMode_ReduceTotalSourceUsed((INTEGER)_Amount)
 AND
 DB_CurrentLevel(_Region)
 AND
-DB_LLENEMY_HardMode_SourcePointsUsed(_Region, _LastSP)
+DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, _LastSP)
 AND
 IntegerSubtract(_LastSP, _Amount, _Next)
 AND
 IntegerMax(0, _Next, _CappedNext)
 THEN
-NOT DB_LLENEMY_HardMode_SourcePointsUsed(_Region, _LastSP);
-DB_LLENEMY_HardMode_SourcePointsUsed(_Region, _CappedNext);
+NOT DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, _LastSP);
+DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, _CappedNext);
 
 PROC
 LeaderLib_Mods_OnVersionChanged(e21fcd37-daec-490d-baec-f6f3e83f1ac9, (INTEGER)_LastVersion, (INTEGER)_NewVersion)
 AND
 _LastVersion <= 536870925
 AND
-DB_LLENEMY_HardMode_SourcePointsUsed(_Region, _TotalSP)
+DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, _TotalSP)
 AND
 _TotalSP < 0
 THEN
-NOT DB_LLENEMY_HardMode_SourcePointsUsed(_Region, _TotalSP);
-DB_LLENEMY_HardMode_SourcePointsUsed(_Region, 0);
+NOT DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, _TotalSP);
+DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, 0);
 //END_REGION
 EXITSECTION
 ENDEXITSECTION

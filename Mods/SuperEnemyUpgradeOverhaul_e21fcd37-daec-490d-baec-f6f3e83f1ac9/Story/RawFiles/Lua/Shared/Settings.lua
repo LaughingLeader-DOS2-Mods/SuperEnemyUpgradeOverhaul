@@ -38,7 +38,7 @@ settings.Global:AddVariable("Duplication_Chance", 30)
 ---@param data VariableData
 settings.UpdateVariable = function(self, name, data)
 	if name == "LLENEMY_Scaling_LevelModifier" then
-		local entry = Osi.DB_LLENEMY_LevelModifier:Get(nil)
+		local entry = Osi.DB_LLSENEMY_LevelModifier:Get(nil)
 		if entry ~= nil then
 			data.Value = entry[1][1]
 		end

@@ -61,7 +61,7 @@ end)
 
 Ext.RegisterConsoleCommand("shadoworb", function(command,movie)
 	local host = CharacterGetHostCharacter()
-	Osi.DB_LLENEMY_Rewards_Temp_TreasureToGenerate(host, "LLENEMY_ShadowOrbRewards")
+	Osi.DB_LLSENEMY_Rewards_Temp_TreasureToGenerate(host, "LLENEMY_ShadowOrbRewards")
 	Osi.LLENEMY_Rewards_SpawnShadowOrb(host)
 end)
 
@@ -183,12 +183,12 @@ Ext.RegisterConsoleCommand("enemytest2", function(cmd)
 end)
 
 Ext.RegisterConsoleCommand("euo_removedupes", function(command)
-	local db = Osi.DB_LLENEMY_Duplication_Temp_Active:Get(nil,nil,nil)
+	local db = Osi.DB_LLSENEMY_Duplication_Temp_Active:Get(nil,nil,nil)
 	if db ~= nil and #db > 0 then
 		for i,v in pairs(db) do
 			Osi.LeaderLib_Tags_ClearAllPreservedTagData(v[2])
 			SetOnStage(v[2], 0)
 		end
 	end
-	Osi.DB_LLENEMY_Duplication_Temp_Active:Delete(nil,nil,nil)
+	Osi.DB_LLSENEMY_Duplication_Temp_Active:Delete(nil,nil,nil)
 end)

@@ -9,9 +9,9 @@ LeaderLib_Mods_OnVersionChanged(e21fcd37-daec-490d-baec-f6f3e83f1ac9, (INTEGER)_
 AND
 _LastVersion < 536870921
 THEN
-SysClear("DB_LLENEMY_UpgradeInfo_Info", 3);
-SysClear("DB_LLENEMY_UpgradeInfo_Info", 2);
-SysClear("DB_LLENEMY_UpgradeInfo_Temp_InfoString", 2);
+SysClear("DB_LLSENEMY_UpgradeInfo_Info", 3);
+SysClear("DB_LLSENEMY_UpgradeInfo_Info", 2);
+SysClear("DB_LLSENEMY_UpgradeInfo_Temp_InfoString", 2);
 //END_REGION
 
 IF
@@ -25,7 +25,7 @@ NRD_ModCall("SuperEnemyUpgradeOverhaul", "UpgradeInfo_ApplyInfoStatus", _UUID);
 
 //REGION CP_TAGS
 PROC
-LLENEMY_Upgrades_IncreaseChallengePoints((CHARACTERGUID)_Char, (INTEGER)_CP)
+LLSENEMY_Upgrades_IncreaseChallengePoints((CHARACTERGUID)_Char, (INTEGER)_CP)
 THEN
 LeaderLib_Timers_StartObjectTimer(_Char, 250, "Timers_LLENEMY_SetCPTag", "LLENEMY_SetCPTag");
 

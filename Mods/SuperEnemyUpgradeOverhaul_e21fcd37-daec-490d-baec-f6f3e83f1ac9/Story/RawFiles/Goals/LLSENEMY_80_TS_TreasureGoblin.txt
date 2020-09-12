@@ -8,13 +8,13 @@ AttackedByObject((CHARACTERGUID)_Goblin, _, (CHARACTERGUID)_Source, _, _DamageSo
 AND
 IsTagged(_Goblin, "LLENEMY_TreasureGoblin", 1)
 AND
-NOT DB_LLENEMY_TreasureGoblins_Temp_JustHit(_Goblin, _Source)
+NOT DB_LLSENEMY_TreasureGoblins_Temp_JustHit(_Goblin, _Source)
 AND
 LeaderLib_String_QRY_EqualsAny(_DamageSource, "Attack", "") // Ignore surfaces, statuses etc
 AND
 CharacterIsPlayer(_Source, 1)
 THEN
-DB_LLENEMY_TreasureGoblins_Temp_JustHit(_Goblin, _Source);
+DB_LLSENEMY_TreasureGoblins_Temp_JustHit(_Goblin, _Source);
 LeaderLib_Variables_ModifyVariableInt(_Goblin, "LLENEMY_TreasureGoblin_TotalHits", 1);
 LeaderLib_Timers_StartCharacterCharacterTimer(_Goblin, _Source, 550, "Timers_LLENEMY_TreasureGoblins_ClearJustHit", "LLENEMY_TreasureGoblins_ClearJustHit");
 
@@ -33,7 +33,7 @@ CharacterStatusText(_Goblin, "LLENEMY_StatusText_ImmuneToDamageOnMove");
 IF
 NRD_OnHit((CHARACTERGUID)_Goblin, (CHARACTERGUID)_Source, _Damage, _Handle)
 AND
-NOT DB_LLENEMY_TreasureGoblins_Temp_JustHit(_Goblin, _)
+NOT DB_LLSENEMY_TreasureGoblins_Temp_JustHit(_Goblin, _)
 AND
 _Damage > 0
 AND
@@ -45,7 +45,7 @@ LeaderLib_Hit_QRY_HitSucceeded(_Goblin, _Handle, 0)
 AND
 LeaderLib_Hit_QRY_HitDirectly(_Goblin, _Handle, 0)
 THEN
-DB_LLENEMY_TreasureGoblins_Temp_JustHit(_Goblin, _Source);
+DB_LLSENEMY_TreasureGoblins_Temp_JustHit(_Goblin, _Source);
 LeaderLib_Variables_ModifyVariableInt(_Goblin, "LLENEMY_TreasureGoblin_TotalHits", 1);
 //LeaderLib_Timers_StartCharacterCharacterTimer(_Goblin, _Source, 550, "Timers_LLENEMY_TreasureGoblins_ClearJustHit", "LLENEMY_TreasureGoblins_ClearJustHit");
 LeaderLib_Timers_StartObjectObjectTimer(_Goblin, _Source, 550, "Timers_LLENEMY_TreasureGoblins_ClearJustHit", "LLENEMY_TreasureGoblins_ClearJustHit");
@@ -66,31 +66,31 @@ CharacterStatusText(_Goblin, "LLENEMY_StatusText_ImmuneToDamageOnMove");
 PROC
 LeaderLib_Timers_ObjectObjectTimerFinished(_Goblin, _Source, "LLENEMY_TreasureGoblins_ClearJustHit")
 AND
-DB_LLENEMY_TreasureGoblins_Temp_JustHit((CHARACTERGUID)_Goblin, (CHARACTERGUID)_Source)
+DB_LLSENEMY_TreasureGoblins_Temp_JustHit((CHARACTERGUID)_Goblin, (CHARACTERGUID)_Source)
 THEN
-NOT DB_LLENEMY_TreasureGoblins_Temp_JustHit(_Goblin, _Source);
+NOT DB_LLSENEMY_TreasureGoblins_Temp_JustHit(_Goblin, _Source);
 
 IF
 CharacterCharacterEvent(_Goblin, _Source, "LLENEMY_TreasureGoblins_ClearJustHit")
 AND
-DB_LLENEMY_TreasureGoblins_Temp_JustHit(_Goblin, _Source)
+DB_LLSENEMY_TreasureGoblins_Temp_JustHit(_Goblin, _Source)
 THEN
-NOT DB_LLENEMY_TreasureGoblins_Temp_JustHit(_Goblin, _Source);
+NOT DB_LLSENEMY_TreasureGoblins_Temp_JustHit(_Goblin, _Source);
 
 IF
 OnStageChanged((CHARACTERGUID)_Goblin, 0)
 AND
-DB_LLENEMY_TreasureGoblins_Temp_Active(_Goblin)
+DB_LLSENEMY_TreasureGoblins_Temp_Active(_Goblin)
 THEN
-NOT DB_LLENEMY_TreasureGoblins_Temp_Active(_Goblin);
+NOT DB_LLSENEMY_TreasureGoblins_Temp_Active(_Goblin);
 //RemoveTemporaryCharacter(_Goblin);
-LLENEMY_Rewards_TreasureGoblin_ToggleScript(0);
+LLSENEMY_Rewards_TreasureGoblin_ToggleScript(0);
 
 /*
 IF
 ObjectEnteredCombat((CHARACTERGUID)_Goblin, _)
 AND
-DB_LLENEMY_TreasureGoblins_Temp_Active(_Goblin)
+DB_LLSENEMY_TreasureGoblins_Temp_Active(_Goblin)
 THEN
 JumpToTurn(_Goblin);
 */
@@ -101,7 +101,7 @@ THEN
 LeaderLib_ToggleScripts_DisableScript("LLENEMY_TreasureGoblin_Active", "SuperEnemyUpgradeOverhaul");
 
 EXITSECTION
-SysClear("DB_LLENEMY_TreasureGoblins_Temp_Active", 1);
-SysClear("DB_LLENEMY_TreasureGoblins_Temp_JustHit", 2);
+SysClear("DB_LLSENEMY_TreasureGoblins_Temp_Active", 1);
+SysClear("DB_LLSENEMY_TreasureGoblins_Temp_JustHit", 2);
 ENDEXITSECTION
 ParentTargetEdge "LLENEMY_80_ToggledScripts"

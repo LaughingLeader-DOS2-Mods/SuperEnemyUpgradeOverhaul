@@ -159,7 +159,7 @@ VoidwokenGroups = voidwokenGroups
 
 local function GetTotalPointsForRegion(source)
 	local region = GetRegion(source)
-	local pointsDB = Osi.DB_LLENEMY_HardMode_SourcePointsUsed:Get(region, nil)
+	local pointsDB = Osi.DB_LLSENEMY_HardMode_SourcePointsUsed:Get(region, nil)
 	if pointsDB ~= nil and #pointsDB > 0 then
 		local points = pointsDB[1][2]
 		if points ~= nil then

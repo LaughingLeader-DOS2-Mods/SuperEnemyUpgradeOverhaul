@@ -25,7 +25,7 @@ NRD_ModCall("SuperEnemyUpgradeOverhaul", "ModifySummoningAbility", _UUID);
 IF
 CharacterStatusApplied(_Char, "LLENEMY_SUMMON_AUTOMATON", _)
 THEN
-DB_LLENEMY_Statuses_Temp_WaitForRemoval(_Char, "LLENEMY_SUMMON_AUTOMATON");
+DB_LLSENEMY_Statuses_Temp_WaitForRemoval(_Char, "LLENEMY_SUMMON_AUTOMATON");
 
 IF
 StoryEvent(_Automaton, "LLENEMY_Automaton_PlayActivateAnimation")

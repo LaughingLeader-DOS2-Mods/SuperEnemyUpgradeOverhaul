@@ -4,9 +4,9 @@ INITSECTION
 KBSECTION
 
 QRY
-LLENEMY_Upgrades_QRY_CanAddUpgrades((CHARACTERGUID)_Char)
+LLSENEMY_Upgrades_QRY_CanAddUpgrades((CHARACTERGUID)_Char)
 AND
-NOT DB_LLENEMY_IgnoredCharacters(_Char)
+NOT DB_LLSENEMY_IgnoredCharacters(_Char)
 AND
 CharacterIsDead(_Char, 0)
 AND
@@ -23,33 +23,33 @@ THEN
 DB_NOOP(1);
 
 PROC
-LLENEMY_Upgrades_AddToIgnoreList((CHARACTERGUID)_Char)
+LLSENEMY_Upgrades_AddToIgnoreList((CHARACTERGUID)_Char)
 THEN
-DB_LLENEMY_IgnoredCharacters(_Char);
+DB_LLSENEMY_IgnoredCharacters(_Char);
 
 PROC
-LLENEMY_Upgrades_StoreUpgrade((CHARACTERGUID)_Char, (STRING)_Upgrade, (STRING)_Type, (REAL)_Duration)
+LLSENEMY_Upgrades_StoreUpgrade((CHARACTERGUID)_Char, (STRING)_Upgrade, (STRING)_Type, (REAL)_Duration)
 THEN
-DB_LLENEMY_Upgrades_RolledUpgrades(_Char, _Upgrade, _Type, _Duration);
+DB_LLSENEMY_Upgrades_RolledUpgrades(_Char, _Upgrade, _Type, _Duration);
 
 QRY
-LLENEMY_Upgrades_QRY_HasUpgrades((CHARACTERGUID)_Char)
+LLSENEMY_Upgrades_QRY_HasUpgrades((CHARACTERGUID)_Char)
 AND
-DB_LLENEMY_Upgrades_RolledUpgrades(_Char, _Upgrade, _Type, _Duration)
+DB_LLSENEMY_Upgrades_RolledUpgrades(_Char, _Upgrade, _Type, _Duration)
 THEN
 DB_NOOP(1);
 
 QRY
-LLENEMY_QRY_CanAddBonusSkills((CHARACTERGUID)_Char)
+LLSENEMY_QRY_CanAddBonusSkills((CHARACTERGUID)_Char)
 AND
-NOT DB_LLENEMY_DoNotAddSkills(_Char)
+NOT DB_LLSENEMY_DoNotAddSkills(_Char)
 THEN
 DB_NOOP(1);
 
 PROC
-LLENEMY_AddToBonusSkillIgnoreList((CHARACTERGUID)_Char)
+LLSENEMY_AddToBonusSkillIgnoreList((CHARACTERGUID)_Char)
 THEN
-DB_LLENEMY_DoNotAddSkills(_Char);
+DB_LLSENEMY_DoNotAddSkills(_Char);
 EXITSECTION
 
 ENDEXITSECTION

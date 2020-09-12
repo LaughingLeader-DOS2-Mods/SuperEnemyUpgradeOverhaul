@@ -8,7 +8,7 @@ CharacterStatusApplied(_Character, "SurfaceEnter", _)
 AND
 HasActiveStatus(_Character, "LLENEMY_TALENT_NATURALCONDUCTOR", 1)
 AND
-LLENEMY_QRY_IsInElectrifiedSurface(_Character)
+LLSENEMY_QRY_IsInElectrifiedSurface(_Character)
 THEN
 ApplyStatus(_Character, "HASTED", 6.0, 0, _Character);
 EXITSECTION

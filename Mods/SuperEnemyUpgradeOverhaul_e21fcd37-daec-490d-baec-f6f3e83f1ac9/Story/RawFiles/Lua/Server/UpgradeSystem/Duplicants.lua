@@ -280,7 +280,7 @@ local function Duplicate(source, i)
 	NRD_CharacterSetStatInt(dupeId, "CurrentVitality", source.Stats.CurrentVitality)
 	CharacterSetHitpointsPercentage(dupeId, math.min(100.0, (source.Stats.CurrentVitality/source.Stats.MaxVitality)*100))
 
-	Osi.DB_LLENEMY_Duplication_Temp_Active(source.MyGuid, dupe.MyGuid, source.CurrentLevel)
+	Osi.DB_LLSENEMY_Duplication_Temp_Active(source.MyGuid, dupe.MyGuid, source.CurrentLevel)
 	Osi.LLENEMY_Duplication_SetupArena(source.MyGuid, dupe.MyGuid)
 
 	TeleportTo(dupeId, source.MyGuid, "", 1, 1, 0)
@@ -292,7 +292,7 @@ end
 
 ---@param enemy EsvCharacter
 local function IgnoreCharacter(enemy)
-	for i,db in pairs(Osi.DB_LLENEMY_Duplication_Blacklist:Get(nil)) do
+	for i,db in pairs(Osi.DB_LLSENEMY_Duplication_Blacklist:Get(nil)) do
 		if GetUUID(db[1]) == enemy.MyGuid then
 			return true
 		end

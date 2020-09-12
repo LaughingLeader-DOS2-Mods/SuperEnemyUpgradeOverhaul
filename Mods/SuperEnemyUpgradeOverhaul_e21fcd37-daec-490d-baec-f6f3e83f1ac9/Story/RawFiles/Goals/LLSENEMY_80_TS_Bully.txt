@@ -9,7 +9,7 @@ CharacterStartAttackObject(_Target, _, _Enemy)
 AND
 HasActiveStatus(_Enemy, "LLENEMY_TALENT_BULLY", 1)
 AND
-LLENEMY_Talents_QRY_BullyTarget(_Target)
+LLSENEMY_Talents_QRY_BullyTarget(_Target)
 THEN
 ApplyStatus(_Enemy, "LLENEMY_TALENT_BULLY_DAMAGEBONUS", 6.0, 0, _Enemy);
 LeaderLib_Timers_StartObjectTimer(_Enemy, 2000, "Timers_LLENEMY_Bully_RemoveBonus", "LLENEMY_Bully_RemoveBonus");
@@ -34,7 +34,7 @@ _Attacker != NULL_00000000-0000-0000-0000-000000000000
 AND
 HasActiveStatus(_Attacker, "LLENEMY_TALENT_BULLY", 1)
 AND
-LLENEMY_Talents_QRY_BullyTarget(_Target)
+LLSENEMY_Talents_QRY_BullyTarget(_Target)
 AND
 LeaderLib_Hit_QRY_HitSucceeded(_Target, _Handle, 0)
 AND

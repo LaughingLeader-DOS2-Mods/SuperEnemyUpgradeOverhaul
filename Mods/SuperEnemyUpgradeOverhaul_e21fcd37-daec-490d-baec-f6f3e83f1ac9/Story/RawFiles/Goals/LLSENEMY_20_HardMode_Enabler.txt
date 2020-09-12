@@ -1,17 +1,17 @@
 Version 1
 SubGoalCombiner SGC_AND
 INITSECTION
-LLENEMY_HardMode_CheckForCampaign();
+LLSENEMY_HardMode_CheckForCampaign();
 KBSECTION
 
 //REGION CALLBACKS
 PROC
-LLENEMY_HardMode_Enabled()
+LLSENEMY_HardMode_Enabled()
 THEN
 NRD_ModCall("SuperEnemyUpgradeOverhaul", "HardmodeEnabled");
 
 PROC
-LLENEMY_HardMode_Disabled()
+LLSENEMY_HardMode_Disabled()
 THEN
 NRD_ModCall("SuperEnemyUpgradeOverhaul", "HardmodeDisabled");
 //END_REGION
@@ -20,21 +20,21 @@ NRD_ModCall("SuperEnemyUpgradeOverhaul", "HardmodeDisabled");
 IF
 GlobalFlagSet("LLENEMY_HardModeEnabled")
 THEN
-DB_LLENEMY_HardMode_ToggleTimer(1);
+DB_LLSENEMY_HardMode_ToggleTimer(1);
 TimerCancel("Timers_LLENEMY_HardModeToggled");
 TimerLaunch("Timers_LLENEMY_HardModeToggled", 3000);
 
 IF
 GlobalFlagCleared("LLENEMY_HardModeEnabled")
 THEN
-DB_LLENEMY_HardMode_ToggleTimer(1);
+DB_LLSENEMY_HardMode_ToggleTimer(1);
 TimerCancel("Timers_LLENEMY_HardModeToggled");
 TimerLaunch("Timers_LLENEMY_HardModeToggled", 3000);
 
 IF
 DialogEnded("LLENEMY_Settings", _Instance)
 AND
-DB_LLENEMY_HardMode_ToggleTimer(1)
+DB_LLSENEMY_HardMode_ToggleTimer(1)
 THEN
 TimerCancel("Timers_LLENEMY_HardModeToggled");
 TimerLaunch("Timers_LLENEMY_HardModeToggled", 5);
@@ -42,30 +42,30 @@ TimerLaunch("Timers_LLENEMY_HardModeToggled", 5);
 IF
 TimerFinished("Timers_LLENEMY_HardModeToggled")
 THEN
-NOT DB_LLENEMY_HardMode_ToggleTimer(1);
+NOT DB_LLSENEMY_HardMode_ToggleTimer(1);
 
 IF
 TimerFinished("Timers_LLENEMY_HardModeToggled")
 AND
 GlobalGetFlag("LLENEMY_HardModeEnabled", 1)
 THEN
-LLENEMY_HardMode_Enabled();
+LLSENEMY_HardMode_Enabled();
 
 IF
 TimerFinished("Timers_LLENEMY_HardModeToggled")
 AND
 GlobalGetFlag("LLENEMY_HardModeEnabled", 0)
 THEN
-LLENEMY_HardMode_Disabled();
+LLSENEMY_HardMode_Disabled();
 //END_REGION
 
 //REGION ORIGINS_ENABLING
 PROC
-LLENEMY_HardMode_CheckForCampaign()
+LLSENEMY_HardMode_CheckForCampaign()
 AND
 GlobalGetFlag("LLENEMY_HardModeEnabled", 1)
 THEN
-LLENEMY_HardMode_Enabled();
+LLSENEMY_HardMode_Enabled();
 
 PROC
 Proc_GameModeStarted("Campaign", (INTEGER)_IsEditorMode)
@@ -75,7 +75,7 @@ THEN
 SysActivateGoal("LLENEMY_30_Origins_HardMode");
 
 PROC
-LLENEMY_HardMode_Enabled()
+LLSENEMY_HardMode_Enabled()
 AND
 SysStatus("DOS2ModWrapper", _Status)
 THEN
@@ -90,16 +90,16 @@ TimerLaunch("Timers_LLENEMY_HardModeToggled", 250);
 
 //REGION DISABLING
 PROC
-LLENEMY_HardMode_Disabled()
+LLSENEMY_HardMode_Disabled()
 AND
 SysIsActive("LLENEMY_30_Origins_HardMode")
 THEN
 SysCompleteGoal("LLENEMY_30_Origins_HardMode");
 
 PROC
-LLENEMY_HardMode_DisableScripts()
+LLSENEMY_HardMode_DisableScripts()
 AND
-DB_LLENEMY_HardMode_Origins_Scripts(_Region, _Script)
+DB_LLSENEMY_HardMode_Origins_Scripts(_Region, _Script)
 AND
 SysIsActive(_Script)
 THEN
@@ -108,14 +108,14 @@ SysCompleteGoal(_Script);
 
 //REGION NPC_SETUP
 PROC
-LLENEMY_HardMode_SetupNPC((CHARACTERGUID)_Char, (STRING)_Region, (INTEGER)_Immortal)
+LLSENEMY_HardMode_SetupNPC((CHARACTERGUID)_Char, (STRING)_Region, (INTEGER)_Immortal)
 THEN
 //LeaderLib_Helper_MakeHostileToPlayers(_Char);
 SetFaction(_Char, "Evil NPC");
 SetVarInteger(_Char, "FleeFromDangerousSurface", 0);
 
 PROC
-LLENEMY_HardMode_SetupNPC((CHARACTERGUID)_Char, (STRING)_Region, 1)
+LLSENEMY_HardMode_SetupNPC((CHARACTERGUID)_Char, (STRING)_Region, 1)
 AND
 CharacterIsInCombat(_Char, 0)
 THEN

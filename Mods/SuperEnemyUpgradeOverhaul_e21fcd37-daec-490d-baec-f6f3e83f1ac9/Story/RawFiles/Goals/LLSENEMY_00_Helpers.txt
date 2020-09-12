@@ -4,58 +4,58 @@ INITSECTION
 KBSECTION
 
 QRY
-LLENEMY_QRY_IsEnemyOrBadRelation((CHARACTERGUID)_NPC, (CHARACTERGUID)_Player)
+LLSENEMY_QRY_IsEnemyOrBadRelation((CHARACTERGUID)_NPC, (CHARACTERGUID)_Player)
 AND
-NOT DB_LLENEMY_System_Temp_IsEnemy(_NPC)
+NOT DB_LLSENEMY_System_Temp_IsEnemy(_NPC)
 AND
 CharacterGetRelationToCharacter(_NPC, _Player, _Relation)
 AND
 _Relation <= 0
 THEN
-DB_LLENEMY_System_Temp_IsEnemy(_NPC);
+DB_LLSENEMY_System_Temp_IsEnemy(_NPC);
 
 QRY
-LLENEMY_QRY_IsEnemyOrBadRelation((CHARACTERGUID)_NPC, (CHARACTERGUID)_Player)
+LLSENEMY_QRY_IsEnemyOrBadRelation((CHARACTERGUID)_NPC, (CHARACTERGUID)_Player)
 AND
-NOT DB_LLENEMY_System_Temp_IsEnemy(_NPC)
+NOT DB_LLSENEMY_System_Temp_IsEnemy(_NPC)
 AND
 CharacterIsEnemy(_Player, _NPC, 1)
 THEN
-DB_LLENEMY_System_Temp_IsEnemy(_NPC);
+DB_LLSENEMY_System_Temp_IsEnemy(_NPC);
 
 QRY
-LLENEMY_QRY_IsEnemyOrBadRelation((CHARACTERGUID)_NPC, (CHARACTERGUID)_Player)
+LLSENEMY_QRY_IsEnemyOrBadRelation((CHARACTERGUID)_NPC, (CHARACTERGUID)_Player)
 AND
-NOT DB_LLENEMY_System_Temp_IsEnemy(_NPC)
+NOT DB_LLSENEMY_System_Temp_IsEnemy(_NPC)
 AND
 GetFaction(_NPC, _Faction)
 AND
-DB_LLENEMY_EnemyAlignments(_Faction)
+DB_LLSENEMY_EnemyAlignments(_Faction)
 THEN
-DB_LLENEMY_System_Temp_IsEnemy(_NPC);
+DB_LLSENEMY_System_Temp_IsEnemy(_NPC);
 
 QRY
-LLENEMY_QRY_IsEnemyOrBadRelation((CHARACTERGUID)_NPC, (CHARACTERGUID)_Player)
+LLSENEMY_QRY_IsEnemyOrBadRelation((CHARACTERGUID)_NPC, (CHARACTERGUID)_Player)
 AND
-NOT DB_LLENEMY_System_Temp_IsEnemy(_NPC)
+NOT DB_LLSENEMY_System_Temp_IsEnemy(_NPC)
 AND
 CharacterIsAlly(_NPC, _Player, 0)
 AND
-DB_LLENEMY_EnemyTags(_Tag)
+DB_LLSENEMY_EnemyTags(_Tag)
 AND
 IsTagged(_NPC, _Tag, 1)
 THEN
-DB_LLENEMY_System_Temp_IsEnemy(_NPC);
+DB_LLSENEMY_System_Temp_IsEnemy(_NPC);
 
 QRY
-LLENEMY_QRY_IsEnemyOrBadRelation((CHARACTERGUID)_NPC, (CHARACTERGUID)_Player)
+LLSENEMY_QRY_IsEnemyOrBadRelation((CHARACTERGUID)_NPC, (CHARACTERGUID)_Player)
 AND
-DB_LLENEMY_System_Temp_IsEnemy(_NPC)
+DB_LLSENEMY_System_Temp_IsEnemy(_NPC)
 THEN
-NOT DB_LLENEMY_System_Temp_IsEnemy(_NPC);
+NOT DB_LLSENEMY_System_Temp_IsEnemy(_NPC);
 
 QRY
-LLENEMY_QRY_IsEnemyOfParty((CHARACTERGUID)_Enemy)
+LLSENEMY_QRY_IsEnemyOfParty((CHARACTERGUID)_Enemy)
 AND
 NOT DB_Origins(_Enemy) // Don't do anything for Origin characters, since they may be recruited again
 AND
@@ -63,28 +63,28 @@ NOT DB_IsPlayer(_Enemy)
 AND
 DB_IsPlayer(_Player)
 AND
-LLENEMY_QRY_IsEnemyOrBadRelation(_Enemy, _Player)
+LLSENEMY_QRY_IsEnemyOrBadRelation(_Enemy, _Player)
 THEN
-DB_LLENEMY_System_Temp_IsEnemyOfPartyResolved(_Enemy);
+DB_LLSENEMY_System_Temp_IsEnemyOfPartyResolved(_Enemy);
 
 QRY
-LLENEMY_QRY_IsEnemyOfParty((CHARACTERGUID)_Enemy)
+LLSENEMY_QRY_IsEnemyOfParty((CHARACTERGUID)_Enemy)
 AND
-NOT DB_LLENEMY_System_Temp_IsEnemyOfPartyResolved(_Enemy)
+NOT DB_LLSENEMY_System_Temp_IsEnemyOfPartyResolved(_Enemy)
 AND
 ObjectGetFlag(_Enemy, "LLENEMY_JustAttackedByPlayer", 1)
 THEN
-DB_LLENEMY_System_Temp_IsEnemyOfPartyResolved(_Enemy);
+DB_LLSENEMY_System_Temp_IsEnemyOfPartyResolved(_Enemy);
 
 QRY
-LLENEMY_QRY_IsEnemyOfParty((CHARACTERGUID)_Enemy)
+LLSENEMY_QRY_IsEnemyOfParty((CHARACTERGUID)_Enemy)
 AND
-DB_LLENEMY_System_Temp_IsEnemyOfPartyResolved(_Enemy)
+DB_LLSENEMY_System_Temp_IsEnemyOfPartyResolved(_Enemy)
 THEN
-NOT DB_LLENEMY_System_Temp_IsEnemyOfPartyResolved(_Enemy);
+NOT DB_LLSENEMY_System_Temp_IsEnemyOfPartyResolved(_Enemy);
 
 QRY
-LLENEMY_QRY_IsEnemyOfParty((CHARACTERGUID)_Enemy, (INTEGER)_CombatID)
+LLSENEMY_QRY_IsEnemyOfParty((CHARACTERGUID)_Enemy, (INTEGER)_CombatID)
 AND
 NOT DB_Origins(_Enemy) // Don't do anything for Origin characters, since they may be recruited again
 AND
@@ -102,7 +102,7 @@ DB_NOOP(1);
 
 // GM NPC vs. NPC?
 QRY
-LLENEMY_QRY_IsEnemyOfParty((CHARACTERGUID)_Enemy)
+LLSENEMY_QRY_IsEnemyOfParty((CHARACTERGUID)_Enemy)
 AND
 NOT DB_IsPlayer(_)
 AND
@@ -114,10 +114,10 @@ GetFaction(_Enemy, _Faction)
 AND
 StringContains(_Faction, "Evil", 1)
 THEN
-DB_LLENEMY_System_Temp_IsEnemyOfPartyResolved(_Enemy);
+DB_LLSENEMY_System_Temp_IsEnemyOfPartyResolved(_Enemy);
 
 QRY
-LLENEMY_QRY_IsAllyOfParty((CHARACTERGUID)_Char)
+LLSENEMY_QRY_IsAllyOfParty((CHARACTERGUID)_Char)
 AND
 NOT DB_IsPlayer(_Char)
 AND
@@ -126,7 +126,7 @@ THEN
 DB_NOOP(1);
 
 QRY
-LLENEMY_QRY_IsAllyOfParty((CHARACTERGUID)_Char)
+LLSENEMY_QRY_IsAllyOfParty((CHARACTERGUID)_Char)
 AND
 NOT DB_IsPlayer(_Char)
 AND
@@ -137,7 +137,7 @@ THEN
 DB_NOOP(1);
 
 QRY
-LLENEMY_QRY_IsNeutralToParty((CHARACTERGUID)_Char)
+LLSENEMY_QRY_IsNeutralToParty((CHARACTERGUID)_Char)
 AND
 NOT DB_IsPlayer(_Char)
 AND
@@ -148,30 +148,30 @@ THEN
 DB_NOOP(1);
 
 QRY
-LLENEMY_QRY_CanScale((CHARACTERGUID)_Char)
+LLSENEMY_QRY_CanScale((CHARACTERGUID)_Char)
 AND
-LLENEMY_QRY_IsEnemyOfParty(_Char)
+LLSENEMY_QRY_IsEnemyOfParty(_Char)
 THEN
-DB_LLENEMY_System_Temp_CanScaleResolved(_Char);
+DB_LLSENEMY_System_Temp_CanScaleResolved(_Char);
 
 QRY
-LLENEMY_QRY_CanScale((CHARACTERGUID)_Char)
+LLSENEMY_QRY_CanScale((CHARACTERGUID)_Char)
 AND
-NOT DB_LLENEMY_System_Temp_CanScaleResolved(_Char)
+NOT DB_LLSENEMY_System_Temp_CanScaleResolved(_Char)
 AND
-LLENEMY_QRY_IsAllyOfParty(_Char)
+LLSENEMY_QRY_IsAllyOfParty(_Char)
 THEN
-DB_LLENEMY_System_Temp_CanScaleResolved(_Char);
+DB_LLSENEMY_System_Temp_CanScaleResolved(_Char);
 
 QRY
-LLENEMY_QRY_CanScale((CHARACTERGUID)_Char)
+LLSENEMY_QRY_CanScale((CHARACTERGUID)_Char)
 AND
-DB_LLENEMY_System_Temp_CanScaleResolved(_Char)
+DB_LLSENEMY_System_Temp_CanScaleResolved(_Char)
 THEN
-NOT DB_LLENEMY_System_Temp_CanScaleResolved(_Char);
+NOT DB_LLSENEMY_System_Temp_CanScaleResolved(_Char);
 
 PROC
-LLENEMY_Debug_ActivateGoal((STRING)_Goal)
+LLSENEMY_Debug_ActivateGoal((STRING)_Goal)
 AND
 SysStatus(_Goal, _)
 THEN

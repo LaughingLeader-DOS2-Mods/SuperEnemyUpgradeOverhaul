@@ -10,14 +10,14 @@ ObjectEnteredCombat(CHARACTERGUID_S_GLO_Windego_d783285f-d3be-4cba-8333-db8976ce
 AND
 DB_CurrentLevel("TUT_Tutorial_A")
 THEN
-DB_LLENEMY_SkipCombat(_CombatID);
+DB_LLSENEMY_SkipCombat(_CombatID);
 
 IF
 CombatEnded(_CombatID)
 AND
-DB_LLENEMY_SkipCombat(_CombatID)
+DB_LLSENEMY_SkipCombat(_CombatID)
 THEN
-NOT DB_LLENEMY_SkipCombat(_CombatID);
+NOT DB_LLSENEMY_SkipCombat(_CombatID);
 //END_REGION
 EXITSECTION
 

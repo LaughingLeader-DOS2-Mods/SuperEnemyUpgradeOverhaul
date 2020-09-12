@@ -1,11 +1,11 @@
 Version 1
 SubGoalCombiner SGC_AND
 INITSECTION
-LLENEMY_Auras_InitSettings();
+LLSENEMY_Auras_InitSettings();
 KBSECTION
 
 PROC
-LLENEMY_Auras_InitSettings()
+LLSENEMY_Auras_InitSettings()
 THEN
 LeaderLib_Auras_Register_TurnAura("LLENEMY_FIRE_BRAND_AURA", 1, 8.0, 1, 1, 0, 0, 1);
 LeaderLib_Auras_Register_TurnAura("LLENEMY_VENOM_AURA", 1, 8.0, 1, 1, 0, 0, 1);
@@ -13,7 +13,7 @@ LeaderLib_Auras_Register_TurnAura("LLENEMY_VENOM_AURA", 1, 8.0, 1, 1, 0, 0, 1);
 PROC
 LeaderUpdater_ModUpdated("SuperEnemyUpgradeOverhaul", "LaughingLeader", (STRING)_OldVersion, (STRING)_NewVersion)
 THEN
-LLENEMY_Auras_InitSettings();
+LLSENEMY_Auras_InitSettings();
 
 //REGION STATUS_EVENTS
 IF
@@ -43,14 +43,14 @@ LeaderLib_Auras_OnTargetFound((GUIDSTRING)_Source, (GUIDSTRING)_Target, "LLENEMY
 AND
 CharacterIsAlly((CHARACTERGUID)_Source, (CHARACTERGUID)_Target, 1)
 THEN
-LLENEMY_Auras_ApplyAuraStatus(_Source, _Target, "LLENEMY_FIRE_BRAND");
+LLSENEMY_Auras_ApplyAuraStatus(_Source, _Target, "LLENEMY_FIRE_BRAND");
 
 PROC
 LeaderLib_Auras_OnTargetFound((GUIDSTRING)_Source, (GUIDSTRING)_Target, "LLENEMY_VENOM_AURA")
 AND
 CharacterIsAlly((CHARACTERGUID)_Source, (CHARACTERGUID)_Target, 1)
 THEN
-LLENEMY_Auras_ApplyAuraStatus(_Source, _Target, "LLENEMY_VENOM_COATING");
+LLSENEMY_Auras_ApplyAuraStatus(_Source, _Target, "LLENEMY_VENOM_COATING");
 
 PROC
 LeaderLib_Auras_OnTargetLost((GUIDSTRING)_Source, (GUIDSTRING)_Target, "LLENEMY_FIRE_BRAND_AURA")
@@ -68,7 +68,7 @@ RemoveStatus(_Target, "LLENEMY_VENOM_COATING");
 
 /* [OSITOOLS_ONLY]
 PROC
-LLENEMY_Auras_ApplyAuraStatus((CHARACTERGUID)_Source, (CHARACTERGUID)_Ally, (STRING)_Status)
+LLSENEMY_Auras_ApplyAuraStatus((CHARACTERGUID)_Source, (CHARACTERGUID)_Ally, (STRING)_Status)
 AND
 HasActiveStatus(_Ally, _Status, 1)
 AND
@@ -82,7 +82,7 @@ NRD_StatusSetReal(_Ally, _Handle, "CurrentLifeTime", 12.0);
 */
 
 PROC
-LLENEMY_Auras_ApplyAuraStatus((CHARACTERGUID)_Source, (CHARACTERGUID)_Ally, (STRING)_Status)
+LLSENEMY_Auras_ApplyAuraStatus((CHARACTERGUID)_Source, (CHARACTERGUID)_Ally, (STRING)_Status)
 AND
 HasActiveStatus(_Ally, _Status, 0)
 THEN
