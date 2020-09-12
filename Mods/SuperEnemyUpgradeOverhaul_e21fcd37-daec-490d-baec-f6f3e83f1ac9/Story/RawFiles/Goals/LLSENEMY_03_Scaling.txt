@@ -100,7 +100,7 @@ NOT DB_LLSENEMY_Scaling_Temp_EvaluationResolved(_Char)
 AND
 NOT LeaderLib_Helper_QRY_CharacterIsPlayer(_Char)
 AND
-NOT LLENEMY_QRY_IsAllyOfParty(_Char)
+NOT LLSENEMY_QRY_IsAllyOfParty(_Char)
 THEN
 DB_LLSENEMY_Scaling_Temp_EvaluationResolved(_Char);
 LLSENEMY_Scaling_Internal_LevelUpCharacterWithCap(_Char, _TargetLevel, _CapDisabled);

@@ -110,23 +110,6 @@ function InitDebugLevel()
 	CharacterSetImmortal(host, 1)
 end
 
-local indexMap_DB_LLSENEMY_Upgrades_TypeRollValues = {
-	"Group",
-	"Type",
-	"Start",
-	"MaxEnd"
-}
-
-local indexMap_DB_LLSENEMY_Upgrades_Statuses = {
-	"Group", 
-	"Type", 
-	"Status", 
-	"MinRoll",
-	"MaxRoll",
-	"Duration",
-	"CP"
-}
-
 function Debug_TraceItemOwnership(item)
 	local inventoryOwner = GetInventoryOwner(item)
 	local inventoryOwnerOwner = GetInventoryOwner(inventoryOwner)
@@ -135,14 +118,7 @@ function Debug_TraceItemOwnership(item)
 end
 
 function DumpUpgradeTables()
---SysLog("DB_LLSENEMY_Upgrades_TypeRollValues", 4);
---SysLog("DB_LLSENEMY_Upgrades_Statuses", 7);
-	local typeRolls = Osi.DB_LLSENEMY_Upgrades_TypeRollValues:Get(nil,nil,nil,nil)
-	Ext.Print("DB_LLSENEMY_Upgrades_TypeRollValues:\n" .. LeaderLib.Common.Dump(typeRolls, indexMap_DB_LLSENEMY_Upgrades_TypeRollValues, true))
-
-	local upgrades = Osi.DB_LLSENEMY_Upgrades_Statuses:Get(nil,nil,nil,nil,nil,nil,nil)
-	--DB_LLSENEMY_Upgrades_Statuses(_Group, _Type, _Status, _MinRoll, _MaxRoll, _Duration, _ChallengePoints);
-	Ext.Print("DB_LLSENEMY_Upgrades_Statuses:\n" .. LeaderLib.Common.Dump(upgrades, indexMap_DB_LLSENEMY_Upgrades_Statuses, true))
+	print(Ext.JsonStringify(Upgrades))
 end
 
 function Debug_TraceStats(char)

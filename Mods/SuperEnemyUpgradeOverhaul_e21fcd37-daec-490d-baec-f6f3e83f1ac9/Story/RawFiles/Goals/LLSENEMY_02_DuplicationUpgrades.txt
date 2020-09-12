@@ -43,7 +43,7 @@ NOT DB_LeaderLib_EngineStatus(_Status)
 AND
 NOT DB_LLSENEMY_Duplication_IgnoredStatus(_Status)
 AND
-NOT LLENEMY_Duplication_QRY_IgnoreStatus(_Dupe, _Status)
+NOT LLSENEMY_Duplication_QRY_IgnoreStatus(_Dupe, _Status)
 THEN
 DB_NOOP(1);
 
