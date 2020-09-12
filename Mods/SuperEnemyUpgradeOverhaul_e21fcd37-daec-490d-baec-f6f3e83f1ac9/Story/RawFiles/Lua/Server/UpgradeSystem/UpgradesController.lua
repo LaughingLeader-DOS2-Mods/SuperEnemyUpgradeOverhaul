@@ -105,8 +105,11 @@ function UpgradeSystem.RollForUpgrades(uuid)
 			successes = successes + 1
 		end
 	end
+	UpgradeSystem.AddBonusSkills(character)
 	if successes > 0 then
 		UpgradeSystem.SaveChallengePoints(uuid)
 		UpgradeInfo_ApplyInfoStatus(uuid)
 	end
+
+	UpgradeSystem.StartDuplicating(character)
 end

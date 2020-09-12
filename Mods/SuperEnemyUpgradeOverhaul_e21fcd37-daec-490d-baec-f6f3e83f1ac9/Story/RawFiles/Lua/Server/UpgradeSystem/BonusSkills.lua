@@ -371,7 +371,7 @@ local function TryAddBonusSkills(enemy,remaining,remainingSourceSkills)
 end
 
 ---@param target EsvCharacter
-function AddBonusSkills(target)
+function UpgradeSystem.AddBonusSkills(target)
 	local min = Settings.Global.Variables.BonusSkills_Min.Value or 0
 	local max = Settings.Global.Variables.BonusSkills_Min.Value or 3
 
@@ -385,7 +385,9 @@ function AddBonusSkills(target)
 
 	if totalBonusSkills > 0 then
 		for i=totalBonusSkills,0,1 do
-			TryAddBonusSkills(target, i, totalSourceSkills)
+			if TryAddBonusSkills(target, i, totalSourceSkills) then
+				SetTag(target.MyGuid, "LLENEMY_HasBonusSkill")
+			end
 		end
 	end
 end

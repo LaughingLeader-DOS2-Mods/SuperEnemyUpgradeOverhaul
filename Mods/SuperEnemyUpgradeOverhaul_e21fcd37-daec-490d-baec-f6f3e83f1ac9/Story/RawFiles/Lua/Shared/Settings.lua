@@ -24,10 +24,13 @@ settings.Global:AddVariable("LLENEMY_Scaling_LevelModifier", 0)
 settings.Global:AddVariable("Hardmode_MinBonusRolls", 1)
 settings.Global:AddVariable("Hardmode_MaxBonusRolls", 4)
 settings.Global:AddVariable("Hardmode_StatusBonusTurnsMin", 0)
-settings.Global:AddVariable("Hardmode_StatusBonusTurnsMax", 3)
 settings.Global:AddVariable("BonusSkills_Min", 0)
 settings.Global:AddVariable("BonusSkills_Max", 3)
 settings.Global:AddVariable("EnemySkillIgnoreList", {})
+settings.Global:AddVariable("Hardmode_StatusBonusTurnsMax", 3)
+settings.Global:AddVariable("Duplication_Min", 0)
+settings.Global:AddVariable("Duplication_Max", 1)
+settings.Global:AddVariable("Duplication_Chance", 30)
 
 ---@param self SettingsData
 ---@param name string
