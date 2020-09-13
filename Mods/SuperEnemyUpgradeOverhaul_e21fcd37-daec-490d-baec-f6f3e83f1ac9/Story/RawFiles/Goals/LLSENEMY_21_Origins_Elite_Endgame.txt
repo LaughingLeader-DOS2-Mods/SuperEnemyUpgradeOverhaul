@@ -3,22 +3,7 @@ SubGoalCombiner SGC_AND
 INITSECTION
 
 KBSECTION
-PROC
-LLSENEMY_Elites_InitLevel("Arx_Endgame")
-THEN
-LLSENEMY_Elites_AddUpgradeChance("Arx_Endgame", S_ARX_EG_Lucian_62d0ca66-b6db-4a10-a457-effe0b64aca0);
 
-PROC
-LLSENEMY_Elites_InitLevel("Arx_Endgame")
-THEN
-LLSENEMY_Elites_AddUpgradeChance("Arx_Endgame", S_ARX_EG_Lucian_62d0ca66-b6db-4a10-a457-effe0b64aca0);
-LLSENEMY_Elites_AddUpgradeChance("Arx_Endgame", S_ARX_EG_Lucian_62d0ca66-b6db-4a10-a457-effe0b64aca0);
-
-PROC
-LLSENEMY_Elites_RegisterDivineTalentUpgrades("Arx_Endgame")
-THEN
-LLSENEMY_Elites_AddGuaranteedUpgrade("Arx_Endgame", S_ARX_EG_Lucian_62d0ca66-b6db-4a10-a457-effe0b64aca0, "LLENEMY_TALENT_INDOMITABLE");
-LLSENEMY_Elites_AddGuaranteedUpgrade("Arx_Endgame", S_ARX_EG_Lucian_62d0ca66-b6db-4a10-a457-effe0b64aca0, "LLENEMY_TALENT_GREEDYVESSEL");
 EXITSECTION
 
 ENDEXITSECTION

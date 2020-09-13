@@ -3,21 +3,35 @@ SubGoalCombiner SGC_AND
 INITSECTION
 
 KBSECTION
+QRY
+LLSENEMY_QRY_SkipCombat((INTEGER)_ID)
+AND
+DB_LLSENEMY_SkipCombat(_ID)
+THEN
+DB_NOOP(1);
+
 //REGION SKIP_COMBAT
+IF
+CombatStarted(_ID)
+AND
+CombatGetIDForCharacter(CHARACTERGUID_S_GLO_Windego_d783285f-d3be-4cba-8333-db8976cef182, _ID)
+THEN
+DB_LLSENEMY_SkipCombat(_ID);
+
 //Windego tutorial fight. Skip this since it's not actually a real combat, and negative auras may leave permanent debuffs
 IF
-ObjectEnteredCombat(CHARACTERGUID_S_GLO_Windego_d783285f-d3be-4cba-8333-db8976cef182, _CombatID)
+ObjectEnteredCombat(CHARACTERGUID_S_GLO_Windego_d783285f-d3be-4cba-8333-db8976cef182, _ID)
 AND
 DB_CurrentLevel("TUT_Tutorial_A")
 THEN
-DB_LLSENEMY_SkipCombat(_CombatID);
+DB_LLSENEMY_SkipCombat(_ID);
 
 IF
-CombatEnded(_CombatID)
+CombatEnded(_ID)
 AND
-DB_LLSENEMY_SkipCombat(_CombatID)
+DB_LLSENEMY_SkipCombat(_ID)
 THEN
-NOT DB_LLSENEMY_SkipCombat(_CombatID);
+NOT DB_LLSENEMY_SkipCombat(_ID);
 //END_REGION
 EXITSECTION
 

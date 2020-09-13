@@ -330,7 +330,7 @@ local function TrySummonVoidwoken(char)
 	if roll > 0 and roll <= chance then
 		SpawnVoidwoken(char, totalPointsUsed)
 	elseif roll == 0 then
-		Osi.LLENEMY_HardMode_ReduceTotalSourceUsed(Ext.Random(1,3))
+		Osi.LLSENEMY_HardMode_ReduceTotalSourceUsed(Ext.Random(1,3))
 	end
 end
 

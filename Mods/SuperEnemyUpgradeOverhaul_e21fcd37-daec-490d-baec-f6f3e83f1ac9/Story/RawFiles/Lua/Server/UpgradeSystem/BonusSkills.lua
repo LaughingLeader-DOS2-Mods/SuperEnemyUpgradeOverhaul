@@ -372,21 +372,23 @@ end
 
 ---@param target EsvCharacter
 function UpgradeSystem.AddBonusSkills(target)
-	local min = Settings.Global.Variables.BonusSkills_Min.Value or 0
-	local max = Settings.Global.Variables.BonusSkills_Min.Value or 3
+	if Osi.LLSENEMY_QRY_CanAddBonusSkills(target.MyGuid) == true then
+		local min = Settings.Global.Variables.BonusSkills_Min.Value or 0
+		local max = Settings.Global.Variables.BonusSkills_Min.Value or 3
 
-	local totalBonusSkills = Ext.Random(min, max)
+		local totalBonusSkills = Ext.Random(min, max)
 
-	local totalSourceSkills = 0
-	local canUseSource = not Settings.Global.Flags.LLENEMY_SourceBonusSkillsDisabled.Enabled and (target:HasTag("MAGISTER") == false or IsBoss(target.MyGuid) == 1)
-	if canUseSource and CharacterGetMaxSourcePoints(target.MyGuid) > 0 then
-		totalSourceSkills = Ext.Random(0,1)
-	end
+		local totalSourceSkills = 0
+		local canUseSource = not Settings.Global.Flags.LLENEMY_SourceBonusSkillsDisabled.Enabled and (target:HasTag("MAGISTER") == false or IsBoss(target.MyGuid) == 1)
+		if canUseSource and CharacterGetMaxSourcePoints(target.MyGuid) > 0 then
+			totalSourceSkills = Ext.Random(0,1)
+		end
 
-	if totalBonusSkills > 0 then
-		for i=totalBonusSkills,0,1 do
-			if TryAddBonusSkills(target, i, totalSourceSkills) then
-				SetTag(target.MyGuid, "LLENEMY_HasBonusSkill")
+		if totalBonusSkills > 0 then
+			for i=totalBonusSkills,0,1 do
+				if TryAddBonusSkills(target, i, totalSourceSkills) then
+					SetTag(target.MyGuid, "LLENEMY_HasBonusSkill")
+				end
 			end
 		end
 	end

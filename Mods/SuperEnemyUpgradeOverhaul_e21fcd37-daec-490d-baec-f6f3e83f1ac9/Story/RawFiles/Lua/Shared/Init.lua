@@ -32,6 +32,9 @@ Commands = {
 	CHECKLOREMASTER = "CheckLoremaster"
 }
 
+---@type table<string, EliteData>
+EliteData = Ext.Require("Shared/Data/Elites/_Init.lua")
+
 if ItemCorruption == nil then
 	ItemCorruption = {}
 end

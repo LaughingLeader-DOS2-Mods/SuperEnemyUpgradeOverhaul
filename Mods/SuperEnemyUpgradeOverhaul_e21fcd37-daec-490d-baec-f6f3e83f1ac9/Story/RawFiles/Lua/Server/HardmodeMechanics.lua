@@ -5,7 +5,7 @@ function HM_RollAdditionalUpgrades(char)
 	local bonusRolls = Ext.Random(min, max)
 	if bonusRolls > 0 then
 		for i=bonusRolls,1,-1 do
-			Osi.LLENEMY_Upgrades_RollForUpgrades(char)
+			Osi.LLSENEMY_Upgrades_RollForUpgrades(char)
 			--Ext.Print("Rolling bonus roll: " .. tostring(i) .. " | " .. char)
 		end
 	end

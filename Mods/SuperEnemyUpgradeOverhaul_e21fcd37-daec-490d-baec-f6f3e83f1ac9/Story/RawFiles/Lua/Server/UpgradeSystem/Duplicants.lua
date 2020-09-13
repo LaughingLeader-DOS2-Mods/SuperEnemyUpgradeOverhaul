@@ -169,7 +169,7 @@ local function IgnoreStatus(dupe, status)
 	if string.find(status, "LLENEMY_DUPE") or string.find(status, "QUEST") then
 		return true
 	end
-	if not Osi.LLENEMY_Duplication_QRY_CanCopyStatus(dupe.MyGuid, status) then
+	if not Osi.LLSENEMY_Duplication_QRY_CanCopyStatus(dupe.MyGuid, status) then
 		return true
 	end
 	return false
@@ -186,7 +186,7 @@ function Duplication.CopyStatus(source,dupe,status,handlestr)
 			if statusSourceHandle == nil or statusSourceHandle == source then 
 				statusSourceHandle = dupe
 			end
-			Osi.LLENEMY_Duplication_CopyStatus(source, dupe, status, duration, statusSourceHandle)
+			Osi.LLSENEMY_Duplication_CopyStatus(source, dupe, status, duration, statusSourceHandle)
 		end
 	end
 end
@@ -199,7 +199,7 @@ local function CopyStatuses(source, dupe)
 		and not IgnoreStatus(dupe, status.StatusId) 
 		and not StatusHasAura(status.StatusId)
 		and HasActiveStatus(dupe.MyGuid, status.StatusId) == 0
-		and Osi.LLENEMY_Duplication_QRY_CanCopyStatus(dupe.MyGuid, status.StatusId) == true
+		and Osi.LLSENEMY_Duplication_QRY_CanCopyStatus(dupe.MyGuid, status.StatusId) == true
 		then
 			local statusSource = dupe.MyGuid
 			if status.StatusSourceHandle ~= nil then
@@ -281,7 +281,7 @@ local function Duplicate(source, i)
 	CharacterSetHitpointsPercentage(dupeId, math.min(100.0, (source.Stats.CurrentVitality/source.Stats.MaxVitality)*100))
 
 	Osi.DB_LLSENEMY_Duplication_Temp_Active(source.MyGuid, dupe.MyGuid, source.CurrentLevel)
-	Osi.LLENEMY_Duplication_SetupArena(source.MyGuid, dupe.MyGuid)
+	Osi.LLSENEMY_Duplication_SetupArena(source.MyGuid, dupe.MyGuid)
 
 	TeleportTo(dupeId, source.MyGuid, "", 1, 1, 0)
 	CharacterSetDetached(dupeId, 0)

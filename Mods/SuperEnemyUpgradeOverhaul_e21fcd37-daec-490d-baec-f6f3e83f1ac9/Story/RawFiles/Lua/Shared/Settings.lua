@@ -20,18 +20,23 @@ settings.Global:AddFlags({
 	"LLENEMY_SummoningUpgradesDisabled",
 	"LLENEMY_SourceBonusSkillsDisabled",
 })
-settings.Global:AddVariable("LLENEMY_Scaling_LevelModifier", 0)
+settings.Global:AddVariable("AutoLeveling_Modifier", 0)
 settings.Global:AddVariable("Hardmode_MinBonusRolls", 1)
 settings.Global:AddVariable("Hardmode_MaxBonusRolls", 4)
 settings.Global:AddVariable("Hardmode_StatusBonusTurnsMin", 0)
+settings.Global:AddVariable("Hardmode_StatusBonusTurnsMax", 3)
 settings.Global:AddVariable("BonusSkills_Min", 0)
 settings.Global:AddVariable("BonusSkills_Max", 3)
 settings.Global:AddVariable("EnemySkillIgnoreList", {})
-settings.Global:AddVariable("Hardmode_StatusBonusTurnsMax", 3)
 settings.Global:AddVariable("Duplication_MinDupesPerEnemy", 0)
 settings.Global:AddVariable("Duplication_MaxDupesPerEnemy", 1)
 settings.Global:AddVariable("Duplication_MaxTotal", -1)
 settings.Global:AddVariable("Duplication_Chance", 30)
+settings.Global:AddVariable("Hardmode_EliteMultiplier", 2)
+settings.Global:AddVariable("Elites_ArmorBoostPerRank", 2.5)
+settings.Global:AddVariable("Elites_MagicArmorBoostPerRank", 2.5)
+settings.Global:AddVariable("Elites_VitalityBoostPerRank", 2.5)
+settings.Global:AddVariable("Elites_DamageBoostPerRank", 1)
 
 ---@param self SettingsData
 ---@param name string

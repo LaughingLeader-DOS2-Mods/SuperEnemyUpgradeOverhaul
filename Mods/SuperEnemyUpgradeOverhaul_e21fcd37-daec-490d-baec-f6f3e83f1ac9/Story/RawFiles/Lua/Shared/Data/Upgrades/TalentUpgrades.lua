@@ -15,7 +15,7 @@ end
 ---@param target EsvCharacter
 ---@param entry UpgradeEntry
 local function CanApplyUpgrade(target, entry)
-	if entry.Value == "LLENEMY_TALENT_MASTERTHIEF" and HasRangedWeapon(target) then
+	if entry.ID == "LLENEMY_TALENT_MASTERTHIEF" and HasRangedWeapon(target) then
 		return false
 	end
 	return true

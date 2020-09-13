@@ -104,8 +104,9 @@ function UpgradeSubGroup:CanApplyUpgradeToTarget(target, upgrade)
 end
 
 ---@param target EsvCharacter
+---@param applyImmediately boolean
 ---@return boolean
-function UpgradeSubGroup:Apply(target)
+function UpgradeSubGroup:Apply(target, applyImmediately)
 	if self.DisabledFlag == "" or GlobalGetFlag(self.DisabledFlag) == 0 then
 		local roll = Ext.Random(0, Vars.UPGRADE_MAX_ROLL)
 		if roll > 0 then
@@ -114,7 +115,7 @@ function UpgradeSubGroup:Apply(target)
 			for i,v in pairs(upgrades) do
 				if v.StartRange >= roll and v.EndRange <= roll and self:CanApplyUpgradeToTarget(target, v) then
 					Ext.Print(string.format("[EUO] Roll success (%i/%i)! SubGroup(%s:%s) Range(%i-%i)", roll, Vars.UPGRADE_MAX_ROLL, self.ID, v.Value, v.StartRange, v.EndRange))
-					if v:Apply(target) then
+					if v:Apply(target, applyImmediately) then
 						successes = successes + 1
 						UpgradeSystem.IncreaseChallengePoints(target.MyGuid, self.CP)
 					end

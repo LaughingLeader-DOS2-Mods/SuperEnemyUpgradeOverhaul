@@ -51,15 +51,16 @@ function UpgradeGroup:CanApplySubGroupToTarget(target, subGroup)
 end
 
 ---@param target EsvCharacter
+---@param applyImmediately boolean
 ---@return boolean
-function UpgradeGroup:Apply(target)
+function UpgradeGroup:Apply(target, applyImmediately)
 	if self.DisabledFlag == "" or GlobalGetFlag(self.DisabledFlag) == 0 then
 		local roll = Ext.Random(0, Vars.UPGRADE_MAX_ROLL)
 		if roll > 0 then
 			local successes = 0
 			for i,v in pairs(self.SubGroups) do
 				if v.StartRange >= roll and v.EndRange <= roll and self:CanApplySubGroupToTarget(target, v) then
-					if v:Apply(target) then
+					if v:Apply(target, applyImmediately) then
 						Ext.Print(string.format("[EUO] Roll success (%i/%i)! Group(%s:%s) Range(%i-%i)", roll, Vars.UPGRADE_MAX_ROLL, self.ID, v.ID, v.StartRange, v.EndRange))
 						successes = successes + 1
 					end

@@ -53,7 +53,7 @@ function MugTarget_Start(attacker, target, damage, handle)
 			--LeaderLib.PrintDebug("[LLENEMY_GameMechanics.lua:MugTarget_Start] Hit type: " .. tostring(hit_type))
 			LeaderLib.PrintDebug("[LLENEMY_GameMechanics.lua:MugTarget_Start] ("..tostring(attacker)..") is mugging target: ", target)
 			--LeaderLib.PrintDebug("[LLENEMY_GameMechanics.lua:MugTarget_Start] Dodged: ",NRD_StatusGetInt(target, handle, "Dodged")," | Missed: ", NRD_StatusGetInt(target, handle, "Missed")," | Blocked: ",NRD_StatusGetInt(target, handle, "Blocked"))
-			Osi.LLENEMY_Talents_MugTarget(attacker, target)
+			Osi.LLSENEMY_Talents_MugTarget(attacker, target)
 		end
 	end
 end
@@ -81,10 +81,10 @@ function MugTarget_End(character, target)
 		local item = item_entry[3]
 		LeaderLib.PrintDebug("[LLENEMY_GameMechanics.lua:MugTarget_End] Transfering (",item,") from (",target,") to (",character,").")
 		ItemToInventory(item, character, 1, CharacterIsPlayer(character), 0)
-		Osi.LLENEMY_Talents_OnTargetMugged(character, target, item, 1)
+		Osi.LLSENEMY_Talents_OnTargetMugged(character, target, item, 1)
 		MugTarget_DisplayText(character, target, item, 1)
 	end
-	Osi.LLENEMY_Talents_Internal_Mug_ClearData(target)
+	Osi.LLSENEMY_Talents_Internal_Mug_ClearData(target)
 end
 
 function MugTarget_DisplayText(character, target, item, amount)
@@ -156,8 +156,8 @@ function SpawnTreasureGoblin(x,y,z,level,combatid)
 	CharacterLevelUpTo(goblin, level)
 	Osi.DB_LLSENEMY_TreasureGoblins_Temp_Active(goblin)
 	--SetStoryEvent(goblin, "LeaderLib_Commands_EnterCombatWithPlayers")
-	Osi.LLENEMY_TreasureGoblins_Internal_OnGoblinSpawned(goblin, combatid, x, y, z)
-	Osi.LLENEMY_Rewards_TreasureGoblin_ToggleScript(1)
+	Osi.LLSENEMY_TreasureGoblins_Internal_OnGoblinSpawned(goblin, combatid, x, y, z)
+	Osi.LLSENEMY_Rewards_TreasureGoblin_ToggleScript(1)
 	Osi.LeaderLib_Helper_MakeHostileToPlayers(goblin)
 	Osi.LeaderLib_Timers_StartObjectTimer(goblin, 1000, "Timers_LLENEMY_Goblin_EnterCombatWithPlayers", "LeaderLib_Commands_EnterCombatWithPlayers")
 end

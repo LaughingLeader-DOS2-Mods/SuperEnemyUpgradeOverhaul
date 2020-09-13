@@ -8,6 +8,7 @@ local Data = {
 	Immunities = Ext.Require("Shared/Data/Upgrades/ImmunityUpgrades.lua"),
 	Infusions = Ext.Require("Shared/Data/Upgrades/InfusionUpgrades.lua"),
 	Summoning = Ext.Require("Shared/Data/Upgrades/SummoningUpgrades.lua"),
+	Talents = Ext.Require("Shared/Data/Upgrades/TalentUpgrades.lua"),
 }
 
 return Data

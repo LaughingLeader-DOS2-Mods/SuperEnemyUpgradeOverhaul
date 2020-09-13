@@ -47,9 +47,9 @@ Ext.RegisterConsoleCommand("goblintest", function(command)
 	if combat ~= nil and #combat > 0 then
 		local combatid = combat[1][2]
 		if combatid ~= nil then
-			--Osi.LLENEMY_TreasureGoblins_Spawn(combatid)
+			--Osi.LLSENEMY_TreasureGoblins_Spawn(combatid)
 			--local x,y,z = GetPosition(combat[1][1])
-			--Osi.LLENEMY_TreasureGoblins_Internal_Spawn(x, y, z, combatid)
+			--Osi.LLSENEMY_TreasureGoblins_Internal_Spawn(x, y, z, combatid)
 			SpawnTreasureGoblin(x,y,z,CharacterGetLevel(host),combatid)
 			LeaderLib.PrintDebug("Spawning treasure goblin at ", x, y, z)
 		end
@@ -62,7 +62,7 @@ end)
 Ext.RegisterConsoleCommand("shadoworb", function(command,movie)
 	local host = CharacterGetHostCharacter()
 	Osi.DB_LLSENEMY_Rewards_Temp_TreasureToGenerate(host, "LLENEMY_ShadowOrbRewards")
-	Osi.LLENEMY_Rewards_SpawnShadowOrb(host)
+	Osi.LLSENEMY_Rewards_SpawnShadowOrb(host)
 end)
 
 Ext.RegisterConsoleCommand("refreshupgradeinfo", function(command)
@@ -87,11 +87,11 @@ Ext.RegisterConsoleCommand("transformtest2", function(command)
 	local level = CharacterGetLevel(host)
 	CharacterLevelUpTo(dupe, level)
 	
-	--Osi.LLENEMY_OnCharacterJoinedCombat(dupe, 0)
+	--Osi.LLSENEMY_OnCharacterJoinedCombat(dupe, 0)
 	CharacterTransformFromCharacter(dupe2, host, 1, 1, 1, 1, 1, 1, 1)
 	LeaderLib.StartOneshotTimer("Timers_LLENEMY_Debug_TransformTest", 1250, function(...)
 		CharacterTransformFromCharacter(dupe, host, 1, 1, 1, 1, 1, 1, 1)
-		Osi.LLENEMY_OnCharacterJoinedCombat(dupe2, 0)
+		Osi.LLSENEMY_OnCharacterJoinedCombat(dupe2, 0)
 	end)
 end)
 

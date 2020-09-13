@@ -4,8 +4,17 @@ Ext.Require("Server/_InitServer.lua")
 PersistentVars = {
 	NewCorruptionStats = {},
 	TotalDuplicants = {},
-	RolledUpgrades = {}
 }
+
+if PersistentVars.Upgrades == nil then
+	PersistentVars.Upgrades = {}
+end
+if PersistentVars.Upgrades.DropCounts == nil then
+	PersistentVars.Upgrades.DropCounts = {}
+end
+if PersistentVars.Upgrades.Results == nil then
+	PersistentVars.Upgrades.Results = {}
+end
 
 local function LLENEMY_Server_ModuleLoading()
 	LLENEMY_Shared_InitModuleLoading()

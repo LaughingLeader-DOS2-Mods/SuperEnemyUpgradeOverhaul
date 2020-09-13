@@ -20,7 +20,7 @@ local function CanApplyUpgrade(target, entry)
 		return false
 	elseif entry.StatusType == "SPARK" and (target.Stats.MainWeapon ~= nil and Game.Math.IsRangedWeapon(target.Stats.MainWeapon)) then
 		return false
-	elseif entry.Value == "LLENEMY_GRANADA" and Osi.LeaderLib_Helper_QRY_CharacterIsHumanoid(target.MyGuid) == false then
+	elseif entry.ID == "LLENEMY_GRANADA" and Osi.LeaderLib_Helper_QRY_CharacterIsHumanoid(target.MyGuid) == false then
 		return false
 	end
 	return true
@@ -35,7 +35,7 @@ local MODID = {
 	OdinHuntsman = "7db12ae8-0e96-4050-adb2-06c906897b70",
 }
 
-local upgrades = g:Create("GeneralBuff", {
+local upgrades = g:Create("Buffs", {
 	DisabledFlag = "LLENEMY_BuffUpgradesDisabled",
 	CanApply = CanApplySubgroup,
 	SubGroups = {

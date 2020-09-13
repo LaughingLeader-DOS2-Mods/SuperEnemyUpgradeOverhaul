@@ -5,7 +5,7 @@ local UpgradeEntry = {
 	UpgradeType = "Status",
 	---@type UpgradeSubGroup
 	Parent = nil,
-	Value = "",
+	ID = "",
 	Duration = -1.0,
 	FixedDuration = false,
 	Frequency = 1,
@@ -22,15 +22,15 @@ local UpgradeEntry = {
 }
 UpgradeEntry.__index = UpgradeEntry
 
----@param value string
+---@param id string
 ---@param frequency integer
 ---@param cp integer
 ---@param upgradeType string
 ---@return UpgradeEntry
-function UpgradeEntry:Create(value, frequency, cp, params)
+function UpgradeEntry:Create(id, frequency, cp, params)
     local this =
     {
-		Value = value,
+		ID = id,
 		UpgradeType = "Status"
 	}
 	if type(frequency) == "table" then
@@ -56,14 +56,15 @@ function UpgradeEntry:Create(value, frequency, cp, params)
 		this.DropCount = this.DefaultDropCount or Vars.DefaultDropCount
 	end
 	if this.UpgradeType == "Status" then
-		this.StatusType = Ext.StatGetAttribute(this.Value, "StatusType") or "CONSUME"
+		this.StatusType = Ext.StatGetAttribute(this.ID, "StatusType") or "CONSUME"
 	end
     return this
 end
 
 ---@param target EsvCharacter
+---@param applyImmediately boolean
 ---@return boolean
-function UpgradeEntry:Apply(target)
+function UpgradeEntry:Apply(target, applyImmediately)
 	if self.CanApply ~= nil then
 		if not self.CanApply(target, self) then
 			return false
@@ -72,7 +73,7 @@ function UpgradeEntry:Apply(target)
 
 	local applied = false
 	if self.UpgradeType == "Status" then
-		if UpgradeSystem.ApplyStatus(target, self) then
+		if UpgradeSystem.ApplyStatus(target, self, applyImmediately) then
 			self.DropCount = self.DropCount - 1
 			UpgradeSystem.IncreaseChallengePoints(target.MyGuid, self.CP)
 			applied = true
@@ -84,7 +85,7 @@ function UpgradeEntry:Apply(target)
 			for i,callback in pairs(self.OnApplied) do
 				local b,err = xpcall(callback, debug.traceback, target, self)
 				if not b then
-					Ext.PrintError("[EUO] Error invoking OnApplied callback for:", self.Value)
+					Ext.PrintError("[EUO] Error invoking OnApplied callback for:", self.ID)
 					Ext.PrintError(err)
 				else
 					success = true
@@ -96,7 +97,7 @@ function UpgradeEntry:Apply(target)
 		elseif type(self.OnApplied) == "function" then
 			local b,err = xpcall(self.OnApplied, debug.traceback, target, self)
 			if not b then
-				Ext.PrintError("[EUO] Error invoking OnApplied for:", self.Value)
+				Ext.PrintError("[EUO] Error invoking OnApplied for:", self.ID)
 				Ext.PrintError(err)
 			else
 				self.DropCount = self.DropCount - 1
