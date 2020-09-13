@@ -49,8 +49,28 @@ function UpgradeSystem.LoadDropCounts()
 	end
 end
 
+function UpgradeSystem.Init()
+	for id,group in pairs(Upgrades) do
+		UpgradeSystem.SetRanges(group.SubGroups)
+		for _,sub in pairs(group.SubGroups) do
+			UpgradeSystem.SetRanges(sub.Upgrades)
+		end
+	end
+end
+
 LeaderLib.RegisterListener("Initialized", function()
+	UpgradeSystem.Init()
 	UpgradeSystem.LoadDropCounts()
+end)
+
+Ext.RegisterConsoleCommand("luareset", function(command)
+	local b,err = xpcall(function()
+		UpgradeSystem.Init()
+		UpgradeSystem.LoadDropCounts()
+	end, debug.traceback)
+	if not b then
+		print(err)
+	end
 end)
 
 function UpgradeSystem.OnRollFailed(target)
@@ -101,11 +121,14 @@ end
 
 ---@param target EsvCharacter
 function UpgradeSystem.ApplySavedUpgrades(target)
+	local hardmodeEnabled = Settings.Global.Flags.LLENEMY_HardModeEnabled.Enabled and not Settings.Global.Flags.LLENEMY_HardModeRollingDisabled.Enabled
 	local saved = UpgradeSystem.GetCurrentRegionData(target.CurrentLevel, target.MyGuid)
 	if saved ~= nil then
 		for i,v in pairs(saved) do
 			if v.Duration ~= nil then
-				ApplyStatus(target.MyGuid, v.ID, v.Duration, 1, target.MyGuid)
+				if v.HardmodeOnly ~= true or hardmodeEnabled then
+					ApplyStatus(target.MyGuid, v.ID, v.Duration, 1, target.MyGuid)
+				end
 			end
 		end
 	end
@@ -114,42 +137,43 @@ end
 ---@param target EsvCharacter
 ---@param status string
 ---@param duration number
+---@param hardmodeDuration number
 ---@param applyImmediately boolean
-local function FinallyApplyStatus(target, status, duration, applyImmediately)
+---@param hardmodeOnly boolean
+local function FinallyApplyStatus(target, status, duration, hardmodeDuration, applyImmediately, hardmodeOnly)
 	if status == "BLESSED" and target:HasTag("VOIDWOKEN") then
 		status = "LLENEMY_VOID_EMPOWERED"
 	end
 	if applyImmediately == true then
-		ApplyStatus(target.MyGuid, status, duration, 1, target.MyGuid)
+		if Settings.Global.Flags.LLENEMY_HardModeEnabled.Enabled then
+			duration = hardmodeDuration
+		end
+		if HasActiveStatus(target.MyGuid, status) == 1 then
+			local status = target:GetStatus(status)
+			status.CurrentLifeTime = math.max(duration, status.CurrentLifeTime)
+			status.RequestClientSync = true
+		else
+			ApplyStatus(target.MyGuid, status, duration, 1, target.MyGuid)
+		end
 	else
 		local data = UpgradeSystem.GetCurrentRegionData(target.CurrentLevel, target.MyGuid, true)
-		table.insert(data, {ID=status.ID, Duration={duration}})
+		table.insert(data, {ID=status, Duration=duration, HardmodeOnly = hardmodeOnly or false, HardmodeDuration=hardmodeDuration})
 	end
 end
 
 ---@param target EsvCharacter
 ---@param entry UpgradeEntry
 ---@param applyImmediately boolean
+---@param hardmodeOnly boolean
 ---@return boolean
-function UpgradeSystem.ApplyStatus(target, entry, applyImmediately)
-	if Settings.Global.Flags.LLENEMY_HardModeEnabled.Enabled then
-		if entry.FixedDuration then
-			FinallyApplyStatus(target, entry.ID, entry.Duration)
-		else
-			local min = Settings.Global.Variables.Hardmode_StatusBonusTurnsMin.Value or 0
-			local max = Settings.Global.Variables.Hardmode_StatusBonusTurnsMax.Value or 3
-			local bonusDuration = entry.Duration + (Ext.Random(min,max) * 6.0)
-			if HasActiveStatus(target, entry.ID) == 1 then
-				local status = target:GetStatus(entry.ID)
-				status.CurrentLifeTime = math.max(bonusDuration, status.CurrentLifeTime)
-				status.RequestClientSync = true
-			else
-				FinallyApplyStatus(target, entry.ID, bonusDuration, applyImmediately)
-			end
-		end
-	else
-		FinallyApplyStatus(target, entry.ID, entry.Duration, applyImmediately)
+function UpgradeSystem.ApplyStatus(target, entry, applyImmediately, hardmodeOnly)
+	local hardmodeDuration = entry.Duration
+	if not entry.FixedDuration then
+		local min = Settings.Global.Variables.Hardmode_StatusBonusTurnsMin.Value or 0
+		local max = Settings.Global.Variables.Hardmode_StatusBonusTurnsMax.Value or 3
+		hardmodeDuration = entry.Duration + (Ext.Random(min,max) * 6.0)
 	end
+	FinallyApplyStatus(target, entry.ID, entry.Duration, hardmodeDuration, applyImmediately, hardmodeOnly)
 	return true
 end
 
@@ -163,12 +187,12 @@ end
 ---@param tbl table
 function UpgradeSystem.SetRanges(tbl)
 	local rangeStart = 1
-	local maxRoll = Vars.UPGRADE_MAX_ROLL
+	local maxRoll = (Vars.UPGRADE_MAX_ROLL - (#tbl*2))
 	local totalFrequency = 0
 	for i=1,#tbl do
 		local entry = tbl[i]
 		if entry.Frequency > 0 then
-			totalFrequency = totalFrequency + 1
+			totalFrequency = totalFrequency + entry.Frequency
 		end	
 	end
 	if totalFrequency > 0 then
@@ -176,14 +200,25 @@ function UpgradeSystem.SetRanges(tbl)
 			local entry = tbl[i]
 			if entry.Frequency > 0 then
 				entry.StartRange = rangeStart
-				entry.EndRange = (entry.Frequency / totalFrequency) * Vars.UPGRADE_MAX_ROLL
-				rangeStart = entry.EndRange + 1
+				if i == #tbl then
+					entry.EndRange = Vars.UPGRADE_MAX_ROLL
+				else
+					entry.EndRange = math.min(Vars.UPGRADE_MAX_ROLL, rangeStart + math.ceil((entry.Frequency/totalFrequency) * maxRoll))
+				end
+				--entry.EndRange = rangeStart + math.ceil((entry.Frequency/totalFrequency) * maxRoll)
+				rangeStart = entry.EndRange+1
+				-- if entry.EndRange > Vars.UPGRADE_MAX_ROLL then
+				-- 	print(string.format("[%s] Start(%s)/End(%s)/(%s) Frequency(%s) totalFrequency(%s)", entry.ID, entry.StartRange, entry.EndRange, maxRoll, entry.Frequency, totalFrequency))
+				-- 	print((entry.Frequency/totalFrequency))
+				-- end
 			else
 				entry.StartRange = -1
 				entry.EndRange = -1
 			end
 		end
 	end
+	--print(Ext.JsonStringify(tbl))
+	return tbl
 end
 
 ---@type table<string, UpgradeGroup>
@@ -211,8 +246,7 @@ function UpgradeSystem.ApplyEliteBonuses(character, region)
 	local regionData = EliteData[region]
 	if regionData ~= nil then
 		local eliteRank = regionData.Elites[uuid]
-
-		if eliteRank > 0 then
+		if eliteRank ~= nil and eliteRank > 0 then
 			local mult = 1
 			if Settings.Global.Flags.LLENEMY_HardModeEnabled.Enabled then
 				mult = Settings.Global.Variables.Hardmode_EliteMultiplier.Value or 2
@@ -247,19 +281,21 @@ function UpgradeSystem.ApplyEliteBonuses(character, region)
 			CharacterSetMagicArmorPercentage(uuid, 100.0)
 		end
 
+		local applyImmediately = CharacterIsInCombat(character.MyGuid) == 1
+
 		local upgrades = regionData.Upgrades[uuid]
 		if upgrades ~= nil then
 			local t = type(upgrades)
 			if t == "string" then
 				local upgrade = UpgradeSystem.GetUpgrade(upgrades)
 				if upgrade ~= nil then
-					upgrade:Apply(character)
+					upgrade:Apply(character, applyImmediately, false)
 				end
 			elseif t == "table" then
 				for _,v in pairs(upgrades) do
 					local upgrade = UpgradeSystem.GetUpgrade(v)
 					if upgrade ~= nil then
-						upgrade:Apply(character)
+						upgrade:Apply(character, applyImmediately, false)
 					end
 				end
 			end
@@ -274,8 +310,8 @@ local function IgnoreCharacter(uuid)
 	return true
 end
 
-function UpgradeSystem.RollForUpgrades(uuid, region, applyImmediately)
-	if not IgnoreCharacter(uuid) then
+function UpgradeSystem.RollForUpgrades(uuid, region, applyImmediately, skipIgnoreCheck)
+	if skipIgnoreCheck == true or not IgnoreCharacter(uuid) then
 		local successes = 0
 		local character = Ext.GetCharacter(uuid)
 		for id,group in pairs(Upgrades) do
@@ -283,13 +319,28 @@ function UpgradeSystem.RollForUpgrades(uuid, region, applyImmediately)
 				successes = successes + 1
 			end
 		end
-
-		if successes > 0 then
-			UpgradeSystem.SaveChallengePoints(uuid)
-			ObjectSetFlag(uuid, "LLENEMY_HasUpgrades", 0)
+		
+		local vars = Settings.Global.Variables
+		local min = vars.Hardmode_MinBonusRolls.Value or Ext.ExtraData["LLENEMY_Hardmode_DefaultBonusRolls_Min"] or 1
+		local max = vars.Hardmode_MaxBonusRolls.Value or Ext.ExtraData["LLENEMY_Hardmode_DefaultBonusRolls_Max"] or 4
+		local bonusRolls = Ext.Random(min, max)
+		if bonusRolls > 0 then
+			for i=bonusRolls,1,-1 do
+				for id,group in pairs(Upgrades) do
+					if group:Apply(character, applyImmediately, true) then
+						successes = successes + 1
+					end
+				end
+			end
 		end
 
-		UpgradeSystem.ApplyEliteBonuses(character, region)
+		if successes > 0 then
+			if applyImmediately then
+				UpgradeInfo_ApplyInfoStatus(character.MyGuid)
+			end
+			UpgradeSystem.SaveChallengePoints(uuid)
+			ObjectSetFlag(uuid, "LLSENEMY_HasUpgrades", 0)
+		end
 	end
 end
 
@@ -310,8 +361,12 @@ function UpgradeSystem.RollRegion(region, force)
 	if PersistentVars.Upgrades.Results[region] == nil or force == true then
 		PersistentVars.Upgrades.Results[region] = {}
 		for i,uuid in pairs(Ext.GetAllCharacters(region)) do
+			if force then
+				ObjectClearFlag(uuid, "LLSENEMY_HasUpgrades", 0)
+			end
 			if not IgnoreCharacter(uuid) then
-				UpgradeSystem.RollForUpgrades(uuid, region, false)
+				UpgradeSystem.RollForUpgrades(uuid, region, CharacterIsInCombat(uuid) == 1, true)
+				UpgradeSystem.ApplyEliteBonuses(Ext.GetCharacter(uuid), region)
 			end
 		end
 	end

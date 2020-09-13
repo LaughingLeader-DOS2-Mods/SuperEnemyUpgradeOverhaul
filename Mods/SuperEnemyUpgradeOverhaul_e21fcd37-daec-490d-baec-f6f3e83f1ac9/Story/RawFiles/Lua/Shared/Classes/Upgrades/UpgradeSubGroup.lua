@@ -14,7 +14,8 @@ local UpgradeSubGroup = {
 	EndRange = 0,
 	CP = 1,
 	---@type fun(target:EsvCharacter, entry:UpgradeSubGroup):boolean
-	CanApply = nil
+	CanApply = nil,
+	ModRequirement = nil,
 }
 UpgradeSubGroup.__index = UpgradeSubGroup
 
@@ -105,21 +106,27 @@ end
 
 ---@param target EsvCharacter
 ---@param applyImmediately boolean
+---@param hardmodeOnly boolean
 ---@return boolean
-function UpgradeSubGroup:Apply(target, applyImmediately)
+function UpgradeSubGroup:Apply(target, applyImmediately, hardmodeOnly)
 	if self.DisabledFlag == "" or GlobalGetFlag(self.DisabledFlag) == 0 then
 		local roll = Ext.Random(0, Vars.UPGRADE_MAX_ROLL)
 		if roll > 0 then
 			local successes = 0
 			local upgrades = self:BuildDropList()
-			for i,v in pairs(upgrades) do
-				if v.StartRange >= roll and v.EndRange <= roll and self:CanApplyUpgradeToTarget(target, v) then
-					Ext.Print(string.format("[EUO] Roll success (%i/%i)! SubGroup(%s:%s) Range(%i-%i)", roll, Vars.UPGRADE_MAX_ROLL, self.ID, v.Value, v.StartRange, v.EndRange))
-					if v:Apply(target, applyImmediately) then
-						successes = successes + 1
-						UpgradeSystem.IncreaseChallengePoints(target.MyGuid, self.CP)
+			if upgrades ~= nil then
+				for i,v in pairs(upgrades) do
+					--print(string.format("[%s] Start(%s)/End(%s)/(%s)", self.ID, self.StartRange, self.EndRange, roll))
+					if roll >= v.StartRange and roll <= v.EndRange and self:CanApplyUpgradeToTarget(target, v) then
+						if v:Apply(target, applyImmediately, hardmodeOnly) then
+							--Ext.Print(string.format("[EUO] Roll success for %s! SubGroup(%s:%s) Roll(%i,%i-%i)", target.DisplayName, self.ID, v.ID, roll, v.StartRange, v.EndRange))
+							successes = successes + 1
+							UpgradeSystem.IncreaseChallengePoints(target.MyGuid, self.CP)
+						end
 					end
 				end
+			else
+				print("Failed to build droplist", upgrades)
 			end
 			if successes > 0 and self.OnApplied ~= nil then
 				if type(self.OnApplied) == "table" then

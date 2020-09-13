@@ -43,6 +43,7 @@ function UpgradeEntry:Create(id, frequency, cp, params)
 	end
 	setmetatable(this, self)
 	if params ~= nil then
+		local s,err = xpcall(function()
 		for k,v in pairs(params) do
 			this[k] = v
 			if k == "DropCount" then
@@ -51,20 +52,27 @@ function UpgradeEntry:Create(id, frequency, cp, params)
 				this.DropCount = v
 			end
 		end
+		end, debug.traceback)
+		if not s then print(id, err) end
 	end
 	if this.DropCount == -1 then
 		this.DropCount = this.DefaultDropCount or Vars.DefaultDropCount
 	end
 	if this.UpgradeType == "Status" then
-		this.StatusType = Ext.StatGetAttribute(this.ID, "StatusType") or "CONSUME"
+		if this.ModRequirement == nil or Ext.IsModLoaded(this.ModRequirement) then
+			this.StatusType = Ext.StatGetAttribute(this.ID, "StatusType") or "CONSUME"
+		else
+			this.StatusType = "CONSUME"
+		end
 	end
     return this
 end
 
 ---@param target EsvCharacter
 ---@param applyImmediately boolean
+---@param hardmodeOnly boolean
 ---@return boolean
-function UpgradeEntry:Apply(target, applyImmediately)
+function UpgradeEntry:Apply(target, applyImmediately, hardmodeOnly)
 	if self.CanApply ~= nil then
 		if not self.CanApply(target, self) then
 			return false
@@ -73,13 +81,13 @@ function UpgradeEntry:Apply(target, applyImmediately)
 
 	local applied = false
 	if self.UpgradeType == "Status" then
-		if UpgradeSystem.ApplyStatus(target, self, applyImmediately) then
+		if UpgradeSystem.ApplyStatus(target, self, applyImmediately, hardmodeOnly) then
 			self.DropCount = self.DropCount - 1
 			UpgradeSystem.IncreaseChallengePoints(target.MyGuid, self.CP)
 			applied = true
 		end
 	end
-	if self.OnApplied ~= nil then
+	if applied and self.OnApplied ~= nil then
 		if type(self.OnApplied) == "table" then
 			local success = false
 			for i,callback in pairs(self.OnApplied) do

@@ -5,6 +5,7 @@ local u = Classes.UpgradeEntry
 local upgrades = g:Create("Infusion", {
 	DisabledFlag = "LLENEMY_InfusionUpgradesDisabled",
 	SubGroups = {
+		sg:Create("None", 2),
 		sg:Create("Normal", 3, {DisabledFlag = "LLENEMY_ImmunityUpgradesDisabled", 
 		Upgrades = {
 			u:Create("LLENEMY_INF_ACID", 1, 3, {Duration = 24.0}),
@@ -18,6 +19,7 @@ local upgrades = g:Create("Infusion", {
 			u:Create("LLENEMY_INF_POISON", 4, 2, {Duration = 24.0}),
 			u:Create("LLENEMY_INF_WATER", 4, 2, {Duration = 24.0}),
 		}}),
+		sg:Create("None", 4),
 		sg:Create("Elite", 1, {DisabledFlag = "LLENEMY_ImmunityUpgradesDisabled", 
 		Upgrades = {
 			u:Create("LLENEMY_INF_ACID_G", 1, 4, {Duration = 36.0}),
@@ -38,6 +40,7 @@ local upgrades = g:Create("Infusion", {
 			u:Create("LLENEMY_INF_SHADOW", 1, 3, {Duration = -1.0}),
 			u:Create("LLENEMY_INF_WARP", 1, 3, {Duration = -1.0}),
 		}}),
+		sg:Create("None", 4),
 	}
 })
 

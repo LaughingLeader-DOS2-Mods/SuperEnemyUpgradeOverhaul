@@ -9,7 +9,7 @@ local data = {
 	LV_HoE_Main = Ext.Require("Shared/Data/Elites/TheHighSeas.lua"),
 	RC_Main = Ext.Require("Shared/Data/Elites/ReapersCoast.lua"),
 	CoS_Main = Ext.Require("Shared/Data/Elites/NamelessIsles.lua"),
-	Arx_Main = Ext.Require("Shared/Data/Elites/Arxe.lua"),
+	Arx_Main = Ext.Require("Shared/Data/Elites/Arx.lua"),
 }
 
 return data

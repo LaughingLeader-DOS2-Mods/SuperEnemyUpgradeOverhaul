@@ -11,4 +11,4 @@ LLSENEMY_AddToBonusSkillIgnoreList(S_GLO_Braccus_358ba541-0710-43be-8263-87afe1a
 LLSENEMY_AddToBonusSkillIgnoreList(S_GLO_Dallis_69b951dc-55a4-44b8-a2d5-5efedbd7d572);
 EXITSECTION
 ENDEXITSECTION
-ParentTargetEdge "LLENEMY_20_Origins__Start"
+ParentTargetEdge "LLSENEMY_20_Origins__Start"

@@ -32,4 +32,4 @@ LLSENEMY_Upgrades_AddToIgnoreList((CHARACTERGUID)S_FTJ_Florence_c272a37a-85ea-43
 EXITSECTION
 
 ENDEXITSECTION
-ParentTargetEdge "LLENEMY_20_Origins__Start"
+ParentTargetEdge "LLSENEMY_20_Origins__Start"

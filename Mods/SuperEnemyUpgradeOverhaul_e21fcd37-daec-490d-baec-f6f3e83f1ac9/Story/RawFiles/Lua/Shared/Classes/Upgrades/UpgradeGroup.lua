@@ -44,6 +44,9 @@ function UpgradeGroup:Add(subgroups)
 end
 
 function UpgradeGroup:CanApplySubGroupToTarget(target, subGroup)
+	if subGroup.ModRequirement ~= nil and not Ext.IsModLoaded(subGroup.ModRequirement) then
+		return false
+	end
 	if self.CanApply ~= nil then
 		return self.CanApply(target, subGroup, self)
 	end
@@ -52,17 +55,20 @@ end
 
 ---@param target EsvCharacter
 ---@param applyImmediately boolean
+---@param hardmodeOnly boolean
 ---@return boolean
-function UpgradeGroup:Apply(target, applyImmediately)
+function UpgradeGroup:Apply(target, applyImmediately, hardmodeOnly)
 	if self.DisabledFlag == "" or GlobalGetFlag(self.DisabledFlag) == 0 then
 		local roll = Ext.Random(0, Vars.UPGRADE_MAX_ROLL)
 		if roll > 0 then
 			local successes = 0
 			for i,v in pairs(self.SubGroups) do
-				if v.StartRange >= roll and v.EndRange <= roll and self:CanApplySubGroupToTarget(target, v) then
-					if v:Apply(target, applyImmediately) then
-						Ext.Print(string.format("[EUO] Roll success (%i/%i)! Group(%s:%s) Range(%i-%i)", roll, Vars.UPGRADE_MAX_ROLL, self.ID, v.ID, v.StartRange, v.EndRange))
-						successes = successes + 1
+				if roll >= v.StartRange and roll <= v.EndRange and self:CanApplySubGroupToTarget(target, v) then
+					if v.ID ~= "None" then
+						if v:Apply(target, applyImmediately, hardmodeOnly) then
+							--Ext.Print(string.format("[EUO] Roll success (%i/%i)! Group(%s:%s) Range(%i-%i)", roll, Vars.UPGRADE_MAX_ROLL, self.ID, v.ID, v.StartRange, v.EndRange))
+							successes = successes + 1
+						end
 					end
 				end
 			end

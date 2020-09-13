@@ -14,4 +14,4 @@ ApplyStatus(_Character, "HASTED", 6.0, 0, _Character);
 EXITSECTION
 
 ENDEXITSECTION
-ParentTargetEdge "LLENEMY_80_ToggledScripts"
+ParentTargetEdge "LLSENEMY_80_ToggledScripts"

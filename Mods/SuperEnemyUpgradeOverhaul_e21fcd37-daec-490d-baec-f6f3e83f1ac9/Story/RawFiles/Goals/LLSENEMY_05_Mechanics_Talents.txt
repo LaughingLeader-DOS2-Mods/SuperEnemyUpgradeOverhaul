@@ -91,9 +91,6 @@ CharacterCharacterEvent(_Enemy, _Target, "LLENEMY_MugTarget_Finish")
 THEN
 LLSENEMY_Talents_Internal_Mug_PickItem(_Enemy, _Target);
 LLSENEMY_Talents_Internal_Mug_ClearData(_Target);
-// [BEGIN_NO_OSITOOLS]
-LLSENEMY_Talents_Internal_Mug_StealRandomGold(_Enemy, _Target);
-// [END_NO_OSITOOLS]
 
 QRY
 LLSENEMY_Talents_Mug_QRY_ItemHasTag((ITEMGUID)_Item)
@@ -119,26 +116,6 @@ NOT DB_LLSENEMY_Talents_Temp_MasterThief_Iterating(_Enemy, _Target, _Index);
 DB_LLSENEMY_Talents_Temp_MasterThief_Iterating(_Enemy, _Target, _NextIndex);
 DB_LLSENEMY_Talents_Temp_MasterThief_Items(_Target, _Index, _Item);
 
-// [BEGIN_NO_OSITOOLS]
-PROC
-LLSENEMY_Talents_Internal_Mug_PickItem((CHARACTERGUID)_Enemy, (CHARACTERGUID)_Target)
-AND
-DB_LLSENEMY_Talents_Temp_MasterThief_Iterating(_Enemy, _Target, _Count)
-AND
-IntegerSubtract(_Count, 1, _LastIndex)
-AND
-LeaderLib_Random_QRY(0, _LastIndex)
-AND
-DB_LeaderLib_Random(_Index)
-AND
-DB_LLSENEMY_Talents_Temp_MasterThief_Items(_Target, _Index, _Item)
-THEN
-NOT DB_LeaderLib_Random(_Index);
-ItemToInventory(_Item, _Enemy, 1, 0, 0);
-LLSENEMY_Talents_OnTargetMugged(_Enemy, _Target, _Item, 1);
-// [END_NO_OSITOOLS]
-
-/* [OSITOOLS_ONLY]
 PROC
 LLSENEMY_Talents_Internal_Mug_PickItem((CHARACTERGUID)_Enemy, (CHARACTERGUID)_Target)
 AND
@@ -147,7 +124,6 @@ AND
 GetUUID(_Enemy, _EnemyUUID)
 THEN
 NRD_ModCall("SuperEnemyUpgradeOverhaul", "MugTarget_End", _EnemyUUID, _TargetUUID);
-*/
 
 PROC
 LLSENEMY_Talents_Internal_Mug_ClearData((CHARACTERGUID)_Target)

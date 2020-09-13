@@ -39,6 +39,7 @@ local upgrades = g:Create("Buffs", {
 	DisabledFlag = "LLENEMY_BuffUpgradesDisabled",
 	CanApply = CanApplySubgroup,
 	SubGroups = {
+		sg:Create("None", 4),
 		sg:Create("Weak", 10, {
 		CanApply = CanApplyUpgrade,
 		Upgrades = {
@@ -77,6 +78,7 @@ local upgrades = g:Create("Buffs", {
 			u:Create("OdinNECRO_REANIMATOR", 1, 2, {ModRequirement=MODID.OdinNecro}),
 			u:Create("OdinNECRO_OATHOFDESECRATION", 1, 3, {ModRequirement=MODID.OdinNecro}),
 		}}),
+		sg:Create("None", 4),
 		sg:Create("Elite", 1, {
 		CanApply = CanApplyUpgrade,
 		Upgrades = {
@@ -91,6 +93,7 @@ local upgrades = g:Create("Buffs", {
 			u:Create("OdinGEO_Ironbark", 1, 4, {ModRequirement=MODID.OdinGeo}),
 			u:Create("OdinGEO_ParasiticAffliction", 1, 3, {ModRequirement=MODID.OdinGeo}),
 		}}),
+		sg:Create("None", 4),
 		sg:Create("Polymorph", 2, {DisabledFlag = "LLENEMY_PolymorphSkillUpgradesDisabled",
 		Upgrades = {
 			u:Create("LLENEMY_SKILL_MEDUSA_HEAD", 1, 6),
@@ -107,6 +110,7 @@ local upgrades = g:Create("Buffs", {
 			u:Create("LLENEMY_GATHERING_POWER", 8, 2, {Duration=24.0, FixedDuration=true}),
 			u:Create("LLENEMY_RAGE", 4, 1),
 		}}),
+		sg:Create("None", 4),
 	},
 	SessionLoaded = {
 

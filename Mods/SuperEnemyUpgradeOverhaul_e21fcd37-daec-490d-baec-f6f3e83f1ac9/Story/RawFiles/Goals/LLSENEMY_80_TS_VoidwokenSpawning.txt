@@ -2,7 +2,6 @@ Version 1
 SubGoalCombiner SGC_AND
 INITSECTION
 KBSECTION
-/* [OSITOOLS_ONLY]
 IF
 SkillCast(_Char, _Skill, _SkillType, _SkillElement)
 AND
@@ -46,8 +45,7 @@ THEN
 NOT DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, _TotalSP);
 LeaderLog_LogInt("DEBUG", "[LLENEMY_20_HardMode_Enabler:UpdateTime] Source used degraded (", _TotalSP, " => ", _CappedMin, ")");
 DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, _CappedMin);
-*/
 EXITSECTION
 SysClear("DB_LLSENEMY_TrySummonVoidwoken_Temp_Caster", 1);
 ENDEXITSECTION
-ParentTargetEdge "LLENEMY_80_ToggledScripts"
+ParentTargetEdge "LLSENEMY_80_ToggledScripts"

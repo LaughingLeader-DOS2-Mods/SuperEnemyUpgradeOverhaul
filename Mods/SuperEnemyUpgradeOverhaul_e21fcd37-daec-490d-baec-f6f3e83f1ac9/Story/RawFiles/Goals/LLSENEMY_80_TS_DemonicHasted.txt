@@ -32,4 +32,4 @@ LeaderLib_Timers_CancelObjectTimer(_Char, "Timers_LLENEMY_DemonicHasted_CheckFor
 EXITSECTION
 SysClear("DB_LLSENEMY_StatusLogic_Temp_DemonicHastedWeakness", 4);
 ENDEXITSECTION
-ParentTargetEdge "LLENEMY_80_ToggledScripts"
+ParentTargetEdge "LLSENEMY_80_ToggledScripts"

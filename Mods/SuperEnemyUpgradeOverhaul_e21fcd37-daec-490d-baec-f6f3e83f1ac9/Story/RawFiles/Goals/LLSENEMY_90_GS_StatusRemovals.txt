@@ -39,4 +39,4 @@ LeaderLib_Timers_StartObjectTimer(_Char, 250, "Timers_LLENEMY_Statuses_SummonAut
 EXITSECTION
 SysClear("DB_LLSENEMY_Statuses_Temp_WaitForRemoval", 2);
 ENDEXITSECTION
-ParentTargetEdge "LLENEMY_90_GameScripts"
+ParentTargetEdge "LLSENEMY_90_GameScripts"

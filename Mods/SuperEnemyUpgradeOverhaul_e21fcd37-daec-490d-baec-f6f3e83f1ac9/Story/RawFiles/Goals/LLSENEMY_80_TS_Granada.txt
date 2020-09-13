@@ -19,4 +19,4 @@ NRD_ModCall("SuperEnemyUpgradeOverhaul", "ExplodeGrenade", (STRING)_Enemy);
 EXITSECTION
 
 ENDEXITSECTION
-ParentTargetEdge "LLENEMY_80_ToggledScripts"
+ParentTargetEdge "LLSENEMY_80_ToggledScripts"

@@ -27,31 +27,6 @@ NOT DB_LLSENEMY_Scaling_Temp_LeveledRegion(_Region);
 SysClear("DB_LLSENEMY_Scaling_Temp_WaitForCombat", 1);
 
 //REGION NEUTRAL_CRIMES
-// [BEGIN_NO_OSITOOLS]
-IF
-CharacterStartAttackObject((CHARACTERGUID)_Char, _PLayer, _)
-AND
-CharacterIsPlayer(_Player, 1)
-AND
-CharacterIsInCombat(_Char, 0)
-AND
-CharacterIsNeutral(_Char, _PLayer, 1)
-THEN
-LLSENEMY_Scaling_LevelUpCharacter(_Char, 1);
-
-IF
-AttackedByObject((CHARACTERGUID)_Char, _, (CHARACTERGUID)_Player, _, _)
-AND
-CharacterIsPlayer(_Player, 1)
-AND
-CharacterIsInCombat(_Char, 0)
-AND
-CharacterIsNeutral(_Char, _PLayer, 1)
-THEN
-LLSENEMY_Scaling_LevelUpCharacter(_Char, 1);
-// [END_NO_OSITOOLS]
-
-/* [OSITOOLS_ONLY]
 IF
 NRD_OnPrepareHit((CHARACTERGUID)_Char, (CHARACTERGUID)_Player, _Damage, _)
 AND
@@ -64,39 +39,6 @@ AND
 CharacterIsNeutral(_Char, _PLayer, 1)
 THEN
 LLSENEMY_Scaling_LevelUpCharacter(_Char);
-*/
-
-/*
-IF
-CharacterUsedSkillOnTarget(_Player, (CHARACTERGUID)_Char, _Skill, _, _)
-AND
-DB_IsPlayer(_PLayer)
-AND
-CharacterIsInCombat(_Char, 0)
-AND
-NRD_StatGetInt(_Skill, "Damage Multiplier", _DamageMult)
-AND
-_DamageMult > 0
-AND
-CharacterIsNeutral(_Char, _PLayer, 1)
-THEN
-LLSENEMY_Scaling_LevelUpCharacter(_Char);
-
-IF
-CharacterUsedSkillOnZoneWithTarget(_Player, (CHARACTERGUID)_Char, _Skill, _, _)
-AND
-DB_IsPlayer(_PLayer)
-AND
-CharacterIsInCombat(_Char, 0)
-AND
-NRD_StatGetInt(_Skill, "Damage Multiplier", _DamageMult)
-AND
-_DamageMult > 0
-AND
-CharacterIsNeutral(_Char, _PLayer, 1)
-THEN
-LLSENEMY_Scaling_LevelUpCharacter(_Char);
-*/
 //END_REGION
 
 //REGION TRANSFORMED_CHARACTER_BUG_WORKAROUND
@@ -126,4 +68,4 @@ LLSENEMY_Scaling_SaveTransformedCharacterLevel(_Char);
 EXITSECTION
 SysClear("DB_LLSENEMY_Scaling_Temp_WaitForCombat", 1);
 ENDEXITSECTION
-ParentTargetEdge "LLENEMY_80_ToggledScripts"
+ParentTargetEdge "LLSENEMY_80_ToggledScripts"

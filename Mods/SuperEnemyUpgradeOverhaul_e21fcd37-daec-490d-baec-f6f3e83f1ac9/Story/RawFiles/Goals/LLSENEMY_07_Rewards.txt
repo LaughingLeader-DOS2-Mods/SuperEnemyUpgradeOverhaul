@@ -526,10 +526,8 @@ GetPosition(_Dupe, _x, _y, _z)
 AND
 CreateItemTemplateAtPosition("CONT_LLENEMY_DuplicantTreasure_b6773d33-18e4-4fa3-abe0-85d33c30df0a", _x, _y, _z, _Container)
 THEN
-/* [OSITOOLS_ONLY]
 NRD_ItemSetPermanentBoostInt(_Container, "Value", 0);
 NRD_ItemSetPermanentBoostInt(_Container, "Weight", 0);
-*/
 DB_LLSENEMY_Duplication_Temp_ShadowOrbs(_Dupe, _Container);
 PlayEffectAtPosition("LLENEMY_FX_ShadowOrb_Spawn_01", _x, _y, _z);
 
@@ -577,36 +575,6 @@ ItemIsDestroyed(_Item, 1)
 THEN
 ItemRemove(_Item);
 
-// [BEGIN_NO_OSITOOLS]
-IF
-StoryEvent((ITEMGUID)_Item, "LLENEMY_Container_OnClosed_CheckDestroy")
-AND
-ItemIsDestroyed(_Item, 0)
-AND
-ContainerGetGoldValue(_Item, _Value)
-AND
-_Value <= 0
-THEN
-ItemDestroy(_Item);
-/*
-IF
-StoryEvent((ITEMGUID)_Item, "LLENEMY_Container_OnClosed_CheckDestroy")
-AND
-ItemIsDestroyed(_Item, 0)
-AND
-ContainerGetGoldValue(_Item, _Value)
-AND
-ItemGetGoldValue(_Item, _ContainerValue)
-AND
-IntegerSubtract(_Value, _ContainerValue, _CheckValue)
-AND
-_CheckValue <= 0
-THEN
-ItemDestroy(_Item);
-*/
-// [END_NO_OSITOOLS]
-
-/* [OSITOOLS_ONLY]
 IF
 StoryEvent((ITEMGUID)_Item, "LLENEMY_Container_OnClosed_CheckDestroy")
 AND
@@ -635,7 +603,6 @@ AND
 GetUUID(_Item, _UUID)
 THEN
 NRD_ModCall("SuperEnemyUpgradeOverhaul", "DestroyEmptyContainer", _UUID);
-*/
 
 IF
 StoryEvent((ITEMGUID)_Container, "LLENEMY_Container_OnDestroyed")
@@ -656,10 +623,6 @@ NOT DB_LLSENEMY_Duplication_Temp_ShadowOrbs(_Dupe, _Container);
 PROC
 LLSENEMY_Rewards_Internal_ShadowCorruptItems((CHARACTERGUID)_Dupe, (ITEMGUID)_Container)
 THEN
-// [BEGIN_NO_OSITOOLS]
-DB_NOOP(1);
-// [END_NO_OSITOOLS]
-/* [OSITOOLS_ONLY]
 LeaderLib_Timers_StartObjectTimer(_Container, 100, "Timers_LLENEMY_Duplication_CorruptShadowRewards", "LLENEMY_Duplication_CorruptShadowRewards");
 LeaderLib_Timers_StartObjectTimer(_Container, 250, "Timers_LLENEMY_ShadowOrb_CheckEmpty", "LLENEMY_ShadowOrb_CheckEmpty");
 
@@ -683,7 +646,6 @@ AND
 GetUUID(_Item, _UUID)
 THEN
 NRD_ModCall("SuperEnemyUpgradeOverhaul", "ShadowCorruptItem", _UUID);
-*/
 //END_REGION
 
 //REGION SHADOW_ITEM_CRAFTING_BLOCKING

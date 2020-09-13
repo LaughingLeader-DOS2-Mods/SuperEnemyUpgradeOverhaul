@@ -18,4 +18,4 @@ NOT DB_LLSENEMY_Duplication_Blacklist(S_RC_DW_UnderTavern_Voidwoken_13bb467b-de2
 EXITSECTION
 
 ENDEXITSECTION
-ParentTargetEdge "LLENEMY_20_Origins__Start"
+ParentTargetEdge "LLSENEMY_20_Origins__Start"

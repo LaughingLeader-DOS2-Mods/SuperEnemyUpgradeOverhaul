@@ -3,8 +3,6 @@ SubGoalCombiner SGC_AND
 INITSECTION
 
 KBSECTION
-
-/* [OSITOOLS_ONLY]
 IF
 NRD_OnStatusAttempt(_Target, "MADNESS", _Handle, _Source)
 AND
@@ -51,8 +49,7 @@ AND
 _TurnsLeft <= 0
 THEN
 NOT DB_LLSENEMY_ItemBonuses_Temp_MadnessCooldown(_Char, _TurnsLeft);
-*/
 EXITSECTION
 SysClear("DB_LLSENEMY_ItemBonuses_Temp_MadnessCooldown", 2);
 ENDEXITSECTION
-ParentTargetEdge "LLENEMY_80_ToggledScripts"
+ParentTargetEdge "LLSENEMY_80_ToggledScripts"

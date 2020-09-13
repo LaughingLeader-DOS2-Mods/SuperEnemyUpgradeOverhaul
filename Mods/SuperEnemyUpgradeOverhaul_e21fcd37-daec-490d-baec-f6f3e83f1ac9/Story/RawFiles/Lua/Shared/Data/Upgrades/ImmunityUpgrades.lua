@@ -5,6 +5,7 @@ local u = Classes.UpgradeEntry
 local upgrades = g:Create("Immunities", {
 	DisabledFlag = "LLENEMY_ImmunityUpgradesDisabled",
 	SubGroups = {
+		sg:Create("None", 10),
 		sg:Create("Main", 1, {Upgrades = {
 			u:Create("INVULNERABLE", 1, 6, {Duration = 6.0, FixedDuration = true}),
 			u:Create("EVADING", 8, 2, {Duration = 6.0}),
@@ -21,6 +22,7 @@ local upgrades = g:Create("Immunities", {
 			u:Create("IMMUNE_TO_POISONING", 8, 1, {Duration = 18.0}),
 			u:Create("LLENEMY_IMMUNITY_LOSECONTROL", 1, 8),
 		}}),
+		sg:Create("None", 10),
 	}
 })
 

@@ -71,7 +71,7 @@ ApplyStatus(_Char, "LLENEMY_SEEKER_FX", -1.0, 0, _Char);
 IF
 CharacterStatusRemoved(_Player, "SNEAKING", _)
 AND
-NOT LLENEMY_Statuses_QRY_AnyPlayerIsSneaking()
+NOT LLSENEMY_Statuses_QRY_AnyPlayerIsSneaking()
 AND
 DB_LLSENEMY_StatusLogic_Temp_Seekers(_Char)
 AND
@@ -101,7 +101,7 @@ GetStatusType(_Status, "INVISIBLE")
 AND
 CharacterIsPlayer(_Player, 1)
 AND
-NOT LLENEMY_Statuses_QRY_AnyPlayerIsSneaking()
+NOT LLSENEMY_Statuses_QRY_AnyPlayerIsSneaking()
 AND
 DB_LLSENEMY_StatusLogic_Temp_Seekers(_Char)
 AND
@@ -156,4 +156,4 @@ LLSENEMY_Mechanics_Statuses_Internal_SeekerTakeAction(_Char);
 EXITSECTION
 SysClear("DB_LLSENEMY_StatusLogic_Temp_WaitForSeekerAction", 1);
 ENDEXITSECTION
-ParentTargetEdge "LLENEMY_80_ToggledScripts"
+ParentTargetEdge "LLSENEMY_80_ToggledScripts"

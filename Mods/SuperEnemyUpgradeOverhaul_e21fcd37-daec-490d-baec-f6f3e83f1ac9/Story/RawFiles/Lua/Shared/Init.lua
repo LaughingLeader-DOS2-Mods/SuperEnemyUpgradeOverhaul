@@ -31,19 +31,18 @@ Commands = {
 	CHECKLOREMASTER = "CheckLoremaster"
 }
 
----@type table<string, EliteData>
-EliteData = Ext.Require("Shared/Data/Elites/_Init.lua")
+Ext.Require("Shared/Classes/Init.lua")
 
 if ItemCorruption == nil then
 	ItemCorruption = {}
 end
 
-Ext.Require("Shared/Classes/Init.lua")
-
 ---@type table<string, TagBoost>
 ItemCorruption.TagBoosts = Ext.Require("Shared/Data/Corruption/TagBoostEntries.lua")
-
 ItemCorruption.Boosts = {}
+
+---@type table<string, EliteData>
+EliteData = Ext.Require("Shared/Data/Elites/_Init.lua")
 
 ---@class EUOBoostsScript
 ---@field Init function Initializes boosts while pulling chances from Data.txt

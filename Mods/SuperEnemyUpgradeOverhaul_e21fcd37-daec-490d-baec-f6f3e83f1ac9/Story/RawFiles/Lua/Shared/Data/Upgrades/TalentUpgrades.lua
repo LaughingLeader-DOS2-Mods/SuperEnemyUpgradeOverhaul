@@ -24,6 +24,7 @@ end
 local upgrades = g:Create("Talents", {
 	DisabledFlag = "LLENEMY_TalentUpgradesDisabled",
 	SubGroups = {
+		sg:Create("None", 6),
 		sg:Create("Normal", 10, {
 		CanApply = CanApplyUpgrade,
 		Upgrades = {
@@ -45,7 +46,9 @@ local upgrades = g:Create("Talents", {
 			u:Create("LLENEMY_TALENT_BULLY", 4, 4),
 			u:Create("LLENEMY_TALENT_BACKSTAB", 4, 3),
 		}}),
+		sg:Create("None", 6),
 		sg:Create("DivineTalents", 1, {
+		ModRequirement="ca32a698-d63e-4d20-92a7-dd83cba7bc56",
 		Upgrades = {
 			u:Create("LLENEMY_TALENT_GREEDYVESSEL", 1, 1),
 			u:Create("LLENEMY_TALENT_HAYMAKER", 1, 1),

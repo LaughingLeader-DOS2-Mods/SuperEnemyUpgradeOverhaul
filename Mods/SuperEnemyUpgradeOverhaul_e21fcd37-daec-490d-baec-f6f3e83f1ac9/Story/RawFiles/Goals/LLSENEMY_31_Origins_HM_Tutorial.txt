@@ -290,34 +290,27 @@ CharacterSetImmortal(_Replacement, 0);
 LeaderLib_Helper_MakeHostileToPlayers(_Replacement);
 LLSENEMY_Rewards_GenerateTreasure(_Replacement, "ST_RingAmuletBeltRare", 1);
 
-/* [OSITOOLS_ONLY]
 IF
 StoryEvent((CHARACTERGUID)_Replacement, "LLENEMY_TopLivingMagister_StoodUp")
 AND
 GetUUID(_Replacement, _UUID)
 THEN
 NRD_ModCall("LeaderLib", "SetCustomNameWithLocalization", _UUID, "h8350321agf54cg4528gb29egcb7dbb16cdc0", "Magister Knight (Not Dead)");
-*/
-
 //END_REGION
 
 //REGION TREASURE
 IF
 CharacterDied(S_TUT_TopDeckMagister2_e2d47d73-4f9d-4de2-8a3c-c774a0ea114a)
-/* [OSITOOLS_ONLY]
 AND
 NRD_CharacterGetInt(S_TUT_TopDeckMagister2_e2d47d73-4f9d-4de2-8a3c-c774a0ea114a, "Resurrected", 0) // Never resurrected
-*/
 THEN
 LLSENEMY_Rewards_GenerateTreasure(S_TUT_TopDeckMagister2_e2d47d73-4f9d-4de2-8a3c-c774a0ea114a, "RewardBig", 1);
 LLSENEMY_Rewards_GenerateTreasure(S_TUT_TopDeckMagister2_e2d47d73-4f9d-4de2-8a3c-c774a0ea114a, "ST_SkillbookPolymorph", 1);
 
 IF
 CharacterDied(S_TUT_TopDeckMagister1_de400bda-b14e-4cff-b5f5-737781437902)
-/* [OSITOOLS_ONLY]
 AND
 NRD_CharacterGetInt(S_TUT_TopDeckMagister1_de400bda-b14e-4cff-b5f5-737781437902, "Resurrected", 0) // Never resurrected
-*/
 THEN
 LLSENEMY_Rewards_GenerateTreasure(S_TUT_TopDeckMagister1_de400bda-b14e-4cff-b5f5-737781437902, "ST_SkillbookWarrior", 1);
 LLSENEMY_Rewards_GenerateTreasure(S_TUT_TopDeckMagister1_de400bda-b14e-4cff-b5f5-737781437902, "ST_SkillbookStarter", 1);
@@ -405,4 +398,4 @@ CharacterSetImmortal(CHARACTERGUID_S_TUT_TopDeckMagister1_de400bda-b14e-4cff-b5f
 ProcSetInvulnerable(CHARACTERGUID_S_TUT_TopDeckMagister2_e2d47d73-4f9d-4de2-8a3c-c774a0ea114a, 0);
 CharacterSetImmortal(CHARACTERGUID_S_TUT_TopDeckMagister2_e2d47d73-4f9d-4de2-8a3c-c774a0ea114a, 0);
 ENDEXITSECTION
-ParentTargetEdge "LLENEMY_30_Origins_HM_Parent"
+ParentTargetEdge "LLSENEMY_30_Origins_HM_Parent"

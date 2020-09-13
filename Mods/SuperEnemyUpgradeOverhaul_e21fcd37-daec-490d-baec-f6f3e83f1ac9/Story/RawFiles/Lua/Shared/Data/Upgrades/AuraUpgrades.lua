@@ -5,17 +5,19 @@ local u = Classes.UpgradeEntry
 local upgrades = g:Create("Aura", {
 	DisabledFlag = "LLENEMY_AuraUpgradesDisabled",
 	SubGroups = {
-		sg:Create("Main", 10, {Upgrades = {
+		sg:Create("None", 10),
+		sg:Create("Main", 4, {Upgrades = {
 			u:Create("FAVOURABLE_WIND_AURA", 10, 1, {Duration = 12.0}),
 			u:Create("LLENEMY_FIRE_BRAND_AURA", 8, 4),
 			u:Create("FROST_AURA", 4, 2),
 			u:Create("GUARDIAN_ANGEL_AURA", 1, 3),
-			u:Create("VACUUM_AURA", 1, 2, 6, {Duration = 6.0}),
+			u:Create("VACUUM_AURA", 1, 2, {Duration = 6.0}),
 			u:Create("VAMPIRISM_AURA", 3, 4),
 			u:Create("LLENEMY_VENOM_AURA", 4, 3),
 			u:Create("LLENEMY_ACTIVATE_HEALING_TEARS", 4, 3, {Duration = 0.0}),
 		}}),
-		sg:Create("Immunity", 10, {DisabledFlag = "LLENEMY_ImmunityUpgradesDisabled", 
+		sg:Create("None", 4),
+		sg:Create("Immunity", 1, {DisabledFlag = "LLENEMY_ImmunityUpgradesDisabled", 
 		Upgrades = {
 			u:Create("AIR_IMMUNITY_AURA", 10, 4, {Duration = 6.0}),
 			u:Create("EARTH_IMMUNITY_AURA", 10, 4, {Duration = 6.0}),

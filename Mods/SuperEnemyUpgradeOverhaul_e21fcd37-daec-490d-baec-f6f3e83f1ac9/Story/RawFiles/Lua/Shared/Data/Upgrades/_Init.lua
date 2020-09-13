@@ -2,7 +2,7 @@
 ---@type table<string, UpgradeGroup>
 local Data = {
 	Auras = Ext.Require("Shared/Data/Upgrades/AuraUpgrades.lua"),
-	BonusSkills = Ext.Require("Shared/Data/Upgrades/BonusSkillUpgrades.lua"),
+	--BonusSkills = Ext.Require("Shared/Data/Upgrades/BonusSkillUpgrades.lua"),
 	Buffs = Ext.Require("Shared/Data/Upgrades/BuffUpgrades.lua"),
 	Classes = Ext.Require("Shared/Data/Upgrades/ClassUpgrades.lua"),
 	Immunities = Ext.Require("Shared/Data/Upgrades/ImmunityUpgrades.lua"),

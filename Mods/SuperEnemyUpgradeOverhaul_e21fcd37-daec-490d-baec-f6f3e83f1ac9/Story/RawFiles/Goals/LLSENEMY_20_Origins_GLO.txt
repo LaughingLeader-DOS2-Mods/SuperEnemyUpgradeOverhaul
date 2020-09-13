@@ -76,4 +76,4 @@ GenerateTreasure(_Container, _Treasure, _Level, _Char);
 
 EXITSECTION
 ENDEXITSECTION
-ParentTargetEdge "LLENEMY_20_Origins__Start"
+ParentTargetEdge "LLSENEMY_20_Origins__Start"

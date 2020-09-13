@@ -99,7 +99,6 @@ LLSENEMY_Statuses_QRY_CanSeekerPulse(_Char)
 THEN
 LeaderLib_Timers_StartObjectTimer(_Char, 1000, "Timers_LLENEMY_Statuses_Seeker_PulseNow", "LLENEMY_Statuses_Seeker_PulseNow");
 
-/* [OSITOOLS_ONLY]
 IF
 CharacterStatusApplied(_Char, "LLENEMY_SEEKER", _)
 THEN
@@ -113,7 +112,6 @@ THEN
 NRD_CharacterSetPermanentBoostInt(_Char, "FOV", 0);
 NRD_CharacterSetPermanentBoostInt(_Char, "Sight", 0);
 CharacterAddAttribute(_Char, "Dummy", 0); // Force boost sync
-*/
 
 IF
 StoryEvent((CHARACTERGUID)_Char, "LLENEMY_Statuses_Seeker_PulseNow")
@@ -124,7 +122,6 @@ LLSENEMY_Statuses_QRY_CanSeekerPulse(_Char)
 THEN
 LeaderLib_Timers_StartObjectTimer(_Char, 1000, "Timers_LLENEMY_Statuses_Seeker_PulseNow", "LLENEMY_Statuses_Seeker_PulseNow");
 
-/* [OSITOOLS_ONLY]
 IF
 CharacterStatusApplied(_Char, "LLENEMY_SEEKER_CLEANSE_INVISIBLE", _Source)
 AND
@@ -133,19 +130,6 @@ AND
 GetUUID(_Source, _UUID2)
 THEN
 NRD_ModCall("SuperEnemyUpgradeOverhaul", "RemoveInvisible", _UUID, _UUID2);
-*/
-
-// [BEGIN_NO_OSITOOLS]
-IF
-CharacterStatusApplied(_Char, "LLENEMY_SEEKER_CLEANSE_INVISIBLE", _Source)
-AND
-LeaderLib_Helper_QRY_HasAnyStatus((GUIDSTRING)_Char, "INVISIBLE", "SNEAKING")
-THEN
-RemoveStatus(_Char, "INVISIBLE");
-RemoveStatus(_Char, "SNEAKING");
-PlayEffect(_Source, "RS3_FX_GP_Status_Warning_Red_01", "Dummy_OverheadFX");
-CharacterStatusText((CHARACTERGUID)_Char, "LLENEMY_StatusText_SeekerDiscoveredTarget");
-// [END_NO_OSITOOLS]
 
 PROC
 LLSENEMY_Mechanics_Statuses_Internal_SeekerTakeAction((CHARACTERGUID)_Char)
@@ -156,7 +140,6 @@ LLSENEMY_Statuses_QRY_AnyPlayerIsSneaking()
 THEN
 LLSENEMY_Mechanics_Statuses_SeekerTakeAction(_Char);
 
-/* [OSITOOLS_ONLY]
 PROC
 LLSENEMY_Mechanics_Statuses_SeekerTakeAction((CHARACTERGUID)_Char)
 AND
@@ -180,30 +163,6 @@ NRD_SkillGetCooldown(_Char, "Rain_EnemyWater", 0.0)
 THEN
 DB_LLSENEMY_StatusLogic_Temp_SeekerTookAction(_Char);
 CharacterUseSkill(_Char, "Rain_EnemyWater", _Char, 1, 0, 0);
-*/
-
-// [BEGIN_NO_OSITOOLS]
-PROC
-LLSENEMY_Mechanics_Statuses_SeekerTakeAction((CHARACTERGUID)_Char)
-AND
-NOT DB_LLSENEMY_StatusLogic_Temp_SeekerTookAction(_Char)
-AND
-CharacterHasSkill(_Char, "Rain_Water", 1)
-THEN
-DB_LLSENEMY_StatusLogic_Temp_SeekerTookAction(_Char);
-CharacterUseSkill(_Char, "Rain_Water", _Char, 1, 0, 0);
-
-PROC
-LLSENEMY_Mechanics_Statuses_SeekerTakeAction((CHARACTERGUID)_Char)
-AND
-NOT DB_LLSENEMY_StatusLogic_Temp_SeekerTookAction(_Char)
-AND
-CharacterHasSkill(_Char, "Rain_EnemyWater", 1)
-THEN
-DB_LLSENEMY_StatusLogic_Temp_SeekerTookAction(_Char);
-CharacterUseSkill(_Char, "Rain_EnemyWater", _Char, 1, 0, 0);
-// [END_NO_OSITOOLS]
-
 
 PROC
 LLSENEMY_Mechanics_Statuses_SeekerTakeAction((CHARACTERGUID)_Char)

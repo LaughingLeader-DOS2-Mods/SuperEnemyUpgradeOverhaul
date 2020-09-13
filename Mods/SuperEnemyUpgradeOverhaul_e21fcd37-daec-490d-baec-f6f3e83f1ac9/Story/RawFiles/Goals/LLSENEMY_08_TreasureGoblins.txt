@@ -178,12 +178,7 @@ THEN
 LeaderLog_LogInt("DEBUG", "[LLENEMY_08_TreasureGoblins:SpawnLoot] Spawning loot at level ", _Level, "");
 //GenerateTreasure(_Bag, "LLENEMY_TreasureGoblin_A", _Level, _Host);
 CharacterGiveReward(_Goblin, "LLENEMY_TreasureGoblin_A", 1);
-// [BEGIN_NO_OSITOOLS]
-InventoryLaunchIterator(_Goblin, "LLENEMY_TreasureGoblins_TreasureFound", "");
-// [END_NO_OSITOOLS]
-/* [OSITOOLS_ONLY]
 NRD_ModCall("SuperEnemyUpgradeOverhaul", "TreasureGoblins_ScatterInventory", _UUID);
-*/
 
 IF
 StoryEvent((ITEMGUID)_Item, "LLENEMY_TreasureGoblins_TreasureFound")
@@ -211,70 +206,12 @@ PlayEffect(_Item, "LLENEMY_FX_TreasureGoblin_Loot_Dropped_01");
 //END_REGION
 
 //REGION DEFEATED
-// [BEGIN_NO_OSITOOLS]
-IF
-StoryEvent((CHARACTERGUID)_Goblin, "LLENEMY_TreasureGoblins_Defeated")
-AND
-NOT DB_LLSENEMY_Rewards_Temp_DefeatedGoblin(_Goblin, _, _, _)
-AND
-GetVarInteger(_Goblin, "LLENEMY_TreasureGoblin_MaxTotalHits", _MaxTotalHits)
-AND
-GetVarInteger(_Goblin, "LLENEMY_TreasureGoblin_TotalHits", _TotalHits)
-AND
-IntegerSubtract(_MaxTotalHits, _MaxTotalHits, _RemainingHits)
-AND
-_RemainingHits > 0
-AND
-GetPosition(_Goblin, _x, _y, _z)
-AND
-CharacterGetLevel(_Goblin, _Level)
-AND
-CreateItemTemplateAtPosition("CONT_LLENEMY_Bag_TreasureGoblinSack_A_2b7888b9-833c-4443-b4b5-cc372b95b459", _x, _y, _z, _Bag)
-THEN
-DB_LLSENEMY_Rewards_Temp_DefeatedGoblin(_Goblin, _Bag, _Level, _RemainingHits);
-PlayEffect(_Bag,"RS3_FX_Skills_Void_Netherswap_Reappear_01");
-LeaderLog_LogInt("DEBUG", "[LLENEMY_08_TreasureGoblins:Defeated] Goblin was defeated. Dumping loot for ", _RemainingHits, " hits.");
-LeaderLib_Timers_StartObjectTimer(_Goblin, 25, "Timers_LLENEMY_TreasureGoblins_SpawnDefeatedLoot", "LLENEMY_TreasureGoblins_SpawnDefeatedLoot");
-
-IF
-StoryEvent((CHARACTERGUID)_Goblin, "LLENEMY_TreasureGoblins_SpawnDefeatedLoot")
-AND
-DB_LLSENEMY_Rewards_Temp_DefeatedGoblin(_Goblin, _Bag, _Level, _TotalHits)
-AND
-_TotalHits > 0
-AND
-IntegerSubtract(_TotalHits, 1, _Next)
-AND
-GlobalGetFlag("LLENEMY_EnemyLevelingEnabled", _ScalingEnabled)
-AND
-LLSENEMY_Rewards_QRY_GetTreasureLevel(_Goblin, _Level, _ScalingEnabled)
-AND
-DB_LLSENEMY_Rewards_TreasureLevel(_Goblin, _TreasureLevel)
-THEN
-NOT DB_LLSENEMY_Rewards_TreasureLevel(_Goblin, _TreasureLevel);
-NOT DB_LLSENEMY_Rewards_Temp_DefeatedGoblin(_Goblin, _Bag, _Level, _TotalHits);
-DB_LLSENEMY_Rewards_Temp_DefeatedGoblin(_Goblin, _Bag, _Level, _Next);
-GenerateTreasure(_Bag, "LLENEMY_TreasureGoblin_A", _TreasureLevel, _Goblin);
-LeaderLib_Timers_StartObjectTimer(_Goblin, 25, "Timers_LLENEMY_TreasureGoblins_SpawnDefeatedLoot", "LLENEMY_TreasureGoblins_SpawnDefeatedLoot");
-
-IF
-StoryEvent((CHARACTERGUID)_Goblin, "LLENEMY_TreasureGoblins_SpawnDefeatedLoot")
-AND
-DB_LLSENEMY_Rewards_Temp_DefeatedGoblin(_Goblin, _Bag, _Level, _TotalHits)
-AND
-_TotalHits <= 0
-THEN
-NOT DB_LLSENEMY_Rewards_Temp_DefeatedGoblin(_Goblin, _Bag, _Level, _TotalHits);
-// [END_NO_OSITOOLS]
-
-/* [OSITOOLS_ONLY]
 IF
 StoryEvent((CHARACTERGUID)_Goblin, "LLENEMY_TreasureGoblins_Defeated")
 AND
 GetUUID(_Goblin, _UUID)
 THEN
 NRD_ModCall("SuperEnemyUpgradeOverhaul", "TreasureGoblinDefeated", _UUID);
-*/
 
 IF
 StoryEvent((CHARACTERGUID)_Goblin, "LLENEMY_TreasureGoblins_Defeated")

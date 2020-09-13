@@ -3,7 +3,6 @@ SubGoalCombiner SGC_AND
 INITSECTION
 KBSECTION
 
-/* [OSITOOLS_ONLY]
 IF
 ItemEquipped(_Item, _Char)
 AND
@@ -17,7 +16,6 @@ AND
 IsTagged(_Item, "LLENEMY_ShadowItem", 1)
 THEN
 NRD_ModCall("SuperEnemyUpgradeOverhaul", "ShadowItem_OnUnEquipped", (STRING)_Char, (STRING)_Item);
-*/
 
 IF
 CharacterStatusApplied(_Char, "LLENEMY_SHADOWBONUS_MADNESS_TICK", _)

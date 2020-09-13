@@ -66,7 +66,6 @@ NOT DB_LeaderLib_Auras_Temp_NewTarget(_, _Target, "LLENEMY_VENOM_AURA")
 THEN
 RemoveStatus(_Target, "LLENEMY_VENOM_COATING");
 
-/* [OSITOOLS_ONLY]
 PROC
 LLSENEMY_Auras_ApplyAuraStatus((CHARACTERGUID)_Source, (CHARACTERGUID)_Ally, (STRING)_Status)
 AND
@@ -79,7 +78,6 @@ AND
 NRD_StatusGetHandle(_Ally, _Status, _Handle)
 THEN
 NRD_StatusSetReal(_Ally, _Handle, "CurrentLifeTime", 12.0);
-*/
 
 PROC
 LLSENEMY_Auras_ApplyAuraStatus((CHARACTERGUID)_Source, (CHARACTERGUID)_Ally, (STRING)_Status)

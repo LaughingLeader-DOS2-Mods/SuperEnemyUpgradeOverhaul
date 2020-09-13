@@ -39,4 +39,4 @@ LeaderLib_ToggleScripts_DisableScriptForObject(_Enemy, "LLENEMY_ResistDead_Activ
 EXITSECTION
 SysClear("DB_LLSENEMY_Talents_Temp_ReviveNext", 2);
 ENDEXITSECTION
-ParentTargetEdge "LLENEMY_80_ToggledScripts"
+ParentTargetEdge "LLSENEMY_80_ToggledScripts"

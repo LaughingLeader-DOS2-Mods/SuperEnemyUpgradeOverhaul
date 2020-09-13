@@ -20,4 +20,4 @@ NOT DB_LLSENEMY_Duplication_Blacklist(S_CoS_Temples_BlackRingHub_Troll_0c148028-
 EXITSECTION
 
 ENDEXITSECTION
-ParentTargetEdge "LLENEMY_20_Origins__Start"
+ParentTargetEdge "LLSENEMY_20_Origins__Start"

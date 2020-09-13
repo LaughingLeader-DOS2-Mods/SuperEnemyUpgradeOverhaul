@@ -16,4 +16,4 @@ NOT DB_LLSENEMY_IgnoredCharacters(S_GLO_Windego_d783285f-d3be-4cba-8333-db8976ce
 EXITSECTION
 
 ENDEXITSECTION
-ParentTargetEdge "LLENEMY_20_Origins__Start"
+ParentTargetEdge "LLSENEMY_20_Origins__Start"
