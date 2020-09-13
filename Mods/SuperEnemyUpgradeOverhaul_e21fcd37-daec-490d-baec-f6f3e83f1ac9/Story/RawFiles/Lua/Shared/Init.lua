@@ -115,14 +115,18 @@ local function RegisterVoiceMetaData()
 end
 
 Ext.RegisterListener("SessionLoaded", function()
-	LeaderLib.EnableFeature("ResistancePenetration")
-	LeaderLib.EnableFeature("BackstabCalculation")
-	
 	LeaderLib.EnableFeature("ApplyBonusWeaponStatuses")
-    LeaderLib.EnableFeature("ReplaceTooltipPlaceholders")
-	LeaderLib.EnableFeature("TooltipGrammarHelper")
+	LeaderLib.EnableFeature("BackstabCalculation")
 	LeaderLib.EnableFeature("FixChaosDamageDisplay")
-	LeaderLib.EnableFeature("StatusParamSkillDamage")
-	LeaderLib.EnableFeature("ReduceTooltipSize")
 	LeaderLib.EnableFeature("FormatTagElementTooltips")
+	LeaderLib.EnableFeature("ReduceTooltipSize")
+	LeaderLib.EnableFeature("ResistancePenetration")
+	LeaderLib.EnableFeature("StatusParamSkillDamage")
+	LeaderLib.EnableFeature("TooltipGrammarHelper")
+	LeaderLib.EnableFeature("WingsWorkaround")
+    LeaderLib.EnableFeature("ReplaceTooltipPlaceholders")
 end)
+
+if LeaderLib ~= nil then
+	LeaderLib.EnableFeature("WingsWorkaround")
+end

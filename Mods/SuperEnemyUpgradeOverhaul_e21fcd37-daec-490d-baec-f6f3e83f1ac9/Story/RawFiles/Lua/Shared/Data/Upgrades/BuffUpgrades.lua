@@ -1,4 +1,3 @@
-
 local g = Classes.UpgradeGroup
 local sg = Classes.UpgradeSubGroup
 local u = Classes.UpgradeEntry

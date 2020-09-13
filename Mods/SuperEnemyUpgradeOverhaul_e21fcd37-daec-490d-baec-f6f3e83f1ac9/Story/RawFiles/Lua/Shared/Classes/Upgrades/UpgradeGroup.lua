@@ -73,9 +73,9 @@ function UpgradeGroup:Apply(target, applyImmediately, hardmodeOnly)
 				end
 			end
 			if successes > 0 then
-				Ext.Print(string.format("[EUO] Applied (%i) subgroups for group(%s) to target(%s)", successes, self.ID, target))
-				return true
+				--Ext.Print(string.format("[EUO] Applied (%i) subgroups for group(%s) to target(%s)", successes, self.ID, target))
 			end
+			return successes > 0
 		else
 			UpgradeSystem.OnRollFailed(target, self.ID)
 		end

@@ -63,15 +63,15 @@ LeaderLib.RegisterListener("Initialized", function()
 	UpgradeSystem.LoadDropCounts()
 end)
 
-Ext.RegisterConsoleCommand("luareset", function(command)
-	local b,err = xpcall(function()
-		UpgradeSystem.Init()
-		UpgradeSystem.LoadDropCounts()
-	end, debug.traceback)
-	if not b then
-		print(err)
-	end
-end)
+-- Ext.RegisterConsoleCommand("luareset", function(command)
+-- 	local b,err = xpcall(function()
+-- 		UpgradeSystem.Init()
+-- 		UpgradeSystem.LoadDropCounts()
+-- 	end, debug.traceback)
+-- 	if not b then
+-- 		print(err)
+-- 	end
+-- end)
 
 function UpgradeSystem.OnRollFailed(target)
 
@@ -100,9 +100,16 @@ function UpgradeSystem.SaveChallengePoints(target)
 	tempChallengePoints[target] = nil
 end
 
+---@class SavedUpgradeData
+---@field ID string
+---@field Duration number
+---@field HardmodeDuration number
+---@field HardmodeOnly boolean
+
 ---@param region string
 ---@param uuid string
 ---@param createCharacterData boolean|nil
+---@param return SavedUpgradeData[]|table<string, SavedUpgradeData[]>
 function UpgradeSystem.GetCurrentRegionData(region, uuid, createCharacterData)
 	local regionData = PersistentVars.Upgrades.Results[region]
 	if regionData == nil then
@@ -332,6 +339,10 @@ function UpgradeSystem.RollForUpgrades(uuid, region, applyImmediately, skipIgnor
 					end
 				end
 			end
+		end
+
+		if CharacterIsInCombat(uuid) == 1 then
+			print(uuid, successes)
 		end
 
 		if successes > 0 then

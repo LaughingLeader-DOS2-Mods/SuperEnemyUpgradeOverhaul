@@ -87,7 +87,7 @@ local function GetUpgradeInfoText(character, isControllerMode)
 			end
 			if nameText ~= "" then
 				local colorName = Ext.StatGetAttribute(status, "FormatColor") or "Special"
-				local color = FormatColor(colorName)
+				local color = FormatColor[colorName] or "#C9AA58"
 				if HighestLoremaster < loreMin then
 					nameText = "???"
 				end

@@ -12,10 +12,23 @@ function SetChallengePointsTag(uuid)
 	end
 end
 
+local function HasSavedUpgrade(uuid, id)
+	---@type SavedUpgradeData[]
+	local data = UpgradeSystem.GetCurrentRegionData(GetRegion(uuid), uuid, false)
+	if data ~= nil then
+		for i,v in pairs(data) do
+			if v.ID == id then
+				return true
+			end
+		end
+	end
+	return false
+end
+
 local function HasUpgrades(uuid)
 	for key,group in pairs(UpgradeData) do
 		for status,infoText in pairs(group) do
-			if HasActiveStatus(uuid, status) == 1 then
+			if HasActiveStatus(uuid, status) == 1 or HasSavedUpgrade(uuid, status) then
 				return true
 			end
 		end
@@ -25,6 +38,7 @@ end
 
 function UpgradeInfo_ApplyInfoStatus(uuid,force)
 	local hasUpgrades = HasUpgrades(uuid)
+	print(uuid, hasUpgrades, force)
 	if hasUpgrades or force == true then
 		ApplyStatus(uuid, "LLENEMY_UPGRADE_INFO", -1.0, 1, uuid)
 	elseif hasUpgrades == false then

@@ -1,4 +1,6 @@
 
+print(Classes.UpgradeGroup, Classes.UpgradeSubGroup, Classes.UpgradeEntry)
+
 ---@type table<string, UpgradeGroup>
 local Data = {
 	Auras = Ext.Require("Shared/Data/Upgrades/AuraUpgrades.lua"),

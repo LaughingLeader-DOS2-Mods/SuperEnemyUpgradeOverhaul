@@ -120,6 +120,7 @@ function UpgradeSubGroup:Apply(target, applyImmediately, hardmodeOnly)
 					if roll >= v.StartRange and roll <= v.EndRange and self:CanApplyUpgradeToTarget(target, v) then
 						if v:Apply(target, applyImmediately, hardmodeOnly) then
 							--Ext.Print(string.format("[EUO] Roll success for %s! SubGroup(%s:%s) Roll(%i,%i-%i)", target.DisplayName, self.ID, v.ID, roll, v.StartRange, v.EndRange))
+							v.DropCount = math.max(0, v.DropCount - 1)
 							successes = successes + 1
 							UpgradeSystem.IncreaseChallengePoints(target.MyGuid, self.CP)
 						end
@@ -128,20 +129,22 @@ function UpgradeSubGroup:Apply(target, applyImmediately, hardmodeOnly)
 			else
 				print("Failed to build droplist", upgrades)
 			end
-			if successes > 0 and self.OnApplied ~= nil then
-				if type(self.OnApplied) == "table" then
-					for i,callback in pairs(self.OnApplied) do
-						pcall(callback, target, self)
-					end
-				elseif type(self.OnApplied) == "function" then
-					local b,err = xpcall(self.OnApplied, debug.traceback, target, self)
-					if not b then
-						Ext.PrintError("[EUO] Error invoking OnApplied for:", self.Value)
-						Ext.PrintError(err)
+			if successes > 0 then
+				if self.OnApplied ~= nil then
+					if type(self.OnApplied) == "table" then
+						for i,callback in pairs(self.OnApplied) do
+							pcall(callback, target, self)
+						end
+					elseif type(self.OnApplied) == "function" then
+						local b,err = xpcall(self.OnApplied, debug.traceback, target, self)
+						if not b then
+							Ext.PrintError("[EUO] Error invoking OnApplied for:", self.Value)
+							Ext.PrintError(err)
+						end
 					end
 				end
-				return true
 			end
+			return successes > 0
 		else
 			UpgradeSystem.OnRollFailed(target, self.ID)
 		end

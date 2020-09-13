@@ -82,8 +82,6 @@ function UpgradeEntry:Apply(target, applyImmediately, hardmodeOnly)
 	local applied = false
 	if self.UpgradeType == "Status" then
 		if UpgradeSystem.ApplyStatus(target, self, applyImmediately, hardmodeOnly) then
-			self.DropCount = self.DropCount - 1
-			UpgradeSystem.IncreaseChallengePoints(target.MyGuid, self.CP)
 			applied = true
 		end
 	end
@@ -99,16 +97,11 @@ function UpgradeEntry:Apply(target, applyImmediately, hardmodeOnly)
 					success = true
 				end
 			end
-			if success then
-				self.DropCount = self.DropCount - 1
-			end
 		elseif type(self.OnApplied) == "function" then
 			local b,err = xpcall(self.OnApplied, debug.traceback, target, self)
 			if not b then
 				Ext.PrintError("[EUO] Error invoking OnApplied for:", self.ID)
 				Ext.PrintError(err)
-			else
-				self.DropCount = self.DropCount - 1
 			end
 		end
 	end
