@@ -337,9 +337,9 @@ CharacterIsDead(_Char, 0)
 AND
 IsTagged(_Char, "VOIDLING", _IsVoidling)
 AND
-GlobalGetFlag("LLENEMY_HardModeEnabled", _HardModeEnabled)
+GlobalGetFlag("LLENEMY_HardmodeEnabled", _HardmodeEnabled)
 THEN
-LLSENEMY_Mechanics_Statuses_ApplyEmpowered(_Char, _IsVoidling, _HardModeEnabled);
+LLSENEMY_Mechanics_Statuses_ApplyEmpowered(_Char, _IsVoidling, _HardmodeEnabled);
 
 PROC
 LLSENEMY_Mechanics_Statuses_ApplyEmpowered((CHARACTERGUID)_Char, (INTEGER)_IsVoidling, 0)

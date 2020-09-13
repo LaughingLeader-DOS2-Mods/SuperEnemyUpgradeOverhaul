@@ -22,7 +22,7 @@ LeaderLib_ToggleScripts_Register_ObjectScript("LLSENEMY_80_TS_ShadowBonus_Madnes
 
 LeaderLib_ToggleScripts_Register_Script("LLSENEMY_80_TS_LevelScaling", "LLENEMY_EnemyLevelingEnabled", 1);
 
-//LLENEMY_HardModeRollingDisabled
+//LLENEMY_HardmodeRollingDisabled
 LeaderLib_ToggleScripts_Register_Script("LLSENEMY_80_TS_TreasureGoblin", "LLENEMY_TreasureGoblin_Active", 1);
 LeaderLib_ToggleScripts_Register_Script("LLSENEMY_80_TS_VoidwokenSpawning", "LLENEMY_VoidwokenSourceSpawningEnabled", 1);
 //END_REGION

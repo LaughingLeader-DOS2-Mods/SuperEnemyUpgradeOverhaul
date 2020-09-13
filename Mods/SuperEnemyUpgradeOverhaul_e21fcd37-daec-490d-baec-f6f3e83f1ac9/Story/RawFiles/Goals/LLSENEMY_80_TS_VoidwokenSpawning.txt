@@ -11,7 +11,7 @@ GetUUID(_Char, _UUID)
 THEN
 SysClear("DB_LLSENEMY_TrySummonVoidwoken_Temp_Caster", 1);
 DB_LLSENEMY_TrySummonVoidwoken_Temp_Caster(_UUID);
-LLSENEMY_HardMode_TrackTotalSourceUsed(_SP);
+LLSENEMY_Hardmode_TrackTotalSourceUsed(_SP);
 TimerCancel("Timers_LLENEMY_TrySummonVoidwoken");
 TimerLaunch("Timers_LLENEMY_TrySummonVoidwoken", 750);
 
@@ -30,7 +30,7 @@ UpdateTime((INTEGER)_Day,(INTEGER)_Hour)
 AND
 NOT DB_LeaderLib_Combat_ActiveCombat(_)
 AND
-DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, _TotalSP)
+DB_LLSENEMY_Hardmode_SourcePointsUsed(_Region, _TotalSP)
 AND
 _TotalSP > 0
 AND
@@ -42,9 +42,9 @@ IntegerSubtract(_TotalSP, _Ran, _Next)
 AND
 IntegerMax(_Next, 0, _CappedMin)
 THEN
-NOT DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, _TotalSP);
-LeaderLog_LogInt("DEBUG", "[LLENEMY_20_HardMode_Enabler:UpdateTime] Source used degraded (", _TotalSP, " => ", _CappedMin, ")");
-DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, _CappedMin);
+NOT DB_LLSENEMY_Hardmode_SourcePointsUsed(_Region, _TotalSP);
+LeaderLog_LogInt("DEBUG", "[LLENEMY_20_Hardmode_Enabler:UpdateTime] Source used degraded (", _TotalSP, " => ", _CappedMin, ")");
+DB_LLSENEMY_Hardmode_SourcePointsUsed(_Region, _CappedMin);
 EXITSECTION
 SysClear("DB_LLSENEMY_TrySummonVoidwoken_Temp_Caster", 1);
 ENDEXITSECTION

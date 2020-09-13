@@ -1,31 +1,31 @@
 Version 1
 SubGoalCombiner SGC_AND
 INITSECTION
-LLSENEMY_HardMode_Origins_InitScripts();
-LLSENEMY_HardMode_Origins_EnableScriptsForCurrentLevel();
+LLSENEMY_Hardmode_Origins_InitScripts();
+LLSENEMY_Hardmode_Origins_EnableScriptsForCurrentLevel();
 KBSECTION
 
 //REGION SCRIPT_SETTINGS
 PROC
-LLSENEMY_HardMode_Origins_InitScripts()
+LLSENEMY_Hardmode_Origins_InitScripts()
 AND
-NOT DB_LLSENEMY_HardMode_Origins_Scripts(_,_)
+NOT DB_LLSENEMY_Hardmode_Origins_Scripts(_,_)
 THEN
-DB_LLSENEMY_HardMode_Origins_Scripts("TUT_Tutorial_A", "LLSENEMY_31_Origins_HM_Tutorial");
-DB_LLSENEMY_HardMode_Origins_Scripts("FJ_FortJoy_Main", "LLSENEMY_31_Origins_HM_FortJoy");
+DB_LLSENEMY_Hardmode_Origins_Scripts("TUT_Tutorial_A", "LLSENEMY_31_Origins_HM_Tutorial");
+DB_LLSENEMY_Hardmode_Origins_Scripts("FJ_FortJoy_Main", "LLSENEMY_31_Origins_HM_FortJoy");
 
 PROC
 LeaderLib_Mods_OnVersionChanged(e21fcd37-daec-490d-baec-f6f3e83f1ac9, (INTEGER)_LastVersion, (INTEGER)_NextVersion)
 THEN
-LLSENEMY_HardMode_Origins_InitScripts();
+LLSENEMY_Hardmode_Origins_InitScripts();
 //END_REGION
 
 PROC
-LLSENEMY_HardMode_Origins_EnableScriptsForCurrentLevel()
+LLSENEMY_Hardmode_Origins_EnableScriptsForCurrentLevel()
 AND
 DB_CurrentLevel(_Region)
 AND
-DB_LLSENEMY_HardMode_Origins_Scripts(_Region, _Script)
+DB_LLSENEMY_Hardmode_Origins_Scripts(_Region, _Script)
 THEN
 SysActivateGoal(_Script);
 
@@ -33,27 +33,27 @@ SysActivateGoal(_Script);
 IF
 RegionStarted(_Region)
 AND
-DB_LLSENEMY_HardMode_Origins_Scripts(_Region, _Script)
+DB_LLSENEMY_Hardmode_Origins_Scripts(_Region, _Script)
 THEN
 SysActivateGoal(_Script);
 
 IF
 RegionEnded(_Region)
 AND
-DB_LLSENEMY_HardMode_Origins_Scripts(_Region, _Script)
+DB_LLSENEMY_Hardmode_Origins_Scripts(_Region, _Script)
 THEN
 SysCompleteGoal(_Script);
 //END_REGION
 
 //REGION HENCHMAN_RECRUITER
 PROC
-LLSENEMY_HardMode_SetupRecruiter((STRING)_Region)
+LLSENEMY_Hardmode_SetupRecruiter((STRING)_Region)
 THEN
 NRD_ModCall("SuperEnemyUpgradeOverhaul", "SetupRecruiter", _Region);
 SysActivateGoal("GLO_LVHub_Henchmen");
 //END_REGION
 
 EXITSECTION
-LLSENEMY_HardMode_DisableScripts();
+LLSENEMY_Hardmode_DisableScripts();
 ENDEXITSECTION
 ParentTargetEdge "LLSENEMY_30_Origins_HM_Parent"

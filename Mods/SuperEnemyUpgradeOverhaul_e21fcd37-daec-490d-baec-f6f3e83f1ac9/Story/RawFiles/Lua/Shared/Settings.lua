@@ -4,8 +4,8 @@ local settings = ModSettings:Create("e21fcd37-daec-490d-baec-f6f3e83f1ac9")
 settings.Global:AddFlags({
 	"LLENEMY_Debug_LevelCapDisabled",
 	"LLENEMY_EnemyLevelingEnabled",
-	"LLENEMY_HardModeEnabled",
-	"LLENEMY_HardModeRollingDisabled",
+	"LLENEMY_HardmodeEnabled",
+	"LLENEMY_HardmodeRollingDisabled",
 	"LLENEMY_RewardsDisabled",
 	"LLENEMY_VoidwokenSourceSpawningEnabled",
 	--"LLENEMY_WorldUpgradesEnabled",

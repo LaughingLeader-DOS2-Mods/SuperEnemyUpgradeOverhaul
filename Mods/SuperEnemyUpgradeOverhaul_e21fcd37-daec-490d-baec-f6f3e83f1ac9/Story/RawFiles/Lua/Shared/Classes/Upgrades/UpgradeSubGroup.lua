@@ -66,7 +66,7 @@ local function CanAddUpgradeToList(entry)
 	if entry.DropCount <= 0 then
 		return false
 	end
-	if entry.HardmodeOnly and GlobalGetFlag("LLENEMY_HardModeEnabled") == 0 then
+	if entry.HardmodeOnly and GlobalGetFlag("LLENEMY_HardmodeEnabled") == 0 then
 		return false
 	end
 	if entry.ModRequirement ~= nil and not Ext.IsModLoaded(entry.ModRequirement) then

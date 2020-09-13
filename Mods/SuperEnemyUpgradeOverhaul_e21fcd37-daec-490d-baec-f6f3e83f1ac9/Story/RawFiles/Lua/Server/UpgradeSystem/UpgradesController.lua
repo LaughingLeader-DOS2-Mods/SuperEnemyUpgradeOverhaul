@@ -121,7 +121,7 @@ end
 
 ---@param target EsvCharacter
 function UpgradeSystem.ApplySavedUpgrades(target)
-	local hardmodeEnabled = Settings.Global.Flags.LLENEMY_HardModeEnabled.Enabled and not Settings.Global.Flags.LLENEMY_HardModeRollingDisabled.Enabled
+	local hardmodeEnabled = Settings.Global.Flags.LLENEMY_HardmodeEnabled.Enabled and not Settings.Global.Flags.LLENEMY_HardmodeRollingDisabled.Enabled
 	local saved = UpgradeSystem.GetCurrentRegionData(target.CurrentLevel, target.MyGuid)
 	if saved ~= nil then
 		for i,v in pairs(saved) do
@@ -145,7 +145,7 @@ local function FinallyApplyStatus(target, status, duration, hardmodeDuration, ap
 		status = "LLENEMY_VOID_EMPOWERED"
 	end
 	if applyImmediately == true then
-		if Settings.Global.Flags.LLENEMY_HardModeEnabled.Enabled then
+		if Settings.Global.Flags.LLENEMY_HardmodeEnabled.Enabled then
 			duration = hardmodeDuration
 		end
 		if HasActiveStatus(target.MyGuid, status) == 1 then
@@ -248,7 +248,7 @@ function UpgradeSystem.ApplyEliteBonuses(character, region)
 		local eliteRank = regionData.Elites[uuid]
 		if eliteRank ~= nil and eliteRank > 0 then
 			local mult = 1
-			if Settings.Global.Flags.LLENEMY_HardModeEnabled.Enabled then
+			if Settings.Global.Flags.LLENEMY_HardmodeEnabled.Enabled then
 				mult = Settings.Global.Variables.Hardmode_EliteMultiplier.Value or 2
 			end
 			local armorBoostMult = (Settings.Global.Variables.Elites_ArmorBoostPerRank.Value or 2.5) * mult

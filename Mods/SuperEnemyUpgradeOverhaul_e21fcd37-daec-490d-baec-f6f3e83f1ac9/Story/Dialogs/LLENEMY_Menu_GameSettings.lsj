@@ -1049,7 +1049,7 @@
 													{
 														"name": {
 															"type": 22,
-															"value": "LLENEMY_HardModeEnabled"
+															"value": "LLENEMY_HardmodeEnabled"
 														},
 														"value": {
 															"type": 19,
@@ -1151,7 +1151,7 @@
 													{
 														"name": {
 															"type": 22,
-															"value": "LLENEMY_HardModeEnabled"
+															"value": "LLENEMY_HardmodeEnabled"
 														},
 														"value": {
 															"type": 19,
@@ -2474,7 +2474,7 @@
 													{
 														"name": {
 															"type": 22,
-															"value": "LLENEMY_HardModeEnabled"
+															"value": "LLENEMY_HardmodeEnabled"
 														},
 														"value": {
 															"type": 19,
@@ -2484,7 +2484,7 @@
 													{
 														"name": {
 															"type": 22,
-															"value": "LLENEMY_HardModeRollingDisabled"
+															"value": "LLENEMY_HardmodeRollingDisabled"
 														},
 														"value": {
 															"type": 19,
@@ -2586,7 +2586,7 @@
 													{
 														"name": {
 															"type": 22,
-															"value": "LLENEMY_HardModeRollingDisabled"
+															"value": "LLENEMY_HardmodeRollingDisabled"
 														},
 														"value": {
 															"type": 19,
@@ -2959,7 +2959,7 @@
 													{
 														"name": {
 															"type": 22,
-															"value": "LLENEMY_HardModeEnabled"
+															"value": "LLENEMY_HardmodeEnabled"
 														},
 														"value": {
 															"type": 19,
@@ -2969,7 +2969,7 @@
 													{
 														"name": {
 															"type": 22,
-															"value": "LLENEMY_HardModeRollingDisabled"
+															"value": "LLENEMY_HardmodeRollingDisabled"
 														},
 														"value": {
 															"type": 19,
@@ -3071,7 +3071,7 @@
 													{
 														"name": {
 															"type": 22,
-															"value": "LLENEMY_HardModeRollingDisabled"
+															"value": "LLENEMY_HardmodeRollingDisabled"
 														},
 														"value": {
 															"type": 19,
@@ -3217,7 +3217,7 @@
 													{
 														"name": {
 															"type": 22,
-															"value": "LLENEMY_HardModeEnabled"
+															"value": "LLENEMY_HardmodeEnabled"
 														},
 														"value": {
 															"type": 19,
@@ -3319,7 +3319,7 @@
 													{
 														"name": {
 															"type": 22,
-															"value": "LLENEMY_HardModeEnabled"
+															"value": "LLENEMY_HardmodeEnabled"
 														},
 														"value": {
 															"type": 19,

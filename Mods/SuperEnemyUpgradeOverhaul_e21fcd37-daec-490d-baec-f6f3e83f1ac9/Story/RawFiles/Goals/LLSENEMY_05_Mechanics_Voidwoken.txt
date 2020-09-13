@@ -36,58 +36,58 @@ SetFaction(_Voidwoken, _OtherTeam);
 
 //REGION TRACKING_SOURCE_USED
 PROC
-LLSENEMY_HardMode_TrackTotalSourceUsed((INTEGER)_SourcePointsUsed)
+LLSENEMY_Hardmode_TrackTotalSourceUsed((INTEGER)_SourcePointsUsed)
 AND
 DB_CurrentLevel(_Region)
 AND
-NOT DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, _)
+NOT DB_LLSENEMY_Hardmode_SourcePointsUsed(_Region, _)
 THEN
-DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, 0);
+DB_LLSENEMY_Hardmode_SourcePointsUsed(_Region, 0);
 
 PROC
-LLSENEMY_HardMode_TrackTotalSourceUsed((INTEGER)_SourcePointsUsed)
+LLSENEMY_Hardmode_TrackTotalSourceUsed((INTEGER)_SourcePointsUsed)
 AND
 DB_CurrentLevel(_Region)
 AND
-DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, _LastSP)
+DB_LLSENEMY_Hardmode_SourcePointsUsed(_Region, _LastSP)
 AND
 IntegerSum(_LastSP, _SourcePointsUsed, _Next)
 THEN
-NOT DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, _LastSP);
-DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, _Next);
+NOT DB_LLSENEMY_Hardmode_SourcePointsUsed(_Region, _LastSP);
+DB_LLSENEMY_Hardmode_SourcePointsUsed(_Region, _Next);
 
 IF
 RegionEnded(_Region)
 AND
-DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, _LastSP)
+DB_LLSENEMY_Hardmode_SourcePointsUsed(_Region, _LastSP)
 THEN
-NOT DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, _LastSP);
+NOT DB_LLSENEMY_Hardmode_SourcePointsUsed(_Region, _LastSP);
 
 PROC
-LLSENEMY_HardMode_ReduceTotalSourceUsed((INTEGER)_Amount)
+LLSENEMY_Hardmode_ReduceTotalSourceUsed((INTEGER)_Amount)
 AND
 DB_CurrentLevel(_Region)
 AND
-DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, _LastSP)
+DB_LLSENEMY_Hardmode_SourcePointsUsed(_Region, _LastSP)
 AND
 IntegerSubtract(_LastSP, _Amount, _Next)
 AND
 IntegerMax(0, _Next, _CappedNext)
 THEN
-NOT DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, _LastSP);
-DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, _CappedNext);
+NOT DB_LLSENEMY_Hardmode_SourcePointsUsed(_Region, _LastSP);
+DB_LLSENEMY_Hardmode_SourcePointsUsed(_Region, _CappedNext);
 
 PROC
 LeaderLib_Mods_OnVersionChanged(e21fcd37-daec-490d-baec-f6f3e83f1ac9, (INTEGER)_LastVersion, (INTEGER)_NewVersion)
 AND
 _LastVersion <= 536870925
 AND
-DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, _TotalSP)
+DB_LLSENEMY_Hardmode_SourcePointsUsed(_Region, _TotalSP)
 AND
 _TotalSP < 0
 THEN
-NOT DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, _TotalSP);
-DB_LLSENEMY_HardMode_SourcePointsUsed(_Region, 0);
+NOT DB_LLSENEMY_Hardmode_SourcePointsUsed(_Region, _TotalSP);
+DB_LLSENEMY_Hardmode_SourcePointsUsed(_Region, 0);
 //END_REGION
 EXITSECTION
 ENDEXITSECTION

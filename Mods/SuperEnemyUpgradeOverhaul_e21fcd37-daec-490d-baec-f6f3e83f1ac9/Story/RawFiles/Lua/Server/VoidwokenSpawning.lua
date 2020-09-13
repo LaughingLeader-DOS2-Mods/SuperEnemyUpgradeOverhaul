@@ -159,7 +159,7 @@ VoidwokenGroups = voidwokenGroups
 
 local function GetTotalPointsForRegion(source)
 	local region = GetRegion(source)
-	local pointsDB = Osi.DB_LLSENEMY_HardMode_SourcePointsUsed:Get(region, nil)
+	local pointsDB = Osi.DB_LLSENEMY_Hardmode_SourcePointsUsed:Get(region, nil)
 	if pointsDB ~= nil and #pointsDB > 0 then
 		local points = pointsDB[1][2]
 		if points ~= nil then
@@ -330,7 +330,7 @@ local function TrySummonVoidwoken(char)
 	if roll > 0 and roll <= chance then
 		SpawnVoidwoken(char, totalPointsUsed)
 	elseif roll == 0 then
-		Osi.LLSENEMY_HardMode_ReduceTotalSourceUsed(Ext.Random(1,3))
+		Osi.LLSENEMY_Hardmode_ReduceTotalSourceUsed(Ext.Random(1,3))
 	end
 end
 
