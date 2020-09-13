@@ -81,6 +81,13 @@ local stat_overrides = {
 	DEATH_RESIST = {
 		StackId = "Stack_Death_Resist"
 	},
+	MADNESS = {ImmuneFlag="MadnessImmunity"},
+	DISARMED = {ImmuneFlag="DisarmedImmunity"},
+	BLESSED = {ImmuneFlag="BlessedImmunity"},
+	HOLY_WATER = {ImmuneFlag="BlessedImmunity"},
+	HOLY_FIRE = {ImmuneFlag="BlessedImmunity"},
+	HOLY_FIRE_HEAL = {ImmuneFlag="BlessedImmunity"},
+	INVISIBLE = {ImmuneFlag="InvisibilityImmunity"},
 	-- So Madness can be cast on allies with Empowered by Madness
 	Target_MaddeningSong = {
 		TargetConditions = "Character"
