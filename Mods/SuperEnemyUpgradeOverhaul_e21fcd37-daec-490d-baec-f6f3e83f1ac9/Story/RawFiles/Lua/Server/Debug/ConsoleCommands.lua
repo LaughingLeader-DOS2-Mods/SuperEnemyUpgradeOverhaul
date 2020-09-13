@@ -192,3 +192,14 @@ Ext.RegisterConsoleCommand("euo_removedupes", function(command)
 	end
 	Osi.DB_LLSENEMY_Duplication_Temp_Active:Delete(nil,nil,nil)
 end)
+
+Ext.RegisterConsoleCommand("euo_printvars", function(cmd)
+	print(Ext.JsonStringify(PersistentVars))
+end)
+
+Ext.RegisterConsoleCommand("euo_resetdata", function(cmd)
+	PersistentVars.Upgrades.Results = {}
+	PersistentVars.Upgrades.DropCounts = {}
+	local region = Osi.DB_CurrentLevel(nil)[1][1]
+	UpgradeSystem.RollRegion(region)
+end)

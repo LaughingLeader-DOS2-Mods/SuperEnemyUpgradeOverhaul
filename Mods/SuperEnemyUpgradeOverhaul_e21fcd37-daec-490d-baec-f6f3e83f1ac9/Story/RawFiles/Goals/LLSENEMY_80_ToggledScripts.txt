@@ -31,7 +31,7 @@ LeaderLib_ToggleScripts_Register_Script("LLSENEMY_80_TS_VoidwokenSpawning", "LLE
 PROC
 LeaderLib_Mods_OnVersionChanged(e21fcd37-daec-490d-baec-f6f3e83f1ac9, (INTEGER)_LastVersion, (INTEGER)_NextVersion)
 THEN
-LLENEMY_ToggleScripts_RegisterScripts();
+LLSENEMY_ToggleScripts_RegisterScripts();
 //END_REGION
 
 EXITSECTION

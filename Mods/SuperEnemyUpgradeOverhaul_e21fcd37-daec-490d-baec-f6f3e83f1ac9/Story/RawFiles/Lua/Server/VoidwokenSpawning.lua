@@ -316,7 +316,7 @@ local function SkillCanSummonVoidwoken_QRY(char, skill, skilltype, skillelement)
 		return result
 	end
 end
-Ext.NewQuery(SkillCanSummonVoidwoken_QRY, "LLENEMY_QRY_SkillCanSummonVoidwoken", "[in](CHARACTERGUID)_Character, [in](STRING)_Skill, [in](STRING)_SkillType, [in](STRING)_SkillElement, [out](INTEGER)_SourcePointCost");
+Ext.NewQuery(SkillCanSummonVoidwoken_QRY, "LLSENEMY_QRY_SkillCanSummonVoidwoken", "[in](CHARACTERGUID)_Character, [in](STRING)_Skill, [in](STRING)_SkillType, [in](STRING)_SkillElement, [out](INTEGER)_SourcePointCost");
 
 local function TrySummonVoidwoken(char)
 	local totalPointsUsed = 0
@@ -346,4 +346,4 @@ end
 
 GetSourceDegredation = GetSourceDegredation
 
-Ext.NewQuery(GetSourceDegredation, "LLENEMY_Ext_QRY_GetSourceDegredation", "[in](INTEGER)_GameHourSpeed, [in](INTEGER)_TotalPoints, [out](INTEGER)_DegredationAmount")
+Ext.NewQuery(GetSourceDegredation, "LLSENEMY_Ext_QRY_GetSourceDegredation", "[in](INTEGER)_GameHourSpeed, [in](INTEGER)_TotalPoints, [out](INTEGER)_DegredationAmount")

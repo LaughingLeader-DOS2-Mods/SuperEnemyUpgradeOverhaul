@@ -61,27 +61,16 @@ LeaderLib_Math_QRY_IsEqualToAny(1, _a, _b, _c)
 THEN
 DB_NOOP(1);
 
-/* [OSITOOLS_ONLY]
 QRY
 LLSENEMY_Statuses_QRY_AnyPlayerIsSneaking()
 AND
 DB_IsPlayer(_Player)
 AND
-LLSENEMY_Ext_QRY_CharacterIsHidden(_Player, 1)
+GetUUID(_Player, _UUID)
+AND
+NRD_ModQuery1("SuperEnemyOverhaul", "CharacterIsHidden", _UUID)
 THEN
 DB_NOOP(1);
-*/
-
-// [BEGIN_NO_OSITOOLS]
-QRY
-LLSENEMY_Statuses_QRY_AnyPlayerIsSneaking()
-AND
-DB_IsPlayer(_PLayer)
-AND
-LeaderLib_Helper_QRY_HasAnyStatus((GUIDSTRING)_PLayer, "INVISIBLE", "SNEAKING")
-THEN
-DB_NOOP(1);
-// [END_NO_OSITOOLS]
 
 IF
 CharacterStatusRemoved(_Char, "LLENEMY_SEEKER", _)

@@ -306,16 +306,20 @@ function OnDoubleDipApplied(uuid)
 	end
 end
 
-Ext.RegisterOsirisListener("GameStarted", 2, "after", function(region, isEditorMode)
-	if IsGameLevel(region) == 1 then
-		if PersistentVars.Upgrades.Results[region] == nil then
-			PersistentVars.Upgrades.Results[region] = {}
-			for i,uuid in pairs(Ext.GetAllCharacters(region)) do
-				if not IgnoreCharacter(uuid) then
-					UpgradeSystem.RollForUpgrades(uuid, region, false)
-				end
+function UpgradeSystem.RollRegion(region, force)
+	if PersistentVars.Upgrades.Results[region] == nil or force == true then
+		PersistentVars.Upgrades.Results[region] = {}
+		for i,uuid in pairs(Ext.GetAllCharacters(region)) do
+			if not IgnoreCharacter(uuid) then
+				UpgradeSystem.RollForUpgrades(uuid, region, false)
 			end
 		end
+	end
+end
+
+Ext.RegisterOsirisListener("GameStarted", 2, "after", function(region, isEditorMode)
+	if IsGameLevel(region) == 1 then
+		UpgradeSystem.RollRegion(region)
 	end
 end)
 

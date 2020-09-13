@@ -118,7 +118,7 @@ function RemoveInvisible(target, source)
 	return detected
 end
 
-function CharacterIsHidden(target, source)
+function CharacterIsHidden(target)
 	for status,b in pairs(InvisibleStatuses) do
 		if b == true and HasActiveStatus(target, status) == 1 then
 			return 1
@@ -126,8 +126,6 @@ function CharacterIsHidden(target, source)
 	end
 	return 0
 end
-
-Ext.NewQuery(CharacterIsHidden, "LLENEMY_Ext_QRY_CharacterIsHidden", "[in](CHARACTERGUID)_Character, [out](INTEGER)_IsHidden")
 
 function ClearGain(char)
 	--ScaleExperienceByPlayerLevel_d5e1b4bc-dc7b-43dc-8bd0-d9f2b5e3a418

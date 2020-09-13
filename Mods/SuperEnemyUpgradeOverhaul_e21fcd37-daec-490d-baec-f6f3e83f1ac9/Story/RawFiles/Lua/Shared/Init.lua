@@ -21,7 +21,6 @@ EnemySkills = {}
 ---@type table<string, SkillEntry>
 EnemySummonSkills = {}
 StatusDescriptionParams = {}
-SINGLEPLAYER = false
 HighestLoremaster = 0
 InvisibleStatuses = {
 	["SNEAKING"] = true,
@@ -94,10 +93,6 @@ end
 
 local function LLENEMY_Shared_SessionLoading()
 	Ext.Print("[LLENEMY:Bootstrap.lua] Session is loading.")
-	if Ext.IsModLoaded("88d7c1d3-8de9-4494-be12-a8fcbc8171e9") then
-		SINGLEPLAYER = true
-	end
-
 	local statuses = Ext.GetStatEntries("StatusData")
 	for _,stat in pairs(statuses) do
 		local status_type = Ext.StatGetAttribute(stat, "StatusType")
