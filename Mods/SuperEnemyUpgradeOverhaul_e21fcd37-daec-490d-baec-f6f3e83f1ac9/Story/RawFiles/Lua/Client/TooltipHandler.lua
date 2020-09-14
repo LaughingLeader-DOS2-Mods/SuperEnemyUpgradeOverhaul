@@ -120,6 +120,240 @@ local function OnUpgradeInfoTooltip(character, status, tooltip)
 	end
 end
 
+local PotionStats = {
+	--["ModifierType"] = "ModifierType",
+	["VitalityBoost"] = "ConstantInt",
+	["Strength"] = "Penalty PreciseQualifier",
+	["Finesse"] = "Penalty PreciseQualifier",
+	["Intelligence"] = "Penalty PreciseQualifier",
+	["Constitution"] = "Penalty PreciseQualifier",
+	["Memory"] = "Penalty PreciseQualifier",
+	["Wits"] = "Penalty PreciseQualifier",
+	["SingleHanded"] = "ConstantInt",
+	["TwoHanded"] = "ConstantInt",
+	["Ranged"] = "ConstantInt",
+	["DualWielding"] = "ConstantInt",
+	["RogueLore"] = "ConstantInt",
+	["WarriorLore"] = "ConstantInt",
+	["RangerLore"] = "ConstantInt",
+	["FireSpecialist"] = "ConstantInt",
+	["WaterSpecialist"] = "ConstantInt",
+	["AirSpecialist"] = "ConstantInt",
+	["EarthSpecialist"] = "ConstantInt",
+	["Sourcery"] = "ConstantInt",
+	["Necromancy"] = "ConstantInt",
+	["Polymorph"] = "ConstantInt",
+	["Summoning"] = "ConstantInt",
+	["PainReflection"] = "ConstantInt",
+	["Perseverance"] = "ConstantInt",
+	["Leadership"] = "ConstantInt",
+	["Telekinesis"] = "ConstantInt",
+	["Sneaking"] = "ConstantInt",
+	["Thievery"] = "ConstantInt",
+	["Loremaster"] = "ConstantInt",
+	["Repair"] = "ConstantInt",
+	["Barter"] = "ConstantInt",
+	["Persuasion"] = "ConstantInt",
+	["Luck"] = "ConstantInt",
+	["FireResistance"] = "ConstantInt",
+	["EarthResistance"] = "ConstantInt",
+	["WaterResistance"] = "ConstantInt",
+	["AirResistance"] = "ConstantInt",
+	["PoisonResistance"] = "ConstantInt",
+	["PhysicalResistance"] = "ConstantInt",
+	["PiercingResistance"] = "ConstantInt",
+	["Sight"] = "ConstantInt",
+	--["Hearing"] = "Penalty Qualifier",
+	["Initiative"] = "ConstantInt",
+	["Vitality"] = "ConstantInt",
+	["VitalityPercentage"] = "ConstantInt",
+	["MagicPoints"] = "ConstantInt",
+	["ActionPoints"] = "ConstantInt",
+	["ChanceToHitBoost"] = "ConstantInt",
+	["AccuracyBoost"] = "ConstantInt",
+	["DodgeBoost"] = "ConstantInt",
+	["DamageBoost"] = "ConstantInt",
+	["APCostBoost"] = "ConstantInt",
+	["SPCostBoost"] = "ConstantInt",
+	["APMaximum"] = "ConstantInt",
+	["APStart"] = "ConstantInt",
+	["APRecovery"] = "ConstantInt",
+	["Movement"] = "ConstantInt",
+	["MovementSpeedBoost"] = "ConstantInt",
+	--["Gain"] = "BigQualifier",
+	["Armor"] = "ConstantInt",
+	["MagicArmor"] = "ConstantInt",
+	["ArmorBoost"] = "ConstantInt",
+	["MagicArmorBoost"] = "ConstantInt",
+	["CriticalChance"] = "ConstantInt",
+	--["Act"] = "Act",
+	--["Act part"] = "ActPart",
+	--["Duration"] = "ConstantInt",
+	--["UseAPCost"] = "ConstantInt",
+	--["ComboCategory"] = "FixedString",
+	--["StackId"] = "FixedString",
+	--["BoostConditions"] = "FixedString",
+	["Flags"] = "AttributeFlags",
+	--["StatusMaterial"] = "FixedString",
+	--["StatusEffect"] = "FixedString",
+	--["StatusIcon"] = "FixedString",
+	--["SavingThrow"] = "SavingThrow",
+	--["Weight"] = "ConstantInt",
+	--["Value"] = "ConstantInt",
+	--["InventoryTab"] = "InventoryTabs",
+	--["UnknownBeforeConsume"] = "YesNo",
+	--["Reflection"] = "FixedString",
+	--["Damage"] = "Qualifier",
+	--["Damage Multiplier"] = "ConstantInt",
+	--["Damage Range"] = "ConstantInt",
+	--["DamageType"] = "Damage Type",
+	--["AuraRadius"] = "ConstantInt",
+	--["AuraSelf"] = "FixedString",
+	--["AuraAllies"] = "FixedString",
+	--["AuraEnemies"] = "FixedString",
+	--["AuraNeutrals"] = "FixedString",
+	--["AuraItems"] = "FixedString",
+	--["AuraFX"] = "FixedString",
+	--["RootTemplate"] = "FixedString",
+	--["ObjectCategory"] = "FixedString",
+	--["MinAmount"] = "ConstantInt",
+	--["MaxAmount"] = "ConstantInt",
+	--["Priority"] = "ConstantInt",
+	--["Unique"] = "ConstantInt",
+	--["MinLevel"] = "ConstantInt",
+	--["MaxLevel"] = "ConstantInt",
+	--["BloodSurfaceType"] = "FixedString",
+	["MaxSummons"] = "ConstantInt",
+	--["AddToBottomBar"] = "YesNo",
+	--["SummonLifelinkModifier"] = "ConstantInt",
+	--["IgnoredByAI"] = "YesNo",
+	["RangeBoost"] = "ConstantInt",
+	--["BonusWeapon"] = "FixedString",
+	--["AiCalculationStatsOverride"] = "FixedString",
+	--["RuneEffectWeapon"] = "FixedString",
+	--["RuneEffectUpperbody"] = "FixedString",
+	--["RuneEffectAmulet"] = "FixedString",
+	--["RuneLevel"] = "ConstantInt",
+	["LifeSteal"] = "ConstantInt",
+	--["IsFood"] = "YesNo",
+	--["IsConsumable"] = "YesNo",
+}
+
+---@type TranslatedString
+local ts = LeaderLib.Classes.TranslatedString
+
+local ImmuneToText = ts:Create("hac7cca96gd0dfg4391gb188gc53fd12cb6a5", "Immune to [1]")
+local ImmunityStatuses = {
+	["FreezeImmunity"] = {},--ts:Create("h712e9a08g723eg48dbg9724ga28af68f0e87", "Immune To Freezing"),
+	["BurnImmunity"] = {},--ts:Create("hb04fc33bgbba3g4d90g9c54gf98b2ebe3da0", "Immune To Burning"),
+	["StunImmunity"] = {},--ts:Create("h052a0699g5abdg4674g9b5cg7d44a9972fbe", "Immune To Electrifying"),
+	["PoisonImmunity"] = {},--ts:Create("h309c91c9gdb97g4fd9g9395g3f793e8e93a3", "Immune To Poisoning"),
+	["CharmImmunity"] = {},--ts:Create("h30fc0122g6378g408cgac6fg6e3bcb3c852b", "Charmed"),
+	["FearImmunity"] = {},--ts:Create("h6f38a9b4gc4deg4318g9f6cg4d073b48bde2", "Fear"),
+	["KnockdownImmunity"] = {},--ts:Create("h4a390c48ga640g4f98ga491g7b92bb9f7ba8", "Knocked Down"),
+	["MuteImmunity"] = {},
+	["ChilledImmunity"] = {},
+	["WarmImmunity"] = {},
+	["WetImmunity"] = {},
+	["BleedingImmunity"] = {},
+	["CrippledImmunity"] = {},
+	["BlindImmunity"] = {},
+	["CursedImmunity"] = {},
+	["WeakImmunity"] = {},
+	["SlowedImmunity"] = {},
+	["DiseasedImmunity"] = {},
+	["InfectiousDiseasedImmunity"] = {},
+	["PetrifiedImmunity"] = {},
+	["DrunkImmunity"] = {},
+	["SlippingImmunity"] = {},
+	--["FreezeContact"] = {},
+	--["BurnContact"] = {},
+	--["StunContact"] = {},
+	--["PoisonContact"] = {},
+	--["ChillContact"] = {},
+	--["Grounded"] = {},
+	["HastedImmunity"] = {},
+	["TauntedImmunity"] = {},
+	["SleepingImmunity"] = {},
+	["AcidImmunity"] = {},
+	["SuffocatingImmunity"] = {},
+	["RegeneratingImmunity"] = {},
+	["DisarmedImmunity"] = {},
+	["DecayingImmunity"] = {},
+	["ClairvoyantImmunity"] = {},
+	["EnragedImmunity"] = {},
+	["BlessedImmunity"] = {},
+	--["ProtectFromSummon"] = {},
+	--["Floating"] = {},
+	--["DeflectProjectiles"] = {},
+	--["IgnoreClouds"] = {},
+	["MadnessImmunity"] = {},
+	["ChickenImmunity"] = {},
+	--["IgnoreCursedOil"] = {},
+	["ShockedImmunity"] = {},
+	["WebImmunity"] = {},
+	--["EntangledContact"] = {},
+	["ShacklesOfPainImmunity"] = {},
+	--["MagicalSulfur"] = {},
+	--["ThrownImmunity"] = {},
+	["InvisibilityImmunity"] = {},
+}
+
+Ext.RegisterListener("SessionLoaded", function()
+	for i,status in pairs(Ext.GetStatEntries("StatusData")) do
+		local immuneFlag = Ext.StatGetAttribute(status, "ImmuneFlag") or ""
+		local displayName = Ext.StatGetAttribute(status, "DisplayName") or ""
+		if immuneFlag ~= "" and ImmunityStatuses[immuneFlag] ~= nil and displayName ~= "" then
+			table.insert(ImmunityStatuses[immuneFlag], status)
+		end
+	end
+end)
+
+---@param character EsvCharacter
+---@param status EsvStatus
+---@param tooltip TooltipData
+local function OnInfusionInfoTooltip(character, status, tooltip)
+	local immunities = {}
+	for i,v in pairs(character:GetStatuses()) do
+		if string.find(v, "LLENEMY_INF") then
+			local potion = Ext.StatGetAttribute(v, "StatsId") or ""
+			if potion ~= nil then
+				local immuneFlags = Ext.StatGetAttribute(potion, "Flags") or ""
+				if immuneFlags ~= "" then
+					local flags = StringHelpers.Split(immuneFlags, ";")
+					for _,f in pairs(flags) do
+						immunities[f] = true
+					end
+				end
+			end
+		end
+	end
+	for flag,b in pairs(immunities) do
+		local statuses = ImmunityStatuses[flag]
+		if statuses ~= nil then
+			local statusNames = {}
+			local text = ""
+			for _,v in pairs(statuses) do
+				local displayName = Ext.StatGetAttribute(v, "DisplayName") or ""
+				if displayName ~= "" then
+					displayName = Ext.GetTranslatedStringFromKey(displayName) or ""
+					if displayName ~= "" then
+						table.insert(statusNames, displayName)
+					end
+				end
+			end
+			if #statusNames > 0 then
+				table.sort(statusNames)
+				text = ImmuneToText:ReplacePlaceholders(StringHelpers.Join(", ", statusNames))
+				tooltip:AppendElement({
+					Type="StatusImmunity",
+					Label=text
+				})
+			end
+		end
+	end
+end
+
 local function FormatTagElements(tooltip_mc, group, ...)
 	group.iconId = 16
 	--group.setupHeader()
@@ -193,6 +427,7 @@ end
 local function Init()
 	Game.Tooltip.RegisterListener("Item", nil, OnItemTooltip)
 	Game.Tooltip.RegisterListener("Status", "LLENEMY_UPGRADE_INFO", OnUpgradeInfoTooltip)
+	Game.Tooltip.RegisterListener("Status", "LLENEMY_INFUSION_INFO", OnInfusionInfoTooltip)
 	--LeaderLib.UI.RegisterListener("OnTooltipPositioned", FormatTagTooltip)
 end
 return {
