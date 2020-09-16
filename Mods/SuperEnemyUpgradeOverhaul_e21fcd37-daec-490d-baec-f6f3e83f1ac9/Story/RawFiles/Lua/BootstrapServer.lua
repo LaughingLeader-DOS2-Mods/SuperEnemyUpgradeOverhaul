@@ -49,7 +49,7 @@ Ext.RegisterListener("SessionLoaded", LLENEMY_Server_SessionLoaded)
 
 LeaderLib.RegisterListener("ModSettingsLoaded", function()
 	Osi.DB_LLSENEMY_LevelModifier:Delete(nil)
-	Osi.DB_LLSENEMY_LevelModifier(Settings.Global.Variables.LLENEMY_Scaling_LevelModifier.Value or 0)
+	Osi.DB_LLSENEMY_LevelModifier(Settings.Global.Variables.AutoLeveling_Modifier.Value or 0)
 end)
 
 -- Retroactively remove blacklisted skills if they were modified
