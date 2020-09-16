@@ -318,17 +318,17 @@ local function SkillCanSummonVoidwoken_QRY(char, skill, skilltype, skillelement)
 end
 Ext.NewQuery(SkillCanSummonVoidwoken_QRY, "LLSENEMY_QRY_SkillCanSummonVoidwoken", "[in](CHARACTERGUID)_Character, [in](STRING)_Skill, [in](STRING)_SkillType, [in](STRING)_SkillElement, [out](INTEGER)_SourcePointCost");
 
-local function TrySummonVoidwoken(char)
+function TrySummonVoidwoken(uuid, magicCost)
 	local totalPointsUsed = 0
-	local b,p = pcall(GetTotalPointsForRegion, char)
+	local b,p = pcall(GetTotalPointsForRegion, uuid)
 	if b then
 		totalPointsUsed = p
 	end
 	local chance = GetVoidwokenSpawnChanceRollThreshold(magicCost, totalPointsUsed)
 	local roll = Ext.Random(0,100)
-	LeaderLib.PrintDebug("[LLENEMY_VoidwokenSpawning.lua:TrySummonVoidwoken] Roll: ["..tostring(roll).."/100 <= "..tostring(chance).."] TotalSP ("..tostring(totalPointsUsed)..").")
+	LeaderLib.PrintDebug(string.format("[LLENEMY_VoidwokenSpawning.lua:TrySummonVoidwoken] Roll(%s)/100 <= %s | TotalSP(%s)", roll, chance, totalPointsUsed))
 	if roll > 0 and roll <= chance then
-		SpawnVoidwoken(char, totalPointsUsed)
+		SpawnVoidwoken(uuid, totalPointsUsed)
 	elseif roll == 0 then
 		Osi.LLSENEMY_Hardmode_ReduceTotalSourceUsed(Ext.Random(1,3))
 	end

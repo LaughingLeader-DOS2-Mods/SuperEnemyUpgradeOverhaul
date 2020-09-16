@@ -9,8 +9,8 @@ LLSENEMY_QRY_SkillCanSummonVoidwoken(_Char, _Skill, _SkillType, _SkillElement, _
 AND
 GetUUID(_Char, _UUID)
 THEN
-SysClear("DB_LLSENEMY_TrySummonVoidwoken_Temp_Caster", 1);
-DB_LLSENEMY_TrySummonVoidwoken_Temp_Caster(_UUID);
+SysClear("DB_LLSENEMY_TrySummonVoidwoken_Temp_Caster", 2);
+DB_LLSENEMY_TrySummonVoidwoken_Temp_Caster(_UUID, _SP);
 LLSENEMY_Hardmode_TrackTotalSourceUsed(_SP);
 TimerCancel("Timers_LLENEMY_TrySummonVoidwoken");
 TimerLaunch("Timers_LLENEMY_TrySummonVoidwoken", 750);
@@ -18,10 +18,12 @@ TimerLaunch("Timers_LLENEMY_TrySummonVoidwoken", 750);
 IF
 TimerFinished("Timers_LLENEMY_TrySummonVoidwoken")
 AND
-DB_LLSENEMY_TrySummonVoidwoken_Temp_Caster(_UUID)
+DB_LLSENEMY_TrySummonVoidwoken_Temp_Caster(_UUID, _SP)
+AND
+IntegertoString(_SP, _SPStr)
 THEN
-NOT DB_LLSENEMY_TrySummonVoidwoken_Temp_Caster(_UUID);
-NRD_ModCall("SuperEnemyUpgradeOverhaul", "SpawnVoidwoken", _UUID);
+NOT DB_LLSENEMY_TrySummonVoidwoken_Temp_Caster(_UUID, _SP);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "TrySummonVoidwoken", _UUID, _SPStr);
 
 // Source accumulation degrades over time.
 // By default, the in-game hour speed is 1 hour = 5 minutes of real time.
