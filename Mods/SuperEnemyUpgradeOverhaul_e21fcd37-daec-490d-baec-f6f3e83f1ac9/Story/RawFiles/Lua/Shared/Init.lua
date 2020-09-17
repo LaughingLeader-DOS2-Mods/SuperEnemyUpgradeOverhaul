@@ -4,7 +4,7 @@ Common = LeaderLib.Common
 StringHelpers = LeaderLib.StringHelpers
 
 Vars = {
-	UPGRADE_MAX_ROLL = 99999,
+	UPGRADE_MAX_ROLL = 100,
 	DefaultDropCount = 4,
 }
 

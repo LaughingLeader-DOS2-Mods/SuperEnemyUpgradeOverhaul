@@ -104,8 +104,8 @@ local function OnHit(target,source,damage,handle,skill)
 			local chance = Ext.ExtraData["LLENEMY_ShadowBonus_CursedFire_Chance"] or 40
 			if Ext.Random(0,100) <= chance then
 				ApplyStatus(target, "NECROFIRE", 6.0, 0, source)
-				local x,y,z = GetPosition(target)
-				TransformSurfaceAtPosition(x, y, z, "Curse", "Ground", 1.0, 6.0, source)
+				--local x,y,z = GetPosition(target)
+				--TransformSurfaceAtPosition(x, y, z, "Curse", "Ground", 1.0, 6.0, source)
 				if ObjectIsCharacter(target) == 1 then
 					local text = GameHelpers.GetStringKeyText("LLENEMY_ShadowBonus_CursedFire", "<font color='#B823FF'>Cursed Fire</font>")
 					CharacterStatusText(target, text)

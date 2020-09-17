@@ -299,23 +299,49 @@ local ImmunityStatuses = {
 	["InvisibilityImmunity"] = {},
 }
 
+local Resistances = {
+	AirResistance = true,
+	EarthResistance = true,
+	FireResistance = true,
+	PhysicalResistance = true,
+	PiercingResistance = true,
+	PoisonResistance = true,
+	WaterResistance = true,
+}
+
+local function DisplayNameIsInTable(tbl, name)
+	for i,v in pairs(tbl) do
+		if v ~= "" then
+			local displayName = Ext.StatGetAttribute(v, "DisplayName") or ""
+			if name == displayName then
+				return true
+			end
+		end
+	end
+	return false
+end
+
 Ext.RegisterListener("SessionLoaded", function()
 	for i,status in pairs(Ext.GetStatEntries("StatusData")) do
-		local immuneFlag = Ext.StatGetAttribute(status, "ImmuneFlag") or ""
-		local displayName = Ext.StatGetAttribute(status, "DisplayName") or ""
-		if immuneFlag ~= "" and ImmunityStatuses[immuneFlag] ~= nil and displayName ~= "" then
-			table.insert(ImmunityStatuses[immuneFlag], status)
+		if not string.find(status, "QUEST_") then
+			local immuneFlag = Ext.StatGetAttribute(status, "ImmuneFlag") or ""
+			local displayName = Ext.StatGetAttribute(status, "DisplayName") or ""
+			local tbl = ImmunityStatuses[immuneFlag]
+			if tbl ~= nil and displayName ~= "" and not DisplayNameIsInTable(tbl, Ext.GetTranslatedStringFromKey(displayName)) then
+				table.insert(ImmunityStatuses[immuneFlag], status)
+			end
 		end
 	end
 end)
-
+--print(Ext.StatGetAttribute("Stats_LLENEMY_Infusion_Blood", "Flags"))
 ---@param character EsvCharacter
 ---@param status EsvStatus
 ---@param tooltip TooltipData
 local function OnInfusionInfoTooltip(character, status, tooltip)
+	local resistances = {}
 	local immunities = {}
 	for i,v in pairs(character:GetStatuses()) do
-		if string.find(v, "LLENEMY_INF") then
+		if v ~= "LLENEMY_INFUSION_INFO" and string.find(v, "LLENEMY_INF") then
 			local potion = Ext.StatGetAttribute(v, "StatsId") or ""
 			if potion ~= nil then
 				local immuneFlags = Ext.StatGetAttribute(potion, "Flags") or ""
@@ -323,6 +349,15 @@ local function OnInfusionInfoTooltip(character, status, tooltip)
 					local flags = StringHelpers.Split(immuneFlags, ";")
 					for _,f in pairs(flags) do
 						immunities[f] = true
+					end
+				end
+				for res,_ in pairs(Resistances) do
+					local val = Ext.StatGetAttribute(potion, res) or 0
+					if val > 0 then
+						if resistances[res] == nil then
+							resistances[res] = 0
+						end
+						resistances[res] = resistances[res] + val
 					end
 				end
 			end
@@ -344,13 +379,21 @@ local function OnInfusionInfoTooltip(character, status, tooltip)
 			end
 			if #statusNames > 0 then
 				table.sort(statusNames)
-				text = ImmuneToText:ReplacePlaceholders(StringHelpers.Join(", ", statusNames))
+				text = ImmuneToText:ReplacePlaceholders(StringHelpers.Join(", ", statusNames, true))
 				tooltip:AppendElement({
 					Type="StatusImmunity",
 					Label=text
 				})
 			end
 		end
+	end
+	for res,value in pairs(resistances) do
+		local text = LeaderLib.LocalizedText.ResistanceNames[res].Text
+		text = text:ReplacePlaceholders(value)
+		tooltip:AppendElement({
+			Type="StatusBonus",
+			Label=text
+		})
 	end
 end
 

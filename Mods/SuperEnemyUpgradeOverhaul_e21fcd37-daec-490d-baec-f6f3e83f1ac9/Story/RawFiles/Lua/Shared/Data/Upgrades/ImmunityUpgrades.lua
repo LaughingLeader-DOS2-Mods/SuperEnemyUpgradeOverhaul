@@ -15,6 +15,7 @@ local upgrades = g:Create("Immunities", {
 			u:Create("POISON_SKIN", 4, 4, {Duration = 12.0}),
 			u:Create("LLENEMY_IMMUNITY_PIERCING", 1, 5, {Duration = 36.0}),
 		}}),
+		sg:Create("None", 10),
 		sg:Create("StatusImmunity", 4, {
 		Upgrades = {
 			u:Create("IMMUNE_TO_BURNING", 8, 1, {Duration = 18.0}),

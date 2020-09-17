@@ -19,7 +19,9 @@ settings.Global:AddFlags({
 	"LLENEMY_TalentUpgradesDisabled",
 	"LLENEMY_SummoningUpgradesDisabled",
 	"LLENEMY_SourceBonusSkillsDisabled",
+	"LLENEMY_PureRNGMode",
 })
+--settings.Global:AddFlag("MigrateSettings", "Global", true)
 settings.Global:AddVariable("AutoLeveling_Modifier", 0)
 settings.Global:AddVariable("Hardmode_MinBonusRolls", 1)
 settings.Global:AddVariable("Hardmode_MaxBonusRolls", 4)

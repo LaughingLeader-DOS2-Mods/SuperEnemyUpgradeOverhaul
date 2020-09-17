@@ -6,6 +6,7 @@ local Data = {
 	Auras = Ext.Require("Shared/Data/Upgrades/AuraUpgrades.lua"),
 	--BonusSkills = Ext.Require("Shared/Data/Upgrades/BonusSkillUpgrades.lua"),
 	Buffs = Ext.Require("Shared/Data/Upgrades/BuffUpgrades.lua"),
+	BonusBuffs = Ext.Require("Shared/Data/Upgrades/BuffUpgrades2.lua"),
 	Classes = Ext.Require("Shared/Data/Upgrades/ClassUpgrades.lua"),
 	Immunities = Ext.Require("Shared/Data/Upgrades/ImmunityUpgrades.lua"),
 	Infusions = Ext.Require("Shared/Data/Upgrades/InfusionUpgrades.lua"),

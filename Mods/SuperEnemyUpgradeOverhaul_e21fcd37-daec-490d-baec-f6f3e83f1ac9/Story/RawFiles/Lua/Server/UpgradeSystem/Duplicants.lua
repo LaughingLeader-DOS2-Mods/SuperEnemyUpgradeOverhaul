@@ -275,6 +275,7 @@ local function Duplicate(source, i)
 		GameHelpers.SetScale(dupe, scale)
 	end
 
+	ApplyStatus(dupeId, "LLENEMY_DUPLICANT", -1.0, 0, dupeId)
 	NRD_CharacterSetStatInt(dupeId, "CurrentArmor", source.Stats.CurrentArmor)
 	NRD_CharacterSetStatInt(dupeId, "CurrentMagicArmor", source.Stats.CurrentMagicArmor)
 	NRD_CharacterSetStatInt(dupeId, "CurrentVitality", source.Stats.CurrentVitality)

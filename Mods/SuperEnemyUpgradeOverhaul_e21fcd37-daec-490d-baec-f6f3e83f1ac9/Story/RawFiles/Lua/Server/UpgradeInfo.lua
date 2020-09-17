@@ -1,7 +1,6 @@
 function SetChallengePointsTag(uuid)
 	local cp = GetVarInteger(uuid, "LLENEMY_ChallengePoints")
 	if cp == nil or cp < 0 then cp = 0 end
-	LeaderLib.PrintDebug("[EUO:UpgradeInfo.lua:SetChallengePointsTag] Character ("..uuid..") CP("..tostring(cp)..")")
 	for k,tbl in pairs(ChallengePointsText) do
 		if cp >= tbl.Min and cp <= tbl.Max then
 			SetTag(uuid, tbl.Tag)
@@ -9,6 +8,10 @@ function SetChallengePointsTag(uuid)
 		else
 			ClearTag(uuid, tbl.Tag)
 		end
+	end
+	if cp >= 5 then
+		--local data = UpgradeSystem.GetCurrentRegionData(nil, uuid, false)
+		--LeaderLib.PrintDebug(string.format("[EUO:SetChallengePointsTag] (%s) CP(%i) Upgrades(%s)", uuid, cp, Ext.JsonStringify(data)))
 	end
 end
 
@@ -38,7 +41,6 @@ end
 
 function UpgradeInfo_ApplyInfoStatus(uuid,force)
 	local hasUpgrades = HasUpgrades(uuid)
-	print(uuid, hasUpgrades, force)
 	if hasUpgrades or force == true then
 		ApplyStatus(uuid, "LLENEMY_UPGRADE_INFO", -1.0, 1, uuid)
 	elseif hasUpgrades == false then

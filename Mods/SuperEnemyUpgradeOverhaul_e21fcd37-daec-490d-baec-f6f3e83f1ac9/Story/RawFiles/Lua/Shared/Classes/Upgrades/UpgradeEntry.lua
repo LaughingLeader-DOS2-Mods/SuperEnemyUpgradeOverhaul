@@ -12,13 +12,14 @@ local UpgradeEntry = {
 	StartRange = 0,
 	EndRange = 0,
 	DropCount = -1,
-	DefaultDropCount = 4,
+	DefaultDropCount = -1,
 	OnApplied = nil,
 	HardmodeOnly = false,
 	ModRequirement = nil,
 	CP = 1,
 	---@type fun(target:EsvCharacter, entry:UpgradeEntry):boolean
-	CanApply = nil
+	CanApply = nil,
+	Unique = true,
 }
 UpgradeEntry.__index = UpgradeEntry
 
@@ -41,6 +42,7 @@ function UpgradeEntry:Create(id, frequency, cp, params)
 		this.Frequency = frequency or 1
 		this.CP = cp or 1
 	end
+
 	setmetatable(this, self)
 	if params ~= nil then
 		local s,err = xpcall(function()
@@ -55,6 +57,11 @@ function UpgradeEntry:Create(id, frequency, cp, params)
 		end, debug.traceback)
 		if not s then print(id, err) end
 	end
+
+	if this.DefaultDropCount == -1 then
+		this.DefaultDropCount = this.Frequency * 10
+	end
+	
 	if this.DropCount == -1 then
 		this.DropCount = this.DefaultDropCount or Vars.DefaultDropCount
 	end
@@ -73,6 +80,10 @@ end
 ---@param hardmodeOnly boolean
 ---@return boolean
 function UpgradeEntry:Apply(target, applyImmediately, hardmodeOnly)
+	if self.ID == "None" or self.ID == "" then
+		-- "Fail" upgrades
+		return true
+	end
 	if self.CanApply ~= nil then
 		if not self.CanApply(target, self) then
 			return false

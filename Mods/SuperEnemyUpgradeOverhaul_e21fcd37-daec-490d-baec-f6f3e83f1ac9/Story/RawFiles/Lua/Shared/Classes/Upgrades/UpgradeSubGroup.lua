@@ -63,6 +63,9 @@ end
 ---@param upgrade UpgradeEntry
 ---@return boolean
 local function CanAddUpgradeToList(entry)
+	if GlobalGetFlag("LLENEMY_PureRNGMode") == 1 then
+		return true
+	end
 	if entry.DropCount <= 0 then
 		return false
 	end
@@ -104,31 +107,51 @@ function UpgradeSubGroup:CanApplyUpgradeToTarget(target, upgrade)
 	return true
 end
 
+function UpgradeSubGroup:TryApplyUpgrades(target, applyImmediately, hardmodeOnly, roll, totalAttempts, successes)
+	local upgrades = self:BuildDropList()
+	if upgrades ~= nil then
+		local total = #upgrades
+		local rollAgain = false
+		for i,v in pairs(upgrades) do
+			--print(string.format("[%s] Start(%s)/End(%s)/(%s)", self.ID, self.StartRange, self.EndRange, roll))
+			if roll >= v.StartRange and roll <= v.EndRange and self:CanApplyUpgradeToTarget(target, v) then
+				if v.Unique and UpgradeSystem.HasUpgrade(target.MyGuid, v.ID) then
+					if total > 2 and totalAttempts < 3 then
+						roll = Ext.Random(1, Vars.UPGRADE_MAX_ROLL)
+						totalAttempts = totalAttempts + 1
+						v.DropCount = math.max(0, v.DropCount - 1)
+						print(string.format("DUPLICATE!|(%s) Upgrade(%s) Roll(%i) Rerolls(%i) DropCount(%i)", target.DisplayName, v.ID, roll, totalAttempts, v.DropCount))
+						rollAgain = true
+						break
+					end
+				else
+					if v:Apply(target, applyImmediately, hardmodeOnly) then
+						v.DropCount = math.max(0, v.DropCount - 1)
+						UpgradeSystem.IncreaseChallengePoints(target.MyGuid, self.CP)
+						successes = successes + 1
+					end
+				end
+			end
+		end
+		if rollAgain then
+			return self:TryApplyUpgrades(target, applyImmediately, hardmodeOnly, Ext.Random(1, Vars.UPGRADE_MAX_ROLL), totalAttempts, successes)
+		end
+	else
+		print("Failed to build droplist", upgrades)
+	end
+	return successes
+end
+
 ---@param target EsvCharacter
 ---@param applyImmediately boolean
 ---@param hardmodeOnly boolean
 ---@return boolean
 function UpgradeSubGroup:Apply(target, applyImmediately, hardmodeOnly)
 	if self.DisabledFlag == "" or GlobalGetFlag(self.DisabledFlag) == 0 then
+		local reRolls = 0
 		local roll = Ext.Random(0, Vars.UPGRADE_MAX_ROLL)
 		if roll > 0 then
-			local successes = 0
-			local upgrades = self:BuildDropList()
-			if upgrades ~= nil then
-				for i,v in pairs(upgrades) do
-					--print(string.format("[%s] Start(%s)/End(%s)/(%s)", self.ID, self.StartRange, self.EndRange, roll))
-					if roll >= v.StartRange and roll <= v.EndRange and self:CanApplyUpgradeToTarget(target, v) then
-						if v:Apply(target, applyImmediately, hardmodeOnly) then
-							--Ext.Print(string.format("[EUO] Roll success for %s! SubGroup(%s:%s) Roll(%i,%i-%i)", target.DisplayName, self.ID, v.ID, roll, v.StartRange, v.EndRange))
-							v.DropCount = math.max(0, v.DropCount - 1)
-							successes = successes + 1
-							UpgradeSystem.IncreaseChallengePoints(target.MyGuid, self.CP)
-						end
-					end
-				end
-			else
-				print("Failed to build droplist", upgrades)
-			end
+			local successes = self:TryApplyUpgrades(target, applyImmediately, hardmodeOnly, roll, 0, 0)
 			if successes > 0 then
 				if self.OnApplied ~= nil then
 					if type(self.OnApplied) == "table" then

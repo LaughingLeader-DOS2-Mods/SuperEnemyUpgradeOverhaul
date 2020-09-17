@@ -100,6 +100,18 @@ function UpgradeSystem.SaveChallengePoints(target)
 	tempChallengePoints[target] = nil
 end
 
+function UpgradeSystem.HasUpgrade(uuid, id)
+	local data = UpgradeSystem.GetCurrentRegionData(nil, uuid, false)
+	if data ~= nil then
+		for i,v in pairs(data) do
+			if v.ID == id then
+				return true
+			end
+		end
+	end
+	return false
+end
+
 ---@class SavedUpgradeData
 ---@field ID string
 ---@field Duration number
@@ -109,8 +121,15 @@ end
 ---@param region string
 ---@param uuid string
 ---@param createCharacterData boolean|nil
----@param return SavedUpgradeData[]|table<string, SavedUpgradeData[]>
+---@return SavedUpgradeData[]|table<string, SavedUpgradeData[]>
 function UpgradeSystem.GetCurrentRegionData(region, uuid, createCharacterData)
+	if region == nil then
+		region = GetRegion(uuid) or ""
+		if region == "" then
+			region = Osi.DB_CurrentLevel:Get(nil)[1][1]
+		end
+	end
+
 	local regionData = PersistentVars.Upgrades.Results[region]
 	if regionData == nil then
 		regionData = {}
@@ -327,22 +346,20 @@ function UpgradeSystem.RollForUpgrades(uuid, region, applyImmediately, skipIgnor
 			end
 		end
 		
-		local vars = Settings.Global.Variables
-		local min = vars.Hardmode_MinBonusRolls.Value or Ext.ExtraData["LLENEMY_Hardmode_DefaultBonusRolls_Min"] or 1
-		local max = vars.Hardmode_MaxBonusRolls.Value or Ext.ExtraData["LLENEMY_Hardmode_DefaultBonusRolls_Max"] or 4
-		local bonusRolls = Ext.Random(min, max)
-		if bonusRolls > 0 then
-			for i=bonusRolls,1,-1 do
-				for id,group in pairs(Upgrades) do
-					if group:Apply(character, applyImmediately, true) then
-						successes = successes + 1
+		if ObjectGetFlag(uuid, "LLSENEMY_HasUpgrades") == 0 then
+			local vars = Settings.Global.Variables
+			local min = vars.Hardmode_MinBonusRolls.Value or Ext.ExtraData["LLENEMY_Hardmode_DefaultBonusRolls_Min"] or 1
+			local max = vars.Hardmode_MaxBonusRolls.Value or Ext.ExtraData["LLENEMY_Hardmode_DefaultBonusRolls_Max"] or 4
+			local bonusRolls = Ext.Random(min, max)
+			if bonusRolls > 0 then
+				for i=bonusRolls,1,-1 do
+					for id,group in pairs(Upgrades) do
+						if group:Apply(character, applyImmediately, true) then
+							successes = successes + 1
+						end
 					end
 				end
 			end
-		end
-
-		if CharacterIsInCombat(uuid) == 1 then
-			print(uuid, successes)
 		end
 
 		if successes > 0 then
@@ -381,6 +398,16 @@ function UpgradeSystem.RollRegion(region, force)
 			end
 		end
 	end
+	local printUpgrades = {}
+	for c,d in pairs(PersistentVars.Upgrades.Results[region]) do
+		for i,v in pairs(d) do
+			if printUpgrades[v.ID] == nil then
+				printUpgrades[v.ID] = 0
+			end
+			printUpgrades[v.ID] = printUpgrades[v.ID] + 1
+		end
+	end
+	print(Ext.JsonStringify(printUpgrades))
 end
 
 Ext.RegisterOsirisListener("GameStarted", 2, "after", function(region, isEditorMode)
@@ -392,7 +419,7 @@ end)
 Ext.RegisterOsirisListener("ObjectEnteredCombat", 2, "after", function(object, id)
 	if Osi.LLSENEMY_QRY_SkipCombat(id) ~= true and ObjectIsCharacter(object) == 1 then
 		local character = Ext.GetCharacter(object)
-		if ObjectGetFlag(character.MyGuid, "LLENEMY_HasUpgrades") == 1 then
+		if ObjectGetFlag(character.MyGuid, "LLSENEMY_HasUpgrades") == 1 then
 			UpgradeSystem.ApplySavedUpgrades(character.MyGuid)
 			UpgradeInfo_ApplyInfoStatus(character.MyGuid)
 		elseif Osi.LLSENEMY_QRY_IsEnemyOfParty(object) == true then

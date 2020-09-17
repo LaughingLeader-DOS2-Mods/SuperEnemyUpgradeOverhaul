@@ -4,14 +4,7 @@ INITSECTION
 
 KBSECTION
 
-/*
-PROC
-Proc_SceneOver("FTJ_DallasStartScene")
-THEN
-TimerCancel("Timers_LLENEMY_HM_FTJ_StartAtusaBattle");
-TimerLaunch("Timers_LLENEMY_HM_FTJ_StartAtusaBattle", 3000);
-*/
-
+// Atusa
 IF
 ItemTemplateRemovedFromCharacter("LOOT_Bodyparts_Lizards_Leg_3ec6137e-c2a9-4b38-b7dd-743724a43031", S_FTJ_FlorenceLeg_09d02979-2749-4f1d-b1b7-5d2ddcfd6aa9, S_FTJ_Florence_c272a37a-85ea-438f-9871-1551ef45d338)
 AND
@@ -43,25 +36,7 @@ SetOnStage(CHARACTERGUID_S_FTJ_Florence_c272a37a-85ea-438f-9871-1551ef45d338, 0)
 LLSENEMY_Rewards_GenerateTreasure(_AtusaBoss, "ST_WeaponRare", 1);
 ApplyStatus(_AtusaBoss, "LLENEMY_SEEKER", -1.0, 0, _AtusaBoss);
 
-/*
-IF
-TimerFinished("Timers_LLENEMY_HM_FTJ_StartAtusaBattle")
-AND
-CharacterCreateOutOfSightToObject("LLENEMY_AtusaBoss_A_54ad4e06-b57f-46d0-90fc-5da1208250e0", CHARACTERGUID_S_FTJ_Florence_c272a37a-85ea-438f-9871-1551ef45d338, CHARACTERGUID_S_FTJ_Florence_c272a37a-85ea-438f-9871-1551ef45d338, 0, "", _AtusaBoss)
-AND
-GetFaction(CHARACTERGUID_S_FTJ_Florence_c272a37a-85ea-438f-9871-1551ef45d338, _Faction)
-AND
-CharacterGetDisplayName(CHARACTERGUID_S_FTJ_Florence_c272a37a-85ea-438f-9871-1551ef45d338, _Handle, _Reference)
-AND
-StringConcatenate(_Reference, " (Specter)", _Name)
-THEN
-CharacterTransformFromCharacter(_AtusaBoss, CHARACTERGUID_S_FTJ_Florence_c272a37a-85ea-438f-9871-1551ef45d338, 0, 1, 1, 1, 1, 0, 0);
-CharacterTransformAppearanceTo(_AtusaBoss, CHARACTERGUID_S_FTJ_Florence_c272a37a-85ea-438f-9871-1551ef45d338, 0, 1);
-SetFaction(_AtusaBoss, _Faction);
-SetVarInteger(_AtusaBoss, "LLENEMY_ChallengePoints", 8);
-CharacterSetCustomName(_AtusaBoss, _Name);
-TeleportTo(_AtusaBoss, CHARACTERGUID_S_FTJ_Florence_c272a37a-85ea-438f-9871-1551ef45d338, "", 1, 1, 0);
-*/
+
 EXITSECTION
 
 ENDEXITSECTION

@@ -23,9 +23,10 @@ local upgrades = g:Create("Summoning", {
 		sg:Create("Theme", 1, {
 		CanApply = CanApplyUpgrade,
 		Upgrades = {
-			u:Create("LLENEMY_CLASS_TOTEMANCER", 10, 2),
+			u:Create("LLENEMY_CLASS_TOTEMANCER", 3, 2),
 			u:Create("LLENEMY_CLASS_INCARNATEKING", 1, 4),
 		}}),
+		sg:Create("None", 10),
 	}
 })
 
