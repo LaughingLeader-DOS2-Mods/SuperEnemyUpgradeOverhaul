@@ -17,6 +17,7 @@ Ext.Require("Server/UpgradeSystem/UpgradesController.lua")
 Ext.Require("Server/UpgradeSystem/Duplicants.lua")
 Ext.Require("Server/UpgradeSystem/BonusSkills.lua")
 Ext.Require("Server/UpgradeSystem/MiscUpgradeMechanics.lua")
+Ext.Require("Server/Hardmode/_Init.lua")
 
 if Ext.IsDeveloperMode() then
 	Ext.Require("Server/Debug/Init.lua")

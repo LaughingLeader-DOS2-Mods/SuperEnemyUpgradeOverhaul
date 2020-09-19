@@ -94,6 +94,7 @@ return {
 		["1a3b44d4-0ba4-4289-b158-a54111b83e1d"] = 1,
 	},
 	Upgrades = {
-		
+		-- New EUO Super Golem
+		["82a1c335-d5b6-4046-9286-400faf67e08e"] = "LLENEMY_RAGE",
 	}
 }

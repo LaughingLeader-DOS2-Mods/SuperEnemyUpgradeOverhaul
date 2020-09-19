@@ -1,10 +1,10 @@
 Version 1
 SubGoalCombiner SGC_AND
 INITSECTION
-
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "HM_FTJ_Enabled");
 KBSECTION
 
-// Atusa
+//REGION Atusa
 IF
 ItemTemplateRemovedFromCharacter("LOOT_Bodyparts_Lizards_Leg_3ec6137e-c2a9-4b38-b7dd-743724a43031", S_FTJ_FlorenceLeg_09d02979-2749-4f1d-b1b7-5d2ddcfd6aa9, S_FTJ_Florence_c272a37a-85ea-438f-9871-1551ef45d338)
 AND
@@ -35,9 +35,25 @@ MoveAllItemsTo(CHARACTERGUID_S_FTJ_Florence_c272a37a-85ea-438f-9871-1551ef45d338
 SetOnStage(CHARACTERGUID_S_FTJ_Florence_c272a37a-85ea-438f-9871-1551ef45d338, 0);
 LLSENEMY_Rewards_GenerateTreasure(_AtusaBoss, "ST_WeaponRare", 1);
 ApplyStatus(_AtusaBoss, "LLENEMY_SEEKER", -1.0, 0, _AtusaBoss);
+//END_REGION
 
+//REGION KNILES_SUPER_GOLEM
+IF
+ObjectEnteredCombat(S_FTJ_MagisterTorturer_1d1c0ba0-a91e-4927-af79-6d8d27e0646b, _)
+AND
+GlobalGetFlag("LLSENEMY_HM_FTJ_SuperGolemReady", 0)
+THEN
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "HM_FTJ_RunEvent", "WakeSuperGolem");
+
+IF
+AttackedByObject(CHARACTERGUID_S_LLSENEMY_FTJ_FleshGolem_C_Super_82a1c335-d5b6-4046-9286-400faf67e08e, _, _, _, _)
+AND
+GlobalGetFlag("LLSENEMY_HM_FTJ_SuperGolemReady", 0)
+THEN
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "HM_FTJ_RunEvent", "WakeSuperGolem");
+//END_REGION
 
 EXITSECTION
-
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "HM_FTJ_Disabled");
 ENDEXITSECTION
 ParentTargetEdge "LLSENEMY_30_Origins_HM_Parent"
