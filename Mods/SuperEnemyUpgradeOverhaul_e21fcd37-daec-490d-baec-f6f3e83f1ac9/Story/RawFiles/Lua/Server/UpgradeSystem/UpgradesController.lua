@@ -256,7 +256,7 @@ function UpgradeSystem.GetUpgrade(id)
 	for _,group in pairs(Upgrades) do
 		for _,subgroup in pairs(group.SubGroups) do
 			for _,upgrade in pairs(subgroup.Upgrades) do
-				if upgrade.Value == id then
+				if upgrade.ID == id then
 					return upgrade
 				end
 			end
