@@ -299,6 +299,8 @@ local ImmunityStatuses = {
 	["InvisibilityImmunity"] = {},
 }
 
+local PercentageValueText = ts:Create("ha020d932g69e4g4957g998dg9204aa232200", "[1]:[2]")
+
 local Resistances = {
 	AirResistance = true,
 	EarthResistance = true,
@@ -343,7 +345,7 @@ local function OnInfusionInfoTooltip(character, status, tooltip)
 	for i,v in pairs(character:GetStatuses()) do
 		if v ~= "LLENEMY_INFUSION_INFO" and string.find(v, "LLENEMY_INF") then
 			local potion = Ext.StatGetAttribute(v, "StatsId") or ""
-			if potion ~= nil then
+			if potion ~= "" then
 				local immuneFlags = Ext.StatGetAttribute(potion, "Flags") or ""
 				if immuneFlags ~= "" then
 					local flags = StringHelpers.Split(immuneFlags, ";")
@@ -353,7 +355,7 @@ local function OnInfusionInfoTooltip(character, status, tooltip)
 				end
 				for res,_ in pairs(Resistances) do
 					local val = Ext.StatGetAttribute(potion, res) or 0
-					if val > 0 then
+					if val ~= 0 then
 						if resistances[res] == nil then
 							resistances[res] = 0
 						end
@@ -388,12 +390,22 @@ local function OnInfusionInfoTooltip(character, status, tooltip)
 		end
 	end
 	for res,value in pairs(resistances) do
-		local text = LeaderLib.LocalizedText.ResistanceNames[res].Text
-		text = text:ReplacePlaceholders(value)
-		tooltip:AppendElement({
-			Type="StatusBonus",
-			Label=text
-		})
+		local data = LeaderLib.LocalizedText.ResistanceNames[res]
+		if data ~= nil then
+			if value > 0 then
+				local text = PercentageValueText:ReplacePlaceholders(data.Text.Value, string.format(" +%i", value)).."%"
+				tooltip:AppendElement({
+					Type="StatusBonus",
+					Label=text
+				})
+			elseif value < 0 then
+				local text = PercentageValueText:ReplacePlaceholders(data.Text.Value, string.format(" %i", value)).."%"
+				tooltip:AppendElement({
+					Type="StatusMalus",
+					Label=text
+				})
+			end
+		end
 	end
 end
 
@@ -429,8 +441,8 @@ local function FormatTagElements(tooltip_mc, group, ...)
 				end
 			end, debug.traceback)
 			if not b then
-				print("[EUO:FormatTagElements] Error:")
-				print(result)
+				Ext.PrintError("[EUO:FormatTagElements] Error:")
+				Ext.PrintError(result)
 			end
 		end
 	end
