@@ -9,6 +9,9 @@ local ENEMY = {
 
 function HM_FTJ_Enabled()
 	SetOnStage(ENEMY.SuperFleshGolem, 1)
+	if CharacterIsInCombat(ENEMY.SuperFleshGolem) == 0 and CharacterIsDead(ENEMY.SuperFleshGolem) == 0 then
+		ApplyStatus(ENEMY.SuperFleshGolem, "SLEEPING", -1.0, 1, ENEMY.SuperFleshGolem)
+	end
 end
 
 function HM_FTJ_Disabled()
@@ -23,7 +26,7 @@ function HM_FTJ_RunEvent(event)
 		--SetOnStage(ENEMY.SuperFleshGolem, 1)
 		--TeleportTo(ENEMY.SuperFleshGolem, NPC.Kniles, "", 0, 1, 0)
 		--CharacterAppearOutOfSightToObject(ENEMY.SuperFleshGolem, player, ENEMY.Kniles, 1, "LLSENEMY_SuperGolemSpawned")
-		RemoveStatus(ENEMY.SuperFleshGolem, "UNCONSCIOUS")
+		RemoveStatus(ENEMY.SuperFleshGolem, "SLEEPING")
 		GlobalSetFlag("LLSENEMY_HM_FTJ_SuperGolemReady")
 	end
 end
