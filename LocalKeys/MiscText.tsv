@@ -15,3 +15,5 @@ LLENEMY_StatusText_SeekerDiscoveredTarget	<font color='#FF3737' size='26'>*Revea
 LLENEMY_StatusText_VoidlingTransformed	<font color='#73F6FF' size='26'>Empowered Evolution</font>	h0c6fe9ccg70f0g434dgbe60gc2275abaa7d1
 LLENEMY_StatusText_Cleansed	<font color='#73F6FF'>[1] Cleansed [2]</font>	h19830defg8efbg4be0ga890g34311649a588
 LLENEMY_StatusText_GrenadeExploded	<font color='#FF3333'>[1] Exploded!</font>	hd8dc7391g5bc4g4e3dgb76dg00c32c9a1eaf
+LLENEMY_ModDisplayName	Super Enemy Upgrade Overhaul	hb216bc96gc66ag4016g9c6agf7af5a5d78d3
+LLENEMY_ModDescription	A difficulty enhancement mod that upgrades enemies with random bonuses, new loot, and a plethora of optional features, such as voidwoken spawning from source skills, enemies being duplicated in combat, and a hard mode for the bravest of souls.	hdf18843dg2cbbg4ccfg9cdcgd2bad67e2dd5

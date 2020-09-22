@@ -167,7 +167,7 @@
 	<content contentuid="h64497dc1gb13dg4e22gba1ag630a0ca66154">Disable Summoner Upgrades - These grant enemies the power to summon creatures. (Currently Enabled)</content>
 	<content contentuid="h645270dag6b15g47a8gad4bgfcc34034a77e">Cascader</content>
 	<content contentuid="h6493380bgf46eg46fdga0f8g399ed299b249">[DEBUG] Disable Enemy Level Limit - &lt;b&gt;WARNING&lt;/b&gt; - Enemy levels above 35 may crash the game. Uncap at your own risk! (Level Limit Currently &lt;font color=&apos;#8AFF49&apos;&gt;Enabled&lt;/font&gt;)</content>
-	<content contentuid="h662390f7gfd9eg4a56g95e5g658283cc548a">&lt;font color=&apos;#9B30FF&apos; size=&apos;16&apos;&gt;Grants Treasure of the Shadow Realm (&lt;textformat leftmargin=&apos;1&apos; rightmargin=&apos;1&apos;&gt;[1]&lt;/textformat&gt;) on death.&lt;/font&gt;</content>
+	<content contentuid="h662390f7gfd9eg4a56g95e5g658283cc548a">&lt;font color=&apos;#9B30FF&apos; size=&apos;16&apos;&gt;Drops Void treasure (&lt;textformat leftmargin=&apos;1&apos; rightmargin=&apos;1&apos;&gt;[1]&lt;/textformat&gt;) on death.&lt;/font&gt;</content>
 	<content contentuid="h66ec71efgc7eeg47f2g920bgcbe909afcee4">Blood Infusion</content>
 	<content contentuid="h6819a20fg7aefg4b55g919bg3dbe4b22cb81">Source-Hungry Voidwoken Statue</content>
 	<content contentuid="h68b2574cgb7d7g46d8g9c8bge4edff270a17">Damage taken increases &lt;font color=&apos;#FF3333&apos; size=&apos;20&apos;&gt;Rage&lt;/font&gt;.&lt;br&gt;At max &lt;font color=&apos;#FF3333&apos; size=&apos;20&apos;&gt;Rage&lt;/font&gt;, character gains &lt;font color=&apos;#43FF22&apos;&gt;+100% critical chance&lt;/font&gt; and &lt;font color=&apos;#DDCC22&apos;&gt;immunity to disabling statuses&lt;/font&gt;.&lt;/font&gt;&lt;br&gt;&lt;font color=&apos;#FF00CC&apos;&gt;Sleeping reduces Rage.&lt;/font&gt;</content>
@@ -281,7 +281,7 @@
 	<content contentuid="ha9dfee58ge73fg47e4gb9f7g1ff2ced6635e">Vitality Boost</content>
 	<content contentuid="ha9e5c55dg7d32g47deg8168g8a7aa027e8e8">Talent: Natural Conductor</content>
 	<content contentuid="hab9efc47g4dc2g4c0cg956fgfc8cd29c7d42">[GLOBAL] Disable Hard Mode Extra Upgrade Rolling (Default - Enable) (Currently Enabled)</content>
-	<content contentuid="habff2fe9g031cg4c7cg85feg28a1fa25fb14">&lt;font color=&apos;[1]&apos;&gt;Shadow Treasure&lt;/font&gt;</content>
+	<content contentuid="habff2fe9g031cg4c7cg85feg28a1fa25fb14">&lt;font color=&apos;[1]&apos;&gt;Void&lt;/font&gt;</content>
 	<content contentuid="hac3946feg2bc8g4337gbcb7ge3980e905f1b">Talent: Backstabber</content>
 	<content contentuid="had606e03g6713g4064g84c0gf28395d81019">Elite Infernoblazer</content>
 	<content contentuid="hae2a4999g9dd6g464bgacc8gf2899d818c05">Chicken Firestarter</content>
@@ -290,6 +290,7 @@
 	<content contentuid="haeb6c61bga35fg45d8ga373gadf142b6fc2b">Source-Hungry Voidwoken Boar</content>
 	<content contentuid="haec75225g4305g4fcdg8e61g0f9b4de56075">Talent: Elite Comeback Kid</content>
 	<content contentuid="hb03b0770g292ag4844g977dgf0e7534a1f5b">Damage Boost</content>
+	<content contentuid="hb216bc96gc66ag4016g9c6agf7af5a5d78d3">Super Enemy Upgrade Overhaul</content>
 	<content contentuid="hb3bee298g2eb6g461bgafb8ge07c9ecc8094">Vitality Boost</content>
 	<content contentuid="hb5046330g2473g4d21g80ecgc49d05235e4e">Start combat by going [Key:INVISIBLE_DisplayName].</content>
 	<content contentuid="hb52d1ac1g7c4fg45a4g87d8g52056a5a2ba2">Talent: Indomitable</content>
@@ -338,6 +339,7 @@
 	<content contentuid="hd7df35a9gde1fg4d22g93f6gcb11fba955a0">Water Infusion</content>
 	<content contentuid="hd80e21d0gc2ffg4df8gbc9fgcdd3f5248980">Decrease Level Modifier -1</content>
 	<content contentuid="hd880d646g45b4g4fa6ga6cbgd746dcd242bd">Elite Firestarter</content>
+	<content contentuid="hd8dc7391g5bc4g4e3dgb76dg00c32c9a1eaf">&lt;font color=&apos;#FF3333&apos;&gt;[1] Exploded!&lt;/font&gt;</content>
 	<content contentuid="hd8e442d5ge3fag4dbfg87d1g7403c979c4f7">Perfect Control</content>
 	<content contentuid="hd8f04806g2228g4144g964eg5f6694865d41">Character cannot discover hidden enemies while disabled/drunk.</content>
 	<content contentuid="hda008820gb374g4cf8g87c3g294742c772d8">Gathering Power</content>
@@ -350,6 +352,7 @@
 	<content contentuid="hdee6d2a6gee37g4892g84e8g83a79ebfd9ed">Elite Water Infusion</content>
 	<content contentuid="hdf051e8cg6151g4f9dgab2bg2f6207ba84a3">Source-Hungry Voidwoken Troll</content>
 	<content contentuid="hdf0ea9a2g01cbg481dg8107g6ee870f53548">Talent: Unstable</content>
+	<content contentuid="hdf18843dg2cbbg4ccfg9cdcgd2bad67e2dd5">A difficulty enhancement mod that upgrades enemies with random bonuses, new loot, and a plethora of optional features, such as voidwoken spawning from source skills, enemies being duplicated in combat, and a hard mode for the bravest of souls.</content>
 	<content contentuid="hdf603fa9g2647g40efgb979gdf9aaaffc414">Elite Sourcery</content>
 	<content contentuid="hdfeb0377gbab4g4fc6ga428g98aa0a12eb88">Rage (II)</content>
 	<content contentuid="he10bc4ddge536g4696gb6f1g34a29479255c">Source-Hungry Voidwoken Salamander</content>

@@ -15,20 +15,20 @@
                             <attribute id="Version" value="371064832" type="4" />
                         </node>
                         <node id="ModuleShortDesc">
-                            <attribute id="Folder" value="AnimationsPlus_326b8784-edd7-4950-86d8-fcae9f5c457c" type="30" />
+                            <attribute id="Folder" value="DivinityOrigins_1301db3d-1f54-4e98-9be5-5094030916e4" type="30" />
                             <attribute id="MD5" value="" type="23" />
-                            <attribute id="Name" value="Animations Plus" type="22" />
-                            <attribute id="UUID" value="326b8784-edd7-4950-86d8-fcae9f5c457c" type="22" />
-                            <attribute id="Version" value="269025280" type="4" />
+                            <attribute id="Name" value="Divinity: Original Sin 2" type="22" />
+                            <attribute id="UUID" value="1301db3d-1f54-4e98-9be5-5094030916e4" type="22" />
+                            <attribute id="Version" value="371460775" type="4" />
                         </node>
                     </children>
                 </node>
                 <node id="ModuleInfo">
                     <attribute id="Author" value="LaughingLeader" type="30" />
                     <attribute id="CharacterCreationLevelName" value="" type="22" />
-                    <attribute id="Description" value="" type="30" />
-                    <attribute id="DescriptionName" value="" handle="ls::TranslatedStringRepository::s_HandleUnknown" type="28" />
-                    <attribute id="DisplayName" value="" handle="ls::TranslatedStringRepository::s_HandleUnknown" type="28" />
+                    <attribute id="Description" value="A difficulty enhancement mod that upgrades enemies with random bonuses, new loot, and a plethora of optional features, such as voidwoken spawning from source skills, enemies being duplicated in combat, and a hard mode for the bravest of souls." type="30" />
+                    <attribute id="DescriptionName" value="" handle="hdf18843dg2cbbg4ccfg9cdcgd2bad67e2dd5" type="28" />
+                    <attribute id="DisplayName" value="Super Enemy Upgrade Overhaul" handle="hb216bc96gc66ag4016g9c6agf7af5a5d78d3" type="28" />
                     <attribute id="Folder" value="SuperEnemyUpgradeOverhaul_e21fcd37-daec-490d-baec-f6f3e83f1ac9" type="30" />
                     <attribute id="GMTemplate" value="" type="22" />
                     <attribute id="LobbyLevelName" value="" type="22" />
