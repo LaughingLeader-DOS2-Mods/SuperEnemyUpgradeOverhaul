@@ -297,21 +297,9 @@ local function SetRandomShadowName(item,statType)
 		local name = LeaderLib.Common.GetRandomTableEntry(ItemCorruption.Names)
 		local color = LeaderLib.Common.GetRandomTableEntry(ItemCorruption.Colors)
 		name = string.format("<font color='%s'>%s</font>", color, name)
-		NRD_ItemCloneSetString("CustomDisplayName", name)
-		--NRD_ItemCloneSetString("CustomDescription", ShadowItemDescription.Value)
-	else
-		-- Wrap original names in a purple color
-		-- local handle,templateName = ItemTemplateGetDisplayString(GetTemplate(item))
-		-- LeaderLib.PrintDebug("[LLENEMY:LLENEMY_ItemMechanics.lua:SetRandomShadowName] ("..item..") handle("..handle..") templateName("..templateName..")")
-		-- local originalName = Ext.GetTranslatedString(handle, templateName)
-		-- if originalName ~= NRD_ItemGetStatsId(item) and originalName ~= GetStatString(item) then
-		-- 	-- Name isn't a stat entry name.
-		-- 	local color = LeaderLib.Common.GetRandomTableEntry(ItemCorruption.Colors)
-		-- 	local name = string.format("<font color='%s'>%s</font>", color, originalName)
-		-- 	NRD_ItemCloneSetString("CustomDisplayName", name)
-		-- 	LeaderLib.PrintDebug("[LLENEMY:LLENEMY_ItemMechanics.lua:SetRandomShadowName] New shadow item name is ("..name..")")
-		-- end
+		return name
 	end
+	return nil
 end
 
 ItemCorruption.SetRandomShadowName = SetRandomShadowName
@@ -336,7 +324,11 @@ local rarityValue = {
 	Unique = 6
 }
 
-local function AddRandomBoostsToItem(item,stat,statType,level,cloned)
+---@param item EsvItem
+local function AddRandomBoostsToItem(item,stat,statType,level)
+	if level == nil and item.Stats ~= nil then
+		level = item.Stats.Level or CharacterGetLevel(CharacterGetHostCharacter())
+	end
 	local minBoosts = Ext.Random(1,3)
 	-- if Ext.IsDeveloperMode() then
 	-- 	minBoosts = 12
@@ -354,7 +346,7 @@ local function AddRandomBoostsToItem(item,stat,statType,level,cloned)
 		minBoosts = minBoosts + Ext.Random(0,2)
 	end
 
-	local totalBoosts = AddRandomBoosts(cloned,stat,statType,level,minBoosts)
+	local totalBoosts = AddRandomBoosts(item.MyGuid,stat,statType,level,minBoosts)
 
 	local objectCategory = Ext.StatGetAttribute(stat, "ObjectCategory")
 	---@type ItemBoostGroup[]
@@ -366,15 +358,15 @@ local function AddRandomBoostsToItem(item,stat,statType,level,cloned)
 			if v.Type == "RandomGroupContainer" then
 				---@type ItemBoostGroup
 				local group = Common.GetRandomTableEntry(v.Entries)
-				totalBoosts = totalBoosts + group:Apply(cloned,stat,statType,level,1,false,nil,minBoosts)
+				totalBoosts = totalBoosts + group:Apply(item.MyGuid,stat,statType,level,1,false,nil,minBoosts)
 			elseif v.Type == "ItemBoostGroup" then
-				totalBoosts = totalBoosts + v:Apply(cloned,stat,statType,level,1,false,nil,minBoosts)
+				totalBoosts = totalBoosts + v:Apply(item.MyGuid,stat,statType,level,1,false,nil,minBoosts)
 			end
 		end
 	end
 
 	if totalBoosts > 0 then
-		AddRandomNegativeBoosts(cloned, stat, statType, level, math.max(2,math.ceil(totalBoosts/2)))
+		AddRandomNegativeBoosts(item.MyGuid, stat, statType, level, math.max(2,math.ceil(totalBoosts/2)))
 	end
 end
 
@@ -392,51 +384,36 @@ local function GetClone(uuid,stat,statType,forceRarity)
 		local damageTypeString = Ext.StatGetAttribute(stat, "Damage Type")
 		if damageTypeString == nil then damageTypeString = "Physical" end
 		local damageTypeEnum = LeaderLib.Data.DamageTypeEnums[damageTypeString]
-		NRD_ItemCloneSetInt("DamageTypeOverwrite", damageTypeEnum)
+		props.DamageTypeOverwrite = damageTypeEnum
 	end
 
-	NRD_ItemCloneSetString("GenerationStatsId", stat)
-	NRD_ItemCloneSetString("StatsEntryName", stat)
-	--NRD_ItemCloneSetInt("HasGeneratedStats", 1)
-	--NRD_ItemCloneSetInt("GenerationLevel", level)
-	--NRD_ItemCloneSetInt("StatsLevel", level)
-	--NRD_ItemCloneSetInt("IsIdentified", 1)
-	--NRD_ItemCloneSetInt("GMFolding", 0)
+	props.GenerationStatsId = stat
+	props.StatsEntryName = stat
+	props.IsIdentified = true
 
-	-- if forceRarity == "Random" then
-	-- 	rarity = Common.GetRandomTableEntry(AllRarities)
-	-- 	NRD_ItemCloneSetString("ItemType", rarity)
-	-- 	NRD_ItemCloneSetString("GenerationItemType", rarity)
-	-- elseif forceRarity ~= nil then
-	-- 	rarity = forceRarity
-	-- 	NRD_ItemCloneSetString("ItemType", rarity)
-	-- 	NRD_ItemCloneSetString("GenerationItemType", rarity)
-	-- end
-
-	-- if rarity == nil or (rarityValue[rarity] < rarityValue["Epic"] and Ext.Random(0,100) <= 25) then
-	-- 	print(string.format("[EUO:GetClone] Upgrading item rarity from %s to Epic for %s", rarity, item))
-	-- 	rarity = "Epic"
-	-- 	NRD_ItemCloneSetString("ItemType", rarity)
-	-- 	NRD_ItemCloneSetString("GenerationItemType", rarity)
-	-- end
-
-	local value = ItemGetGoldValue(item)
+	local value = ItemGetGoldValue(uuid)
 	if value > 0 then
 		value = math.floor(math.max(1, value * 0.40))
-		NRD_ItemCloneSetInt("GoldValueOverwrite", value)
+		props.GoldValueOverwrite = value
 	end
 	
-	SetRandomShadowName(item, statType)
-
-	local cloned = constructor:Construct()
-	SetTag(cloned.MyGuid, "LLENEMY_ShadowItem")
-
-	local status,err = xpcall(AddRandomBoostsToItem, debug.traceback, item, stat, statType, cloned.Stats.Level, cloned.MyGuid)
-	if not status then
-		print("[EnemyUpgradeOverhaul] Error calling AddRandomBoostsToItem:\n", err)
+	local nextName = SetRandomShadowName(item, statType)
+	if nextName ~= nil then
+		props.CustomDisplayName = nextName
 	end
 
-	return cloned
+	local cloned = constructor:Construct()
+	if cloned ~= nil then
+		SetTag(cloned.MyGuid, "LLENEMY_ShadowItem")
+		local status,err = xpcall(AddRandomBoostsToItem, debug.traceback, cloned, stat, statType, item.Stats.Level)
+		if not status then
+			print("[EnemyUpgradeOverhaul] Error calling AddRandomBoostsToItem:\n", err)
+		end
+		return cloned.MyGuid
+	else
+		print("Error constructing item?", item.MyGuid)
+	end
+	return nil
 end
 
 local ignoredSlots = {
@@ -466,27 +443,28 @@ local function TryShadowCorruptItem(uuid, container, forceRarity)
 				if item.Slot > 13 then
 					if ItemCorruption.Boosts[statType] ~= nil then
 						local cloned = GetClone(uuid, stat, statType, forceRarity)
-						NRD_ItemSetIdentified(cloned,1)
-
-						if container == nil and ItemIsInInventory(uuid) then
-							container = GetInventoryOwner(uuid)
-							if container == nil then
-								container = NRD_ItemGetParent(uuid)
+						if cloned ~= nil then
+							if container == nil and ItemIsInInventory(uuid) then
+								container = GetInventoryOwner(uuid)
+								if container == nil then
+									container = NRD_ItemGetParent(uuid)
+								end
 							end
-						end
-						if container ~= nil then
-							ItemToInventory(cloned, container, 1, 0, 0)
+							if container ~= nil then
+								ItemToInventory(cloned, container, 1, 0, 0)
+							else
+								local x,y,z = GetPosition(uuid)
+								if x == nil or y == nil or z == nil then
+									x,y,z = GetPosition(CharacterGetHostCharacter())
+								end
+								TeleportToPosition(cloned, x,y,z, "", 0, 1)
+							end
+							ItemRemove(uuid)
+							LeaderLib.PrintDebug("[LLENEMY_ItemMechanics.lua:LLENEMY_ShadowCorruptItem] Successfully corrupted ("..tostring(cloned)..")")
+							return cloned
 						else
-							local x,y,z = GetPosition(uuid)
-							if x == nil or y == nil or z == nil then
-								x,y,z = GetPosition(CharacterGetHostCharacter())
-							end
-							TeleportToPosition(cloned, x,y,z, "", 0, 1)
+							return nil
 						end
-						ItemRemove(uuid)
-						LeaderLib.PrintDebug("[LLENEMY_ItemMechanics.lua:LLENEMY_ShadowCorruptItem] Successfully corrupted ("..tostring(cloned)..")")
-						return cloned
-						--NRD_ItemSetIdentified(cloned, 1)
 					else
 						LeaderLib.PrintDebug("[LLENEMY_ItemMechanics.lua:LLENEMY_ShadowCorruptItem] No boosts table for type ("..tostring(statType)..")")
 					end
