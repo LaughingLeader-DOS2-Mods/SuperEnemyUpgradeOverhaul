@@ -6,7 +6,7 @@ local ShadowItemFallbackDescription = "A <i>strange</i> item retrieved from a <f
 local ShadowItemDescription = TranslatedString:Create("h179efab0g7e6cg441ag8083gb11964394dc4", ShadowItemFallbackDescription)
 local ShadowItemNameColor = TranslatedString:Create("h0301fb1cg95a6g47e5gade7g8ccfc0ffef2f", "<font color='[1]'>[2]</font>")
 local ShadowItemNameAffix = TranslatedString:Create("h1d44d1a4g804bg43fbg80dfgd3e3d07a897d", "<font color='#A020F0'>[1] of Shadows</font>")
-local ShadowItemRarity = TranslatedString:Create("habff2fe9g031cg4c7cg85feg28a1fa25fb14", "<font color='[1]'>Shadow Treasure</font>")
+local ShadowItemRarity = TranslatedString:Create("habff2fe9g031cg4c7cg85feg28a1fa25fb14", "<font color='[1]'>Void</font>")
 local ShadowItemRarityDescription = TranslatedString:Create("h6d3ad5e8g6bf2g4c8dgb1b8gef0e3ead4982", "<font color='#33FF88' size='20'>Appraisers say this item used to be [1].</font>")
 
 local rarityColor = {
@@ -89,6 +89,9 @@ local function OnItemTooltip(item, tooltip)
 			end
 			local rarityName = string.format("<font color='%s'>%s</font>", originalRarityColor[rarity], rarityName[rarity].Value)
 			element.Label = element.Label .. "<br>" .. ShadowItemRarityDescription:ReplacePlaceholders(rarityName)
+			if tooltip.ControllerEnabled == true then
+				element.Label = element.Label:gsub("size='%d+'", "")
+			end
 			if element.New == true then
 				element.New = nil
 				tooltip:AppendElement(element)
@@ -110,9 +113,9 @@ local upgradeInfoHelpers = Ext.Require("Client/UpgradeInfoTooltip.lua")
 local function OnUpgradeInfoTooltip(character, status, tooltip)
 	local element = tooltip:GetElement("StatusDescription")
 	if element ~= nil then
-		local upgradeInfoText = upgradeInfoHelpers.GetUpgradeInfoText(character)
+		local upgradeInfoText = upgradeInfoHelpers.GetUpgradeInfoText(character, tooltip.ControllerEnabled)
 		if not character:HasTag("LLENEMY_RewardsDisabled") then
-			local challengePointsText = upgradeInfoHelpers.GetChallengePointsText(character)
+			local challengePointsText = upgradeInfoHelpers.GetChallengePointsText(character, tooltip.ControllerEnabled)
 			element.Label = string.format("%s<br>%s<br>%s", element.Label, upgradeInfoText, challengePointsText)
 		else
 			element.Label = string.format("%s<br>%s", element.Label, upgradeInfoText)

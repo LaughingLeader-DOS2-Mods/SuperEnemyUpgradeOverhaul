@@ -102,6 +102,9 @@ local function GetUpgradeInfoText(character, isControllerMode)
 				i = i + 1
 			end
 		end
+		if isControllerMode == true then
+			output = output:gsub("size='%d+'", "")
+		end
 		return output
 	end
 	return ""
@@ -128,6 +131,9 @@ local function GetChallengePointsText(character, isControllerMode)
 				else
 					output = output .. HiddenShadowDropText.Value
 				end
+			end
+			if isControllerMode == true then
+				output = output:gsub("size='%d+'", "")
 			end
 			isTagged = true
 		end
