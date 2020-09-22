@@ -167,7 +167,7 @@
 	<content contentuid="h64497dc1gb13dg4e22gba1ag630a0ca66154">Disable Summoner Upgrades - These grant enemies the power to summon creatures. (Currently Enabled)</content>
 	<content contentuid="h645270dag6b15g47a8gad4bgfcc34034a77e">Cascader</content>
 	<content contentuid="h6493380bgf46eg46fdga0f8g399ed299b249">[DEBUG] Disable Enemy Level Limit - &lt;b&gt;WARNING&lt;/b&gt; - Enemy levels above 35 may crash the game. Uncap at your own risk! (Level Limit Currently &lt;font color=&apos;#8AFF49&apos;&gt;Enabled&lt;/font&gt;)</content>
-	<content contentuid="h662390f7gfd9eg4a56g95e5g658283cc548a">&lt;font color=&apos;#9B30FF&apos; size=&apos;16&apos;&gt;Drops Void treasure (&lt;textformat leftmargin=&apos;1&apos; rightmargin=&apos;1&apos;&gt;[1]&lt;/textformat&gt;) on death.&lt;/font&gt;</content>
+	<content contentuid="h662390f7gfd9eg4a56g95e5g658283cc548a">&lt;font color=&apos;#9B30FF&apos; size=&apos;16&apos;&gt;Drops Corrupted Treasure (&lt;textformat leftmargin=&apos;1&apos; rightmargin=&apos;1&apos;&gt;[1]&lt;/textformat&gt;) on death.&lt;/font&gt;</content>
 	<content contentuid="h66ec71efgc7eeg47f2g920bgcbe909afcee4">Blood Infusion</content>
 	<content contentuid="h6819a20fg7aefg4b55g919bg3dbe4b22cb81">Source-Hungry Voidwoken Statue</content>
 	<content contentuid="h68b2574cgb7d7g46d8g9c8bge4edff270a17">Damage taken increases &lt;font color=&apos;#FF3333&apos; size=&apos;20&apos;&gt;Rage&lt;/font&gt;.&lt;br&gt;At max &lt;font color=&apos;#FF3333&apos; size=&apos;20&apos;&gt;Rage&lt;/font&gt;, character gains &lt;font color=&apos;#43FF22&apos;&gt;+100% critical chance&lt;/font&gt; and &lt;font color=&apos;#DDCC22&apos;&gt;immunity to disabling statuses&lt;/font&gt;.&lt;/font&gt;&lt;br&gt;&lt;font color=&apos;#FF00CC&apos;&gt;Sleeping reduces Rage.&lt;/font&gt;</content>
@@ -281,7 +281,7 @@
 	<content contentuid="ha9dfee58ge73fg47e4gb9f7g1ff2ced6635e">Vitality Boost</content>
 	<content contentuid="ha9e5c55dg7d32g47deg8168g8a7aa027e8e8">Talent: Natural Conductor</content>
 	<content contentuid="hab9efc47g4dc2g4c0cg956fgfc8cd29c7d42">[GLOBAL] Disable Hard Mode Extra Upgrade Rolling (Default - Enable) (Currently Enabled)</content>
-	<content contentuid="habff2fe9g031cg4c7cg85feg28a1fa25fb14">&lt;font color=&apos;[1]&apos;&gt;Void&lt;/font&gt;</content>
+	<content contentuid="habff2fe9g031cg4c7cg85feg28a1fa25fb14">&lt;font color=&apos;[1]&apos;&gt;Corrupted&lt;/font&gt;</content>
 	<content contentuid="hac3946feg2bc8g4337gbcb7ge3980e905f1b">Talent: Backstabber</content>
 	<content contentuid="had606e03g6713g4064g84c0gf28395d81019">Elite Infernoblazer</content>
 	<content contentuid="hae2a4999g9dd6g464bgacc8gf2899d818c05">Chicken Firestarter</content>
