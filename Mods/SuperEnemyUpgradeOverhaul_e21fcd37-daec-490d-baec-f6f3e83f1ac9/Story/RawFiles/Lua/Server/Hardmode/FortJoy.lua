@@ -9,7 +9,9 @@ local ENEMY = {
 
 function HM_FTJ_Enabled()
 	SetOnStage(ENEMY.SuperFleshGolem, 1)
-	if CharacterIsInCombat(ENEMY.SuperFleshGolem) == 0 and CharacterIsDead(ENEMY.SuperFleshGolem) == 0 then
+	if CharacterIsInCombat(ENEMY.SuperFleshGolem) == 0 and CharacterIsDead(ENEMY.SuperFleshGolem) == 0 and HasActiveStatus(ENEMY.SuperFleshGolem, "SLEEPING") == 0 then
+		CharacterAddAttitudeTowardsPlayer(ENEMY.SuperFleshGolem, NPC.Kniles, 100)
+		CharacterAddAttitudeTowardsPlayer(NPC.Kniles, ENEMY.SuperFleshGolem, 100)
 		ApplyStatus(ENEMY.SuperFleshGolem, "SLEEPING", -1.0, 1, ENEMY.SuperFleshGolem)
 	end
 end
