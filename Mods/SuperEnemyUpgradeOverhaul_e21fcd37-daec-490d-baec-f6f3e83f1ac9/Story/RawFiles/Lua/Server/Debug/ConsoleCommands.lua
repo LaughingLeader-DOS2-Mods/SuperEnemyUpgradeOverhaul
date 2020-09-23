@@ -210,7 +210,7 @@ local function GetLength(v)
 end
 
 local function ResetCharacter(uuid)
-	print("Resetting",uuid)
+	RemoveStatus(uuid, "LLENEMY_UPGRADE_INFO")
 	--RemoveHarmfulStatuses(uuid)
 	for i,v in pairs(Ext.GetCharacter(uuid):GetStatuses()) do
 		RemoveStatus(uuid, v)
@@ -231,6 +231,10 @@ end
 local function ResetData()
 	for i,db in pairs(Osi.DB_CombatCharacters:Get(nil, nil)) do
 		ResetCharacter(db[1])
+	end
+	local region = Ext.GetCharacter(CharacterGetHostCharacter()).CurrentLevel
+	for i,uuid in pairs(Ext.GetAllCharacters(region)) do
+		RemoveStatus(uuid, "LLENEMY_UPGRADE_INFO")
 	end
 	--for region,characters in pairs(PersistentVars.Upgrades.Results) do
 		--for uuid,data in pairs(characters) do

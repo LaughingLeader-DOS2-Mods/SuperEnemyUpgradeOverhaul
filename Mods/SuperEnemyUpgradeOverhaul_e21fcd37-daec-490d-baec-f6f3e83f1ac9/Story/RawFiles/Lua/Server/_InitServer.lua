@@ -24,11 +24,7 @@ if Ext.IsDeveloperMode() then
 	Ext.Require("Server/Debug/ConsoleCommands.lua")
 end
 
-PersistentVars = {
-	NewCorruptionStats = {},
-	TotalDuplicants = {},
-}
-
+PersistentVars = {}
 if PersistentVars.Upgrades == nil then
 	PersistentVars.Upgrades = {}
 end
@@ -37,6 +33,19 @@ if PersistentVars.Upgrades.DropCounts == nil then
 end
 if PersistentVars.Upgrades.Results == nil then
 	PersistentVars.Upgrades.Results = {}
+end
+
+function SyncVars(id)
+	local vars = {
+		PersistentVars = PersistentVars,
+		HardmodeEnabled = Settings.Global.Flags.LLENEMY_HardmodeEnabled.Enabled,
+		HighestLoremaster = HighestLoremaster
+	}
+	if id == nil then
+		Ext.BroadcastMessage("LLENEMY_SyncVars", Ext.JsonStringify(vars), nil)
+	else
+		Ext.PostMessageToUser(id, "LLENEMY_SyncVars", Ext.JsonStringify(vars))
+	end
 end
 
 local function LLENEMY_Server_ModuleLoading()

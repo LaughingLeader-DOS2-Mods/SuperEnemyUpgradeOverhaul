@@ -13,7 +13,8 @@ local FormatColor = {
 	DarkGray = "#454545",
 	Gray = "#A8A8A8",
 	LightGray = "#DBDBDB",
-	Red = "#C80030",
+	--Red = "#C80030",
+	Red = "#FF0030",
 	Blue = "#188EDE",
 	DarkBlue = "#004672",
 	LightBlue = "#CFECFF",
@@ -47,6 +48,27 @@ local FormatColor = {
 	Charm = "#FFB8B8",
 }
 
+local function GetCharacterData(region, uuid)
+	local regionData = ServerVars.PersistentVars.Upgrades.Results[region]
+	if regionData ~= nil then
+		return regionData[uuid]
+	end
+	return nil
+end
+
+local function HasUpgrade(character, id, upgradeData)
+	if character:GetStatus(id) ~= nil then
+		return true
+	elseif upgradeData ~= nil then
+		for i,v in pairs(upgradeData) do
+			if v.ID == id and (v.HardmodeOnly ~= true or ServerVars.HardmodeEnabled == true) then
+				return true
+			end
+		end
+	end
+	return false
+end
+
 ---@param character EsvCharacter
 local function GetUpgradeInfoText(character, isControllerMode)
 	if Ext.IsDeveloperMode() then
@@ -63,11 +85,27 @@ local function GetUpgradeInfoText(character, isControllerMode)
 		end)
 	end
 	local upgradeKeys = {}
-	for status,loreMin in pairs(UpgradeData.Statuses) do
-		if character:GetStatus(status) ~= nil then
-			table.insert(upgradeKeys, status)
+	local hardmodeStatuses = {}
+	local savedUpgradeData = GetCharacterData(character.CurrentLevel, character.MyGuid)
+	print(savedUpgradeData)
+	if savedUpgradeData ~= nil then
+		print(Ext.JsonStringify(savedUpgradeData))
+		for i,v in pairs(savedUpgradeData) do
+			if (v.HardmodeOnly ~= true or ServerVars.HardmodeEnabled == true) then
+				table.insert(upgradeKeys, v.ID)
+				if v.HardmodeOnly == true then
+					hardmodeStatuses[v.ID] = true
+				end
+			end
+		end
+	else
+		for status,loreMin in pairs(UpgradeData.Statuses) do
+			if HasUpgrade(character, status, savedUpgradeData) then
+				table.insert(upgradeKeys, status)
+			end
 		end
 	end
+
 	local count = #upgradeKeys
 	if count > 0 then
 		table.sort(upgradeKeys, sortupgrades)
@@ -77,7 +115,7 @@ local function GetUpgradeInfoText(character, isControllerMode)
 		end
 		local i = 0
 		for _,status in pairs(upgradeKeys) do
-			local loreMin = UpgradeData.Statuses[status]
+			local loreMin = UpgradeData.Statuses[status] or 0
 			local nameText = Ext.GetTranslatedStringFromKey(Ext.StatGetAttribute(status, "DisplayName")) or ""
 			if nameText == "" then
 				local potion = Ext.StatGetAttribute(status, "StatsId") or ""
@@ -96,6 +134,9 @@ local function GetUpgradeInfoText(character, isControllerMode)
 					text = "<img src='Icon_BulletPoint'>"..text
 				end
 				output = output..text
+				if hardmodeStatuses[status] == true then
+					output = output .. " <font color='#834DFF' size='18'>*H*</font>"
+				end
 				if i < count - 1 then
 					output = output.."<br>"
 				end

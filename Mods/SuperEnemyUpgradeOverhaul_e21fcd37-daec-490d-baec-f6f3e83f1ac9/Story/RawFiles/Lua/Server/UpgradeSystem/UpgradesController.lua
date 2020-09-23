@@ -1,3 +1,5 @@
+local printd = LeaderLib.PrintDebug
+
 UpgradeSystem = {}
 
 ---@param group UpgradeGroup
@@ -69,7 +71,7 @@ end)
 -- 		UpgradeSystem.LoadDropCounts()
 -- 	end, debug.traceback)
 -- 	if not b then
--- 		print(err)
+-- 		printd(err)
 -- 	end
 -- end)
 
@@ -234,8 +236,8 @@ function UpgradeSystem.SetRanges(tbl)
 				--entry.EndRange = rangeStart + math.ceil((entry.Frequency/totalFrequency) * maxRoll)
 				rangeStart = entry.EndRange+1
 				-- if entry.EndRange > Vars.UPGRADE_MAX_ROLL then
-				-- 	print(string.format("[%s] Start(%s)/End(%s)/(%s) Frequency(%s) totalFrequency(%s)", entry.ID, entry.StartRange, entry.EndRange, maxRoll, entry.Frequency, totalFrequency))
-				-- 	print((entry.Frequency/totalFrequency))
+				-- 	printd(string.format("[%s] Start(%s)/End(%s)/(%s) Frequency(%s) totalFrequency(%s)", entry.ID, entry.StartRange, entry.EndRange, maxRoll, entry.Frequency, totalFrequency))
+				-- 	printd((entry.Frequency/totalFrequency))
 				-- end
 			else
 				entry.StartRange = -1
@@ -243,7 +245,7 @@ function UpgradeSystem.SetRanges(tbl)
 			end
 		end
 	end
-	--print(Ext.JsonStringify(tbl))
+	--printd(Ext.JsonStringify(tbl))
 	return tbl
 end
 
@@ -364,7 +366,7 @@ function UpgradeSystem.RollForUpgrades(uuid, region, applyImmediately, skipIgnor
 
 		if successes > 0 then
 			if applyImmediately then
-				UpgradeInfo_ApplyInfoStatus(character.MyGuid)
+				UpgradeInfo_ApplyInfoStatus(character.MyGuid, true)
 			end
 			UpgradeSystem.SaveChallengePoints(uuid)
 			ObjectSetFlag(uuid, "LLSENEMY_HasUpgrades", 0)
@@ -398,16 +400,18 @@ function UpgradeSystem.RollRegion(region, force)
 			end
 		end
 	end
-	local printUpgrades = {}
-	for c,d in pairs(PersistentVars.Upgrades.Results[region]) do
-		for i,v in pairs(d) do
-			if printUpgrades[v.ID] == nil then
-				printUpgrades[v.ID] = 0
+	SyncVars()
+	if Ext.IsDeveloperMode() then
+		local printUpgrades = {}
+		for c,d in pairs(PersistentVars.Upgrades.Results[region]) do
+			for i,v in pairs(d) do
+				if printUpgrades[v.ID] == nil then
+					printUpgrades[v.ID] = 0
+				end
+				printUpgrades[v.ID] = printUpgrades[v.ID] + 1
 			end
-			printUpgrades[v.ID] = printUpgrades[v.ID] + 1
 		end
 	end
-	print(Ext.JsonStringify(printUpgrades))
 end
 
 Ext.RegisterOsirisListener("GameStarted", 2, "after", function(region, isEditorMode)
@@ -421,7 +425,7 @@ Ext.RegisterOsirisListener("ObjectEnteredCombat", 2, "after", function(object, i
 		local character = Ext.GetCharacter(object)
 		if ObjectGetFlag(character.MyGuid, "LLSENEMY_HasUpgrades") == 1 then
 			UpgradeSystem.ApplySavedUpgrades(character.MyGuid)
-			UpgradeInfo_ApplyInfoStatus(character.MyGuid)
+			UpgradeInfo_ApplyInfoStatus(character.MyGuid, true)
 		elseif Osi.LLSENEMY_QRY_IsEnemyOfParty(object) == true then
 			UpgradeSystem.RollForUpgrades(character.MyGuid, character.CurrentLevel, true)
 		end

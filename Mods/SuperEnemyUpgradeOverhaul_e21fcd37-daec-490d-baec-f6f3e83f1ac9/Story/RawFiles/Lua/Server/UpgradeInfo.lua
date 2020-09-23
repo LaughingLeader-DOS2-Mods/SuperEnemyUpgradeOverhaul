@@ -4,7 +4,6 @@ function SetChallengePointsTag(uuid)
 	for k,tbl in pairs(ChallengePointsText) do
 		if cp >= tbl.Min and cp <= tbl.Max then
 			SetTag(uuid, tbl.Tag)
-			UpgradeInfo_ApplyInfoStatus(uuid,true)
 		else
 			ClearTag(uuid, tbl.Tag)
 		end
@@ -40,10 +39,9 @@ local function HasUpgrades(uuid)
 end
 
 function UpgradeInfo_ApplyInfoStatus(uuid,force)
-	local hasUpgrades = HasUpgrades(uuid)
-	if hasUpgrades or force == true then
+	if force == true or HasUpgrades(uuid) then
 		ApplyStatus(uuid, "LLENEMY_UPGRADE_INFO", -1.0, 1, uuid)
-	elseif hasUpgrades == false then
+	else
 		RemoveStatus(uuid, "LLENEMY_UPGRADE_INFO")
 	end
 end
@@ -86,6 +84,7 @@ function SetHighestPartyLoremaster()
 	if Ext.GetGameState() == "Running" then
 		Ext.BroadcastMessage("LLENEMY_SetHighestLoremaster", tostring(HighestLoremaster), nil)
 		LeaderLib.PrintDebug("[EUO:SetHighestPartyLoremaster] Synced highest party loremaster.",HighestLoremaster)
+		SyncVars()
 	else
 		TimerCancel("Timers_LLENEMY_SyncHighestLoremaster")
 		TimerLaunch("Timers_LLENEMY_SyncHighestLoremaster", 500)
@@ -143,6 +142,7 @@ Ext.RegisterOsirisListener("UserConnected", 3, "after", function(id, username, p
 	HighestLoremaster = GetHighestPartyLoremaster()
 	if Ext.GetGameState() == "Running" and GetCurrentCharacter(id) ~= nil then
 		Ext.PostMessageToUser(id, "LLENEMY_SetHighestLoremaster", tostring(HighestLoremaster))
+		SyncVars(id)
 	else
 		TimerCancel("Timers_LLENEMY_SyncHighestLoremaster")
 		TimerLaunch("Timers_LLENEMY_SyncHighestLoremaster", 500)

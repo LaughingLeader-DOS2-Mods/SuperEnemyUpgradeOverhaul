@@ -97,6 +97,25 @@ local stat_overrides = {
 		["Damage Type"] = "None"
 	},
 }
+local FormatColorOverrides = {
+	Fire = {
+		"FIRE_BRAND",
+		"FIRE_BRAND_AURA",
+		"FLAMING_TONGUES",
+		"CLEAR_MINDED",
+	},
+	Healing = {
+		"VAMPIRISM",
+		"VAMPIRISM_AURA",
+		"HEALING_TEARS",
+	},
+	Summoner = {
+		"DEMONIC_TUTELAGE",
+	},
+	Ranger = {
+		"REACTION_SHOT"
+	}
+}
 
 -- v40 and up introduced a way to add talents to NPCs
 local talent_belt_overrides = {
@@ -199,6 +218,12 @@ local function OverrideStats()
 		total_stats = total_stats + 1
 	end
 	--LeaderLib.PrintDebug("==============================================================")
+
+	for color,tbl in pairs(FormatColorOverrides) do
+		for _,stat in pairs(tbl) do
+			Ext.StatSetAttribute(stat, "FormatColor", color)
+		end
+	end
 
 	-- Gravedigger_be822931-e829-4555-b50f-3b80b6f17d86
 	if Ext.IsModLoaded("be822931-e829-4555-b50f-3b80b6f17d86") then
