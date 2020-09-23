@@ -23,7 +23,7 @@ local function TreasureGoblins_MoveItemsToSack(uuid,x,y,z,lootSack)
 			if lootSack ~= nil then
 				for i,v in pairs(tbl) do
 					if ItemIsInInventory(v) ~= 1 then
-						Osi.DB_LLSENEMY_TreasureGoblins_Temp_AddToSack(lootSack, v)
+						Osi.LLSENEMY_TreasureGoblins_AddToSack(lootSack, v)
 						ItemMoveToPosition(v, x, y, z, 1.0, 8.0, "LLENEMY_TreasureGoblins_AddItemToSack", 0)
 						PlayBeamEffect(lootSack, v, "RS3_FX_GP_Beams_Telekinesis_01", "", "")
 					else

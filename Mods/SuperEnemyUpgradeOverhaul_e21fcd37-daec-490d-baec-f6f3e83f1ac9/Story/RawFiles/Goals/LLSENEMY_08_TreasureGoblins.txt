@@ -242,6 +242,11 @@ LeaderLib_ToggleScripts_DisableScript("LLENEMY_TreasureGoblin_Active", "SuperEne
 //END_REGION
 
 //REGION ITEM_MOVING_TO_BAG
+PROC
+LLSENEMY_TreasureGoblins_AddToSack((ITEMGUID)_Bag, (ITEMGUID)_Item)
+THEN
+DB_LLSENEMY_TreasureGoblins_Temp_AddToSack(_Bag, _Item);
+
 IF
 StoryEvent((ITEMGUID)_Item, "LLENEMY_TreasureGoblins_AddItemToSack")
 AND
