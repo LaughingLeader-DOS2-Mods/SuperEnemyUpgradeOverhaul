@@ -93,6 +93,10 @@ LeaderLib.RegisterListener("ModSettingsLoaded", function(globalSettings)
 					Settings.Global.Flags[flagName].Enabled = v.Enabled
 				end
 			end
+			-- Remove old EUO settings
+			if not Ext.IsModLoaded("046aafd8-ba66-4b37-adfb-519c1a5d04d7") then
+				LeaderLib.SettingsManager.Remove("046aafd8-ba66-4b37-adfb-519c1a5d04d7")
+			end
 		end
 		Settings:ApplyFlags()
 		Settings:ApplyVariables()
