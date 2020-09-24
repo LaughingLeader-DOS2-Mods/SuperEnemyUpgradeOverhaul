@@ -44,7 +44,7 @@ settings.Global:AddVariable("Elites_DamageBoostPerRank", 1)
 ---@param name string
 ---@param data VariableData
 settings.UpdateVariable = function(self, name, data)
-	if name == "LLENEMY_Scaling_LevelModifier" then
+	if name == "AutoLeveling_Modifier" then
 		local entry = Osi.DB_LLSENEMY_LevelModifier:Get(nil)
 		if entry ~= nil then
 			data.Value = entry[1][1]
