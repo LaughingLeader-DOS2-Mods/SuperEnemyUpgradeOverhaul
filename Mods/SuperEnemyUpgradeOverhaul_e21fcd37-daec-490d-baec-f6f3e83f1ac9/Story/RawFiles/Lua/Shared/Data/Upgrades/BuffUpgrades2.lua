@@ -24,7 +24,7 @@ local function CanApplyUpgrade(target, entry)
 end
 
 local upgrades = g:Create("BonusBuffs", {
-	DisabledFlag = "LLENEMY_BuffUpgradesDisabled",
+	DisabledFlag = "LLENEMY_BonusBuffUpgradesDisabled",
 	CanApply = CanApplySubgroup,
 	SubGroups = {
 		sg:Create("None", 4),

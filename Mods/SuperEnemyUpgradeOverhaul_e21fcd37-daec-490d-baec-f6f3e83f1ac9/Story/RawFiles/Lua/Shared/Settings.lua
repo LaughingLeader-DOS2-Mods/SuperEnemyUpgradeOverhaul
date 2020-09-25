@@ -63,23 +63,27 @@ settings.GetMenuOrder = function()
 	}
 end
 
-settings.Global:AddFlag("LLENEMY_EnemyLevelingEnabled")
-settings.Global:AddFlag("LLENEMY_HardmodeEnabled")
-settings.Global:AddFlag("LLENEMY_HardmodeRollingDisabled")
-settings.Global:AddFlag("LLENEMY_RewardsDisabled")
-settings.Global:AddFlag("LLENEMY_VoidwokenSourceSpawningEnabled")
-settings.Global:AddFlag("LLENEMY_AuraUpgradesDisabled")
-settings.Global:AddFlag("LLENEMY_BonusBuffUpgradesDisabled")
-settings.Global:AddFlag("LLENEMY_BonusSkillsUpgradesDisabled")
-settings.Global:AddFlag("LLENEMY_BuffUpgradesDisabled")
-settings.Global:AddFlag("LLENEMY_ClassUpgradesUpgradesDisabled")
-settings.Global:AddFlag("LLENEMY_DuplicationUpgradesDisabled", "Global", true)
-settings.Global:AddFlag("LLENEMY_ImmunityUpgradesDisabled")
-settings.Global:AddFlag("LLENEMY_TalentUpgradesDisabled")
-settings.Global:AddFlag("LLENEMY_SummoningUpgradesDisabled")
-settings.Global:AddFlag("LLENEMY_SourceBonusSkillsDisabled")
-settings.Global:AddFlag("LLENEMY_PureRNGMode")
-settings.Global:AddFlag("LLENEMY_Debug_LevelCapDisabled")
+settings.Global:AddLocalizedFlags({
+	"LLENEMY_EnemyLevelingEnabled",
+	"LLENEMY_HardmodeEnabled",
+	"LLENEMY_HardmodeRollingDisabled",
+	"LLENEMY_RewardsDisabled",
+	"LLENEMY_VoidwokenSourceSpawningEnabled",
+	"LLENEMY_AuraUpgradesDisabled",
+	"LLENEMY_BonusBuffUpgradesDisabled",
+	"LLENEMY_PolymorphSkillUpgradesDisabled",
+	"LLENEMY_BonusSkillsUpgradesDisabled",
+	"LLENEMY_BuffUpgradesDisabled",
+	"LLENEMY_ClassUpgradesUpgradesDisabled",
+	"LLENEMY_ImmunityUpgradesDisabled",
+	"LLENEMY_TalentUpgradesDisabled",
+	"LLENEMY_SummoningUpgradesDisabled",
+	"LLENEMY_SourceBonusSkillsDisabled",
+	"LLENEMY_PureRNGMode",
+	"LLENEMY_Debug_LevelCapDisabled",
+})
+settings.Global:AddLocalizedFlag("LLENEMY_DuplicationUpgradesDisabled", "Global", true)
+
 --settings.Global:AddFlag("MigrateSettings", "Global", true)
 settings.Global:AddLocalizedVariable("AutoLeveling_Modifier", "LLENEMY_Variable_AutoLeveling_Modifier", 0, Ext.ExtraData.SoftLevelCap, 1)
 settings.Global:AddLocalizedVariable("Hardmode_MinBonusRolls", "LLENEMY_Variable_Hardmode_MinBonusRolls", 1, 0, 99)
