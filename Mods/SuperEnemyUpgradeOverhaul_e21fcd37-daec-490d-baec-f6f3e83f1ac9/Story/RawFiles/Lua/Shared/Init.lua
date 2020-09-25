@@ -64,7 +64,8 @@ local statOverrides = Ext.Require("Shared/StatOverrides.lua")
 Ext.Require("Shared/VoiceData.lua")
 Ext.Require("Shared/SharedUpgradeInfo.lua")
 ---@type ModSettings
-Settings = Ext.Require("Shared/Settings.lua")
+Settings = nil
+local initSettings = Ext.Require("Shared/Settings.lua")
 
 local function FixModTypos()
 	-- Greed typos
@@ -102,6 +103,11 @@ local function LLENEMY_Shared_SessionLoading()
 
 	boostsScript.Init()
 	modBoosts.Init()
+
+	Settings = initSettings()
+	LeaderLib.SettingsManager.AddSettings(Settings)
+
+	print(Settings.Global.Flags.LLENEMY_EnemyLevelingEnabled.DisplayName.Value)
 end
 Ext.RegisterListener("SessionLoading", LLENEMY_Shared_SessionLoading)
 
