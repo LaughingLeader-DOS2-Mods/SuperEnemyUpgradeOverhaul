@@ -20,7 +20,7 @@ LLENEMY_DuplicationUpgradesDisabled_Description	Disable enemy duplication. Depen
 LLENEMY_EnemyLevelingEnabled	Enable Level Scaling	ha3f84340g5d90g493cg82a3g694fc62b4228
 LLENEMY_EnemyLevelingEnabled_Description	Enable level scaling. Enemies and NPCs will be leveled up to the set modifier (+1 level higher than the party etc.).	hc7fa1576g2273g4ae1gac32gcc8983de3eb0
 LLENEMY_HardmodeEnabled	Enable Hardmode	hbc479dedg4841g4a76g9647g253280972dd8
-LLENEMY_HardmodeEnabled_Description	Enable hardmode. Hardmode grants enemies bonus upgrades and enables specific challenges in various sections of the game. 	h66c91c9cg953dg4834gb6bag6eae82f73167
+LLENEMY_HardmodeEnabled_Description	Hardmode grants enemies bonus upgrades and enables specific challenges in various sections of the game. 	h66c91c9cg953dg4834gb6bag6eae82f73167
 LLENEMY_HardmodeRollingDisabled	Disable Bonus Upgrades	h6e247ec1gcc9ag4134g90d4gc1d6c5897b2c
 LLENEMY_HardmodeRollingDisabled_Description	Disable enemies getting bonus upgrades when hardmode is enabled.	h58acccd4g5c09g48a8g96c4gda7abce5973e
 LLENEMY_ImmunityUpgradesDisabled	Disable Immunities	hf27abd79gae4bg4fc1g82e6g794c46d7de42
