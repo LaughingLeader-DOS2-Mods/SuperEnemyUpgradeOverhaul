@@ -72,14 +72,14 @@ Proc_GameModeStarted("Campaign", (INTEGER)_IsEditorMode)
 AND
 GlobalGetFlag("LLENEMY_HardmodeEnabled", 1)
 THEN
-SysActivateGoal("LLENEMY_30_Origins_Hardmode");
+SysActivateGoal("LLSENEMY_30_Origins_Hardmode");
 
 PROC
 LLSENEMY_Hardmode_Enabled()
 AND
 SysStatus("DOS2ModWrapper", _Status)
 THEN
-SysActivateGoal("LLENEMY_30_Origins_Hardmode");
+SysActivateGoal("LLSENEMY_30_Origins_Hardmode");
 
 IF
 GameStarted(_,_)
@@ -92,9 +92,9 @@ TimerLaunch("Timers_LLENEMY_HardmodeToggled", 250);
 PROC
 LLSENEMY_Hardmode_Disabled()
 AND
-SysIsActive("LLENEMY_30_Origins_Hardmode")
+SysIsActive("LLSENEMY_30_Origins_Hardmode")
 THEN
-SysCompleteGoal("LLENEMY_30_Origins_Hardmode");
+SysCompleteGoal("LLSENEMY_30_Origins_Hardmode");
 
 PROC
 LLSENEMY_Hardmode_DisableScripts()

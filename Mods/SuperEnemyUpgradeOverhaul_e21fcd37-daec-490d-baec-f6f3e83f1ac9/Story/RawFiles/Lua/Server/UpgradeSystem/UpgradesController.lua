@@ -126,7 +126,7 @@ end
 ---@return SavedUpgradeData[]|table<string, SavedUpgradeData[]>
 function UpgradeSystem.GetCurrentRegionData(region, uuid, createCharacterData)
 	if region == nil then
-		region = GetRegion(uuid) or ""
+		region = GetRegion(uuid or CharacterGetHostCharacter()) or ""
 		if region == "" then
 			region = Osi.DB_CurrentLevel:Get(nil)[1][1]
 		end
@@ -423,11 +423,25 @@ end)
 Ext.RegisterOsirisListener("ObjectEnteredCombat", 2, "after", function(object, id)
 	if Osi.LLSENEMY_QRY_SkipCombat(id) ~= true and ObjectIsCharacter(object) == 1 then
 		local character = Ext.GetCharacter(object)
-		if ObjectGetFlag(character.MyGuid, "LLSENEMY_HasUpgrades") == 1 then
-			UpgradeSystem.ApplySavedUpgrades(character.MyGuid)
+		if Osi.LLSENEMY_QRY_IsEnemyOfParty(object) then
+			if ObjectGetFlag(character.MyGuid, "LLSENEMY_HasUpgrades") == 1 then
+				UpgradeSystem.ApplySavedUpgrades(character)
+				UpgradeInfo_ApplyInfoStatus(character.MyGuid, true)
+			else
+				UpgradeSystem.RollForUpgrades(character.MyGuid, character.CurrentLevel, true)
+			end
+		end
+	end
+end)
+
+Ext.RegisterOsirisListener("ProcMakeNPCHostile", 2, "after", function(char, player)
+	if CharacterIsInCombat(char) == 1 and Osi.LLSENEMY_QRY_IsEnemyOfParty(char) then
+		if ObjectGetFlag(char, "LLSENEMY_HasUpgrades") == 1 then
+			local character = Ext.GetCharacter(char)
+			UpgradeSystem.ApplySavedUpgrades(character)
 			UpgradeInfo_ApplyInfoStatus(character.MyGuid, true)
-		elseif Osi.LLSENEMY_QRY_IsEnemyOfParty(object) == true then
-			UpgradeSystem.RollForUpgrades(character.MyGuid, character.CurrentLevel, true)
+		else
+			UpgradeSystem.RollForUpgrades(GetUUID(char), GetRegion(char), true)
 		end
 	end
 end)
