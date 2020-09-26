@@ -14,8 +14,9 @@ local MenuSectionDuplication = ts:Create("h49ff6a24gb788g48f0g871cg98390ff6dcb5"
 local MenuSectionMisc = ts:Create("h256c71a6ge40dg4ed5gbaffgd20cf19ccab3", "Misc")
 
 settings.GetMenuOrder = function()
-	return {
-		[MenuSectionUpgrades.Value] = {
+	return {{
+		DisplayName = MenuSectionUpgrades.Value,
+		Entries = {
 			"LLENEMY_AuraUpgradesDisabled",
 			"LLENEMY_BonusBuffUpgradesDisabled",
 			"LLENEMY_BonusSkillsUpgradesDisabled",
@@ -25,41 +26,46 @@ settings.GetMenuOrder = function()
 			"LLENEMY_TalentUpgradesDisabled",
 			"LLENEMY_SummoningUpgradesDisabled",
 			"LLENEMY_SourceBonusSkillsDisabled",
-		},
-		[MenuSectionHardmode.Value] = {		
+		}},
+		{DisplayName = MenuSectionHardmode.Value, 
+		Entries = {		
 			"LLENEMY_HardmodeEnabled",
 			"LLENEMY_HardmodeRollingDisabled",
 			"Hardmode_MinBonusRolls",
 			"Hardmode_MaxBonusRolls",
 			"Hardmode_StatusBonusTurnsMin",
 			"Hardmode_StatusBonusTurnsMax",
-		},
-		[MenuSectionElites.Value] = {		
+		}},
+		{DisplayName = MenuSectionElites.Value,
+		Entries = {		
 			"Hardmode_EliteMultiplier",
 			"Elites_ArmorBoostPerRank",
 			"Elites_MagicArmorBoostPerRank",
 			"Elites_VitalityBoostPerRank",
 			"Elites_DamageBoostPerRank",
-		},
-		[MenuSectionLevelScaling.Value] = {
-			"LLENEMY_EnemyLevelingEnabled",
-			"LLENEMY_Debug_LevelCapDisabled",
-			"AutoLeveling_Modifier",
-		},
-		[MenuSectionDuplication.Value] = {
+		}},
+		{DisplayName = MenuSectionDuplication.Value, 
+		Entries = {
 			"LLENEMY_DuplicationUpgradesDisabled",
 			"Duplication_MinDupesPerEnemy",
 			"Duplication_MaxDupesPerEnemy",
 			"Duplication_MaxTotal",
 			"Duplication_Chance",
-		},
-		[MenuSectionMisc.Value] = {
+		}},
+		{DisplayName = MenuSectionLevelScaling.Value, 
+		Entries = {
+			"LLENEMY_EnemyLevelingEnabled",
+			"LLENEMY_Debug_LevelCapDisabled",
+			"AutoLeveling_Modifier",
+		}},
+		{DisplayName = MenuSectionMisc.Value, 
+		Entries = {
 			"LLENEMY_VoidwokenSourceSpawningEnabled",
 			"LLENEMY_RewardsDisabled",
 			"LLENEMY_PureRNGMode",
 			"BonusSkills_Min",
 			"BonusSkills_Max",
-		},
+		}},
 	}
 end
 
@@ -85,14 +91,13 @@ settings.Global:AddLocalizedFlags({
 settings.Global:AddLocalizedFlag("LLENEMY_DuplicationUpgradesDisabled", "Global", true)
 
 --settings.Global:AddFlag("MigrateSettings", "Global", true)
-settings.Global:AddLocalizedVariable("AutoLeveling_Modifier", "LLENEMY_Variable_AutoLeveling_Modifier", 0, Ext.ExtraData.SoftLevelCap, 1)
+settings.Global:AddLocalizedVariable("AutoLeveling_Modifier", "LLENEMY_Variable_AutoLeveling_Modifier", 0, 1, Ext.ExtraData.SoftLevelCap)
 settings.Global:AddLocalizedVariable("Hardmode_MinBonusRolls", "LLENEMY_Variable_Hardmode_MinBonusRolls", 1, 0, 99)
 settings.Global:AddLocalizedVariable("Hardmode_MaxBonusRolls", "LLENEMY_Variable_Hardmode_MaxBonusRolls", 4, 0, 99)
 settings.Global:AddLocalizedVariable("Hardmode_StatusBonusTurnsMin", "LLENEMY_Variable_Hardmode_StatusBonusTurnsMin", 0, 0, 99)
 settings.Global:AddLocalizedVariable("Hardmode_StatusBonusTurnsMax", "LLENEMY_Variable_Hardmode_StatusBonusTurnsMax", 3, 0, 99)
 settings.Global:AddLocalizedVariable("BonusSkills_Min", "LLENEMY_Variable_BonusSkills_Min", 0, 0, 99)
 settings.Global:AddLocalizedVariable("BonusSkills_Max", "LLENEMY_Variable_BonusSkills_Max", 3, 0, 99)
-settings.Global:AddVariable("EnemySkillIgnoreList", {})
 settings.Global:AddLocalizedVariable("Duplication_MinDupesPerEnemy", "LLENEMY_Variable_Duplication_MinDupesPerEnemy", 0, 0, 10)
 settings.Global:AddLocalizedVariable("Duplication_MaxDupesPerEnemy", "LLENEMY_Variable_Duplication_MaxDupesPerEnemy", 1, 0, 10)
 settings.Global:AddLocalizedVariable("Duplication_MaxTotal", "LLENEMY_Variable_Duplication_MaxTotal", -1, -1, 99)
@@ -102,6 +107,7 @@ settings.Global:AddLocalizedVariable("Elites_ArmorBoostPerRank", "LLENEMY_Variab
 settings.Global:AddLocalizedVariable("Elites_MagicArmorBoostPerRank", "LLENEMY_Variable_Elites_MagicArmorBoostPerRank", 2.5, 0, 10, 0.1)
 settings.Global:AddLocalizedVariable("Elites_VitalityBoostPerRank", "LLENEMY_Variable_Elites_VitalityBoostPerRank", 2.5, 0, 10, 0.1)
 settings.Global:AddLocalizedVariable("Elites_DamageBoostPerRank", "LLENEMY_Variable_Elites_DamageBoostPerRank", 1, 0, 10, 0.1)
+settings.Global:AddVariable("EnemySkillIgnoreList", {})
 
 ---@param self SettingsData
 ---@param name string
