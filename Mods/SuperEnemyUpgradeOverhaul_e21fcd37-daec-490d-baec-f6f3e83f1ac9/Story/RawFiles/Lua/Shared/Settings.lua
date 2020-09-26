@@ -1,8 +1,7 @@
 local function Init()
 
 ---@type ModSettings
-local ModSettings = LeaderLib.Classes.ModSettingsClasses.ModSettings
-local settings = ModSettings:Create("e21fcd37-daec-490d-baec-f6f3e83f1ac9")
+local settings = LeaderLib.CreateModSettings("e21fcd37-daec-490d-baec-f6f3e83f1ac9")
 ---@type TranslatedString
 local ts = LeaderLib.Classes.TranslatedString
 
@@ -26,6 +25,7 @@ settings.GetMenuOrder = function()
 			"LLENEMY_TalentUpgradesDisabled",
 			"LLENEMY_SummoningUpgradesDisabled",
 			"LLENEMY_SourceBonusSkillsDisabled",
+			"LLENEMY_PolymorphSkillUpgradesDisabled",
 		}},
 		{DisplayName = MenuSectionHardmode.Value, 
 		Entries = {		
@@ -89,6 +89,9 @@ settings.Global:AddLocalizedFlags({
 	"LLENEMY_Debug_LevelCapDisabled",
 })
 settings.Global:AddLocalizedFlag("LLENEMY_DuplicationUpgradesDisabled", "Global", true)
+
+settings.Global.Flags.LLENEMY_PureRNGMode.DebugOnly = true
+settings.Global.Flags.LLENEMY_Debug_LevelCapDisabled.DebugOnly = true
 
 --settings.Global:AddFlag("MigrateSettings", "Global", true)
 settings.Global:AddLocalizedVariable("AutoLeveling_Modifier", "LLENEMY_Variable_AutoLeveling_Modifier", 0, 1, Ext.ExtraData.SoftLevelCap)
