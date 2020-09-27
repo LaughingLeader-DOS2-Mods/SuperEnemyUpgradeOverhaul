@@ -147,7 +147,7 @@ HiddenDropText = TranslatedString:Create("h623a9ed0gaaacg4c3egacdfg56f1c23a1dec"
 HiddenShadowDropText = TranslatedString:Create("h882390f1gfd9eg4a56g95e5g658283cc548a", "<font color='#9B30FF' size='16'>Drops ??? on death.</font>")
 
 ChallengePointsText = {
-	{Tag = "LLENEMY_CP_01", Min = 1, Max = 10, Text = TranslatedString:Create("h5addfbc4gcac7g4935g8effg8096574b8913", "<font color='#FFFFFF' size='12'>Regular Bonus Loot</font>")},
+	{Tag = "LLENEMY_CP_01", Min = 1, Max = 10, Text = TranslatedString:Create("h5addfbc4gcac7g4935g8effg8096574b8913", "<font color='#FFFFFF' size='12'>Regular Loot</font>")},
 	{Tag = "LLENEMY_CP_02", Min = 11, Max = 16, Text = TranslatedString:Create("h8a442345g8c3ag4161g8f45gd93745f99d3e", "<font color='#4197E2' size='14'>Great Loot</font>")},
 	{Tag = "LLENEMY_CP_03", Min = 17, Max = 31, Text = TranslatedString:Create("hf03d120ag2329g476dg94dcg7df0d27c3e1e", "<font color='#F7BA14' size='16'>Good Loot</font>")},
 	{Tag = "LLENEMY_CP_04", Min = 32, Max = 99, Text = TranslatedString:Create("h8886e1f1gb725g4e9fg8f5bg4ab1f7262f48", "<font color='#B823CB' size='18'>Great Loot</font>")},

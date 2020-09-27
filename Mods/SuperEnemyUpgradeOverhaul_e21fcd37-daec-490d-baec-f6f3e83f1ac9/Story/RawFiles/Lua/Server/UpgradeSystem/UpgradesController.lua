@@ -82,24 +82,51 @@ end
 -- Store CP here before finally applying it to the variable.
 local tempChallengePoints = {}
 
-function UpgradeSystem.IncreaseChallengePoints(target, amount)
-	if tempChallengePoints[target] == nil then
-		tempChallengePoints[target] = 0
+function UpgradeSystem.IncreaseChallengePoints(uuid, amount)
+	if tempChallengePoints[uuid] == nil then
+		tempChallengePoints[uuid] = 0
 	end
-	local current = GetVarInteger(target, "LLENEMY_ChallengePoints") or 0
+	local current = GetVarInteger(uuid, "LLENEMY_ChallengePoints") or 0
 	if current < 0 then
 		current = 0
 	end
-	tempChallengePoints[target] = current + amount
+	tempChallengePoints[uuid] = current + amount
 end
 
-function UpgradeSystem.SaveChallengePoints(target)
-	local current = tempChallengePoints[target]
+function UpgradeSystem.SaveChallengePoints(uuid)
+	local current = tempChallengePoints[uuid]
 	if current ~= nil and current > 0 then
-		SetVarInteger(target, "LLENEMY_ChallengePoints", current)
-		SetChallengePointsTag(target)
+		SetVarInteger(uuid, "LLENEMY_ChallengePoints", current)
+		SetChallengePointsTag(uuid)
 	end
-	tempChallengePoints[target] = nil
+	tempChallengePoints[uuid] = nil
+end
+
+---@param target EsvCharacter
+function UpgradeSystem.CalculateChallengePoints(target)
+	local cp = 0
+	local hardmodeEnabled = Settings.Global:FlagEquals("LLENEMY_HardmodeEnabled", true)
+	local saved = UpgradeSystem.GetCurrentRegionData(target.CurrentLevel, target.MyGuid)
+	if saved ~= nil then
+		for _,group in pairs(Upgrades) do
+			for _,subgroup in pairs(group.SubGroups) do
+				local hasSubgroup = false
+				for _,upgrade in pairs(subgroup.Upgrades) do
+					for i,v in pairs(saved) do
+						if v.ID == upgrade.ID and v.HardmodeOnly ~= true or hardmodeEnabled then
+							cp = cp + upgrade.CP
+							hasSubgroup = true
+						end
+					end
+				end
+				if hasSubgroup then
+					cp = cp + subgroup.CP
+				end
+			end
+		end
+	end
+	SetVarInteger(target.MyGuid, "LLENEMY_ChallengePoints", cp)
+	SetChallengePointsTag(target.MyGuid)
 end
 
 function UpgradeSystem.HasUpgrade(uuid, id)
@@ -426,6 +453,7 @@ Ext.RegisterOsirisListener("ObjectEnteredCombat", 2, "after", function(object, i
 		if Osi.LLSENEMY_QRY_IsEnemyOfParty(object) then
 			if ObjectGetFlag(character.MyGuid, "LLSENEMY_HasUpgrades") == 1 then
 				UpgradeSystem.ApplySavedUpgrades(character)
+				UpgradeSystem.CalculateChallengePoints(character)
 				UpgradeInfo_ApplyInfoStatus(character.MyGuid, true)
 			else
 				UpgradeSystem.RollForUpgrades(character.MyGuid, character.CurrentLevel, true)
@@ -439,6 +467,7 @@ Ext.RegisterOsirisListener("ProcMakeNPCHostile", 2, "after", function(char, play
 		if ObjectGetFlag(char, "LLSENEMY_HasUpgrades") == 1 then
 			local character = Ext.GetCharacter(char)
 			UpgradeSystem.ApplySavedUpgrades(character)
+			UpgradeSystem.CalculateChallengePoints(character)
 			UpgradeInfo_ApplyInfoStatus(character.MyGuid, true)
 		else
 			UpgradeSystem.RollForUpgrades(GetUUID(char), GetRegion(char), true)
