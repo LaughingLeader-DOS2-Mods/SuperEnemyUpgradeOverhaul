@@ -127,7 +127,9 @@ function UpgradeSubGroup:TryApplyUpgrades(target, applyImmediately, hardmodeOnly
 				else
 					if v:Apply(target, applyImmediately, hardmodeOnly) then
 						v.DropCount = math.max(0, v.DropCount - 1)
-						UpgradeSystem.IncreaseChallengePoints(target.MyGuid, self.CP)
+						if not hardmodeOnly or (hardmodeOnly and Settings.Global:FlagEquals("LLENEMY_HardmodeEnabled", true)) then
+							UpgradeSystem.IncreaseChallengePoints(target.MyGuid, v.CP)
+						end
 						successes = successes + 1
 					end
 				end
@@ -153,6 +155,7 @@ function UpgradeSubGroup:Apply(target, applyImmediately, hardmodeOnly)
 		if roll > 0 then
 			local successes = self:TryApplyUpgrades(target, applyImmediately, hardmodeOnly, roll, 0, 0)
 			if successes > 0 then
+				UpgradeSystem.IncreaseChallengePoints(target.MyGuid, self.CP)
 				if self.OnApplied ~= nil then
 					if type(self.OnApplied) == "table" then
 						for i,callback in pairs(self.OnApplied) do
