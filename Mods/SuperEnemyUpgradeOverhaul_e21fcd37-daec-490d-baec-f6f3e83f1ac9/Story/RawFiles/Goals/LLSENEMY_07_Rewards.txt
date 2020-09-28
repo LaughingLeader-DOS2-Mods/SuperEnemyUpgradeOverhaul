@@ -321,7 +321,9 @@ LLSENEMY_Rewards_SetupBonusTreasure(_Char);
 PROC
 LLSENEMY_Rewards_SetupTreasure((CHARACTERGUID)_Char)
 AND
-GetVarInteger(_Char, "LLENEMY_ChallengePoints", _CP)
+GetVarInteger(_Char, "LLENEMY_ChallengePoints", _CPVal)
+AND
+IntegerMin(_CPVal, 999, _CP)
 AND
 _CP > 0
 AND

@@ -104,6 +104,7 @@ end
 
 ---@param target EsvCharacter
 function UpgradeSystem.CalculateChallengePoints(target)
+	SetVarInteger(target.MyGuid, "LLENEMY_ChallengePoints", 0)
 	local cp = 0
 	local hardmodeEnabled = Settings.Global:FlagEquals("LLENEMY_HardmodeEnabled", true)
 	local saved = UpgradeSystem.GetCurrentRegionData(target.CurrentLevel, target.MyGuid)
@@ -460,11 +461,6 @@ function UpgradeSystem.RollRegion(region, force)
 			if not IgnoreCharacter(uuid) then
 				UpgradeSystem.RollForUpgrades(uuid, region, CharacterIsInCombat(uuid) == 1, true)
 				UpgradeSystem.ApplyEliteBonuses(Ext.GetCharacter(uuid), region)
-
-				if uuid == "0d51df41-eacd-46da-aeba-ee5080093fbe" then
-					local data = UpgradeSystem.GetCurrentRegionData(region, uuid, false)
-					print("Upgrades:", uuid, Common.Dump(data))
-				end
 			end
 		end
 	end
