@@ -72,6 +72,7 @@
 	<content contentuid="h1c81c46bg9330g4d43gba21g6b72b951b3fd">Talent: Sadist</content>
 	<content contentuid="h1d2be7b0gea03g4bfagbeaag02c29c65b877">Summons your glorious chicken armada to the battlefield. Bwak!</content>
 	<content contentuid="h1d44d1a4g804bg43fbg80dfgd3e3d07a897d">&lt;font color=&apos;#A020F0&apos;&gt;[1] of Shadows&lt;/font&gt;</content>
+	<content contentuid="h1dbca7abgc20dg4f92g93adgb9e9d4d39347">Character is commanding an army of Automatons, dropping from the sky!</content>
 	<content contentuid="h1dec449dgfec9g48eaga922gbbf72721497e">Shadow Duplicant</content>
 	<content contentuid="h217cada5gbab0g4023gb7f9g836986336689">&lt;font color=&apos;#A020F0&apos;&gt;[1] of Corruption&lt;/font&gt;</content>
 	<content contentuid="h220300b3g33b3g4353gafc3g88e5d713d5b4">Enable Summoner Upgrades - These grant enemies the power to summon creatures. (Currently Disabled)</content>
@@ -169,7 +170,7 @@
 	<content contentuid="h5a190392g61c4g439dgbd08gc227c5e69923">Disable Immunity Upgrades. Includes limited duration elemental immunities like Fire Skin (2 turns), to Immune to Electrifying (3 turns). (Currently Enabled)</content>
 	<content contentuid="h5aa2a41bgbaa4g46d0g9987ge5c19c4b4aa4">Bonus Skillset</content>
 	<content contentuid="h5ad0d829g7dd4g4a79gaa2cgd5d882d05390">Character deals 50% extra damage with direct attacks against opponents that are Slowed, Crippled or Knocked Down.</content>
-	<content contentuid="h5addfbc4gcac7g4935g8effg8096574b8913">&lt;font color=&apos;#FFFFFF&apos; size=&apos;12&apos;&gt;Regular Bonus Loot&lt;/font&gt;</content>
+	<content contentuid="h5addfbc4gcac7g4935g8effg8096574b8913">&lt;font color=&apos;#FFFFFF&apos; size=&apos;12&apos;&gt;Regular Loot&lt;/font&gt;</content>
 	<content contentuid="h5b2b12d9gbd9ag4c92g9160g1fc072381764">Min Per Enemy</content>
 	<content contentuid="h5b62279dg9bebg46c7g83f6gd05c7a9c9310">Talent: Quickdraw</content>
 	<content contentuid="h5b647354gce9dg4797gadc0g78ed927e407c">Vitality Boost</content>
@@ -231,6 +232,7 @@
 	<content contentuid="h77bbc2b5gb387g4ba2g97c6gbbc058bbb5c6">Infused</content>
 	<content contentuid="h77c480f3g8276g47d3gad6dg0d02b187739d">Calling Reinforcements</content>
 	<content contentuid="h77e60cc9g0b40g40d9ga0e0g5aad6e789633">Automaton (Reinforcements)</content>
+	<content contentuid="h77f765c5g4fc6g4ff3gbbb2gfafeeb8c1099">Automaton Leader</content>
 	<content contentuid="h78190c63gaa74g4228gb184g7cc2e09afb27">Armor Boost</content>
 	<content contentuid="h785703b8g60c4g4264g8810gb50962fa237c">Source-Hungry Voidwoken Statue</content>
 	<content contentuid="h786bb4a3gfc26g4a8dgab1bg0261c03bf617">Warp Infusion</content>
@@ -305,6 +307,7 @@
 	<content contentuid="h9b5ef2b3gc8c3g4a89g986egb3ac78cde891">&lt;font color=&apos;#FF3333&apos; size=&apos;23&apos;&gt;*Lost &lt;/font&gt;&lt;font color=&apos;#C7A758&apos; size=&apos;26&apos;&gt;[1]&lt;/font&gt; &lt;font color=&apos;#FF3333&apos; size=&apos;23&apos;&gt;Gold!*&lt;/font&gt;</content>
 	<content contentuid="h9bc9d98ag9fa9g4d23g88c4ge55de8f8c73a">Chicken Overlord</content>
 	<content contentuid="h9bcf1767g7b81g4ae1gbf20ge19a6b4454ef">&lt;font color=&apos;#AA00FF&apos;&gt;Shadow Treasure&lt;/font&gt;</content>
+	<content contentuid="h9c32421bgb4e4g477ag955bg10d3f38e7a31">Automaton Leader</content>
 	<content contentuid="h9c5daca5g3786g435agb9feg0ad41260a1bc">Enable Rewards - When upgraded enemies die, there&apos;s a chance for bonus loot, depending on their total number of &quot;Challenge Points&quot;, which is determined by their upgrades. (Currently &lt;font color=&apos;#FF4949&apos;&gt;Disabled&lt;/font&gt;)</content>
 	<content contentuid="h9cf11b15g91d4g4d12gae38ga5a8f70272be">Elite Heatsapper</content>
 	<content contentuid="h9d675a98ge1dfg4991ga237ge61fee0f1286">Disable polymorph upgrades, such as ones that grant wings and horns.</content>
