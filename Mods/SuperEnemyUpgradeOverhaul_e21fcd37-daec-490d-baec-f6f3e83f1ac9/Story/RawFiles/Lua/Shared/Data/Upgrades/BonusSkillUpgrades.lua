@@ -22,7 +22,7 @@ local upgrades = g:Create("BonusSkills", {
 		}}),
 		sg:Create("Elite", 1, { 
 		Upgrades = {
-			u:Create("LLENEMY_SKILL_MASS_SHACKLES", 1, 6),
+			u:Create("LLENEMY_SKILL_MASS_SHACKLES", 1, 8),
 			u:Create("LLENEMY_BONUSSKILLS_SET_ELITE", 4, 6),
 			u:Create("LLENEMY_BONUSSKILLS_SET_SOURCE_ELITE", 2, 6),
 		}}),

@@ -40,10 +40,10 @@ local upgrades = g:Create("BonusBuffs", {
 		CanApply = CanApplyUpgrade,
 		Upgrades = {
 			u:Create("LLENEMY_DOUBLE_DIP", 1, 6),
-			u:Create("LLENEMY_PERSEVERANCE_MASTERY", 1, 3),
-			u:Create("LLENEMY_SEEKER", 4, 1),
+			u:Create("LLENEMY_PERSEVERANCE_MASTERY", 1, 8),
+			u:Create("LLENEMY_SEEKER", 4, 4),
 			u:Create("LLENEMY_GATHERING_POWER", 8, 2, {Duration=24.0, FixedDuration=true}),
-			u:Create("LLENEMY_RAGE", 4, 1),
+			u:Create("LLENEMY_RAGE", 4, 6),
 		}}),
 		sg:Create("None", 4),
 	},

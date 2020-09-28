@@ -20,6 +20,7 @@ local UpgradeEntry = {
 	---@type fun(target:EsvCharacter, entry:UpgradeEntry):boolean
 	CanApply = nil,
 	Unique = true,
+	RemoveAfterApply = false,
 }
 UpgradeEntry.__index = UpgradeEntry
 

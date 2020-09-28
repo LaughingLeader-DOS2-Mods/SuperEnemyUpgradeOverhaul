@@ -71,26 +71,12 @@ end
 --Mods.EnemyUpgradeOverhaul.SummonAutomaton("08348b3a-bded-4811-92ce-f127aa4310e0")
 --Mods.EnemyUpgradeOverhaul.SummonAutomaton(CharacterGetHostCharacter())
 function SummonAutomaton(uuid)
-	if HasActiveStatus(uuid, "LLENEMY_SUMMONING_CAP_INCREASE") == 0 then
-		ApplyStatus(uuid, "LLENEMY_SUMMONING_CAP_INCREASE", 54.0, 0, uuid)
+	if HasActiveStatus(uuid, "LLENEMY_AUTOMATON_LEADER") == 0 then
+		ApplyStatus(uuid, "LLENEMY_AUTOMATON_LEADER", -1.0, 0, uuid)
 	end
 	local x,y,z = GetPosition(uuid)
-	-- local combatid = CombatGetIDForCharacter(uuid)
-	-- if combatid ~= nil then
-	-- 	local combatEntries = Osi.DB_CombatCharacters:Get(nil,combatid)
-	-- 	local randomEntry = LeaderLib.Common.GetRandomTableEntry(combatEntries)
-	-- 	if randomEntry ~= nil then
-	-- 		x,y,z = GetPosition(randomEntry[1])
-	-- 		x,y,z = FindValidPosition(x,y,z, 12.0, uuid)
-	-- 	end
-	-- end
-	-- if x == nil or y == nil or z == nil then
-	-- 	x,y,z = GetPosition(uuid)
-	-- end
 	local handle = NRD_CreateStorm(uuid, "Storm_LLENEMY_SpawnAutomaton", x,y,z)
 	NRD_GameActionSetLifeTime(handle, 48.0)
-	--local sx,sy,sz = GetPosition(uuid)
-	--GameHelpers.ShootProjectile(uuid, {x,y,z}, "ProjectileStrike_LLENEMY_SummonAutomaton", false, {sx,sy,sz})
 end
 
 function SummonSetFaction(uuid)

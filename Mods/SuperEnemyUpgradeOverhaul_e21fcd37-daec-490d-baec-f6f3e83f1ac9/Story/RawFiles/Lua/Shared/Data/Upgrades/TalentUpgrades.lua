@@ -38,8 +38,8 @@ local upgrades = g:Create("Talents", {
 		Upgrades = {
 			u:Create("LLENEMY_TALENT_LIGHTNINGROD", 3, 2),
 			u:Create("LLENEMY_TALENT_LONEWOLF", 1, 6),
-			u:Create("LLENEMY_TALENT_RESISTDEAD", 3, 4),
-			u:Create("LLENEMY_TALENT_RESISTDEAD2", 1, 6),
+			u:Create("LLENEMY_TALENT_RESISTDEAD", 3, 4, {RemoveAfterApply=true}),
+			u:Create("LLENEMY_TALENT_RESISTDEAD2", 1, 6, {RemoveAfterApply=true}),
 			u:Create("LLENEMY_TALENT_TORTURER", 4, 3),
 			u:Create("LLENEMY_TALENT_UNSTABLE", 4, 3),
 			u:Create("LLENEMY_TALENT_WHATARUSH", 4, 2),

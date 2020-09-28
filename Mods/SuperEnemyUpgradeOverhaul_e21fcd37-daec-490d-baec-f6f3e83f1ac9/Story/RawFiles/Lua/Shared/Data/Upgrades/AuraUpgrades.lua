@@ -11,7 +11,7 @@ local upgrades = g:Create("Aura", {
 			u:Create("LLENEMY_FIRE_BRAND_AURA", 8, 4),
 			u:Create("FROST_AURA", 4, 2),
 			u:Create("GUARDIAN_ANGEL_AURA", 1, 3),
-			u:Create("VACUUM_AURA", 1, 2, {Duration = 6.0}),
+			u:Create("VACUUM_AURA", 1, 6, {Duration = 6.0}),
 			u:Create("VAMPIRISM_AURA", 3, 4),
 			u:Create("LLENEMY_VENOM_AURA", 4, 3),
 			u:Create("LLENEMY_ACTIVATE_HEALING_TEARS", 4, 3, {Duration = 0.0}),

@@ -29,12 +29,15 @@ CharacterStatusRemoved(_Enemy, "RESURRECT", _)
 AND
 DB_LLSENEMY_Talents_Temp_ReviveNext(_Enemy, _Amount)
 AND
+GetUUID(_Enemy, _UUID)
+AND
 Real(_Amount, _Percentage)
 THEN
 NOT DB_LLSENEMY_Talents_Temp_ReviveNext(_Enemy, _Amount);
 PlayEffect(_Enemy, "LLENEMY_FX_Status_ComebackKid_Resurrect_01");
 CharacterSetHitpointsPercentage(_Enemy, _Percentage);
 LeaderLib_ToggleScripts_DisableScriptForObject(_Enemy, "LLENEMY_ResistDead_Active", "SuperEnemyUpgradeOverhaul");
+//NRD_ModCall("SuperEnemyUpgradeOverhaul", "OnResurrected", _UUID);
 
 EXITSECTION
 SysClear("DB_LLSENEMY_Talents_Temp_ReviveNext", 2);

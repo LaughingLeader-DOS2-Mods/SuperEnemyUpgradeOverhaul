@@ -7,7 +7,7 @@ local upgrades = g:Create("Immunities", {
 	SubGroups = {
 		sg:Create("None", 10),
 		sg:Create("Main", 1, {Upgrades = {
-			u:Create("INVULNERABLE", 1, 6, {Duration = 6.0, FixedDuration = true}),
+			u:Create("INVULNERABLE", 1, 4, {Duration = 6.0, FixedDuration = true}),
 			u:Create("EVADING", 8, 2, {Duration = 6.0}),
 			u:Create("ELECTRIC_SKIN", 4, 4, {Duration = 12.0}),
 			u:Create("FIRE_SKIN", 4, 4, {Duration = 12.0}),
@@ -18,9 +18,9 @@ local upgrades = g:Create("Immunities", {
 		sg:Create("None", 10),
 		sg:Create("StatusImmunity", 4, {
 		Upgrades = {
-			u:Create("IMMUNE_TO_BURNING", 8, 1, {Duration = 18.0}),
-			u:Create("IMMUNE_TO_ELECTRIFYING", 8, 1, {Duration = 18.0}),
-			u:Create("IMMUNE_TO_POISONING", 8, 1, {Duration = 18.0}),
+			u:Create("IMMUNE_TO_BURNING", 8, 2, {Duration = 18.0}),
+			u:Create("IMMUNE_TO_ELECTRIFYING", 8, 2, {Duration = 18.0}),
+			u:Create("IMMUNE_TO_POISONING", 8, 2, {Duration = 18.0}),
 			u:Create("LLENEMY_IMMUNITY_LOSECONTROL", 1, 8),
 		}}),
 		sg:Create("None", 10),

@@ -17,14 +17,14 @@ local upgrades = g:Create("Summoning", {
 	SubGroups = {
 		sg:Create("Passive", 1, {
 		Upgrades = {
-			u:Create("LLENEMY_SUMMON_AUTOMATON", 1, 8, {Duration=24.0, FixedDuration=true}),
+			u:Create("LLENEMY_SUMMON_AUTOMATON", 1, 8, {Duration=24.0, FixedDuration=true, DefaultDropCount=4}),
 		}}),
 		sg:Create("None", 10),
 		sg:Create("Theme", 1, {
 		CanApply = CanApplyUpgrade,
 		Upgrades = {
 			u:Create("LLENEMY_CLASS_TOTEMANCER", 3, 2),
-			u:Create("LLENEMY_CLASS_INCARNATEKING", 1, 4),
+			u:Create("LLENEMY_CLASS_INCARNATEKING", 1, 6),
 		}}),
 		sg:Create("None", 10),
 	}

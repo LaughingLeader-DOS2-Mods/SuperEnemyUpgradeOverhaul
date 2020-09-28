@@ -235,6 +235,7 @@ local function ResetData()
 	local region = Ext.GetCharacter(CharacterGetHostCharacter()).CurrentLevel
 	for i,uuid in pairs(Ext.GetAllCharacters(region)) do
 		RemoveStatus(uuid, "LLENEMY_UPGRADE_INFO")
+		SetVarInteger(uuid, "LLENEMY_ChallengePoints", 0)
 	end
 	--for region,characters in pairs(PersistentVars.Upgrades.Results) do
 		--for uuid,data in pairs(characters) do

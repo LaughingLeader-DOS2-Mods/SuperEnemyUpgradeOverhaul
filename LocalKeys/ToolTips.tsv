@@ -5,7 +5,7 @@ LLENEMY_ToolTip_UpgradeInfo_HiddenDropText	<font color='#00FFAA' size='16'>Drops
 LLENEMY_ToolTip_UpgradeInfo_HiddenShadowDropText	<font color='#9B30FF' size='16'>Drops ??? on death.</font>	h882390f1gfd9eg4a56g95e5g658283cc548a
 LLENEMY_ToolTip_UpgradeInfo_Entry_WithColor	<font color='[2]' size='18'>[1]</font>	ha4587526ge140g42f9g9a98gc92b537d4209
 LLENEMY_ToolTip_UpgradeInfo_Entry_NoColor	<font size='18'>[1]</font>	h869a7616gfbb7g4cc2ga233g7c22612af67b
-LLENEMY_ToolTip_ChallengeLoot01	<font color='#FFFFFF' size='12'>Regular Bonus Loot</font>	h5addfbc4gcac7g4935g8effg8096574b8913
+LLENEMY_ToolTip_ChallengeLoot01	<font color='#FFFFFF' size='12'>Regular Loot</font>	h5addfbc4gcac7g4935g8effg8096574b8913
 LLENEMY_ToolTip_ChallengeLoot02	<font color='#4197E2' size='14'>Moderate Loot</font>	h8a442345g8c3ag4161g8f45gd93745f99d3e
 LLENEMY_ToolTip_ChallengeLoot03	<font color='#F7BA14' size='16'>Good Loot</font>	hf03d120ag2329g476dg94dcg7df0d27c3e1e
 LLENEMY_ToolTip_ChallengeLoot04	<font color='#B823CB' size='18'>Great Loot</font>	h8886e1f1gb725g4e9fg8f5bg4ab1f7262f48
