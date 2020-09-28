@@ -17,7 +17,7 @@ local upgrades = g:Create("Summoning", {
 	SubGroups = {
 		sg:Create("Passive", 1, {
 		Upgrades = {
-			u:Create("LLENEMY_SUMMON_AUTOMATON", 1, 8, {Duration=24.0, FixedDuration=true, DefaultDropCount=4}),
+			u:Create("LLENEMY_SUMMON_AUTOMATON", 1, 8, {Duration=18.0, FixedDuration=true, DefaultDropCount=4}),
 		}}),
 		sg:Create("None", 10),
 		sg:Create("Theme", 1, {

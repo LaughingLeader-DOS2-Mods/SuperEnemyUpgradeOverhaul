@@ -194,43 +194,45 @@ Ext.RegisterConsoleCommand("euo_printupgraderesult", function(cmd, uuid)
 end)
 
 ---@param target EsvCharacter
-function UpgradeSystem.ApplySavedUpgrades(target)
-	local hardmodeEnabled = Settings.Global.Flags.LLENEMY_HardmodeEnabled.Enabled and not Settings.Global.Flags.LLENEMY_HardmodeRollingDisabled.Enabled
-	local saved = UpgradeSystem.GetCurrentRegionData(target.CurrentLevel, target.MyGuid)
-	if saved ~= nil then
-		for i,v in pairs(saved) do
-			if v.Duration ~= nil then
-				if v.HardmodeOnly ~= true or hardmodeEnabled then
-					ApplyStatus(target.MyGuid, v.ID, v.Duration, 1, target.MyGuid)
-					if v.RemoveAfterApply == true then
-						saved[i] = nil
-					end
-				end
-			end
-		end
-	end
-end
-
----@param target EsvCharacter
 ---@param status string
 ---@param duration number
 ---@param hardmodeDuration number
 ---@param applyImmediately boolean
 ---@param hardmodeOnly boolean
-local function FinallyApplyStatus(target, status, duration, hardmodeDuration, applyImmediately, hardmodeOnly)
+local function FinallyApplyStatus(target, status, duration, hardmodeDuration)
 	if status == "BLESSED" and target:HasTag("VOIDWOKEN") then
 		status = "LLENEMY_VOID_EMPOWERED"
 	end
-	if applyImmediately == true then
-		if Settings.Global.Flags.LLENEMY_HardmodeEnabled.Enabled then
-			duration = hardmodeDuration
+	if Settings.Global:FlagEquals("LLENEMY_HardmodeEnabled", true) then
+		duration = hardmodeDuration
+	end
+	if HasActiveStatus(target.MyGuid, status) == 1 then
+		local status = target:GetStatus(status)
+		status.CurrentLifeTime = math.max(duration, status.CurrentLifeTime)
+		status.RequestClientSync = true
+	else
+		if status == "LLENEMY_SUMMON_AUTOMATON" then
+			local turns = Ext.Random(2,4)
+			duration = turns * 6.0
 		end
-		if HasActiveStatus(target.MyGuid, status) == 1 then
-			local status = target:GetStatus(status)
-			status.CurrentLifeTime = math.max(duration, status.CurrentLifeTime)
-			status.RequestClientSync = true
-		else
-			ApplyStatus(target.MyGuid, status, duration, 1, target.MyGuid)
+		ApplyStatus(target.MyGuid, status, duration, 1, target.MyGuid)
+	end
+end
+
+---@param target EsvCharacter
+function UpgradeSystem.ApplySavedUpgrades(target)
+	local hardmodeEnabled = Settings.Global:FlagEquals("LLENEMY_HardmodeEnabled", true) and not Settings.Global.Flags.LLENEMY_HardmodeRollingDisabled.Enabled
+	local saved = UpgradeSystem.GetCurrentRegionData(target.CurrentLevel, target.MyGuid)
+	if saved ~= nil then
+		for i,v in pairs(saved) do
+			if v.Duration ~= nil then
+				if v.HardmodeOnly ~= true or hardmodeEnabled then
+					FinallyApplyStatus(target.MyGuid, v.ID, v.Duration, v.HardmodeDuration)
+					if v.RemoveAfterApply == true then
+						saved[i] = nil
+					end
+				end
+			end
 		end
 	end
 end
@@ -247,7 +249,10 @@ function UpgradeSystem.ApplyStatus(target, entry, applyImmediately, hardmodeOnly
 		local max = Settings.Global.Variables.Hardmode_StatusBonusTurnsMax.Value or 3
 		hardmodeDuration = entry.Duration + (Ext.Random(min,max) * 6.0)
 	end
-	FinallyApplyStatus(target, entry.ID, entry.Duration, hardmodeDuration, applyImmediately, hardmodeOnly)
+
+	if applyImmediately then
+		FinallyApplyStatus(target, entry.ID, entry.Duration, hardmodeDuration)
+	end
 
 	if entry.RemoveAfterApply ~= true or applyImmediately ~= true then
 		local data = UpgradeSystem.GetCurrentRegionData(target.CurrentLevel, target.MyGuid, true)

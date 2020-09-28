@@ -346,7 +346,7 @@ local function OnInfusionInfoTooltip(character, status, tooltip)
 	local resistances = {}
 	local immunities = {}
 	for i,v in pairs(character:GetStatuses()) do
-		if v ~= "LLENEMY_INFUSION_INFO" and string.find(v, "LLENEMY_INF") then
+		if v ~= status and string.find(v, "LLENEMY_INF") then
 			local potion = Ext.StatGetAttribute(v, "StatsId") or ""
 			if potion ~= "" then
 				local immuneFlags = Ext.StatGetAttribute(potion, "Flags") or ""
@@ -486,6 +486,7 @@ local function Init()
 	Game.Tooltip.RegisterListener("Item", nil, OnItemTooltip)
 	Game.Tooltip.RegisterListener("Status", "LLENEMY_UPGRADE_INFO", OnUpgradeInfoTooltip)
 	Game.Tooltip.RegisterListener("Status", "LLENEMY_INFUSION_INFO", OnInfusionInfoTooltip)
+	Game.Tooltip.RegisterListener("Status", "LLENEMY_INFUSION_INFO_ELITE", OnInfusionInfoTooltip)
 	--LeaderLib.UI.RegisterListener("OnTooltipPositioned", FormatTagTooltip)
 end
 return {
