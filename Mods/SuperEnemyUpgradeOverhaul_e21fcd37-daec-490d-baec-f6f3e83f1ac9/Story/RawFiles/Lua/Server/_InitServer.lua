@@ -19,9 +19,10 @@ Ext.Require("Server/UpgradeSystem/BonusSkills.lua")
 Ext.Require("Server/UpgradeSystem/MiscUpgradeMechanics.lua")
 Ext.Require("Server/Hardmode/_Init.lua")
 
+Ext.Require("Server/Debug/ConsoleCommands.lua")
 if Ext.IsDeveloperMode() then
 	Ext.Require("Server/Debug/Init.lua")
-	Ext.Require("Server/Debug/ConsoleCommands.lua")
+	Ext.Require("Server/Debug/DeveloperCommands.lua")
 end
 
 PersistentVars = {}

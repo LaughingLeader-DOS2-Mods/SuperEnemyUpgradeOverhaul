@@ -120,7 +120,7 @@ function UpgradeSubGroup:TryApplyUpgrades(target, applyImmediately, hardmodeOnly
 						roll = Ext.Random(1, Vars.UPGRADE_MAX_ROLL)
 						totalAttempts = totalAttempts + 1
 						v.DropCount = math.max(0, v.DropCount - 1)
-						print(string.format("DUPLICATE!|(%s) Upgrade(%s) Roll(%i) Rerolls(%i) DropCount(%i)", target.DisplayName, v.ID, roll, totalAttempts, v.DropCount))
+						--print(string.format("DUPLICATE!|(%s) Upgrade(%s) Roll(%i) Rerolls(%i) DropCount(%i)", target.DisplayName, v.ID, roll, totalAttempts, v.DropCount))
 						rollAgain = true
 						break
 					end
@@ -139,7 +139,7 @@ function UpgradeSubGroup:TryApplyUpgrades(target, applyImmediately, hardmodeOnly
 			return self:TryApplyUpgrades(target, applyImmediately, hardmodeOnly, Ext.Random(1, Vars.UPGRADE_MAX_ROLL), totalAttempts, successes)
 		end
 	else
-		print("Failed to build droplist", upgrades)
+		Ext.PrintError("[SEUO] Failed to build droplist", upgrades)
 	end
 	return successes
 end

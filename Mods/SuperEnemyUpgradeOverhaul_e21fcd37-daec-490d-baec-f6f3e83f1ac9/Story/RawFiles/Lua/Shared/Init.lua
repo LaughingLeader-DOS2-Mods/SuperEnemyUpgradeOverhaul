@@ -106,8 +106,6 @@ local function LLENEMY_Shared_SessionLoading()
 
 	Settings = initSettings()
 	LeaderLib.SettingsManager.AddSettings(Settings)
-
-	print(Settings.Global.Flags.LLENEMY_EnemyLevelingEnabled.DisplayName.Value)
 end
 Ext.RegisterListener("SessionLoading", LLENEMY_Shared_SessionLoading)
 
@@ -151,14 +149,5 @@ if Ext.IsClient() then
 	LeaderLib.RegisterListener("ClientDataSynced", function(data)
 		Upgrades = data.ModData.LLSENEMY.Upgrades
 		HighestLoremaster = data.ModData.LLSENEMY.HighestLoremaster
-		print(data.RegionData.Current)
-		for region,v in pairs(Upgrades.Results) do
-			print(region)
-			for uuid,data in pairs(v) do
-				if uuid == "0d51df41-eacd-46da-aeba-ee5080093fbe" then
-					print(uuid, Ext.JsonStringify(data))
-				end
-			end
-		end
 	end)
 end

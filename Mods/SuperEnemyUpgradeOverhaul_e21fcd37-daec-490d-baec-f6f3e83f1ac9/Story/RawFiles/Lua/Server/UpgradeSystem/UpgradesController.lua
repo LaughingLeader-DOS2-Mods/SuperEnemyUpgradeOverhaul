@@ -221,13 +221,13 @@ end
 
 ---@param target EsvCharacter
 function UpgradeSystem.ApplySavedUpgrades(target)
-	local hardmodeEnabled = Settings.Global:FlagEquals("LLENEMY_HardmodeEnabled", true) and not Settings.Global.Flags.LLENEMY_HardmodeRollingDisabled.Enabled
+	local hardmodeEnabled = Settings.Global:FlagEquals("LLENEMY_HardmodeEnabled", true) and Settings.Global:FlagEquals("LLENEMY_HardmodeRollingDisabled", false)
 	local saved = UpgradeSystem.GetCurrentRegionData(target.CurrentLevel, target.MyGuid)
 	if saved ~= nil then
 		for i,v in pairs(saved) do
 			if v.Duration ~= nil then
 				if v.HardmodeOnly ~= true or hardmodeEnabled then
-					FinallyApplyStatus(target.MyGuid, v.ID, v.Duration, v.HardmodeDuration)
+					FinallyApplyStatus(target, v.ID, v.Duration, v.HardmodeDuration)
 					if v.RemoveAfterApply == true then
 						saved[i] = nil
 					end
@@ -490,9 +490,9 @@ end)
 
 Ext.RegisterOsirisListener("ObjectEnteredCombat", 2, "after", function(object, id)
 	if Osi.LLSENEMY_QRY_SkipCombat(id) ~= true and ObjectIsCharacter(object) == 1 then
-		local character = Ext.GetCharacter(object)
 		if Osi.LLSENEMY_QRY_IsEnemyOfParty(object) then
-			if ObjectGetFlag(character.MyGuid, "LLSENEMY_HasUpgrades") == 1 then
+			local character = Ext.GetCharacter(object)
+			if ObjectGetFlag(object, "LLSENEMY_HasUpgrades") == 1 then
 				UpgradeSystem.ApplySavedUpgrades(character)
 				UpgradeSystem.CalculateChallengePoints(character)
 				UpgradeInfo_ApplyInfoStatus(character.MyGuid, true)

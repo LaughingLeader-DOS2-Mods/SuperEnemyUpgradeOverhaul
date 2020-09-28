@@ -87,7 +87,7 @@ local function GetUpgradeInfoText(character, isControllerMode)
 	local upgradeKeys = {}
 	local hardmodeStatuses = {}
 	local savedUpgradeData = GetCharacterData(LeaderLib.SharedData.RegionData.Current, character.MyGuid)
-	print(savedUpgradeData, character.MyGuid)
+	print(character.MyGuid, savedUpgradeData, Settings.Global:FlagEquals("LLENEMY_HardmodeEnabled", true))
 	if savedUpgradeData ~= nil then
 		for i,v in pairs(savedUpgradeData) do
 			if (v.HardmodeOnly ~= true or Settings.Global:FlagEquals("LLENEMY_HardmodeEnabled", true)) then
@@ -108,6 +108,7 @@ local function GetUpgradeInfoText(character, isControllerMode)
 	local count = #upgradeKeys
 	if count > 0 then
 		table.sort(upgradeKeys, sortupgrades)
+		print(Ext.JsonStringify(upgradeKeys))
 		local output = "<img src='Icon_Line' width='350%'><br>"
 		if isControllerMode == true then
 			output = "" -- No Icon_Line
