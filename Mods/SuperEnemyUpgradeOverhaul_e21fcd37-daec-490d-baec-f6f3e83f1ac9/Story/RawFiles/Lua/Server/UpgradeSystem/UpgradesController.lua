@@ -84,9 +84,9 @@ local tempChallengePoints = {}
 
 function UpgradeSystem.IncreaseChallengePoints(uuid, amount)
 	if tempChallengePoints[uuid] == nil then
-		tempChallengePoints[uuid] = 0
+		tempChallengePoints[uuid] = math.max(GetVarInteger(uuid, "LLENEMY_ChallengePoints") or 0, 0)
 	end
-	local current = GetVarInteger(uuid, "LLENEMY_ChallengePoints") or 0
+	local current = tempChallengePoints[uuid]
 	if current < 0 then
 		current = 0
 	end
@@ -146,6 +146,7 @@ end
 ---@field Duration number
 ---@field HardmodeDuration number
 ---@field HardmodeOnly boolean
+---@field RemoveAfterApply boolean
 
 ---@param region string
 ---@param uuid string
@@ -174,6 +175,24 @@ function UpgradeSystem.GetCurrentRegionData(region, uuid, createCharacterData)
 	end
 end
 
+Ext.RegisterConsoleCommand("euo_printupgraderesult", function(cmd, uuid)
+	local data = UpgradeSystem.GetCurrentRegionData(nil, uuid, false)
+	if data ~= nil then
+		print(Ext.JsonStringify(data))
+	else
+		Ext.PrintError("No data for", uuid)
+		local name = Ext.GetCharacter(uuid).DisplayName
+		for i,v in pairs(Ext.GetAllCharacters(GetRegion(uuid))) do
+			if Ext.GetCharacter(v).DisplayName == name then
+				print("UUID mismatch?")
+				print(v, uuid)
+				print(name)
+				TeleportTo(CharacterGetHostCharacter(), v, "", 0, 0, 0)
+			end
+		end
+	end
+end)
+
 ---@param target EsvCharacter
 function UpgradeSystem.ApplySavedUpgrades(target)
 	local hardmodeEnabled = Settings.Global.Flags.LLENEMY_HardmodeEnabled.Enabled and not Settings.Global.Flags.LLENEMY_HardmodeRollingDisabled.Enabled
@@ -183,6 +202,9 @@ function UpgradeSystem.ApplySavedUpgrades(target)
 			if v.Duration ~= nil then
 				if v.HardmodeOnly ~= true or hardmodeEnabled then
 					ApplyStatus(target.MyGuid, v.ID, v.Duration, 1, target.MyGuid)
+					if v.RemoveAfterApply == true then
+						saved[i] = nil
+					end
 				end
 			end
 		end
@@ -210,9 +232,6 @@ local function FinallyApplyStatus(target, status, duration, hardmodeDuration, ap
 		else
 			ApplyStatus(target.MyGuid, status, duration, 1, target.MyGuid)
 		end
-	else
-		local data = UpgradeSystem.GetCurrentRegionData(target.CurrentLevel, target.MyGuid, true)
-		table.insert(data, {ID=status, Duration=duration, HardmodeOnly = hardmodeOnly or false, HardmodeDuration=hardmodeDuration})
 	end
 end
 
@@ -229,6 +248,17 @@ function UpgradeSystem.ApplyStatus(target, entry, applyImmediately, hardmodeOnly
 		hardmodeDuration = entry.Duration + (Ext.Random(min,max) * 6.0)
 	end
 	FinallyApplyStatus(target, entry.ID, entry.Duration, hardmodeDuration, applyImmediately, hardmodeOnly)
+
+	if entry.RemoveAfterApply ~= true or applyImmediately ~= true then
+		local data = UpgradeSystem.GetCurrentRegionData(target.CurrentLevel, target.MyGuid, true)
+		table.insert(data, {
+			ID=entry.ID, 
+			Duration=entry.Duration, 
+			HardmodeOnly = hardmodeOnly or false, 
+			HardmodeDuration=hardmodeDuration,
+			RemoveAfterApply = entry.RemoveAfterApply}
+		)
+	end
 	return true
 end
 
@@ -392,10 +422,10 @@ function UpgradeSystem.RollForUpgrades(uuid, region, applyImmediately, skipIgnor
 		end
 
 		if successes > 0 then
+			UpgradeSystem.SaveChallengePoints(uuid)
 			if applyImmediately then
 				UpgradeInfo_ApplyInfoStatus(character.MyGuid, true)
 			end
-			UpgradeSystem.SaveChallengePoints(uuid)
 			ObjectSetFlag(uuid, "LLSENEMY_HasUpgrades", 0)
 		end
 	end
@@ -420,14 +450,20 @@ function UpgradeSystem.RollRegion(region, force)
 		for i,uuid in pairs(Ext.GetAllCharacters(region)) do
 			if force then
 				ObjectClearFlag(uuid, "LLSENEMY_HasUpgrades", 0)
+				SetVarInteger(uuid, "LLENEMY_ChallengePoints", 0)
 			end
 			if not IgnoreCharacter(uuid) then
 				UpgradeSystem.RollForUpgrades(uuid, region, CharacterIsInCombat(uuid) == 1, true)
 				UpgradeSystem.ApplyEliteBonuses(Ext.GetCharacter(uuid), region)
+
+				if uuid == "0d51df41-eacd-46da-aeba-ee5080093fbe" then
+					local data = UpgradeSystem.GetCurrentRegionData(region, uuid, false)
+					print("Upgrades:", uuid, Common.Dump(data))
+				end
 			end
 		end
 	end
-	SyncVars()
+	GameHelpers.Data.StartSyncTimer(250)
 	if Ext.IsDeveloperMode() then
 		local printUpgrades = {}
 		for c,d in pairs(PersistentVars.Upgrades.Results[region]) do

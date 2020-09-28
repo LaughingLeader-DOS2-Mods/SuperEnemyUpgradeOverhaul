@@ -136,3 +136,29 @@ end)
 if LeaderLib ~= nil then
 	LeaderLib.EnableFeature("WingsWorkaround")
 end
+
+if Ext.IsServer() then
+	---@param data SharedData
+	LeaderLib.RegisterListener("SyncData", function(data)
+		data.LLSENEMY = {
+			Upgrades = PersistentVars.Upgrades,
+			HighestLoremaster = HighestLoremaster
+		}
+	end)
+end
+if Ext.IsClient() then
+	---@param data SharedData
+	LeaderLib.RegisterListener("ClientDataSynced", function(data)
+		Upgrades = data.ModData.LLSENEMY.Upgrades
+		HighestLoremaster = data.ModData.LLSENEMY.HighestLoremaster
+		print(data.RegionData.Current)
+		for region,v in pairs(Upgrades.Results) do
+			print(region)
+			for uuid,data in pairs(v) do
+				if uuid == "0d51df41-eacd-46da-aeba-ee5080093fbe" then
+					print(uuid, Ext.JsonStringify(data))
+				end
+			end
+		end
+	end)
+end

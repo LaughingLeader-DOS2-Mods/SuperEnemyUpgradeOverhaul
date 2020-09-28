@@ -49,7 +49,7 @@ local FormatColor = {
 }
 
 local function GetCharacterData(region, uuid)
-	local regionData = ServerVars.PersistentVars.Upgrades.Results[region]
+	local regionData = Upgrades.Results[region]
 	if regionData ~= nil then
 		return regionData[uuid]
 	end
@@ -61,7 +61,7 @@ local function HasUpgrade(character, id, upgradeData)
 		return true
 	elseif upgradeData ~= nil then
 		for i,v in pairs(upgradeData) do
-			if v.ID == id and (v.HardmodeOnly ~= true or ServerVars.HardmodeEnabled == true) then
+			if v.ID == id and (v.HardmodeOnly ~= true or Settings.Global:FlagEquals("LLENEMY_HardmodeEnabled", true)) then
 				return true
 			end
 		end
@@ -86,12 +86,11 @@ local function GetUpgradeInfoText(character, isControllerMode)
 	end
 	local upgradeKeys = {}
 	local hardmodeStatuses = {}
-	local savedUpgradeData = GetCharacterData(character.CurrentLevel, character.MyGuid)
-	print(savedUpgradeData)
+	local savedUpgradeData = GetCharacterData(LeaderLib.SharedData.RegionData.Current, character.MyGuid)
+	print(savedUpgradeData, character.MyGuid)
 	if savedUpgradeData ~= nil then
-		print(Ext.JsonStringify(savedUpgradeData))
 		for i,v in pairs(savedUpgradeData) do
-			if (v.HardmodeOnly ~= true or ServerVars.HardmodeEnabled == true) then
+			if (v.HardmodeOnly ~= true or Settings.Global:FlagEquals("LLENEMY_HardmodeEnabled", true)) then
 				table.insert(upgradeKeys, v.ID)
 				if v.HardmodeOnly == true then
 					hardmodeStatuses[v.ID] = true

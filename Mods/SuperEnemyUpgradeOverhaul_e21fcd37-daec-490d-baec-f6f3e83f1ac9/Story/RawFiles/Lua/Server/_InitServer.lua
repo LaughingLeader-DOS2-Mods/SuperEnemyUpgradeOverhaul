@@ -35,19 +35,6 @@ if PersistentVars.Upgrades.Results == nil then
 	PersistentVars.Upgrades.Results = {}
 end
 
-function SyncVars(id)
-	local vars = {
-		PersistentVars = PersistentVars,
-		HardmodeEnabled = Settings.Global.Flags.LLENEMY_HardmodeEnabled.Enabled,
-		HighestLoremaster = HighestLoremaster
-	}
-	if id == nil then
-		Ext.BroadcastMessage("LLENEMY_SyncVars", Ext.JsonStringify(vars), nil)
-	else
-		Ext.PostMessageToUser(id, "LLENEMY_SyncVars", Ext.JsonStringify(vars))
-	end
-end
-
 local function LLENEMY_Server_ModuleLoading()
 	LLENEMY_Shared_InitModuleLoading()
 end

@@ -1,6 +1,8 @@
 Ext.Require("Shared/Init.lua")
 
-ServerVars = {}
+if Upgrades == nil then
+	Upgrades = {}
+end
 
 Ext.Require("Client/DescriptionParams.lua")
 local tooltipHandler = Ext.Require("Client/TooltipHandler.lua")
@@ -23,8 +25,4 @@ end)
 Ext.RegisterNetListener("LLENEMY_SetHighestLoremaster", function(call, valStr)
 	HighestLoremaster = math.tointeger(valStr)
 	Ext.Print("[EnemyUpgradeOverhaul:LLENEMY_SetHighestLoremaster] Set highest loremaster value to ("..valStr..") on client.")
-end)
-
-Ext.RegisterNetListener("LLENEMY_SyncVars", function(call, datastr)
-	ServerVars = Ext.JsonParse(datastr)
 end)
