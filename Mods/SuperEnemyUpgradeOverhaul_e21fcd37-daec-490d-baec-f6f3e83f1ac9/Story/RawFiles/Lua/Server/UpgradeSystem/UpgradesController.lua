@@ -401,6 +401,22 @@ local function IgnoreCharacter(uuid)
 	return true
 end
 
+local displayInfoForTags = {
+	GUARD = true,
+	MAGISTER = true,
+}
+
+local function ShouldApplyInfoStatus(uuid)
+	if CharacterIsInCombat(uuid) == 1 or Osi.LLSENEMY_QRY_IsEnemyOfParty(uuid) then
+		return true
+	end
+	for tag,b in pairs(displayInfoForTags) do
+		if IsTagged(uuid, tag) == 1 then
+			return true
+		end
+	end
+end
+
 function UpgradeSystem.RollForUpgrades(uuid, region, applyImmediately, skipIgnoreCheck)
 	if skipIgnoreCheck == true or not IgnoreCharacter(uuid) then
 		local successes = 0
@@ -429,7 +445,7 @@ function UpgradeSystem.RollForUpgrades(uuid, region, applyImmediately, skipIgnor
 
 		if successes > 0 then
 			UpgradeSystem.SaveChallengePoints(uuid)
-			if applyImmediately then
+			if applyImmediately or ShouldApplyInfoStatus(character.MyGuid) then
 				UpgradeInfo_ApplyInfoStatus(character.MyGuid, true)
 			end
 			ObjectSetFlag(uuid, "LLSENEMY_HasUpgrades", 0)
@@ -463,8 +479,8 @@ function UpgradeSystem.RollRegion(region, force)
 				UpgradeSystem.ApplyEliteBonuses(Ext.GetCharacter(uuid), region)
 			end
 		end
+		GameHelpers.Data.StartSyncTimer(250, true)
 	end
-	GameHelpers.Data.StartSyncTimer(250)
 	if Ext.IsDeveloperMode() then
 		local printUpgrades = {}
 		for c,d in pairs(PersistentVars.Upgrades.Results[region]) do

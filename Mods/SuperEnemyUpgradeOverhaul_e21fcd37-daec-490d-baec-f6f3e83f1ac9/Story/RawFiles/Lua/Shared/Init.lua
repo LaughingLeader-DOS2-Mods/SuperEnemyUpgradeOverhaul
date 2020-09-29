@@ -147,7 +147,7 @@ end
 if Ext.IsClient() then
 	---@param data SharedData
 	LeaderLib.RegisterListener("ClientDataSynced", function(data)
-		Upgrades = data.ModData.LLSENEMY.Upgrades
-		HighestLoremaster = data.ModData.LLSENEMY.HighestLoremaster
+		Upgrades = data.LLSENEMY.Upgrades
+		HighestLoremaster = data.LLSENEMY.HighestLoremaster
 	end)
 end

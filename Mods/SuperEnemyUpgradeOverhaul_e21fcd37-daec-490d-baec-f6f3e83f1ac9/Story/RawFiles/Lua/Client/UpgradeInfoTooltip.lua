@@ -87,6 +87,7 @@ local function GetUpgradeInfoText(character, isControllerMode)
 	local upgradeKeys = {}
 	local hardmodeStatuses = {}
 	local savedUpgradeData = GetCharacterData(LeaderLib.SharedData.RegionData.Current, character.MyGuid)
+	print(character.MyGuid, LeaderLib.SharedData.RegionData.Current, Common.Dump(savedUpgradeData))
 	--print(character.MyGuid, savedUpgradeData, Settings.Global:FlagEquals("LLENEMY_HardmodeEnabled", true))
 	if savedUpgradeData ~= nil then
 		for i,v in pairs(savedUpgradeData) do
