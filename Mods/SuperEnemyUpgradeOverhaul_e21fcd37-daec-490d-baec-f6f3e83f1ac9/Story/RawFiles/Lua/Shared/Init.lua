@@ -139,7 +139,7 @@ if Ext.IsServer() then
 	---@param data SharedData
 	LeaderLib.RegisterListener("SyncData", function(data)
 		data.LLSENEMY = {
-			Upgrades = PersistentVars.Upgrades,
+			Upgrades = {Results = PersistentVars.Upgrades.Results},
 			HighestLoremaster = HighestLoremaster
 		}
 	end)

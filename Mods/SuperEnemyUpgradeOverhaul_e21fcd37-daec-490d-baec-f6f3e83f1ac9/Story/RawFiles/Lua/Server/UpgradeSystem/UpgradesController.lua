@@ -479,6 +479,7 @@ function UpgradeSystem.RollRegion(region, force)
 				UpgradeSystem.ApplyEliteBonuses(Ext.GetCharacter(uuid), region)
 			end
 		end
+		UpgradeSystem.SaveDropCounts()
 		GameHelpers.Data.StartSyncTimer(250, true)
 	end
 	if Ext.IsDeveloperMode() then
