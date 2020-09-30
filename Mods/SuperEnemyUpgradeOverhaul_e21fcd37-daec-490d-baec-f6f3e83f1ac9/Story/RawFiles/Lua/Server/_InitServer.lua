@@ -33,6 +33,7 @@ if PersistentVars.Upgrades.DropCounts == nil then
 	PersistentVars.Upgrades.DropCounts = {}
 end
 if PersistentVars.Upgrades.Results == nil then
+	---@type table<string, table<string, SavedUpgradeData[]>>
 	PersistentVars.Upgrades.Results = {}
 end
 
@@ -60,8 +61,8 @@ local function LLENEMY_Server_SessionLoaded()
 	BuildEnemySkills()
 
 	-- Defaults
-	Settings.Global.Variables.Hardmode_MinBonusRolls.Value = math.tointeger(Ext.ExtraData["LLENEMY_Hardmode_DefaultBonusRolls_Min"] or 1)
-	Settings.Global.Variables.Hardmode_MaxBonusRolls.Value = math.tointeger(Ext.ExtraData["LLENEMY_Hardmode_DefaultBonusRolls_Max"] or 4)
+	Settings.Global:SetVariable("Hardmode_MinBonusRolls", math.tointeger(Ext.ExtraData.LLENEMY_Hardmode_DefaultBonusRolls_Min or 1))
+	Settings.Global:SetVariable("Hardmode_MaxBonusRolls", math.tointeger(Ext.ExtraData.LLENEMY_Hardmode_DefaultBonusRolls_Max or 4))
 end
 Ext.RegisterListener("SessionLoaded", LLENEMY_Server_SessionLoaded)
 

@@ -131,23 +131,44 @@ Ext.RegisterListener("SessionLoaded", function()
     LeaderLib.EnableFeature("ReplaceTooltipPlaceholders")
 end)
 
-if LeaderLib ~= nil then
-	LeaderLib.EnableFeature("WingsWorkaround")
-end
+SharedData = LeaderLib.SharedData
 
 if Ext.IsServer() then
-	---@param data SharedData
-	LeaderLib.RegisterListener("SyncData", function(data)
-		data.LLSENEMY = {
-			Upgrades = {Results = PersistentVars.Upgrades.Results},
-			HighestLoremaster = HighestLoremaster
-		}
+	---@param id integer
+	---@param profile string
+	---@param uuid string
+	---@param isHost boolean
+	LeaderLib.RegisterListener("SyncData", function(id, profile, uuid, isHost)
+		local upgradeData = {}
+		local regionData = PersistentVars.Upgrades.Results[SharedData.RegionData.Current]
+		if regionData ~= nil then
+			for char,upgrades in pairs(regionData) do
+				local netid = char
+				local character = Ext.GetCharacter(char)
+				if character ~= nil then
+					netid = character.NetID
+				end
+				for i,upgrade in pairs(upgrades) do
+					if upgradeData[upgrade.ID] == nil then
+						upgradeData[upgrade.ID] = {}
+					end
+					upgradeData[upgrade.ID][netid] = upgrade.HardmodeOnly
+				end
+			end
+			local data = {
+				Upgrades = upgradeData,
+				HighestLoremaster = HighestLoremaster
+			}
+			Ext.PostMessageToUser(id, "LLENEMY_SyncUpgradeData", Ext.JsonStringify(data))
+		end
 	end)
 end
 if Ext.IsClient() then
-	---@param data SharedData
-	LeaderLib.RegisterListener("ClientDataSynced", function(data)
-		Upgrades = data.LLSENEMY.Upgrades
-		HighestLoremaster = data.LLSENEMY.HighestLoremaster
+	Ext.RegisterNetListener("LLENEMY_SyncUpgradeData", function(cmd, payload)
+		local data = Ext.JsonParse(payload)
+		if data ~= nil then
+			Upgrades = data.Upgrades or Upgrades
+			HighestLoremaster = data.HighestLoremaster or HighestLoremaster
+		end
 	end)
 end

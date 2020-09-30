@@ -238,6 +238,13 @@ function UpgradeSystem.ApplySavedUpgrades(target)
 	end
 end
 
+---@class SavedUpgradeData
+---@field ID string
+---@field Duration number
+---@field HardmodeOnly boolean
+---@field HardmodeDuration number
+---@field RemoveAfterApply boolean
+
 ---@param target EsvCharacter
 ---@param entry UpgradeEntry
 ---@param applyImmediately boolean

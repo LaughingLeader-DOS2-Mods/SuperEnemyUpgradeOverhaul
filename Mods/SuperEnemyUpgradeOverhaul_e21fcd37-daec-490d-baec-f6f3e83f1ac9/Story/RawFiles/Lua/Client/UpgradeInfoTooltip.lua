@@ -48,28 +48,36 @@ local FormatColor = {
 	Charm = "#FFB8B8",
 }
 
-local function GetCharacterData(region, uuid)
-	local regionData = Upgrades.Results[region]
-	if regionData ~= nil then
-		return regionData[uuid]
+local function GetCharacterData(netid, uuid)
+	local upgrades = {}
+	if Upgrades ~= nil then
+		for id,v in pairs(Upgrades) do
+			local hardmodeOnly = v[netid]
+			if hardmodeOnly == nil then
+				hardmodeOnly = v[uuid]
+			end
+			print(id, hardmodeOnly)
+			if hardmodeOnly ~= nil then
+				upgrades[id] = hardmodeOnly
+			end
+		end
 	end
-	return nil
+	return upgrades
 end
 
 local function HasUpgrade(character, id, upgradeData)
 	if character:GetStatus(id) ~= nil then
 		return true
 	elseif upgradeData ~= nil then
-		for i,v in pairs(upgradeData) do
-			if v.ID == id and (v.HardmodeOnly ~= true or Settings.Global:FlagEquals("LLENEMY_HardmodeEnabled", true)) then
-				return true
-			end
+		local hardmodeOnly = upgradeData[id]
+		if hardmodeOnly ~= nil and (not hardmodeOnly or Settings.Global:FlagEquals("LLENEMY_HardmodeEnabled", true)) then
+			return true
 		end
 	end
 	return false
 end
 
----@param character EsvCharacter
+---@param character EclCharacter
 local function GetUpgradeInfoText(character, isControllerMode)
 	if Ext.IsDeveloperMode() then
 		HighestLoremaster = 10
@@ -86,15 +94,14 @@ local function GetUpgradeInfoText(character, isControllerMode)
 	end
 	local upgradeKeys = {}
 	local hardmodeStatuses = {}
-	local savedUpgradeData = GetCharacterData(LeaderLib.SharedData.RegionData.Current, character.MyGuid)
-	print(character.MyGuid, LeaderLib.SharedData.RegionData.Current, Common.Dump(savedUpgradeData))
-	--print(character.MyGuid, savedUpgradeData, Settings.Global:FlagEquals("LLENEMY_HardmodeEnabled", true))
+	local savedUpgradeData = GetCharacterData(tostring(character.NetID), character.MyGuid)
+	print(character.NetID, Common.Dump(savedUpgradeData))
 	if savedUpgradeData ~= nil then
-		for i,v in pairs(savedUpgradeData) do
-			if (v.HardmodeOnly ~= true or Settings.Global:FlagEquals("LLENEMY_HardmodeEnabled", true)) then
-				table.insert(upgradeKeys, v.ID)
-				if v.HardmodeOnly == true then
-					hardmodeStatuses[v.ID] = true
+		for id,hardmodeOnly in pairs(savedUpgradeData) do
+			if (not hardmodeOnly or Settings.Global:FlagEquals("LLENEMY_HardmodeEnabled", true)) then
+				table.insert(upgradeKeys, id)
+				if hardmodeOnly then
+					hardmodeStatuses[id] = true
 				end
 			end
 		end
