@@ -49,18 +49,9 @@ local FormatColor = {
 }
 
 local function GetCharacterData(netid, uuid)
-	local upgrades = {}
-	if Upgrades ~= nil then
-		for id,v in pairs(Upgrades) do
-			local hardmodeOnly = v[netid]
-			if hardmodeOnly == nil then
-				hardmodeOnly = v[uuid]
-			end
-			print(id, hardmodeOnly)
-			if hardmodeOnly ~= nil then
-				upgrades[id] = hardmodeOnly
-			end
-		end
+	local upgrades = UpgradeResultData[netid]
+	if upgrades == nil then
+		upgrades = UpgradeResultData[uuid]
 	end
 	return upgrades
 end
@@ -94,15 +85,13 @@ local function GetUpgradeInfoText(character, isControllerMode)
 	end
 	local upgradeKeys = {}
 	local hardmodeStatuses = {}
-	local savedUpgradeData = GetCharacterData(tostring(character.NetID), character.MyGuid)
-	print(character.NetID, Common.Dump(savedUpgradeData))
+	local savedUpgradeData = GetCharacterData(character.NetID, character.MyGuid)
+	print(character.NetID, Common.Dump(savedUpgradeData), Common.Dump(UpgradeResultData))
 	if savedUpgradeData ~= nil then
 		for id,hardmodeOnly in pairs(savedUpgradeData) do
-			if (not hardmodeOnly or Settings.Global:FlagEquals("LLENEMY_HardmodeEnabled", true)) then
-				table.insert(upgradeKeys, id)
-				if hardmodeOnly then
-					hardmodeStatuses[id] = true
-				end
+			table.insert(upgradeKeys, id)
+			if hardmodeOnly then
+				hardmodeStatuses[id] = true
 			end
 		end
 	else

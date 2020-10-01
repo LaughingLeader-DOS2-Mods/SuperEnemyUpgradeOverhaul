@@ -1,7 +1,7 @@
 Ext.Require("Shared/Init.lua")
 
-if Upgrades == nil then
-	Upgrades = {}
+if UpgradeResultData == nil then
+	UpgradeResultData = {}
 end
 
 Ext.Require("Client/DescriptionParams.lua")

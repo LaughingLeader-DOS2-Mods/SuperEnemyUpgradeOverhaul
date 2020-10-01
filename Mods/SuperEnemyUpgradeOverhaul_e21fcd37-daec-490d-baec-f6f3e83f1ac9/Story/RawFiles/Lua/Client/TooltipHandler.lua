@@ -482,12 +482,53 @@ local function FormatTagTooltip(ui, tooltip_mc, ...)
 	end
 end
 
+local lastUpgradeInfoCharacter = nil
+
 local function Init()
 	Game.Tooltip.RegisterListener("Item", nil, OnItemTooltip)
 	Game.Tooltip.RegisterListener("Status", "LLENEMY_UPGRADE_INFO", OnUpgradeInfoTooltip)
 	Game.Tooltip.RegisterListener("Status", "LLENEMY_INFUSION_INFO", OnInfusionInfoTooltip)
 	Game.Tooltip.RegisterListener("Status", "LLENEMY_INFUSION_INFO_ELITE", OnInfusionInfoTooltip)
 	--LeaderLib.UI.RegisterListener("OnTooltipPositioned", FormatTagTooltip)
+
+	Ext.RegisterUITypeInvokeListener(LeaderLib.Data.UIType.examine, "updateStatusses", function(ui, method)
+		local main = ui:GetRoot()
+		local array = main.status_array
+		---@type EclCharacter
+		local character = nil
+		local hasUpgradeStatus = false
+		if main ~= nil and array ~= nil then
+			local handleDouble = array[0]
+			if handleDouble ~= nil and lastUpgradeInfoCharacter ~= handleDouble then
+				lastUpgradeInfoCharacter = handleDouble
+				local handle = Ext.DoubleToHandle(handleDouble)
+				if handle ~= nil then
+					character = Ext.GetCharacter(handle)
+				end
+			end
+			if character ~= nil then
+				for i=1,#array,6 do
+					local statusHandleDouble = array[i]
+					if statusHandleDouble ~= nil then
+						local statusHandle = Ext.DoubleToHandle(statusHandleDouble)
+						if statusHandle ~= nil then
+							local status = Ext.GetStatus(character.MyGuid, statusHandle)
+							if status ~= nil and status.StatusId == "LLENEMY_UPGRADE_INFO" then
+								hasUpgradeStatus = true
+								break
+							end
+						end
+					end
+				end
+			end
+		end
+		if character ~= nil and hasUpgradeStatus then
+			Ext.PostMessageToServer("LLENEMY_RequestUpgradeInfo", Ext.JsonStringify({UUID=character.MyGuid, ID=Client.ID}))
+		end
+	end)
+	Ext.RegisterUITypeCall(LeaderLib.Data.UIType.examine, "hideUI", function(...)
+		lastUpgradeInfoCharacter = nil
+	end)
 end
 return {
 	Init = Init

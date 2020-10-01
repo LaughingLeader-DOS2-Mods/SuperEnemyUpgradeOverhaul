@@ -5,6 +5,8 @@ local settings = LeaderLib.CreateModSettings("e21fcd37-daec-490d-baec-f6f3e83f1a
 ---@type TranslatedString
 local ts = LeaderLib.Classes.TranslatedString
 
+if Ext.Version() > 55 then
+
 local MenuSectionUpgrades = ts:Create("hd77b5837g7edag4a4cgbf65g812d6dab70b7", "Upgrades")
 local MenuSectionHardmode = ts:Create("ha17708c3g1ac2g4036g9a44gd94ccc794825", "Hardmode")
 local MenuSectionElites = ts:Create("h38919f09ga85eg44f8gb1e1g025663ee336b", "Elites")
@@ -111,6 +113,7 @@ settings.Global:AddLocalizedVariable("Elites_MagicArmorBoostPerRank", "LLENEMY_V
 settings.Global:AddLocalizedVariable("Elites_VitalityBoostPerRank", "LLENEMY_Variable_Elites_VitalityBoostPerRank", 2.5, 0, 10, 0.1)
 settings.Global:AddLocalizedVariable("Elites_DamageBoostPerRank", "LLENEMY_Variable_Elites_DamageBoostPerRank", 1, 0, 10, 0.1)
 settings.Global:AddVariable("EnemySkillIgnoreList", {})
+end
 
 ---@param self SettingsData
 ---@param name string

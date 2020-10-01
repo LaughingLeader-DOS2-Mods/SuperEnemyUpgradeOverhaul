@@ -132,13 +132,10 @@ Ext.RegisterListener("SessionLoaded", function()
 end)
 
 SharedData = LeaderLib.SharedData
+Client = LeaderLib.Client
 
 if Ext.IsServer() then
-	---@param id integer
-	---@param profile string
-	---@param uuid string
-	---@param isHost boolean
-	LeaderLib.RegisterListener("SyncData", function(id, profile, uuid, isHost)
+	local function SyncAllUpgradeData()
 		local upgradeData = {}
 		local regionData = PersistentVars.Upgrades.Results[SharedData.RegionData.Current]
 		if regionData ~= nil then
@@ -155,20 +152,49 @@ if Ext.IsServer() then
 					upgradeData[upgrade.ID][netid] = upgrade.HardmodeOnly
 				end
 			end
-			local data = {
-				Upgrades = upgradeData,
-				HighestLoremaster = HighestLoremaster
-			}
-			Ext.PostMessageToUser(id, "LLENEMY_SyncUpgradeData", Ext.JsonStringify(data))
+			Ext.PostMessageToUser(id, "LLENEMY_SyncUpgradeData", Ext.JsonStringify(upgradeData))
+		end
+	end
+
+	---@param id integer
+	---@param profile string
+	---@param uuid string
+	---@param isHost boolean
+	LeaderLib.RegisterListener("SyncData", function(id, profile, uuid, isHost)
+		Ext.PostMessageToUser(id, "LLENEMY_SetHighestLoremaster", tostring(HighestLoremaster))
+	end)
+
+	Ext.RegisterNetListener("LLENEMY_RequestUpgradeInfo", function(cmd, payload)
+		print(cmd,payload)
+		local data = Ext.JsonParse(payload)
+		if data ~= nil then
+			local id = data.ID
+			local uuid = data.UUID
+			local characterData = UpgradeSystem.GetCharacterData(uuid)
+			if characterData ~= nil then
+				local netid = uuid
+				local character = Ext.GetCharacter(uuid)
+				if character ~= nil then
+					netid = character.NetID
+				end
+				local upgradeData = {ID = netid, Upgrades = {}}
+				for i,upgrade in pairs(characterData) do
+					if not upgrade.HardmodeOnly or (upgrade.HardmodeOnly and Settings.Global:FlagEquals("LLENEMY_HardmodeEnabled", true)) then
+						upgradeData.Upgrades[upgrade.ID] = upgrade.HardmodeOnly
+					end
+				end
+				Ext.PostMessageToUser(id, "LLENEMY_SyncUpgradeData", Ext.JsonStringify(upgradeData))
+			end
 		end
 	end)
 end
 if Ext.IsClient() then
 	Ext.RegisterNetListener("LLENEMY_SyncUpgradeData", function(cmd, payload)
+		print(cmd, payload)
 		local data = Ext.JsonParse(payload)
 		if data ~= nil then
-			Upgrades = data.Upgrades or Upgrades
-			HighestLoremaster = data.HighestLoremaster or HighestLoremaster
+			local id = data.ID
+			UpgradeResultData[id] = data.Upgrades
 		end
 	end)
 end

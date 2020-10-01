@@ -176,6 +176,15 @@ function UpgradeSystem.GetCurrentRegionData(region, uuid, createCharacterData)
 	end
 end
 
+function UpgradeSystem.GetCharacterData(uuid)
+	local region = GetRegion(uuid) or SharedData.RegionData.Current
+	local regionData = PersistentVars.Upgrades.Results[region]
+	if regionData ~= nil then
+		return regionData[uuid]
+	end
+	return nil
+end
+
 Ext.RegisterConsoleCommand("euo_printupgraderesult", function(cmd, uuid)
 	local data = UpgradeSystem.GetCurrentRegionData(nil, uuid, false)
 	if data ~= nil then
