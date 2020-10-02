@@ -166,7 +166,7 @@
 	<content contentuid="h57740f6ag6754g45bbg8310g304b3f91ab87">Necrofire Infusion</content>
 	<content contentuid="h57ae12ebg419eg4f53g8780g350576cd63c9">Source-Hungry Voidwoken Hound</content>
 	<content contentuid="h582a8e7eg3fe8g46f4ga652g5ba5576c1217">Enable Rewards</content>
-	<content contentuid="h58acccd4g5c09g48a8g96c4gda7abce5973e">Enable enemies getting bonus upgrades when hardmode is enabled.</content>
+	<content contentuid="h58acccd4g5c09g48a8g96c4gda7abce5973e">Enemies will get additional upgrades by rolling between the minimum and maximum values set to determine bonus rolls. Each roll runs through the upgrade system to see if they get any upgrades.</content>
 	<content contentuid="h5a190392g61c4g439dgbd08gc227c5e69923">Disable Immunity Upgrades. Includes limited duration elemental immunities like Fire Skin (2 turns), to Immune to Electrifying (3 turns). (Currently Enabled)</content>
 	<content contentuid="h5aa2a41bgbaa4g46d0g9987ge5c19c4b4aa4">Bonus Skillset</content>
 	<content contentuid="h5ad0d829g7dd4g4a79gaa2cgd5d882d05390">Character deals 50% extra damage with direct attacks against opponents that are Slowed, Crippled or Knocked Down.</content>

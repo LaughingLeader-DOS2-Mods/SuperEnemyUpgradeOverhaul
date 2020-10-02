@@ -15,8 +15,8 @@ LLENEMY_BuffUpgradesDisabled	Enable Buffs	h71fdfdebg8b3dg4f00gb6b6g5538a3f38a80
 LLENEMY_BuffUpgradesDisabled_Description	Enable the main group of upgrades, including anything from Rested to Death Resist.	h0e4f18e6g16feg44cfgae15g59a88e718a6a
 LLENEMY_ClassUpgradesUpgradesDisabled	Enable Classes	hae0d1287g0506g4975g9bc3g7b50c5009113
 LLENEMY_ClassUpgradesUpgradesDisabled_Description	Enable class upgrades. These are upgrades that provide a set of abilities and skills, such as Hydroshocker.	h9df9f904g22feg4ef8g9f38gdd4a5c97bae4
-LLENEMY_DuplicationUpgradesDisabled	Enable Duplication	hbba8088cg05f5g42c8gb5a5gd0f32dd157b7
-LLENEMY_DuplicationUpgradesDisabled_Description	Enable enemy duplication. Depending on duplication settings, enemies may gain duplicate copies in battle that grant special loot.	h1b262514g57c3g428dga028gb3fe6e5e963a
+LLENEMY_DuplicationEnabled	Enable Duplication	hbba8088cg05f5g42c8gb5a5gd0f32dd157b7
+LLENEMY_DuplicationEnabled_Description	Enable enemy duplication. Depending on duplication settings, enemies may gain duplicate copies in battle that grant special loot.	h1b262514g57c3g428dga028gb3fe6e5e963a
 LLENEMY_EnemyLevelingEnabled	Enable Level Scaling	ha3f84340g5d90g493cg82a3g694fc62b4228
 LLENEMY_EnemyLevelingEnabled_Description	Enable level scaling. Enemies and NPCs will be leveled up to the set modifier (+1 level higher than the party etc.).	hc7fa1576g2273g4ae1gac32gcc8983de3eb0
 LLENEMY_HardmodeEnabled	Enable Hardmode	hbc479dedg4841g4a76g9647g253280972dd8

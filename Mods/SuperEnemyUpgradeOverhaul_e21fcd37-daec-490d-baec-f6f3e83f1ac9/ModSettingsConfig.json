@@ -21,7 +21,7 @@
 					"LLENEMY_SourceBonusSkillsDisabled",
 					"LLENEMY_PureRNGMode",
 					"LLENEMY_Debug_LevelCapDisabled",
-					"LLENEMY_DuplicationUpgradesDisabled"
+					"LLENEMY_DuplicationEnabled"
 				],
 				"Settings" : {
 					"LLENEMY_PureRNGMode" : {"DebugOnly" : true},
@@ -97,7 +97,7 @@
 		{
 			"Name" : "LLSENEMY_SettingsMenu_Section_Duplication", 
 			"Entries" : [
-				"LLENEMY_DuplicationUpgradesDisabled",
+				"LLENEMY_DuplicationEnabled",
 				"Duplication_MinDupesPerEnemy",
 				"Duplication_MaxDupesPerEnemy",
 				"Duplication_MaxTotal",
