@@ -144,8 +144,11 @@ IF
 CharacterDied(_Dupe)
 AND
 IsTagged(_Dupe, "LLENEMY_Duplicant", 1)
+AND
+GetUUID(_Dupe, _UUID)
 THEN
 SetOnStage(_Dupe, 0);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "OnDuplicantDied", _UUID);
 
 IF
 CharacterWentOnStage(_Dupe, 1)

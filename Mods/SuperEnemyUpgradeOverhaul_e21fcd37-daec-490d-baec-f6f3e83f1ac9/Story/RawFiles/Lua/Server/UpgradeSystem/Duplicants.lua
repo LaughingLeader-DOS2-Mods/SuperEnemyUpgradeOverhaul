@@ -307,25 +307,32 @@ local function IgnoreCharacter(enemy)
 	return false
 end
 
+function OnDuplicantDied(uuid)
+	PersistentVars.ActiveDuplicants = math.max(0, PersistentVars.ActiveDuplicants - 1)
+end
+
 ---@param source EsvCharacter
 function Duplication.StartDuplicating(source)
-	if not Settings.Global.Flags.LLENEMY_DuplicationUpgradesDisabled.Enabled then
+	if Settings.Global:FlagEquals("LLENEMY_DuplicationEnabled", true) then
 		if IgnoreCharacter(source) then
 			return false
 		end
-		--local maxTotal = Settings.Global.Variables.Duplication_MaxTotal.Value or -1
-		local min = Settings.Global.Variables.Duplication_MinDupesPerEnemy.Value or 0
-		local max = Settings.Global.Variables.Duplication_MaxDupesPerEnemy.Value or 1
-		local chance = Settings.Global.Variables.Duplication_Chance.Value or 30
-		if chance >= 100 or Ext.Random(1,100) <= chance then
-			local amount = Ext.Random(min, max)
-			if amount > 0 then
-				for i=amount,1,-1 do
-					if Duplicate(source, amount) then
-						SetTag(source.MyGuid, "LLENEMY_Duplicated")
+		local maxTotal = Settings.Global.Variables.Duplication_MaxTotal.Value or -1
+		if maxTotal < 0 or (maxTotal > -1 and PersistentVars.ActiveDuplicants < maxTotal) then
+			local min = Settings.Global.Variables.Duplication_MinDupesPerEnemy.Value or 0
+			local max = Settings.Global.Variables.Duplication_MaxDupesPerEnemy.Value or 1
+			local chance = Settings.Global.Variables.Duplication_Chance.Value or 30
+			if chance >= 100 or Ext.Random(1,100) <= chance then
+				local amount = Ext.Random(min, max)
+				if amount > 0 then
+					for i=amount,1,-1 do
+						if Duplicate(source, amount) then
+							SetTag(source.MyGuid, "LLENEMY_Duplicated")
+							PersistentVars.ActiveDuplicants = PersistentVars.ActiveDuplicants + 1
+						end
 					end
+					return true
 				end
-				return true
 			end
 		end
 	end

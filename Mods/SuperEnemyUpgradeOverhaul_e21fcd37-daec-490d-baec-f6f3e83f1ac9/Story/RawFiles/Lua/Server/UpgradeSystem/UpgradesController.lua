@@ -528,6 +528,7 @@ Ext.RegisterOsirisListener("ObjectEnteredCombat", 2, "after", function(object, i
 			else
 				UpgradeSystem.RollForUpgrades(character.MyGuid, character.CurrentLevel, true)
 			end
+			Duplication.StartDuplicating(character)
 		end
 	end
 end)

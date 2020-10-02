@@ -48,7 +48,7 @@ settings.GetMenuOrder = function()
 		}},
 		{DisplayName = MenuSectionDuplication.Value, 
 		Entries = {
-			"LLENEMY_DuplicationUpgradesDisabled",
+			"LLENEMY_DuplicationEnabled",
 			"Duplication_MinDupesPerEnemy",
 			"Duplication_MaxDupesPerEnemy",
 			"Duplication_MaxTotal",
@@ -90,7 +90,7 @@ settings.Global:AddLocalizedFlags({
 	"LLENEMY_PureRNGMode",
 	"LLENEMY_Debug_LevelCapDisabled",
 })
-settings.Global:AddLocalizedFlag("LLENEMY_DuplicationUpgradesDisabled", "Global", true)
+settings.Global:AddLocalizedFlag("LLENEMY_DuplicationEnabled", "Global", true)
 
 settings.Global.Flags.LLENEMY_PureRNGMode.DebugOnly = true
 settings.Global.Flags.LLENEMY_Debug_LevelCapDisabled.DebugOnly = true

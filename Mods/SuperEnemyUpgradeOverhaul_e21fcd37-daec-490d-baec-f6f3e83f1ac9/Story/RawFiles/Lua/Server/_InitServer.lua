@@ -36,6 +36,9 @@ if PersistentVars.Upgrades.Results == nil then
 	---@type table<string, table<string, SavedUpgradeData[]>>
 	PersistentVars.Upgrades.Results = {}
 end
+if PersistentVars.ActiveDuplicants == nil then
+	PersistentVars.ActiveDuplicants = 0
+end
 
 local function LLENEMY_Server_ModuleLoading()
 	LLENEMY_Shared_InitModuleLoading()
