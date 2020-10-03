@@ -96,6 +96,12 @@ local stat_overrides = {
 	DamageSurface_Deathfog = {
 		["Damage Type"] = "None"
 	},
+	Shout_Quest_LureTheKraken = {
+		IgnoreSilence = "Yes"
+	},
+	Shout_Quest_DallisDragonForm = {
+		IgnoreSilence = "Yes"
+	}
 }
 local FormatColorOverrides = {
 	Fire = {
