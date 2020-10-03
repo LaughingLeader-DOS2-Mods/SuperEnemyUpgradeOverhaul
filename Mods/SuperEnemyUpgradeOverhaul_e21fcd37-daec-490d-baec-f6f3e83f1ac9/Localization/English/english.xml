@@ -289,6 +289,7 @@
 	<content contentuid="h90ef8331gf15cg484egaefbgcbd1109a8698">Rage (V)</content>
 	<content contentuid="h917be1dcge9d5g4bd7g829dg58c553256597">A razor-sharp cleaver capable of severing flesh from bone.</content>
 	<content contentuid="h9305ff62g9590g4f7fg82beg5e3ab9edafbf">Character can backstab with non-dagger weapons.</content>
+	<content contentuid="h9558a2efg247fg4866g895cgc806d8950cfe">Enable Boss Duplication</content>
 	<content contentuid="h95d57e81gc533g4236gbb95g2ee7097f5155">Magic Armor Boost</content>
 	<content contentuid="h95fbde3bg3be6g4b7cgb6acg1bacabcba562">Character has a chance to steal a consumable item on attack.&lt;br&gt;Can only happen once per turn.</content>
 	<content contentuid="h9622cd5bg735eg490egbbe1g5a4102ca7f29">[GLOBAL] Make enemies in levels automatically gain upgrades without being in combat. This may happen once per level. Non-hostile characters that become hostile will gain upgrades like normal.&lt;br&gt;&lt;br&gt;*Note:* There may be a little bit of lag when upgrades are being applied initially, as this runs on every character in the level.</content>
@@ -450,6 +451,7 @@
 	<content contentuid="hef0955d5g3d94g4d39g87b1g20872d999f16">Magic Armor Boost</content>
 	<content contentuid="hf03d120ag2329g476dg94dcg7df0d27c3e1e">&lt;font color=&apos;#F7BA14&apos; size=&apos;16&apos;&gt;Good Loot&lt;/font&gt;</content>
 	<content contentuid="hf06524bdgf767g4831g8076gbb18355712ec">Source-Hungry Void Devourer</content>
+	<content contentuid="hf0cf5fcega64dg4e62g9867g750c9392998d">Allow bosses to be duplicated.</content>
 	<content contentuid="hf13c9277g29bfg4baegbecega1e5cd8aef76">Enemy Scaling Settings</content>
 	<content contentuid="hf180561cge97ag426cg84ddg83dd257ce95d">Double Dip</content>
 	<content contentuid="hf27abd79gae4bg4fc1g82e6g794c46d7de42">Enable Immunities</content>

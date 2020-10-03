@@ -114,7 +114,7 @@ function UpgradeSystem.CalculateChallengePoints(target)
 				local hasSubgroup = false
 				for _,upgrade in pairs(subgroup.Upgrades) do
 					for i,v in pairs(saved) do
-						if v.ID == upgrade.ID and v.HardmodeOnly ~= true or hardmodeEnabled then
+						if v.ID == upgrade.ID and (v.HardmodeOnly ~= true or hardmodeEnabled) then
 							cp = cp + upgrade.CP
 							hasSubgroup = true
 						end

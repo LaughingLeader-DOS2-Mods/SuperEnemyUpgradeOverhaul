@@ -102,8 +102,10 @@ local function CopyStats(source,dupe,baseStat)
 		end
 	end
 	for i,boost in ipairs(CopyBoosts) do
-		local baseSource = source.Stats[boost] or 0
-		local baseDupe = dupe.Stats[boost] or 0
+		--local baseSource = source.Stats[boost] or 0
+		--local baseDupe = dupe.Stats[boost] or 0
+		local baseSource = NRD_CharacterGetPermanentBoostInt(source.MyGuid, boost) or 0
+		local baseDupe = NRD_CharacterGetPermanentBoostInt(dupe.MyGuid, boost) or 0
 		if baseSource ~= nil and baseDupe ~= nil and baseDupe ~= baseSource then
 			local next = baseSource - baseDupe
 			NRD_CharacterSetPermanentBoostInt(dupe.MyGuid, boost, next)
@@ -271,9 +273,7 @@ local function Duplicate(source, i)
 	ApplyStatus(dupeId, "LEADERLIB_RECALC", 0.0, 1, dupeId)
 
 	local scale = source.Scale
-	if scale ~= 1.0 then
-		GameHelpers.SetScale(dupe, scale)
-	end
+	GameHelpers.SetScale(dupe, scale)
 
 	ApplyStatus(dupeId, "LLENEMY_DUPLICANT", -1.0, 0, dupeId)
 	NRD_CharacterSetStatInt(dupeId, "CurrentArmor", source.Stats.CurrentArmor)
@@ -293,15 +293,21 @@ end
 
 ---@param enemy EsvCharacter
 local function IgnoreCharacter(enemy)
+	if CharacterIsPartyMember(enemy.MyGuid) == 1
+		or CharacterIsPlayer(enemy.MyGuid) == 1 
+		or CharacterIsSummon(enemy.MyGuid) == 1
+		or CharacterIsPartyFollower(enemy.MyGuid) == 1 then
+		return true
+	end
 	for i,db in pairs(Osi.DB_LLSENEMY_Duplication_Blacklist:Get(nil)) do
 		if GetUUID(db[1]) == enemy.MyGuid then
 			return true
 		end
 	end
-	if IsBoss(enemy.MyGuid) == 1 and Settings.Global.Flags.LLENEMY_DuplicationUpgrades_BossesDisabled.Enabled then
+	if IsBoss(enemy.MyGuid) == 1 and Settings.Global:FlagEquals("LLENEMY_BossDuplicationEnabled", true) then
 		return true
 	end
-	if ObjectGetFlag(enemy.MyGuid, "LLENEMY_Duplicated") == 0 or enemy:HasTag("LLENEMY_DuplicationBlocked") then
+	if ObjectGetFlag(enemy.MyGuid, "LLENEMY_Duplicated") == 1 or enemy:HasTag("LLENEMY_DuplicationBlocked") then
 		return true
 	end
 	return false
@@ -315,6 +321,7 @@ end
 function Duplication.StartDuplicating(source)
 	if Settings.Global:FlagEquals("LLENEMY_DuplicationEnabled", true) then
 		if IgnoreCharacter(source) then
+			print("Cannot duplicate", source.MyGuid)
 			return false
 		end
 		local maxTotal = Settings.Global.Variables.Duplication_MaxTotal.Value or -1

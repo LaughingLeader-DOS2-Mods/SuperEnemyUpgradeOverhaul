@@ -89,8 +89,8 @@ settings.Global:AddLocalizedFlags({
 	"LLENEMY_SourceBonusSkillsDisabled",
 	"LLENEMY_PureRNGMode",
 	"LLENEMY_Debug_LevelCapDisabled",
+	"LLENEMY_DuplicationEnabled",
 })
-settings.Global:AddLocalizedFlag("LLENEMY_DuplicationEnabled", "Global", true)
 
 settings.Global.Flags.LLENEMY_PureRNGMode.DebugOnly = true
 settings.Global.Flags.LLENEMY_Debug_LevelCapDisabled.DebugOnly = true

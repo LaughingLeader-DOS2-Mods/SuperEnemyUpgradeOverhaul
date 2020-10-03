@@ -188,3 +188,11 @@ Ext.RegisterConsoleCommand("euo_removedupes", function(command)
 	end
 	Osi.DB_LLSENEMY_Duplication_Temp_Active:Delete(nil,nil,nil)
 end)
+
+Ext.RegisterConsoleCommand("euo_dupe", function(command)
+	for i,db in pairs(Osi.DB_CombatCharacters:Get(nil,nil)) do
+		local character = Ext.GetCharacter(db[1])
+		Duplication.StartDuplicating(character)
+	end
+	
+end)
