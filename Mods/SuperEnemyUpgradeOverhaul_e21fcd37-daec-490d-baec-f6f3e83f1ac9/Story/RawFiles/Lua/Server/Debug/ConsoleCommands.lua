@@ -75,3 +75,21 @@ Ext.RegisterConsoleCommand("euo_refreshupgradeinfo", function(command)
 	UpgradeInfo_SetHighestPartyLoremaster()
 	UpgradeInfo_RefreshInfoStatuses()
 end)
+
+Ext.RegisterConsoleCommand("euo_printcp", function(command, all)
+	if all == nil then
+		for i,db in pairs(Osi.DB_CombatCharacters:Get(nil,nil)) do
+			local cp = GetVarInteger(db[1], "LLENEMY_ChallengePoints") or 0
+			local character = Ext.GetCharacter(db[1])
+			print(string.format("[%s](%s) CP: %i", character.DisplayName, character.MyGuid, cp))
+		end
+	else
+		for region,data in pairs(PersistentVars.Upgrades.Results) do
+			for uuid,upgrades in pairs(data) do
+				local cp = GetVarInteger(uuid, "LLENEMY_ChallengePoints") or 0
+				local character = Ext.GetCharacter(uuid)
+				print(string.format("[%s](%s) CP: %i", character.DisplayName, character.MyGuid, cp))
+			end
+		end
+	end
+end)
