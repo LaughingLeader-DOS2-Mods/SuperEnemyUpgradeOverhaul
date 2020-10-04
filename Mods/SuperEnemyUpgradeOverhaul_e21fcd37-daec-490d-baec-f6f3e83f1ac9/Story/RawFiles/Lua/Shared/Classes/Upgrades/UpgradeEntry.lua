@@ -33,7 +33,8 @@ function UpgradeEntry:Create(id, frequency, cp, params)
     local this =
     {
 		ID = id,
-		UpgradeType = "Status"
+		UpgradeType = "Status",
+		Duration = -1
 	}
 	if type(frequency) == "table" then
 		params = frequency

@@ -275,6 +275,12 @@ end
 ---@param points integer
 ---@return integer
 local function GetVoidwokenSpawnChanceRollThreshold(points, totalPointsUsed)
+	if type(points) == "string" then
+		points = tonumber(points)
+	end
+	if type(totalPointsUsed) == "string" then
+		totalPointsUsed = tonumber(totalPointsUsed)
+	end
 	if points >= #magicPointsVoidwokenChances then
 		return 35
 	else

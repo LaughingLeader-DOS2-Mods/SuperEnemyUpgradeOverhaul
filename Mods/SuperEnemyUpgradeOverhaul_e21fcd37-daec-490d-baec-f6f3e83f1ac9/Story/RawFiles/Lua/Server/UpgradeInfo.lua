@@ -58,6 +58,8 @@ function UpgradeInfo_RefreshInfoStatuses()
 				--NRD_StatusSetReal(uuid, handle, "LifeTime", -1.0)
 				--NRD_StatusSetReal(uuid, handle, "CurrentLifeTime", -1.0)
 				ApplyStatus(uuid, "LLENEMY_UPGRADE_INFO", -1.0, 1, uuid)
+			else
+			
 			end
 		end
 		LeaderLib.PrintDebug("[EUO:UpgradeInfo.lua:RefreshInfoStatuses] Refreshed upgrade info on characters in combat.")

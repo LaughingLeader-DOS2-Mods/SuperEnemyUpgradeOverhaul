@@ -218,8 +218,10 @@ local function FinallyApplyStatus(target, status, duration, hardmodeDuration)
 	end
 	if HasActiveStatus(target.MyGuid, status) == 1 then
 		local status = target:GetStatus(status)
-		status.CurrentLifeTime = math.max(duration, status.CurrentLifeTime)
-		status.RequestClientSync = true
+		if status.CurrentLifeTime > -1 then
+			status.CurrentLifeTime = math.max(duration, status.CurrentLifeTime)
+			status.RequestClientSync = true
+		end
 	else
 		if status == "LLENEMY_SUMMON_AUTOMATON" then
 			local turns = Ext.Random(2,4)
