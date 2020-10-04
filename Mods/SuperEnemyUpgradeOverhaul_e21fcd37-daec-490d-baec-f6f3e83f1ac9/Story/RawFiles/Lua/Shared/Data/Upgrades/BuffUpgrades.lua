@@ -75,7 +75,7 @@ local upgrades = g:Create("Buffs", {
 			u:Create("DEATH_WISH", 3, 3, {Duration = 24.0}),
 			u:Create("DEATH_RESIST", 2, 4, {Duration = 6.0, FixedDuration = true}),
 			u:Create("DOUBLE_DAMAGE", 1, 8, {Duration = 12.0, FixedDuration = true}),
-			u:Create("FLAMING_CRESCENDO", 3, 3, {Duration = 12.0}),
+			u:Create("LLENEMY_FLAMING_CRESCENDO", 3, 3, {Duration = 12.0, FixedDuration = true, DefaultDropCount=4}),
 			u:Create("LLENEMY_ACTIVATE_FLAMING_TONGUES", 1, 3, {Duration = 0.0, DefaultDropCount=4}),
 			u:Create("LLENEMY_CHICKEN_OVERLORD", 2, 7, {Duration = 12.0}),
 			u:Create("SPARK_MASTER", 3, 6),
