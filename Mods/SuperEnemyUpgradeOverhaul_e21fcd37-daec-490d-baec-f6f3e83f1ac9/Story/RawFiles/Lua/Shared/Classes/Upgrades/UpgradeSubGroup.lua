@@ -38,12 +38,12 @@ function UpgradeSubGroup:Create(id, frequency, cp, params)
 		this.Frequency = frequency or 1
 		this.CP = cp or 1
 	end
-	setmetatable(this, self)
 	if params ~= nil then
 		for k,v in pairs(params) do
 			this[k] = v
 		end
 	end
+	setmetatable(this, self)
     return this
 end
 
@@ -60,7 +60,7 @@ function UpgradeSubGroup:Add(upgrades)
 	end
 end
 
----@param upgrade UpgradeEntry
+---@param entry UpgradeEntry
 ---@return boolean
 local function CanAddUpgradeToList(entry)
 	if GlobalGetFlag("LLENEMY_PureRNGMode") == 1 then

@@ -21,12 +21,12 @@ function UpgradeGroup:Create(id, params)
 		SubGroups = {},
 		DisabledFlag = ""
 	}
-	setmetatable(this, self)
 	if params ~= nil then
 		for k,v in pairs(params) do
 			this[k] = v
 		end
 	end
+	setmetatable(this, self)
     return this
 end
 

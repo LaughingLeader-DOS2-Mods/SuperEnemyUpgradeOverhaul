@@ -34,7 +34,21 @@ function UpgradeEntry:Create(id, frequency, cp, params)
     {
 		ID = id,
 		UpgradeType = "Status",
-		Duration = -1
+		Duration = -1.0,
+		Parent = nil,
+		FixedDuration = false,
+		Frequency = 1,
+		StartRange = 0,
+		EndRange = 0,
+		DropCount = -1,
+		DefaultDropCount = -1,
+		OnApplied = nil,
+		HardmodeOnly = false,
+		ModRequirement = nil,
+		CP = 1,
+		CanApply = nil,
+		Unique = true,
+		RemoveAfterApply = false,
 	}
 	if type(frequency) == "table" then
 		params = frequency
@@ -45,7 +59,6 @@ function UpgradeEntry:Create(id, frequency, cp, params)
 		this.CP = cp or 1
 	end
 
-	setmetatable(this, self)
 	if params ~= nil then
 		local s,err = xpcall(function()
 		for k,v in pairs(params) do
@@ -74,6 +87,8 @@ function UpgradeEntry:Create(id, frequency, cp, params)
 			this.StatusType = "CONSUME"
 		end
 	end
+
+	setmetatable(this, self)
     return this
 end
 

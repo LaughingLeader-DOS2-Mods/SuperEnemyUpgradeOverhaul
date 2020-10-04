@@ -83,9 +83,6 @@ local upgrades = g:Create("Buffs", {
 			u:Create("OdinGEO_Ironbark", 3, 4, {ModRequirement=MODID.OdinGeo}),
 			u:Create("OdinGEO_ParasiticAffliction", 1, 3, {ModRequirement=MODID.OdinGeo}),
 		}})
-	},
-	SessionLoaded = {
-
 	}
 })
 

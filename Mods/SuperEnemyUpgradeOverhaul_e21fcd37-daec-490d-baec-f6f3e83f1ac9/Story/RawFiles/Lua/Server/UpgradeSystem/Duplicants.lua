@@ -307,7 +307,7 @@ local function IgnoreCharacter(enemy)
 	if IsBoss(enemy.MyGuid) == 1 and Settings.Global:FlagEquals("LLENEMY_BossDuplicationEnabled", true) then
 		return true
 	end
-	if ObjectGetFlag(enemy.MyGuid, "LLENEMY_Duplicated") == 1 or enemy:HasTag("LLENEMY_DuplicationBlocked") then
+	if enemy:HasTag("LLENEMY_Duplicated") or enemy:HasTag("LLENEMY_DuplicationBlocked") then
 		return true
 	end
 	return false
@@ -321,7 +321,6 @@ end
 function Duplication.StartDuplicating(source)
 	if Settings.Global:FlagEquals("LLENEMY_DuplicationEnabled", true) then
 		if IgnoreCharacter(source) then
-			print("Cannot duplicate", source.MyGuid)
 			return false
 		end
 		local maxTotal = Settings.Global.Variables.Duplication_MaxTotal.Value or -1

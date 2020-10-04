@@ -46,9 +46,6 @@ local upgrades = g:Create("BonusBuffs", {
 			u:Create("LLENEMY_RAGE", 4, 6),
 		}}),
 		sg:Create("None", 4),
-	},
-	SessionLoaded = {
-
 	}
 })
 

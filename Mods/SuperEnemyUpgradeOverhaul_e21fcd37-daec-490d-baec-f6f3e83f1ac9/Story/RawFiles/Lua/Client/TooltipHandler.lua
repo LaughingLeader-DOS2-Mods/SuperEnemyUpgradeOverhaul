@@ -504,6 +504,7 @@ local function Init()
 				local handle = Ext.DoubleToHandle(handleDouble)
 				if handle ~= nil then
 					character = Ext.GetCharacter(handle)
+					--print(character.MyGuid, character.Stats.Name, character.NetID)
 				end
 			end
 			if character ~= nil then
