@@ -551,6 +551,6 @@ Ext.RegisterOsirisListener("ProcMakeNPCHostile", 2, "after", function(char, play
 	end
 end)
 
-Ext.RegisterOsirisListener("CombatStarted", 1, "after", function(id)
+-- Ext.RegisterOsirisListener("CombatStarted", 1, "after", function(id)
 
-end)
+-- end)

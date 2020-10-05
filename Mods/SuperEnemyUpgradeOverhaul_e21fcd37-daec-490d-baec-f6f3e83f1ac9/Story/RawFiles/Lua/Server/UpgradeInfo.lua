@@ -137,4 +137,4 @@ local function OnCharacterBaseAbilityChanged(character, ability, old, new)
 	end
 end
 
-Ext.RegisterOsirisListener("CharacterBaseAbilityChanged", 4, "after", OnCharacterBaseAbilityChanged)
+RegisterProtectedOsirisListener("CharacterBaseAbilityChanged", 4, "after", OnCharacterBaseAbilityChanged)

@@ -1,3 +1,19 @@
+RegisterProtectedOsirisListener = Mods.LeaderLib.RegisterProtectedOsirisListener
+
+PersistentVars = {}
+if PersistentVars.Upgrades == nil then
+	PersistentVars.Upgrades = {}
+end
+if PersistentVars.Upgrades.DropCounts == nil then
+	PersistentVars.Upgrades.DropCounts = {}
+end
+if PersistentVars.Upgrades.Results == nil then
+	---@type table<string, table<string, SavedUpgradeData[]>>
+	PersistentVars.Upgrades.Results = {}
+end
+if PersistentVars.ActiveDuplicants == nil then
+	PersistentVars.ActiveDuplicants = 0
+end
 
 Ext.Require("Server/UpgradeInfo.lua")
 Ext.Require("Server/GameMechanics.lua")
@@ -23,21 +39,6 @@ Ext.Require("Server/Debug/ConsoleCommands.lua")
 if Ext.IsDeveloperMode() then
 	Ext.Require("Server/Debug/Init.lua")
 	Ext.Require("Server/Debug/DeveloperCommands.lua")
-end
-
-PersistentVars = {}
-if PersistentVars.Upgrades == nil then
-	PersistentVars.Upgrades = {}
-end
-if PersistentVars.Upgrades.DropCounts == nil then
-	PersistentVars.Upgrades.DropCounts = {}
-end
-if PersistentVars.Upgrades.Results == nil then
-	---@type table<string, table<string, SavedUpgradeData[]>>
-	PersistentVars.Upgrades.Results = {}
-end
-if PersistentVars.ActiveDuplicants == nil then
-	PersistentVars.ActiveDuplicants = 0
 end
 
 local function LLENEMY_Server_ModuleLoading()
