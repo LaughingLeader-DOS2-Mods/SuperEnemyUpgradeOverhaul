@@ -123,6 +123,19 @@ local function OnUpgradeInfoTooltip(character, status, tooltip)
 	end
 end
 
+---@param character EsvCharacter
+---@param status EsvStatus
+---@param tooltip TooltipData
+local function OnDuplicantTooltip(character, status, tooltip)
+	local element = tooltip:GetElement("StatusDescription")
+	if element ~= nil then
+		if not character:HasTag("LLENEMY_RewardsDisabled") then
+			local challengePointsText = upgradeInfoHelpers.GetChallengePointsText(character, tooltip.ControllerEnabled)
+			element.Label = string.format("%s<br>%s", element.Label, challengePointsText)
+		end
+	end
+end
+
 local PotionStats = {
 	--["ModifierType"] = "ModifierType",
 	["VitalityBoost"] = "ConstantInt",
@@ -487,6 +500,7 @@ local lastUpgradeInfoCharacter = nil
 local function Init()
 	Game.Tooltip.RegisterListener("Item", nil, OnItemTooltip)
 	Game.Tooltip.RegisterListener("Status", "LLENEMY_UPGRADE_INFO", OnUpgradeInfoTooltip)
+	Game.Tooltip.RegisterListener("Status", "LLENEMY_DUPLICANT", OnDuplicantTooltip)
 	Game.Tooltip.RegisterListener("Status", "LLENEMY_INFUSION_INFO", OnInfusionInfoTooltip)
 	Game.Tooltip.RegisterListener("Status", "LLENEMY_INFUSION_INFO_ELITE", OnInfusionInfoTooltip)
 	--LeaderLib.UI.RegisterListener("OnTooltipPositioned", FormatTagTooltip)
@@ -500,10 +514,18 @@ local function Init()
 		if main ~= nil and array ~= nil then
 			local handleDouble = array[0]
 			if handleDouble ~= nil and lastUpgradeInfoCharacter ~= handleDouble then
-				lastUpgradeInfoCharacter = handleDouble
 				local handle = Ext.DoubleToHandle(handleDouble)
 				if handle ~= nil then
+					lastUpgradeInfoCharacter = handleDouble
 					character = Ext.GetCharacter(handle)
+					if character ~= nil then
+						if character.MyGuid == nil then
+							Ext.PrintError("[SEUO:TooltipHandler:updateStatusses] MyGuid of character is nil? Handle:", character.Handle, handleDouble)
+							character = nil
+						elseif character:HasTag("LLENEMY_Duplicant") then
+							character = nil
+						end
+					end
 					--print(character.MyGuid, character.Stats.Name, character.NetID)
 				end
 			end
@@ -511,9 +533,15 @@ local function Init()
 				for i=1,#array,6 do
 					local statusHandleDouble = array[i]
 					if statusHandleDouble ~= nil then
+						print(i+1, array[i+1])
+						print(i+2, array[i+2])
+						print(i+3, array[i+3])
+						print(i+4, array[i+4])
+						print(i+5, array[i+5])
+						print(i+6, array[i+6])
 						local statusHandle = Ext.DoubleToHandle(statusHandleDouble)
 						if statusHandle ~= nil then
-							local status = Ext.GetStatus(character.MyGuid, statusHandle)
+							local status = Ext.GetStatus(character.Handle, statusHandle)
 							if status ~= nil and status.StatusId == "LLENEMY_UPGRADE_INFO" then
 								hasUpgradeStatus = true
 								break
@@ -524,7 +552,7 @@ local function Init()
 			end
 		end
 		if character ~= nil and hasUpgradeStatus then
-			Ext.PostMessageToServer("LLENEMY_RequestUpgradeInfo", Ext.JsonStringify({UUID=character.MyGuid, ID=Client.ID}))
+			Ext.PostMessageToServer("LLENEMY_RequestUpgradeInfo", Ext.JsonStringify({UUID=character.MyGuid, ID=Client.ID, NetID=character.NetID}))
 		end
 	end)
 	Ext.RegisterUITypeCall(LeaderLib.Data.UIType.examine, "hideUI", function(...)

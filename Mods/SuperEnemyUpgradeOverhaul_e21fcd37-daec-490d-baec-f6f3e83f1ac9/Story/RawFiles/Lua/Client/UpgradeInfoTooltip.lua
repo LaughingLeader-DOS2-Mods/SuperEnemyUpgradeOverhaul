@@ -70,6 +70,9 @@ end
 
 ---@param character EclCharacter
 local function GetUpgradeInfoText(character, isControllerMode)
+	if character.MyGuid == nil then
+		return ""
+	end
 	if Ext.IsDeveloperMode() then
 		HighestLoremaster = 10
 	end
@@ -86,7 +89,6 @@ local function GetUpgradeInfoText(character, isControllerMode)
 	local upgradeKeys = {}
 	local hardmodeStatuses = {}
 	local savedUpgradeData = GetCharacterData(character.NetID, character.MyGuid)
-	print(character.NetID, Common.Dump(savedUpgradeData), Common.Dump(UpgradeResultData))
 	if savedUpgradeData ~= nil then
 		for id,hardmodeOnly in pairs(savedUpgradeData) do
 			table.insert(upgradeKeys, id)
