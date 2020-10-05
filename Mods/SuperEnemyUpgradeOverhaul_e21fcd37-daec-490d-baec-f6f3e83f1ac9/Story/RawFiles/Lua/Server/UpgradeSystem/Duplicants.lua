@@ -158,6 +158,8 @@ end
 local IgnoredDuplicantStatuses = {
 	LLENEMY_TALENT_RESISTDEAD = true,
 	LLENEMY_TALENT_RESISTDEAD2 = true,
+	LLENEMY_UPGRADE_INFO = true,
+	LLENEMY_DOUBLE_DIP = true,
 }
 
 ---@param dupe EsvCharacter
@@ -253,7 +255,14 @@ end
 local function Duplicate(source, i)
 	local uuid = source.MyGuid
 	local x,y,z = table.unpack(source.WorldPos)
+	if x == nil then
+		x,y,z = GetPosition(source.MyGuid)
+	end
 	local dupeId = CharacterCreateAtPosition(x,y,z, "LLENEMY_Dupe_A_54ad4e06-b57f-46d0-90fc-5da1208250e0", 0)
+	if dupeId == nil then
+		Ext.PrintError("[SEUO:Duplicate] Failed to create duplicant at", x, y, z, "for", source.MyGuid)
+		return false
+	end
 	SetOnStage(dupeId, 0)
 	CharacterSetDetached(dupeId, 1)
 	SetVarObject(dupeId, "LLENEMY_Duplicant_Owner", uuid)
@@ -293,6 +302,9 @@ end
 
 ---@param enemy EsvCharacter
 local function IgnoreCharacter(enemy)
+	if enemy:HasTag("LLENEMY_Duplicant") then
+		return true
+	end
 	if CharacterIsPartyMember(enemy.MyGuid) == 1
 		or CharacterIsPlayer(enemy.MyGuid) == 1 
 		or CharacterIsSummon(enemy.MyGuid) == 1
@@ -300,7 +312,7 @@ local function IgnoreCharacter(enemy)
 		return true
 	end
 	for i,db in pairs(Osi.DB_LLSENEMY_Duplication_Blacklist:Get(nil)) do
-		if GetUUID(db[1]) == enemy.MyGuid then
+		if StringHelpers.GetUUID(db[1]) == enemy.MyGuid then
 			return true
 		end
 	end
@@ -324,7 +336,7 @@ function Duplication.StartDuplicating(source)
 			return false
 		end
 		local maxTotal = Settings.Global.Variables.Duplication_MaxTotal.Value or -1
-		if maxTotal < 0 or (maxTotal > -1 and PersistentVars.ActiveDuplicants < maxTotal) then
+		if maxTotal < 0 or (maxTotal > 0 and PersistentVars.ActiveDuplicants < maxTotal) then
 			local min = Settings.Global.Variables.Duplication_MinDupesPerEnemy.Value or 0
 			local max = Settings.Global.Variables.Duplication_MaxDupesPerEnemy.Value or 1
 			local chance = Settings.Global.Variables.Duplication_Chance.Value or 30

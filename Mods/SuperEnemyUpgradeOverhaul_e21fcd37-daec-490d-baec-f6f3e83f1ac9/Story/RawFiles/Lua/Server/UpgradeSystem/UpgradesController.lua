@@ -412,13 +412,6 @@ function UpgradeSystem.ApplyEliteBonuses(character, region)
 	end
 end
 
-local function IgnoreCharacter(uuid)
-	if Osi.LLSENEMY_Upgrades_QRY_CanAddUpgrades(uuid) == true then
-		return false
-	end
-	return true
-end
-
 local displayInfoForTags = {
 	GUARD = true,
 	MAGISTER = true,
@@ -519,19 +512,29 @@ Ext.RegisterOsirisListener("GameStarted", 2, "after", function(region, isEditorM
 	end
 end)
 
+local function IgnoreCharacter(object)
+	if ObjectIsCharacter(object) == 0
+	or IsTagged(object, "LLENEMY_Duplicant") == 1
+	or Osi.LLSENEMY_Upgrades_QRY_CanAddUpgrades(object) ~= true
+	then
+		return true
+	end
+	return false
+end
+
 Ext.RegisterOsirisListener("ObjectEnteredCombat", 2, "after", function(object, id)
-	if Osi.LLSENEMY_QRY_SkipCombat(id) ~= true and ObjectIsCharacter(object) == 1 then
-		if Osi.LLSENEMY_QRY_IsEnemyOfParty(object) then
-			local character = Ext.GetCharacter(object)
-			if ObjectGetFlag(object, "LLSENEMY_HasUpgrades") == 1 then
-				UpgradeSystem.ApplySavedUpgrades(character)
-				UpgradeSystem.CalculateChallengePoints(character)
-				UpgradeInfo_ApplyInfoStatus(character.MyGuid, true)
-			else
-				UpgradeSystem.RollForUpgrades(character.MyGuid, character.CurrentLevel, true)
-			end
-			Duplication.StartDuplicating(character)
+	if not IgnoreCharacter(object)
+	and Osi.LLSENEMY_QRY_SkipCombat(id) ~= true 
+	and Osi.LLSENEMY_QRY_IsEnemyOfParty(object) then
+		local character = Ext.GetCharacter(object)
+		if ObjectGetFlag(object, "LLSENEMY_HasUpgrades") == 1 then
+			UpgradeSystem.ApplySavedUpgrades(character)
+			UpgradeSystem.CalculateChallengePoints(character)
+			UpgradeInfo_ApplyInfoStatus(character.MyGuid, true)
+		else
+			UpgradeSystem.RollForUpgrades(character.MyGuid, character.CurrentLevel, true)
 		end
+		Duplication.StartDuplicating(character)
 	end
 end)
 

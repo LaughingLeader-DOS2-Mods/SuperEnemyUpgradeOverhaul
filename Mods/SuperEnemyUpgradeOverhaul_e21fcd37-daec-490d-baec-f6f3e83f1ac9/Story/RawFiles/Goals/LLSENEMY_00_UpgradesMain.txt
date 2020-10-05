@@ -8,8 +8,6 @@ LLSENEMY_Upgrades_QRY_CanAddUpgrades((CHARACTERGUID)_Char)
 AND
 NOT DB_LLSENEMY_IgnoredCharacters(_Char)
 AND
-ObjectGetFlag(_Char, "LLSENEMY_HasUpgrades", 0)
-AND
 CharacterIsDead(_Char, 0)
 AND
 NOT LeaderLib_Helper_QRY_IgnoreCharacter(_Char)
