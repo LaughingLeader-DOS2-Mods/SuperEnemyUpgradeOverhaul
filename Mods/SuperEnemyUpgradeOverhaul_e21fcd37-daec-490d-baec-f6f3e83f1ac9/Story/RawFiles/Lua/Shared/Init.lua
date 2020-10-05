@@ -165,18 +165,13 @@ if Ext.IsServer() then
 	end)
 
 	Ext.RegisterNetListener("LLENEMY_RequestUpgradeInfo", function(cmd, payload)
-		print(cmd,payload)
 		local data = Ext.JsonParse(payload)
 		if data ~= nil then
 			local id = data.ID
-			local uuid = data.UUID
-			local characterData = UpgradeSystem.GetCharacterData(uuid)
+			local netid = data.NetID
+			local character = Ext.GetCharacter(netid)
+			local characterData = UpgradeSystem.GetCharacterData(character.MyGuid)
 			if characterData ~= nil then
-				local netid = uuid
-				local character = Ext.GetCharacter(uuid)
-				if character ~= nil then
-					netid = character.NetID
-				end
 				local upgradeData = {ID = netid, Upgrades = {}}
 				for i,upgrade in pairs(characterData) do
 					if not upgrade.HardmodeOnly or (upgrade.HardmodeOnly and Settings.Global:FlagEquals("LLENEMY_HardmodeEnabled", true)) then

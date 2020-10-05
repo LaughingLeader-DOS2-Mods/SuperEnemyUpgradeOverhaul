@@ -213,7 +213,7 @@ local function FinallyApplyStatus(target, status, duration, hardmodeDuration)
 	if status == "BLESSED" and target:HasTag("VOIDWOKEN") then
 		status = "LLENEMY_VOID_EMPOWERED"
 	end
-	if Settings.Global:FlagEquals("LLENEMY_HardmodeEnabled", true) then
+	if Settings.Global:FlagEquals("LLENEMY_HardmodeEnabled", true) and duration > 0 and hardmodeDuration ~= nil then
 		duration = hardmodeDuration
 	end
 	if HasActiveStatus(target.MyGuid, status) == 1 then
@@ -263,7 +263,7 @@ end
 ---@return boolean
 function UpgradeSystem.ApplyStatus(target, entry, applyImmediately, hardmodeOnly)
 	local hardmodeDuration = entry.Duration
-	if not entry.FixedDuration then
+	if not entry.FixedDuration and entry.Duration > 0 then
 		local min = Settings.Global.Variables.Hardmode_StatusBonusTurnsMin.Value or 0
 		local max = Settings.Global.Variables.Hardmode_StatusBonusTurnsMax.Value or 3
 		hardmodeDuration = entry.Duration + (Ext.Random(min,max) * 6.0)
@@ -275,13 +275,15 @@ function UpgradeSystem.ApplyStatus(target, entry, applyImmediately, hardmodeOnly
 
 	if entry.RemoveAfterApply ~= true or applyImmediately ~= true then
 		local data = UpgradeSystem.GetCurrentRegionData(target.CurrentLevel, target.MyGuid, true)
-		table.insert(data, {
+		local saveData = {
 			ID=entry.ID, 
 			Duration=entry.Duration, 
 			HardmodeOnly = hardmodeOnly or false, 
-			HardmodeDuration=hardmodeDuration,
 			RemoveAfterApply = entry.RemoveAfterApply}
-		)
+		if entry.Duration > 0 then
+			saveData.HardmodeDuration = hardmodeDuration
+		end
+		table.insert(data, saveData)
 	end
 	return true
 end
@@ -428,6 +430,16 @@ local function ShouldApplyInfoStatus(uuid)
 	end
 end
 
+local function IgnoreCharacter(object)
+	if ObjectIsCharacter(object) == 0
+	or IsTagged(object, "LLENEMY_Duplicant") == 1
+	or Osi.LLSENEMY_Upgrades_QRY_CanAddUpgrades(object) ~= true
+	then
+		return true
+	end
+	return false
+end
+
 function UpgradeSystem.RollForUpgrades(uuid, region, applyImmediately, skipIgnoreCheck)
 	if skipIgnoreCheck == true or not IgnoreCharacter(uuid) then
 		local successes = 0
@@ -511,16 +523,6 @@ Ext.RegisterOsirisListener("GameStarted", 2, "after", function(region, isEditorM
 		UpgradeSystem.RollRegion(region)
 	end
 end)
-
-local function IgnoreCharacter(object)
-	if ObjectIsCharacter(object) == 0
-	or IsTagged(object, "LLENEMY_Duplicant") == 1
-	or Osi.LLSENEMY_Upgrades_QRY_CanAddUpgrades(object) ~= true
-	then
-		return true
-	end
-	return false
-end
 
 Ext.RegisterOsirisListener("ObjectEnteredCombat", 2, "after", function(object, id)
 	if not IgnoreCharacter(object)

@@ -519,8 +519,8 @@ local function Init()
 					lastUpgradeInfoCharacter = handleDouble
 					character = Ext.GetCharacter(handle)
 					if character ~= nil then
-						if character.MyGuid == nil then
-							Ext.PrintError("[SEUO:TooltipHandler:updateStatusses] MyGuid of character is nil? Handle:", character.Handle, handleDouble)
+						if character.NetID == nil then
+							Ext.PrintError("[SEUO:TooltipHandler:updateStatusses] NetID of character is nil? Handle:", character.Handle, handleDouble)
 							character = nil
 						elseif character:HasTag("LLENEMY_Duplicant") then
 							character = nil
@@ -552,7 +552,7 @@ local function Init()
 			end
 		end
 		if character ~= nil and hasUpgradeStatus then
-			Ext.PostMessageToServer("LLENEMY_RequestUpgradeInfo", Ext.JsonStringify({UUID=character.MyGuid, ID=Client.ID, NetID=character.NetID}))
+			Ext.PostMessageToServer("LLENEMY_RequestUpgradeInfo", Ext.JsonStringify({ID=Client.ID, NetID=character.NetID}))
 		end
 	end)
 	Ext.RegisterUITypeCall(LeaderLib.Data.UIType.examine, "hideUI", function(...)

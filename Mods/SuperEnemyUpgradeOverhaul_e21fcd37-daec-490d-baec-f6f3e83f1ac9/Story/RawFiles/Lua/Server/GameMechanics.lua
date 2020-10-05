@@ -207,9 +207,9 @@ function ApplyLoneWolfBonuses(uuid, test)
 		return
 	end
 	for _,stat in LeaderLib.Data.Attribute:Get() do
-		local baseVal = CharacterGetBaseAttribute(uuid, stat)
+		local baseVal = math.max(0, CharacterGetBaseAttribute(uuid, stat) - Ext.ExtraData.AttributeBaseValue)
 		local currentVal = CharacterGetAttribute(uuid, stat)
-		if currentVal < Ext.ExtraData.AttributeSoftCap then
+		if baseVal > 0 and currentVal < Ext.ExtraData.AttributeSoftCap then
 			local nextVal = math.min(Ext.ExtraData.AttributeSoftCap, baseVal * 2) -- Capped at 40
 			nextVal = nextVal - baseVal
 			if nextVal > 0 then

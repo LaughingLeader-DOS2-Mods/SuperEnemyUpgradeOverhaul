@@ -76,6 +76,10 @@ function UpgradeEntry:Create(id, frequency, cp, params)
 	if this.DefaultDropCount == -1 then
 		this.DefaultDropCount = this.Frequency * 10
 	end
+
+	if this.Duration == -1 then
+		this.FixedDuration = true
+	end
 	
 	if this.DropCount == -1 then
 		this.DropCount = this.DefaultDropCount or Vars.DefaultDropCount
