@@ -480,7 +480,7 @@ function OnDoubleDipApplied(uuid)
 	local character = Ext.GetCharacter(uuid)
 	local successes = 0
 	for id,group in pairs(Upgrades) do
-		if group:Apply(character) then
+		if group:Apply(character, true, false) then
 			successes = successes + 1
 		end
 	end
@@ -525,18 +525,21 @@ Ext.RegisterOsirisListener("GameStarted", 2, "after", function(region, isEditorM
 end)
 
 Ext.RegisterOsirisListener("ObjectEnteredCombat", 2, "after", function(object, id)
-	if not IgnoreCharacter(object)
-	and Osi.LLSENEMY_QRY_SkipCombat(id) ~= true 
-	and Osi.LLSENEMY_QRY_IsEnemyOfParty(object) then
-		local character = Ext.GetCharacter(object)
-		if ObjectGetFlag(object, "LLSENEMY_HasUpgrades") == 1 then
-			UpgradeSystem.ApplySavedUpgrades(character)
-			UpgradeSystem.CalculateChallengePoints(character)
-			UpgradeInfo_ApplyInfoStatus(character.MyGuid, true)
-		else
-			UpgradeSystem.RollForUpgrades(character.MyGuid, character.CurrentLevel, true)
+	if ObjectIsCharacter(object) == 1 then
+		Osi.LLSENEMY_Scaling_LevelUpCharacter(object)
+		if not IgnoreCharacter(object) then
+			if Osi.LLSENEMY_QRY_SkipCombat(id) ~= true and Osi.LLSENEMY_QRY_IsEnemyOfParty(object) == true then
+				local character = Ext.GetCharacter(object)
+				if ObjectGetFlag(object, "LLSENEMY_HasUpgrades") == 1 then
+					UpgradeSystem.ApplySavedUpgrades(character)
+					UpgradeSystem.CalculateChallengePoints(character)
+					UpgradeInfo_ApplyInfoStatus(character.MyGuid, true)
+				else
+					UpgradeSystem.RollForUpgrades(character.MyGuid, character.CurrentLevel, true)
+				end
+				Duplication.StartDuplicating(character)
+			end
 		end
-		Duplication.StartDuplicating(character)
 	end
 end)
 

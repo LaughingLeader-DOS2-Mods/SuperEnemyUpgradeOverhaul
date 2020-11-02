@@ -15,11 +15,6 @@ THEN
 DB_LLSENEMY_Scaling_Temp_LeveledRegion(_Region);
 CharacterLaunchOsirisOnlyIterator("Iterator_LLENEMY_Scaling_LevelUp");
 
-PROC
-LLSENEMY_OnCharacterJoinedCombat((CHARACTERGUID)_Enemy, (INTEGER)_CombatID)
-THEN
-LLSENEMY_Scaling_LevelUpCharacter(_Enemy);
-
 IF
 RegionEnded(_Region)
 THEN
@@ -36,7 +31,7 @@ CharacterIsPlayer(_Player, 1)
 AND
 CharacterIsInCombat(_Char, 0)
 AND
-CharacterIsNeutral(_Char, _PLayer, 1)
+CharacterIsNeutral(_Char, _Player, 1)
 THEN
 LLSENEMY_Scaling_LevelUpCharacter(_Char);
 //END_REGION
