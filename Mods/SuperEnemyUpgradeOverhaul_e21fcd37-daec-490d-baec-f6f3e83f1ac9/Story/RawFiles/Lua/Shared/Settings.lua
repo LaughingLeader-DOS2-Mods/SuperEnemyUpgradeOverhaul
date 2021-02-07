@@ -126,6 +126,14 @@ settings.UpdateVariable = function(self, name, data)
 		end
 	end
 end
+
+settings.OnVariableSet = function(uuid, name, data)
+	if name == "AutoLeveling_Modifier" then
+		Osi.DB_LLSENEMY_LevelModifier:Delete(nil)
+		Osi.DB_LLSENEMY_LevelModifier(data.Value)
+	end
+end
+
 return settings
 end
 
