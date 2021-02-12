@@ -123,6 +123,14 @@ ProcSetInvulnerable(_Char, 1);
 CharacterSetImmortal(_Char, 1);
 //END_REGION
 
+PROC
+LLSENEMY_Hardmode_InitLevel((STRING)_Region)
+AND
+NOT DB_LLSENEMY_HM_InitializedLevel(_Region)
+THEN
+DB_LLSENEMY_HM_InitializedLevel(_Region);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "Hardmode_InitLevel", _Region);
+
 EXITSECTION
 ENDEXITSECTION
 ParentTargetEdge "LaughingLeader_SuperEnemyUpgradeOverhaul"

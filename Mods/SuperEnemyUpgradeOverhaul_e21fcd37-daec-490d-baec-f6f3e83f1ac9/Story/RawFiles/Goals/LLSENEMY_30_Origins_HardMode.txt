@@ -28,6 +28,7 @@ AND
 DB_LLSENEMY_Hardmode_Origins_Scripts(_Region, _Script)
 THEN
 SysActivateGoal(_Script);
+LLSENEMY_Hardmode_InitLevel(_Region);
 
 //REGION LEVEL_EVENTS
 IF
@@ -36,6 +37,7 @@ AND
 DB_LLSENEMY_Hardmode_Origins_Scripts(_Region, _Script)
 THEN
 SysActivateGoal(_Script);
+LLSENEMY_Hardmode_InitLevel(_Region);
 
 IF
 RegionEnded(_Region)

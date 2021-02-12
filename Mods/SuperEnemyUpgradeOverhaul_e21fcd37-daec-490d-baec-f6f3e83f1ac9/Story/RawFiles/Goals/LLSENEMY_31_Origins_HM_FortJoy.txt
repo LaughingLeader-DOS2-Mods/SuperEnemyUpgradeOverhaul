@@ -1,7 +1,7 @@
 Version 1
 SubGoalCombiner SGC_AND
 INITSECTION
-NRD_ModCall("SuperEnemyUpgradeOverhaul", "HM_FTJ_Enabled");
+
 KBSECTION
 
 //REGION Atusa
@@ -43,17 +43,17 @@ ObjectEnteredCombat(S_FTJ_MagisterTorturer_1d1c0ba0-a91e-4927-af79-6d8d27e0646b,
 AND
 GlobalGetFlag("LLSENEMY_HM_FTJ_SuperGolemReady", 0)
 THEN
-NRD_ModCall("SuperEnemyUpgradeOverhaul", "HM_FTJ_RunEvent", "WakeSuperGolem");
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "Hardmode_RunEvent", "WakeSuperGolem");
 
 IF
 AttackedByObject(CHARACTERGUID_S_LLSENEMY_FTJ_FleshGolem_C_Super_82a1c335-d5b6-4046-9286-400faf67e08e, _, _, _, _)
 AND
 GlobalGetFlag("LLSENEMY_HM_FTJ_SuperGolemReady", 0)
 THEN
-NRD_ModCall("SuperEnemyUpgradeOverhaul", "HM_FTJ_RunEvent", "WakeSuperGolem");
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "Hardmode_RunEvent", "WakeSuperGolem");
 //END_REGION
 
 EXITSECTION
-NRD_ModCall("SuperEnemyUpgradeOverhaul", "HM_FTJ_Disabled");
+
 ENDEXITSECTION
 ParentTargetEdge "LLSENEMY_30_Origins_HM_Parent"

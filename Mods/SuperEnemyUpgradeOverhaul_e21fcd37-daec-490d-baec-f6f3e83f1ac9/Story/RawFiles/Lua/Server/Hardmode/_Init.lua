@@ -1,2 +1,1 @@
-
-Ext.Require("Server/Hardmode/FortJoy.lua")
+Ext.Require("Server/Hardmode/HardmodeMain.lua")

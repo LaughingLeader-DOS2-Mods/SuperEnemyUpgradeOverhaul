@@ -1,23 +1,9 @@
 Version 1
 SubGoalCombiner SGC_AND
 INITSECTION
-LLSENEMY_Hardmode_InitLevel("TUT_Tutorial_A");
+
 KBSECTION
 //REGION TOPDECK_INIT
-PROC
-LLSENEMY_Hardmode_InitLevel("TUT_Tutorial_A")
-AND
-NOT DB_LLSENEMY_HM_InitializedLevel("TUT_Tutorial_A")
-THEN
-DB_LLSENEMY_HM_InitializedLevel("TUT_Tutorial_A");
-LLSENEMY_Upgrades_AddToIgnoreList(S_TUT_TopDeck_LivingMagister1_b5e74192-498f-4eb3-844a-4a817f9802d3);
-LLSENEMY_Hardmode_SetupNPC(S_TUT_TopDeckMagister1_de400bda-b14e-4cff-b5f5-737781437902, "TUT_Tutorial_A", 1);
-LLSENEMY_Hardmode_SetupNPC(S_TUT_TopDeckMagister2_e2d47d73-4f9d-4de2-8a3c-c774a0ea114a, "TUT_Tutorial_A", 1);
-//LLENEMY_Hardmode_SetupNPC(S_TUT_TopDeck_LivingMagister1_b5e74192-498f-4eb3-844a-4a817f9802d3, "TUT_Tutorial_A", 0);
-// This dood starts at 50% health
-CharacterSetHitpointsPercentage(TUT_CargoDeck_Humans_Male_Magister_Grunt_000_a06e61dd-58c6-4119-99be-716c3a4fc1ef, 100.0);
-LeaderLib_Helper_AddAndEquipItemTemplate(TUT_CargoDeck_Humans_Male_Magister_Grunt_000_a06e61dd-58c6-4119-99be-716c3a4fc1ef, "47131328-5335-4349-999b-c0fa4ad0a806", 0);
-LeaderLib_Helper_AddAndEquipItemTemplate(TUT_CargoDeck_Humans_Male_Magister_Grunt_000_a06e61dd-58c6-4119-99be-716c3a4fc1ef, "ec4769e6-bcfc-44e0-9e9c-de62e0bdf407", 0);
 
 PROC
 LLSENEMY_Hardmode_InitLevel("TUT_Tutorial_A")
@@ -26,13 +12,6 @@ LLSENEMY_Hardmode_SetupRecruiter("TUT_Tutorial_A");
 
 //NOT DB_TUT_TopDeckTentacles((CHARACTERGUID)CHARACTERGUID_S_TUT_TopDeck_Tentacle1_6cbd4fbf-a9f0-403c-8ee1-5679e4ae03a6, (TRIGGERGUID)TRIGGERGUID_S_TUT_TopDeck_TentacleTarget1_1a80890f-b410-4ddf-a21e-f50f169b0cce);
 //END_REGION
-
-PROC
-LeaderLib_Mods_OnVersionChanged(e21fcd37-daec-490d-baec-f6f3e83f1ac9, (INTEGER)_LastVersion, (INTEGER)_NextVersion)
-AND
-_LastVersion < 537198595
-THEN
-LLSENEMY_Hardmode_SetupRecruiter("TUT_Tutorial_A");
 
 //REGION LEVEL_UP_TENTACLES 
 IF
@@ -393,9 +372,5 @@ SysClear("DB_LLSENEMY_HM_TUT_LarianTriedToKillCaptain", 1);
 SysClear("DB_LLSENEMY_HM_TUT_MadeMortal", 1);
 SysClear("DB_LLSENEMY_HM_TUT_SlapWorkaround", 1);
 SysClear("DB_LLSENEMY_HM_TUT_ReruiterFreed", 1);
-ProcSetInvulnerable(CHARACTERGUID_S_TUT_TopDeckMagister1_de400bda-b14e-4cff-b5f5-737781437902, 0);
-CharacterSetImmortal(CHARACTERGUID_S_TUT_TopDeckMagister1_de400bda-b14e-4cff-b5f5-737781437902, 0);
-ProcSetInvulnerable(CHARACTERGUID_S_TUT_TopDeckMagister2_e2d47d73-4f9d-4de2-8a3c-c774a0ea114a, 0);
-CharacterSetImmortal(CHARACTERGUID_S_TUT_TopDeckMagister2_e2d47d73-4f9d-4de2-8a3c-c774a0ea114a, 0);
 ENDEXITSECTION
 ParentTargetEdge "LLSENEMY_30_Origins_HM_Parent"
