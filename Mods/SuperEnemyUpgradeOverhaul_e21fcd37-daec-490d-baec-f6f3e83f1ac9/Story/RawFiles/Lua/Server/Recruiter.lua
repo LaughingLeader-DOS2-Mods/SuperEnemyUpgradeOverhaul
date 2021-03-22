@@ -17,3 +17,9 @@ function SetupRecruiter(region)
 		CharacterSetCanSpotSneakers(recruiter, 0)
 	end
 end
+
+function HideRecruiter()
+	if positionData[SharedData.RegionData.Current] ~= nil then
+		SetOnStage(recruiter, 0)
+	end
+end

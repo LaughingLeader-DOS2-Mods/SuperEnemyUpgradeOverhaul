@@ -15,7 +15,7 @@ local function Init()
 end
 
 local function Enable()
-	
+	SetupRecruiter("TUT_Tutorial_A")
 end
 
 local function Disable()
@@ -23,6 +23,7 @@ local function Disable()
 	CharacterSetImmortal(TopDeckMagister.UUID, 0)
 	ProcSetInvulnerable(CaptainKalwyn.UUID, 0)
 	CharacterSetImmortal(CaptainKalwyn.UUID, 0)
+	HideRecruiter()
 end
 
 return {
