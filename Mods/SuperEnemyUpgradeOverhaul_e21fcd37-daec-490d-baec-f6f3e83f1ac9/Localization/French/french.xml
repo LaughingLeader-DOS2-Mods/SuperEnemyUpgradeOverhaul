@@ -37,12 +37,12 @@
 	<content contentuid="h0f2a61a6g5427g4e2bgbc76g986dc3e1fa79">Disable Bonus Skill Upgrades. These give enemies new skills using the Script Extender. (Currently Enabled)</content>
 	<content contentuid="h0f4b3d6bg416cg43b1g9ae2g879d929b4151">Commit Level Modifier to the World - This will level up every non-player character in the world to the desired level modifier, including neutral or allied characters (non-recruited Origin companions are ignored).</content>
 	<content contentuid="h0fac50d9g63c1g4dc1gb769g9fba10e602df">Piercing Immunity</content>
-	<content contentuid="h0fd762dcg98f8g4483g9cd5ga74f7c4b02c8">When &lt;font color=&apos;#FF0000&apos;&gt;disabled&lt;/font&gt; (Knocked Down, Stunned, etc), &lt;font color=&apos;#FFAB00&apos;&gt;incoming damage is reduced by [ExtraData:LLENEMY_ShadowBonus_StunDefense_DamageReduction]%&lt;/font&gt;. </content>
+	<content contentuid="h0fd762dcg98f8g4483g9cd5ga74f7c4b02c8">&lt;font color=&apos;#C7A758&apos;&gt;When &lt;font color=&apos;#FF0000&apos;&gt;disabled&lt;/font&gt; (Knocked Down, Stunned, etc), &lt;font color=&apos;#FFAB00&apos;&gt;incoming damage is reduced by [ExtraData:LLENEMY_ShadowBonus_StunDefense_DamageReduction]%&lt;/font&gt;.&lt;/font&gt; </content>
 	<content contentuid="h1049b802g537bg4815gb5b6g34c387f9aa9c">Elite Melter</content>
 	<content contentuid="h106bb9f5ge8a1g4019g9d9dgebb27474f992">Elite Blessed Ice Infusion</content>
 	<content contentuid="h10a8c3f8g6fedg4baag91f7g5b421eaa770c">Rage (V)</content>
 	<content contentuid="h113eaf38g98cfg4905gbdcbge7974c230658">Source-Hungry Void Flayer</content>
-	<content contentuid="h11435de3g7c5fg4a04ga59fg3c0e3e0cc836">Damaging &lt;font color=&apos;#FE6E27&apos;&gt;fire spells&lt;/font&gt; have a [ExtraData:LLENEMY_ShadowBonus_CursedFire_Chance]% chance to apply &lt;font color=&apos;#B823CB&apos;&gt;Necrofire&lt;/font&gt;. </content>
+	<content contentuid="h11435de3g7c5fg4a04ga59fg3c0e3e0cc836">&lt;font color=&apos;#C7A758&apos;&gt;Damaging &lt;font color=&apos;#FE6E27&apos;&gt;fire spells&lt;/font&gt; have a [ExtraData:LLENEMY_ShadowBonus_CursedFire_Chance]% chance to apply &lt;font color=&apos;#B823CB&apos;&gt;Necrofire&lt;/font&gt;.&lt;/font&gt; </content>
 	<content contentuid="h127721f1g27f1g4ffag9b50gf2720cedb009">Armor Boost</content>
 	<content contentuid="h12db0e65g1dceg4d56g8857gb018ab29f393">Talent:  Comeback Kid</content>
 	<content contentuid="h12f95fb9g81e2g430egba6eg7db9633652de">Character is empowered with random upgrades.</content>
@@ -56,12 +56,12 @@
 	<content contentuid="h179efab0g7e6cg441ag8083gb11964394dc4">A &lt;i&gt;strange&lt;/i&gt; item retrieved from a &lt;font color=&apos;#9B30FF&apos; face=&apos;Copperplate Gothic Bold&apos;&gt;Shadow Orb&lt;/font&gt;.&lt;br&gt;&lt;font color=&apos;#BDA0CB&apos;&gt;Cold to the touch, when this item is held, your grip on reality may begin to slip.&lt;/font&gt;</content>
 	<content contentuid="h17c3aeabg026ag41e4g93a0gfd8da7534786">Mass Shackler</content>
 	<content contentuid="h17e326e9g8f4fg4d6bg83dfg8f54134ffda5">Enable Class Upgrades - These are upgrades that grant enemies new skillsets and small ability bonuses, in class-like themes. (Currently Disabled)</content>
-	<content contentuid="h185353bfgd688g4ac3ga6f8gb7b57293b96f">&lt;font color=&apos;#4197E2&apos;&gt;[Key:Rain_Water_DisplayName]&lt;/font&gt; creates a mild &lt;font color=&apos;#7D71D9&apos;&gt;lightning storm&lt;/font&gt; at the target location. </content>
+	<content contentuid="h185353bfgd688g4ac3ga6f8gb7b57293b96f">&lt;font color=&apos;#C7A758&apos;&gt;&lt;font color=&apos;#4197E2&apos;&gt;[Key:Rain_Water_DisplayName]&lt;/font&gt; creates a mild &lt;font color=&apos;#7D71D9&apos;&gt;lightning storm&lt;/font&gt; at the target location.&lt;/font&gt; </content>
 	<content contentuid="h18c28f76g6913g4685g81b9g6a6326ac81a3">Gathering Power</content>
 	<content contentuid="h18df0fecgf914g49b6ga573gc75298cee2ee">Source-Hungry Voidwolf</content>
 	<content contentuid="h18ff40ffg5d06g48c6gb09egaec569a55aa8">Talent: Torturer</content>
 	<content contentuid="h194ac7f5g9da2g4067g83efgf23de735ad79">Bonus Treasure</content>
-	<content contentuid="h19593f3fg3755g47f5gb70dg61954a8a6bf3">&lt;font color=&apos;#00FF00&apos;&gt;[ExtraData:LLENEMY_ShadowBonus_Madness_ChanceOnTurn]%&lt;/font&gt; chance to gain &lt;font color=&apos;#B823CB&apos;&gt;Madness&lt;/font&gt; when your turn ends.&lt;br&gt;&lt;font color=&apos;#B823CB&apos;&gt;Madness&lt;/font&gt; grants you bonuses and full control over your actions.</content>
+	<content contentuid="h19593f3fg3755g47f5gb70dg61954a8a6bf3">&lt;font color=&apos;#C7A758&apos;&gt;&lt;font color=&apos;#00FF00&apos;&gt;[ExtraData:LLENEMY_ShadowBonus_Madness_ChanceOnTurn]%&lt;/font&gt; chance to gain &lt;font color=&apos;#B823CB&apos;&gt;Madness&lt;/font&gt; when your turn ends.&lt;br&gt;&lt;font color=&apos;#B823CB&apos;&gt;Madness&lt;/font&gt; grants you bonuses and full control over your actions.&lt;/font&gt;</content>
 	<content contentuid="h19830defg8efbg4be0ga890g34311649a588">&lt;font color=&apos;#73F6FF&apos;&gt;[1] Cleansed [2]&lt;/font&gt;</content>
 	<content contentuid="h1a306bc6gbee4g4d46g9748g69148e74ded0">Character rolled a &lt;font color=&apos;#FF0000&apos;&gt;Critical Failure (0)&lt;/font&gt;, and now has to give bonus treasure if killed before this status expires. Hurry!</content>
 	<content contentuid="h1ad605c4gb69bg4562ga6adgc2d42e102770">Talent</content>
@@ -145,7 +145,7 @@
 	<content contentuid="h4a997d64g68b8g4209gb83cgae2710959b8d">The percentage amount of bonus vitality elites gain per rank. Elite enemies can be rank 1 to 10.</content>
 	<content contentuid="h4b7423d8g2abag4800g8f4eg32dcda21a98d">Shockspiker</content>
 	<content contentuid="h4c9f3466gccd0g48bfg9e37gc1c23bacb69a">Shadow Reflection</content>
-	<content contentuid="h4cbda363g10cfg4587g94c4gdc6e539d4397">Start combat with [Key:FORTIFIED_DisplayName] and [Key:MAGIC_SHELL_DisplayName]. </content>
+	<content contentuid="h4cbda363g10cfg4587g94c4gdc6e539d4397">&lt;font color=&apos;#C7A758&apos;&gt;Start combat with [Key:FORTIFIED_DisplayName] and [Key:MAGIC_SHELL_DisplayName].&lt;/font&gt; </content>
 	<content contentuid="h4cf1c406gceb1g411fga0d9gc9832cc4d2f5">Talent: Greedy Vessel</content>
 	<content contentuid="h4d505354g26bdg4ae8gb91fgcb5451d31bea">Source-Hungry Voidwoken Beetle</content>
 	<content contentuid="h4e8193a9g9c4eg4bdeg8f33g994b83af94d3">The minimum amount of bonus skills to add to an enemy. Will be a random value between the min and max.</content>
@@ -333,7 +333,7 @@
 	<content contentuid="ha7f53e28gd690g469ega89cga38b27f8dd19">Rewards Settings</content>
 	<content contentuid="ha903a113gffa1g498ag9d6cg671b4a630418">Enable Bonus Buffs</content>
 	<content contentuid="ha963a343g4464g4bb3ga553g95a99a0d4cf7">Source-Hungry Vampiric Voidwoken</content>
-	<content contentuid="ha9bac902g50e1g46dagb76fg74085358d300">When your turn ends, harmful damage-over-time statuses are &lt;font color=&apos;#4197E2&apos;&gt;cleansed&lt;/font&gt;, restoring &lt;font color=&apos;#97FBFF&apos;&gt;[ExtraData:LLENEMY_ShadowBonus_ImmuneBoost_HealPercentage]% Vitality&lt;/font&gt; per status. </content>
+	<content contentuid="ha9bac902g50e1g46dagb76fg74085358d300">&lt;font color=&apos;#C7A758&apos;&gt;When your turn ends, harmful damage-over-time statuses are &lt;font color=&apos;#4197E2&apos;&gt;cleansed&lt;/font&gt;, restoring &lt;font color=&apos;#97FBFF&apos;&gt;[ExtraData:LLENEMY_ShadowBonus_ImmuneBoost_HealPercentage]% Vitality&lt;/font&gt; per status.&lt;/font&gt; </content>
 	<content contentuid="ha9dfee58ge73fg47e4gb9f7g1ff2ced6635e">Vitality Boost</content>
 	<content contentuid="ha9e5c55dg7d32g47deg8168g8a7aa027e8e8">Talent: Natural Conductor</content>
 	<content contentuid="hab9efc47g4dc2g4c0cg956fgfc8cd29c7d42">[GLOBAL] Disable Hard Mode Extra Upgrade Rolling (Default - Enable) (Currently Enabled)</content>
@@ -352,7 +352,7 @@
 	<content contentuid="hb216bc96gc66ag4016g9c6agf7af5a5d78d3">Super Enemy Upgrade Overhaul</content>
 	<content contentuid="hb3bee298g2eb6g461bgafb8ge07c9ecc8094">Vitality Boost</content>
 	<content contentuid="hb3caf7b0g7049g4df9ga3d9g210a92d40ec7">The minimum amount of bonus upgrades to gain in hardmode. Hardmode bonus upgrades will be a random value between the min and max. </content>
-	<content contentuid="hb5046330g2473g4d21g80ecgc49d05235e4e">Start combat by going [Key:INVISIBLE_DisplayName].</content>
+	<content contentuid="hb5046330g2473g4d21g80ecgc49d05235e4e">&lt;font color=&apos;#C7A758&apos;&gt;Start combat by going [Key:INVISIBLE_DisplayName].&lt;/font&gt;</content>
 	<content contentuid="hb507b7f9g3a42g4d8bg93aegebe13b908ff5">[Debug] Enable Level Cap</content>
 	<content contentuid="hb52d1ac1g7c4fg45a4g87d8g52056a5a2ba2">Talent: Indomitable</content>
 	<content contentuid="hb5ed98e3g8acbg404cgaab9gdf882ba463ce">&lt;font color=&apos;#33FF33&apos; size=&apos;23&apos;&gt;*Stole &lt;/font&gt;&lt;font color=&apos;#C7A758&apos; size=&apos;26&apos;&gt;[1]&lt;/font&gt; &lt;font color=&apos;#33FF33&apos; size=&apos;23&apos;&gt;Gold!*&lt;/font&gt;</content>
