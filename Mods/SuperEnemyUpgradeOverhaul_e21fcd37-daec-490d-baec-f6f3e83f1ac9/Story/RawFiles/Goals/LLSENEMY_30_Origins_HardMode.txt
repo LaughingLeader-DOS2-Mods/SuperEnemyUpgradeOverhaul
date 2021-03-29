@@ -28,6 +28,12 @@ AND
 DB_LLSENEMY_Hardmode_Origins_Scripts(_Region, _Script)
 THEN
 SysActivateGoal(_Script);
+
+PROC
+LLSENEMY_Hardmode_Origins_EnableScriptsForCurrentLevel()
+AND
+DB_CurrentLevel(_Region)
+THEN
 LLSENEMY_Hardmode_InitLevel(_Region);
 
 //REGION LEVEL_EVENTS
@@ -37,6 +43,10 @@ AND
 DB_LLSENEMY_Hardmode_Origins_Scripts(_Region, _Script)
 THEN
 SysActivateGoal(_Script);
+
+IF
+RegionStarted(_Region)
+THEN
 LLSENEMY_Hardmode_InitLevel(_Region);
 
 IF

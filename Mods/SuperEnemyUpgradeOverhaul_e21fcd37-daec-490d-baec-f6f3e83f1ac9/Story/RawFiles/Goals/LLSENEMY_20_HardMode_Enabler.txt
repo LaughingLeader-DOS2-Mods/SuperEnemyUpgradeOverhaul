@@ -8,14 +8,12 @@ KBSECTION
 PROC
 LLSENEMY_Hardmode_Enabled()
 THEN
-//NRD_ModCall("SuperEnemyUpgradeOverhaul", "HardmodeEnabled");
-DB_NOOP(1);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "Hardmode_Enabled");
 
 PROC
 LLSENEMY_Hardmode_Disabled()
 THEN
-//NRD_ModCall("SuperEnemyUpgradeOverhaul", "HardmodeDisabled");
-DB_NOOP(1);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "Hardmode_Disabled");
 //END_REGION
 
 //REGION GLOBAL_FLAG_EVENT

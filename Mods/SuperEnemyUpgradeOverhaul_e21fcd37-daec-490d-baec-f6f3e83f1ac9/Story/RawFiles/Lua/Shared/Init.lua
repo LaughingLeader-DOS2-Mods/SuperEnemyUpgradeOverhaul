@@ -3,6 +3,9 @@ GameHelpers = LeaderLib.GameHelpers
 Common = LeaderLib.Common
 StringHelpers = LeaderLib.StringHelpers
 
+fprint = LeaderLib.fprint
+LOGLEVEL = LeaderLib.LOGLEVEL
+
 Vars = {
 	UPGRADE_MAX_ROLL = 100,
 	DefaultDropCount = 4,

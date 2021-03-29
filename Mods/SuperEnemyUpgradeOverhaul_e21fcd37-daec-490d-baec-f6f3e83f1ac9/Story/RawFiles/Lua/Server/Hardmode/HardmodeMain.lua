@@ -32,7 +32,11 @@ function Hardmode:Enable()
 		local b,err = xpcall(currentLevelScript.Enable, debug.traceback)
 		if not b then
 			Ext.PrintError(err)
+		else
+			fprint(LOGLEVEL.DEFAULT, "[SEUO:Hardmode:Enable] Enabled hardmode script for region (%s)", currentLevel)
 		end
+	else
+		fprint(LOGLEVEL.DEFAULT, "[SEUO:Hardmode:Enable] No hardmode script for region (%s). Skipping.", currentLevel)
 	end
 end
 
@@ -43,16 +47,15 @@ function Hardmode:Disable()
 		local b,err = xpcall(currentLevelScript.Disable, debug.traceback)
 		if not b then
 			Ext.PrintError(err)
+		else
+			fprint(LOGLEVEL.DEFAULT, "[SEUO:Hardmode:Disable] Disabled hardmode script for region (%s)", currentLevel)
 		end
+	else
+		fprint(LOGLEVEL.DEFAULT, "[SEUO:Hardmode:Disable] No hardmode script for region (%s). Skipping.", currentLevel)
 	end
 end
 
 function Hardmode:Init(region)
-	if Settings.Global:FlagEquals("LLENEMY_HardmodeEnabled", true) then
-		Hardmode:Enable()
-	else
-		Hardmode:Disable()
-	end
 	local currentLevel = region or SharedData.RegionData.Current
 	local currentLevelScript = self.Levels[currentLevel]
 	if currentLevelScript and currentLevelScript.Init then
@@ -67,13 +70,24 @@ function Hardmode:SetupNPC(uuid, makeImmortal)
 	SetFaction(uuid, "Evil NPC")
 	SetVarInteger(uuid, "FleeFromDangerousSurface", 0)
 	if makeImmortal == true and not GameHelpers.IsInCombat(uuid) then
-		ProcSetInvulnerable(uuid, 1)
+		Osi.ProcSetInvulnerable(uuid, 1)
 		CharacterSetImmortal(uuid, 1)
 	end
 end
 
-LeaderLib.RegisterListener("GlobalFlagChanged", "LLENEMY_HardmodeEnabled", function(flag, enabled)
+-- LeaderLib.RegisterListener("GlobalFlagChanged", "LLENEMY_HardmodeEnabled", function(flag, enabled)
+-- 	print("GlobalFlagChanged", flag, enabled)
+-- 	if enabled then
+-- 		Hardmode:Enable()
+-- 	else
+-- 		Hardmode:Disable()
+-- 	end
+-- end)
+
+LeaderLib.RegisterListener("LuaReset", function()
+	local enabled = Settings.Global:FlagEquals("LLENEMY_HardmodeEnabled", true)
 	if enabled then
+		Hardmode:Init()
 		Hardmode:Enable()
 	else
 		Hardmode:Disable()
@@ -82,6 +96,14 @@ end)
 
 function Hardmode_InitLevel(region)
 	Hardmode:Init(region)
+end
+
+function Hardmode_Enabled()
+	Hardmode:Enable()
+end
+
+function Hardmode_Disabled()
+	Hardmode:Disable()
 end
 
 function Hardmode_RunEvent(event, ...)

@@ -24,5 +24,5 @@ end)
 
 Ext.RegisterNetListener("LLENEMY_SetHighestLoremaster", function(call, valStr)
 	HighestLoremaster = math.tointeger(valStr)
-	Ext.Print("[EnemyUpgradeOverhaul:LLENEMY_SetHighestLoremaster] Set highest loremaster value to ("..valStr..") on client.")
+	Ext.Print("[SEUO] Set highest loremaster value to ("..valStr..") on client.")
 end)
