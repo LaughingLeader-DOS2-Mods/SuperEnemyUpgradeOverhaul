@@ -19,9 +19,9 @@ local function Enable()
 end
 
 local function Disable()
-	ProcSetInvulnerable(TopDeckMagister.UUID, 0)
+	Osi.ProcSetInvulnerable(TopDeckMagister.UUID, 0)
 	CharacterSetImmortal(TopDeckMagister.UUID, 0)
-	ProcSetInvulnerable(CaptainKalwyn.UUID, 0)
+	Osi.ProcSetInvulnerable(CaptainKalwyn.UUID, 0)
 	CharacterSetImmortal(CaptainKalwyn.UUID, 0)
 	HideRecruiter()
 end
