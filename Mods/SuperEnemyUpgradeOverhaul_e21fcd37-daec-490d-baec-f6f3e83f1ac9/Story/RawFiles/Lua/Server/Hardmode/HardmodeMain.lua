@@ -26,32 +26,36 @@ function Hardmode:RollAdditionalUpgrades(uuid)
 end
 
 function Hardmode:Enable()
-	local currentLevel = SharedData.RegionData.Current
-	local currentLevelScript = self.Levels[currentLevel]
-	if currentLevelScript and currentLevelScript.Enable then
-		local b,err = xpcall(currentLevelScript.Enable, debug.traceback)
-		if not b then
-			Ext.PrintError(err)
+	if SharedData.RegionData.LevelType == LEVELTYPE.GAME then
+		local currentLevel = SharedData.RegionData.Current
+		local currentLevelScript = self.Levels[currentLevel]
+		if currentLevelScript and currentLevelScript.Enable then
+			local b,err = xpcall(currentLevelScript.Enable, debug.traceback)
+			if not b then
+				Ext.PrintError(err)
+			else
+				fprint(LOGLEVEL.DEFAULT, "[SEUO:Hardmode:Enable] Enabled hardmode script for region (%s)", currentLevel)
+			end
 		else
-			fprint(LOGLEVEL.DEFAULT, "[SEUO:Hardmode:Enable] Enabled hardmode script for region (%s)", currentLevel)
+			fprint(LOGLEVEL.DEFAULT, "[SEUO:Hardmode:Enable] No hardmode script for region (%s). Skipping.", currentLevel)
 		end
-	else
-		fprint(LOGLEVEL.DEFAULT, "[SEUO:Hardmode:Enable] No hardmode script for region (%s). Skipping.", currentLevel)
 	end
 end
 
 function Hardmode:Disable()
-	local currentLevel = SharedData.RegionData.Current
-	local currentLevelScript = self.Levels[currentLevel]
-	if currentLevelScript and currentLevelScript.Disable then
-		local b,err = xpcall(currentLevelScript.Disable, debug.traceback)
-		if not b then
-			Ext.PrintError(err)
+	if SharedData.RegionData.LevelType == LEVELTYPE.GAME then
+		local currentLevel = SharedData.RegionData.Current
+		local currentLevelScript = self.Levels[currentLevel]
+		if currentLevelScript and currentLevelScript.Disable then
+			local b,err = xpcall(currentLevelScript.Disable, debug.traceback)
+			if not b then
+				Ext.PrintError(err)
+			else
+				fprint(LOGLEVEL.DEFAULT, "[SEUO:Hardmode:Disable] Disabled hardmode script for region (%s)", currentLevel)
+			end
 		else
-			fprint(LOGLEVEL.DEFAULT, "[SEUO:Hardmode:Disable] Disabled hardmode script for region (%s)", currentLevel)
+			fprint(LOGLEVEL.DEFAULT, "[SEUO:Hardmode:Disable] No hardmode script for region (%s). Skipping.", currentLevel)
 		end
-	else
-		fprint(LOGLEVEL.DEFAULT, "[SEUO:Hardmode:Disable] No hardmode script for region (%s). Skipping.", currentLevel)
 	end
 end
 
