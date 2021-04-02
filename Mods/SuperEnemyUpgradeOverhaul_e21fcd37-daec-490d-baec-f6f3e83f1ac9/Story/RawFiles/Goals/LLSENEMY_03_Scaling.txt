@@ -36,6 +36,7 @@ NOT DB_LLSENEMY_Scaling_Temp_TransformedCharacters(_Region, _Char, _Level);
 //END_REGION
 
 //REGION LEVELING
+/*
 QRY
 LLSENEMY_Scaling_QRY_GetTargetLevel((CHARACTERGUID)_Char, (INTEGER)_HostLevel)
 AND
@@ -195,6 +196,7 @@ AND
 DB_LLSENEMY_Scaling_Temp_LastVitalityPercentage(_Char, _Last)
 THEN
 NOT DB_LLSENEMY_Scaling_Temp_LastVitalityPercentage(_Char, _Last);
+*/
 //END_REGION
 
 //REGION MASS_LEVELING
@@ -202,8 +204,12 @@ PROC
 LLSENEMY_Scaling_LevelAllInCombat()
 AND
 GlobalGetFlag("LLENEMY_Scaling_CommitToWorld_Enabled", 1)
+AND
+DB_CurrentLevel(_Region)
+AND
+IsGameLevel(_Region, 1)
 THEN
-CharacterLaunchOsirisOnlyIterator("Iterator_LLENEMY_Scaling_LevelUp");
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "LevelUpRegion", _Region);
 
 PROC
 LLSENEMY_Scaling_LevelAllInCombat()
@@ -212,19 +218,9 @@ GlobalGetFlag("LLENEMY_Scaling_CommitToWorld_Enabled", 0)
 AND
 DB_CombatCharacters(_Char, _CombatID)
 AND
-LLSENEMY_QRY_IsEnemyOfParty(_Char, _CombatID)
+GetUUID(_Char, _UUID)
 THEN
-LLSENEMY_Scaling_LevelUpCharacter(_Char);
-
-IF
-StoryEvent((CHARACTERGUID)_Char, "Iterator_LLENEMY_Scaling_LevelUp")
-AND
-CharacterIsDead(_Char, 0)
-AND
-NOT LeaderLib_Helper_QRY_CharacterIsPlayer(_Char)
-THEN
-LLSENEMY_Scaling_LevelUpCharacter(_Char);
-LLSENEMY_Scaling_Internal_IncreaseCount();
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "LevelUpCharacter", _UUID);
 //END_REGION
 
 //REGION WORLD_COMMITTING
@@ -237,37 +233,28 @@ OpenMessageBoxYesNo(_Char, "LLENEMY_MessageBox_ConfirmEnemyLevelingCommit");
 
 IF
 MessageBoxYesNoClosed(_Player, "LLENEMY_MessageBox_ConfirmEnemyLevelingCommit", 1)
+AND
+DB_CurrentLevel(_Region)
 THEN
 GlobalSetFlag("LLENEMY_Scaling_CommitToWorld_Enabled");
-DB_LLSENEMY_Scaling_Temp_TotalScaled(_Player, 0);
-TimerLaunch("Timers_LLENEMY_Scaling_DisplayTotalLeveled", 250);
-CharacterLaunchOsirisOnlyIterator("Iterator_LLENEMY_Scaling_LevelUp");
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "LevelUpRegion", _Region);
+ProcObjectTimer(_Player, "Timers_LLENEMY_Scaling_DisplayTotalLeveled", 250);
+
+PROC
+ProcObjectTimerFinished((CHARACTERGUID)_Player, "Timers_LLENEMY_Scaling_DisplayTotalLeveled")
+AND
+DB_CurrentLevel(_Region)
+AND
+NRD_ModQuery1("SuperEnemyUpgradeOverhaul", "GetTotalLeveledCharactersForRegion", _Region, _CountStr)
+AND
+NRD_StringToInt(_CountStr, _Count)
+THEN
+CharacterDisplayTextWithParam(_Player, "LLENEMY_DisplayText_TotalCharactersLeveled", _Count);
 
 IF
 MessageBoxYesNoClosed(_Player, "LLENEMY_MessageBox_ConfirmEnemyLevelingCommit", 0)
 THEN
 GlobalClearFlag("LLENEMY_Scaling_CommitToWorld_Enabled");
-SysClear("DB_LLSENEMY_Scaling_Temp_TotalScaled", 2);
-
-PROC
-LLSENEMY_Scaling_Internal_IncreaseCount()
-AND
-DB_LLSENEMY_Scaling_Temp_TotalScaled(_Player, _Total)
-AND
-IntegerSum(_Total, 1, _Next)
-THEN
-NOT DB_LLSENEMY_Scaling_Temp_TotalScaled(_Player, _Total);
-DB_LLSENEMY_Scaling_Temp_TotalScaled(_Player, _Next);
-TimerCancel("Timers_LLENEMY_Scaling_DisplayTotalLeveled");
-TimerLaunch("Timers_LLENEMY_Scaling_DisplayTotalLeveled", 250);
-
-IF
-TimerFinished("Timers_LLENEMY_Scaling_DisplayTotalLeveled")
-AND
-DB_LLSENEMY_Scaling_Temp_TotalScaled(_Player, _Total)
-THEN
-NOT DB_LLSENEMY_Scaling_Temp_TotalScaled(_Player, _Total);
-CharacterDisplayTextWithParam(_Player, "LLENEMY_DisplayText_TotalCharactersLeveled", _Total);
 //END_REGION
 EXITSECTION
 

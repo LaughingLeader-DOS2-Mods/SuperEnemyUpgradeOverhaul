@@ -8,20 +8,14 @@ IF
 ObjectEnteredCombat(S_TUT_TopDeckVoidling10_bd0123ae-26fd-4dad-8326-b6ae9a3fc1c5, _CombatID)
 AND
 GlobalGetFlag("LLENEMY_EnemyLevelingEnabled", 1)
-AND
-CharacterGetHostCharacter(_Host)
-AND
-CharacterGetLevel(_Host, _HostLevel)
-AND
-DB_LLSENEMY_LevelModifier(_Modifier)
-AND
-IntegerSum(_HostLevel, _Modifier, _TargetLevel)
 THEN
 //LLENEMY_Scaling_Internal_LevelUpCharacterWithCap(S_TUT_MiddleDeckTentacle_1_80c1f2cb-1596-4dec-a127-bec0e5ced33a, _TargetLevel, 0);
 //LLENEMY_Scaling_Internal_LevelUpCharacterWithCap(S_TUT_MiddleDeckTentacle_2_23461d8e-fcab-415d-8be4-0def913dfbb4, _TargetLevel, 0);
 //LLENEMY_Scaling_Internal_LevelUpCharacterWithCap(S_TUT_MiddleDeckTentacle_3_82776900-ea28-435c-8e32-fb9135ca38b7, _TargetLevel, 0);
-LLSENEMY_Scaling_Internal_LevelUpCharacterWithCap(S_TUT_TopDeck_Tentacle1_6cbd4fbf-a9f0-403c-8ee1-5679e4ae03a6, _TargetLevel, 0);
-LLSENEMY_Scaling_Internal_LevelUpCharacterWithCap(S_TUT_TopDeck_Tentacle4_488645e1-3d74-4b3e-83fb-ab2dde52387b, _TargetLevel, 0);
+//LLSENEMY_Scaling_Internal_LevelUpCharacterWithCap(S_TUT_TopDeck_Tentacle1_6cbd4fbf-a9f0-403c-8ee1-5679e4ae03a6, _TargetLevel, 0);
+//LLSENEMY_Scaling_Internal_LevelUpCharacterWithCap(S_TUT_TopDeck_Tentacle4_488645e1-3d74-4b3e-83fb-ab2dde52387b, _TargetLevel, 0);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "LevelUpCharacter", "6cbd4fbf-a9f0-403c-8ee1-5679e4ae03a6");
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "LevelUpCharacter", "488645e1-3d74-4b3e-83fb-ab2dde52387b");
 //END_REGION
 
 //REGION KEEP_BOSS_ALIVE

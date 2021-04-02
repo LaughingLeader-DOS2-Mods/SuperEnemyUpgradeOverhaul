@@ -59,6 +59,7 @@ settings.GetMenuOrder = function()
 			"LLENEMY_EnemyLevelingEnabled",
 			"LLENEMY_Debug_LevelCapDisabled",
 			"AutoLeveling_Modifier",
+			"LLENEMY_LevelEnemiesToPartyLevelDisabled",
 		}},
 		{DisplayName = MenuSectionMisc.Value, 
 		Entries = {
@@ -73,6 +74,7 @@ end
 
 settings.Global:AddLocalizedFlags({
 	"LLENEMY_EnemyLevelingEnabled",
+	"LLENEMY_LevelEnemiesToPartyLevelDisabled",
 	"LLENEMY_HardmodeEnabled",
 	"LLENEMY_HardmodeRollingDisabled",
 	"LLENEMY_RewardsDisabled",

@@ -16,6 +16,9 @@ end
 if PersistentVars.ActiveDuplicants == nil then
 	PersistentVars.ActiveDuplicants = 0
 end
+if PersistentVars.LeveledRegions == nil then
+	PersistentVars.LeveledRegions = {}
+end
 
 Ext.Require("Server/Listeners.lua")
 Ext.Require("Server/UpgradeInfo.lua")

@@ -8,17 +8,15 @@ KBSECTION
 PROC
 LeaderLib_Initialized((STRING)_Region)
 AND
-NOT DB_LLSENEMY_Scaling_Temp_LeveledRegion(_Region)
+DB_GlobalFlag("LLENEMY_Scaling_CommitToWorld_Enabled")
 AND
-GlobalGetFlag("LLENEMY_Scaling_CommitToWorld_Enabled", 1)
+IsGameLevel(_Region, 1)
 THEN
-DB_LLSENEMY_Scaling_Temp_LeveledRegion(_Region);
-CharacterLaunchOsirisOnlyIterator("Iterator_LLENEMY_Scaling_LevelUp");
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "LevelUpRegion", _Region);
 
 IF
 RegionEnded(_Region)
 THEN
-NOT DB_LLSENEMY_Scaling_Temp_LeveledRegion(_Region);
 SysClear("DB_LLSENEMY_Scaling_Temp_WaitForCombat", 1);
 
 //REGION NEUTRAL_CRIMES
@@ -32,8 +30,10 @@ AND
 CharacterIsInCombat(_Char, 0)
 AND
 CharacterIsNeutral(_Char, _Player, 1)
+AND
+GetUUID(_Char, _UUID)
 THEN
-LLSENEMY_Scaling_LevelUpCharacter(_Char);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "LevelUpCharacter", _UUID);
 //END_REGION
 
 //REGION TRANSFORMED_CHARACTER_BUG_WORKAROUND
@@ -55,8 +55,10 @@ AND
 ObjectIsCharacter((CHARACTERGUID)_Char, 1)
 AND
 NOT LeaderLib_Helper_QRY_CharacterIsPlayer(_Char)
+AND
+GetUUID(_Char, _UUID)
 THEN
-LLSENEMY_Scaling_LevelUpCharacter(_Char);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "LevelUpCharacter", _UUID);
 LLSENEMY_Scaling_SaveTransformedCharacterLevel(_Char);
 //END_REGION
 
