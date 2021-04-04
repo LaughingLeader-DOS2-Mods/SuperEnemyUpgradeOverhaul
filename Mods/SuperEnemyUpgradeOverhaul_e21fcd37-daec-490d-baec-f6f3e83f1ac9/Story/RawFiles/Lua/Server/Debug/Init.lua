@@ -55,11 +55,11 @@ function TraceCharacterStats_Restricted(char)
 	Ext.Print("====== Stats: "..tostring(char).." ======")
 	Ext.Print("==== COMPUTED ====")
 	for _,stat in pairs(character_stats_computed) do
-		Ext.Print(stat..": "..tostring(LeaderLib.Common.Dump(char[stat])))
+		Ext.Print(stat..": "..tostring(Common.Dump(char[stat])))
 	end
 	Ext.Print("==== REGULAR ====")
 	for _,stat in pairs(character_stats) do
-		Ext.Print(stat..": "..tostring(LeaderLib.Common.Dump(char[stat])))
+		Ext.Print(stat..": "..tostring(Common.Dump(char[stat])))
 	end
 end
 
@@ -231,7 +231,7 @@ function Debug_PrintTags(uuid)
 		Osi.LLSENEMY_Debug_SaveNetID(character.NetID)
 		Ext.Print("[LLENEMY_Debug.lua:PrintTags] Tags for ("..tostring(uuid)..") Name("..NRD_CharacterGetStatString(uuid, "Name")..") NetID("..tostring(character.NetID)..") character.Stats.NetID("..tostring(character.Stats.NetID).."):")
 		Ext.Print("==========================")
-		Ext.Print(LeaderLib.Common.Dump(character:GetTags()))
+		Ext.Print(Common.Dump(character:GetTags()))
 		Ext.Print("==========================")
 	end
 end

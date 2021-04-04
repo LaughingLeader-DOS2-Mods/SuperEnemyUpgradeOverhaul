@@ -7,7 +7,7 @@ local function LLENEMY_Debug_PrintTags(call, datastr)
 		if character ~= nil then
 			Ext.Print("[LLENEMY_ClientDebug.lua:PrintTags] Tags for NetID("..tostring(netid)..") character.Stats.NetID("..tostring(character.Stats.NetID)..")")
 			Ext.Print("==========================")
-			Ext.Print(LeaderLib.Common.Dump(character:GetTags()))
+			Ext.Print(Common.Dump(character:GetTags()))
 			Ext.Print("==========================")
 		else
 			error("[LLENEMY_ClientDebug.lua:PrintTags] No character found for NetID ("..tostring(netid)..")!")

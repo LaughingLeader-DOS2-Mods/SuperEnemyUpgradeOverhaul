@@ -1,4 +1,4 @@
-local printd = LeaderLib.PrintDebug
+local printd = PrintDebug
 
 local ATTEMPTS_MAX = 40
 
@@ -284,9 +284,9 @@ local function GetPreferredSkillGroup(ability,requirement,lastgroup)
 	else
 		local attempts = 0
 		while attempts < 20 do
-			local rantable = LeaderLib.Common.GetRandomTableEntry(EnemySkills)
+			local rantable = Common.GetRandomTableEntry(EnemySkills)
 			if rantable ~= nil then
-				local ranskill = LeaderLib.Common.GetRandomTableEntry(rantable.skills)
+				local ranskill = Common.GetRandomTableEntry(rantable.skills)
 				if ranskill ~= nil then
 					if ranskill.requirement == "None" then
 						return rantable
@@ -332,7 +332,7 @@ local function TryAddBonusSkills(enemy,remaining,remainingSourceSkills)
 	--local sp_max = CharacterGetMaxSourcePoints(enemy)
 	local level = enemy.Stats.Level
 
-	printd(string.format("[EUO:BonusSkills] Enemy(%s:%s) Ability(%s) Requirement(%s) Remaining(%s)", enemy.DisplayName, enemy.MyGuid, preferred_ability, LeaderLib.Common.Dump(preferred_requirement), remaining))
+	printd(string.format("[EUO:BonusSkills] Enemy(%s:%s) Ability(%s) Requirement(%s) Remaining(%s)", enemy.DisplayName, enemy.MyGuid, preferred_ability, Common.Dump(preferred_requirement), remaining))
 
 	local skillgroup = GetPreferredSkillGroup(preferred_ability, preferred_requirement, nil)
 	if skillgroup == nil then

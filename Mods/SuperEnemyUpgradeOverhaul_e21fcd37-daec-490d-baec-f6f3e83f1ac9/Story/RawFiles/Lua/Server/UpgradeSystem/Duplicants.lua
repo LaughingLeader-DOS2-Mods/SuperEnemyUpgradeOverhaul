@@ -2,7 +2,7 @@ if Duplication == nil then
 	Duplication = {}
 end
 
-local printd = LeaderLib.PrintDebug
+local printd = PrintDebug
 
 ---@param source EsvCharacter
 ---@param dupe EsvCharacter

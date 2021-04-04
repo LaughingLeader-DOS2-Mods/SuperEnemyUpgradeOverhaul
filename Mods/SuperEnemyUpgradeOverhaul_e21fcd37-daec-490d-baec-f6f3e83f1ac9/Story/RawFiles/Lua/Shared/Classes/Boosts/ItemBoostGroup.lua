@@ -122,10 +122,10 @@ end
 ---@return ItemBoost[]
 function ItemBoostGroup:GetRandomEntries(totalEntries)
 	local ranEntries = {}
-	local shuffled = LeaderLib.Common.ShuffleTable(self.Entries)
+	local shuffled = Common.ShuffleTable(self.Entries)
 	local total = 0
 	while total < totalEntries do
-		local entry = LeaderLib.Common.GetRandomTableEntry(shuffled)
+		local entry = Common.GetRandomTableEntry(shuffled)
 		table.insert(ranEntries, entry)
 		total = total + 1
 	end
@@ -197,7 +197,7 @@ function ItemBoostGroup:Apply(item,stat,statType,level,mod,noRandomization,limit
 							return totalApplied
 						end
 						---@type ItemBoost
-						local entry = LeaderLib.Common.GetRandomTableEntry(validEntries)
+						local entry = Common.GetRandomTableEntry(validEntries)
 						if CanAddBoost(entry, stat, statType) then
 							if entry.MinLevel <= 0 and entry.MaxLevel <= 0 or (level >= entry.MinLevel and (level <= entry.MaxLevel or entry.MaxLevel <= 0)) then
 								if RollForBoost(entry) then
@@ -247,7 +247,7 @@ function ItemBoostGroup:Apply(item,stat,statType,level,mod,noRandomization,limit
 			end
 		end
 		if totalApplied == 0 then
-			local shuffled = LeaderLib.Common.ShuffleTable(self.Entries)
+			local shuffled = Common.ShuffleTable(self.Entries)
 			for i,v in pairs(shuffled) do
 				if CanAddBoost(v, stat, statType) then
 					if v.MinLevel <= 0 and v.MaxLevel <= 0 or (level >= v.MinLevel and (level <= v.MaxLevel or v.MaxLevel <= 0)) then

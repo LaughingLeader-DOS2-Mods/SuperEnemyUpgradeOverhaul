@@ -112,8 +112,8 @@ function SkillGroup:GetRandomSkill(enemy, requirement, level, sourceAllowed)
 		end
 	end
 	--LeaderLib.PrintDebug("[LLENEMY_BonusSkills.lua:GetRandomSkill] ---- Getting random skill from table count (".. tostring(#available_skills) ..") self.skills("..tostring(#self.skills)..") self.id("..tostring(#self.id)..").")
-	--LeaderLib.PrintDebug("[LLENEMY_BonusSkills.lua:GetRandomSkill] ---- ("..tostring(LeaderLib.Common.Dump(available_skills))..").")
-	return LeaderLib.Common.GetRandomTableEntry(available_skills)
+	--LeaderLib.PrintDebug("[LLENEMY_BonusSkills.lua:GetRandomSkill] ---- ("..tostring(Common.Dump(available_skills))..").")
+	return Common.GetRandomTableEntry(available_skills)
 end
 
 ---@type SkillGroup

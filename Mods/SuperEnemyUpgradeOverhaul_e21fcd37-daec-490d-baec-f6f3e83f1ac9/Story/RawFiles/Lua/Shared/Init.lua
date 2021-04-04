@@ -1,10 +1,4 @@
-LeaderLib = Mods["LeaderLib"]
-GameHelpers = LeaderLib.GameHelpers
-Common = LeaderLib.Common
-StringHelpers = LeaderLib.StringHelpers
-
-fprint = LeaderLib.fprint
-LOGLEVEL = LeaderLib.LOGLEVEL
+LeaderLib = Mods.LeaderLib
 
 Vars = {
 	UPGRADE_MAX_ROLL = 100,
@@ -33,6 +27,8 @@ VoiceMetaData = {}
 Commands = {
 	CHECKLOREMASTER = "CheckLoremaster"
 }
+
+Mods.LeaderLib.ImportUnsafe(Mods.SuperEnemyUpgradeOverhaul)
 
 Ext.Require("Shared/Classes/Init.lua")
 
@@ -133,9 +129,6 @@ Ext.RegisterListener("SessionLoaded", function()
 	LeaderLib.EnableFeature("WingsWorkaround")
     LeaderLib.EnableFeature("ReplaceTooltipPlaceholders")
 end)
-
-SharedData = LeaderLib.SharedData
-Client = LeaderLib.Client
 
 if Ext.IsServer() then
 	local function SyncAllUpgradeData()

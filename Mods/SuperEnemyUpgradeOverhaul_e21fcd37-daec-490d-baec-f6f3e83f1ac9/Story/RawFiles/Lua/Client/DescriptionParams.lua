@@ -1,11 +1,11 @@
 ---@class TranslatedString
-local TranslatedString = LeaderLib.Classes["TranslatedString"]
+local ts = LeaderLib.Classes["TranslatedString"]
 
-local counterParamText = TranslatedString:Create("h662390f7gfd9eg4a56g95e5g658283cc548a", "<font color='#D416FF'>[1]%</font>")
+local counterParamText = ts:Create("h662390f7gfd9eg4a56g95e5g658283cc548a", "<font color='#D416FF'>[1]%</font>")
 
 local function StatDescription_Counter(status, target, param, statusSource)
 	--local initiative = NRD_CharacterGetComputedStat(character, "Initiative", 0)
-	--Ext.Print("Char: " .. tostring(character) .. " | " .. LeaderLib.Common.Dump(character))
+	--Ext.Print("Char: " .. tostring(character) .. " | " .. Common.Dump(character))
 	local initiative = target.Initiative
 	local counterMax = (Ext.ExtraData.LLENEMY_Counter_MaxChance or 75)
 	--local percent = (initiative - COUNTER_MIN) / (COUNTER_MAX - COUNTER_MIN)

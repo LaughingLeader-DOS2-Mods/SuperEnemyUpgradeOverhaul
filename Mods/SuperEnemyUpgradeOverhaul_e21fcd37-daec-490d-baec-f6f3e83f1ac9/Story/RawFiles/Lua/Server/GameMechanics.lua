@@ -75,8 +75,8 @@ end
 
 function MugTarget_End(character, target)
 	local items = Osi.DB_LLSENEMY_Talents_Temp_MasterThief_Items:Get(target, nil, nil)
-	LeaderLib.PrintDebug("[LLENEMY_GameMechanics.lua:MugTarget_End] Picking items from:\n",LeaderLib.Common.Dump(items))
-	local item_entry = LeaderLib.Common.GetRandomTableEntry(items)	
+	LeaderLib.PrintDebug("[LLENEMY_GameMechanics.lua:MugTarget_End] Picking items from:\n",Common.Dump(items))
+	local item_entry = Common.GetRandomTableEntry(items)	
 	if item_entry ~= nil then
 		local item = item_entry[3]
 		LeaderLib.PrintDebug("[LLENEMY_GameMechanics.lua:MugTarget_End] Transfering (",item,") from (",target,") to (",character,").")

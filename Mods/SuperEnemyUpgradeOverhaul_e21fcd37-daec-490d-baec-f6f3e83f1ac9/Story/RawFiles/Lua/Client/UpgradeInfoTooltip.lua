@@ -178,10 +178,10 @@ local function GetChallengePointsText(character, isControllerMode)
 		end
 	end
 	--LeaderLib.PrintDebug("CP Tooltip | Name("..tostring(character.Name)..") NetID(".. tostring(character.NetID)..") character.Stats.NetID("..tostring(Ext.GetCharacter(character.NetID).Stats.NetID)..")")
-	--LeaderLib.PrintDebug("Tags: " .. LeaderLib.Common.Dump(character:GetTags()))
+	--LeaderLib.PrintDebug("Tags: " .. Common.Dump(character:GetTags()))
 	-- if statusSource ~= nil then
 	-- 	LeaderLib.PrintDebug("CP Tooltip | Source Name("..tostring(statusSource.Name)..") NetID(".. tostring(statusSource.NetID)..") character.Stats.NetID("..tostring(Ext.GetCharacter(statusSource.NetID).Stats.NetID)..")")
-	-- 	LeaderLib.PrintDebug("Tags: " .. LeaderLib.Common.Dump(statusSource:GetTags()))
+	-- 	LeaderLib.PrintDebug("Tags: " .. Common.Dump(statusSource:GetTags()))
 	-- end
 	-- if data.isDuplicant == true then
 	-- 	output = output .. "<br><font color='#65C900' size='14'>Grants no experience, but drops guaranteed loot.</font>"

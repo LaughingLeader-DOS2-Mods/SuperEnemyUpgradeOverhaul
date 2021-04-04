@@ -1,13 +1,13 @@
 ---@class TranslatedString
-local TranslatedString = LeaderLib.Classes["TranslatedString"]
+local ts = LeaderLib.Classes["TranslatedString"]
 
-local maxSummonsText = TranslatedString:Create("hd248998fge250g4a7bg8dd3gc88f19fbe5f6", "Maximum Summons")
+local maxSummonsText = ts:Create("hd248998fge250g4a7bg8dd3gc88f19fbe5f6", "Maximum Summons")
 local ShadowItemFallbackDescription = "A <i>strange</i> item retrieved from a <font color='#9B30FF' face='Copperplate Gothic Bold'>Shadow Orb</font>.<br><font color='#BDA0CB'>Cold to the touch, when this item is held, your grip on reality may begin to slip.</font>"
-local ShadowItemDescription = TranslatedString:Create("h179efab0g7e6cg441ag8083gb11964394dc4", ShadowItemFallbackDescription)
-local ShadowItemNameColor = TranslatedString:Create("h0301fb1cg95a6g47e5gade7g8ccfc0ffef2f", "<font color='[1]'>[2]</font>")
-local ShadowItemNameAffix = TranslatedString:Create("h1d44d1a4g804bg43fbg80dfgd3e3d07a897d", "<font color='#A020F0'>[1] of Shadows</font>")
-local ShadowItemRarity = TranslatedString:Create("habff2fe9g031cg4c7cg85feg28a1fa25fb14", "<font color='[1]'>Void</font>")
-local ShadowItemRarityDescription = TranslatedString:Create("h6d3ad5e8g6bf2g4c8dgb1b8gef0e3ead4982", "<font color='#33FF88' size='20'>Appraisers say this item used to be [1].</font>")
+local ShadowItemDescription = ts:Create("h179efab0g7e6cg441ag8083gb11964394dc4", ShadowItemFallbackDescription)
+local ShadowItemNameColor = ts:Create("h0301fb1cg95a6g47e5gade7g8ccfc0ffef2f", "<font color='[1]'>[2]</font>")
+local ShadowItemNameAffix = ts:Create("h1d44d1a4g804bg43fbg80dfgd3e3d07a897d", "<font color='#A020F0'>[1] of Shadows</font>")
+local ShadowItemRarity = ts:Create("habff2fe9g031cg4c7cg85feg28a1fa25fb14", "<font color='[1]'>Void</font>")
+local ShadowItemRarityDescription = ts:Create("h6d3ad5e8g6bf2g4c8dgb1b8gef0e3ead4982", "<font color='#33FF88' size='20'>Appraisers say this item used to be [1].</font>")
 
 local rarityColor = {
 	Common = "#AEA8FF",
@@ -30,13 +30,13 @@ local originalRarityColor = {
 }
 
 local rarityName = {
-	Common = TranslatedString:Create("h5c0f3da4g83a2g4f3fg9944gc80920bcb4df", "Common"),
-	Uncommon = TranslatedString:Create("h7682e16bg7c69g4a72g8f1fg1b32519665f3", "Uncommon"),
-	Rare = TranslatedString:Create("heb7ba0d5g7f4cg49e9g9ce2g86cf5e5bd277", "Rare"),
-	Epic = TranslatedString:Create("hd75b2771g8abag49b5g9b8egb608d51b9ddf", "Epic"),
-	Legendary = TranslatedString:Create("h97227897g1345g4046gbb62g842dcc292db1", "Legendary"),
-	Divine = TranslatedString:Create("h09d00ab3g7edbg4569ga4d7gf37b9b7b04cb", "Divine"),
-	Unique = TranslatedString:Create("h04685fd1g024ag4641gaed6g0ffb2d0ff103", "Unique"),
+	Common = ts:Create("h5c0f3da4g83a2g4f3fg9944gc80920bcb4df", "Common"),
+	Uncommon = ts:Create("h7682e16bg7c69g4a72g8f1fg1b32519665f3", "Uncommon"),
+	Rare = ts:Create("heb7ba0d5g7f4cg49e9g9ce2g86cf5e5bd277", "Rare"),
+	Epic = ts:Create("hd75b2771g8abag49b5g9b8egb608d51b9ddf", "Epic"),
+	Legendary = ts:Create("h97227897g1345g4046gbb62g842dcc292db1", "Legendary"),
+	Divine = ts:Create("h09d00ab3g7edbg4569ga4d7gf37b9b7b04cb", "Divine"),
+	Unique = ts:Create("h04685fd1g024ag4641gaed6g0ffb2d0ff103", "Unique"),
 }
 
 ---@param item EsvItem

@@ -163,7 +163,7 @@ local ModBoosts = {
 
 local function GetDefaultDeltamods()
 	--local deltamods = Ext.GetStatEntries("DeltaModifier")
-	--Ext.Print("Deltamods:\n" .. LeaderLib.Common.Dump(deltamods))
+	--Ext.Print("Deltamods:\n" .. Common.Dump(deltamods))
 end
 
 local function Init(boosts)
@@ -238,7 +238,7 @@ local function Init(boosts)
 	--table.insert(boosts.All, DeltaMod:Create("Primary", MinLevel=8})
 	--table.insert(boosts.All, DeltaMod:Create("Legendary", MinLevel=16})
 
-	LeaderLib.PrintDebug("[LLENEMY_ItemCorruptionDeltamods.lua] Boosts:\n" .. LeaderLib.Common.Dump(boosts))
+	LeaderLib.PrintDebug("[LLENEMY_ItemCorruptionDeltamods.lua] Boosts:\n" .. Common.Dump(boosts))
 end
 
 return {

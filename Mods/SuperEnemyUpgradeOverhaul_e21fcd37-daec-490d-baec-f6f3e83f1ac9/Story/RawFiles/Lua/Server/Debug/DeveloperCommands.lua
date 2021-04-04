@@ -42,7 +42,7 @@ end)
 
 Ext.RegisterConsoleCommand("goblintest", function(command)
 	local combat = Osi.DB_CombatCharacters:Get(nil,nil)
-	Ext.Print("[LLENEMY:Debug.lua] DB_CombatCharacters:\n[".. LeaderLib.Common.Dump(combat))
+	Ext.Print("[LLENEMY:Debug.lua] DB_CombatCharacters:\n[".. Common.Dump(combat))
 	local host = CharacterGetHostCharacter()
 	local x,y,z = GetPosition(host)
 	if combat ~= nil and #combat > 0 then
@@ -172,7 +172,7 @@ Ext.RegisterConsoleCommand("enemytest2", function(cmd)
 	local enemy = TemporaryCharacterCreateAtPosition(tx or x,ty or y,tz or z, template, 0)
 	SetFaction(enemy, "Evil NPC")
 
-	local preset = LeaderLib.Common.GetRandomTableEntry(presets)
+	local preset = Common.GetRandomTableEntry(presets)
 	CharacterApplyPreset(enemy, preset)
 
 	AddBonusSkills(enemy, "25", "5")

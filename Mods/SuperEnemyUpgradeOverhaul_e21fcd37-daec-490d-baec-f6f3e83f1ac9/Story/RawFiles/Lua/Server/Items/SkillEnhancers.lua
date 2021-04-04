@@ -1,12 +1,8 @@
---local RegisterSkillListener = LeaderLib.RegisterSkillListener
----@type SKILL_STATE
-local SKILL_STATE = LeaderLib.SKILL_STATE
-
 ---@param skill string
 ---@param char string
 ---@param state SKILL_STATE PREPARE|USED|CAST|HIT
 ---@param skillData SkillEventData
-LeaderLib.RegisterSkillListener({"Rain_Water", "Rain_EnemyWater"}, function(skill, char, state, skillData)
+RegisterSkillListener({"Rain_Water", "Rain_EnemyWater"}, function(skill, char, state, skillData)
 	if state == SKILL_STATE.CAST then
 		if ObjectGetFlag(char, "LLENEMY_ShadowBonus_ShockingRain_Enabled") == 1 then
 			local target = skillData.TargetPositions[1] or skillData.TargetObjects[1]

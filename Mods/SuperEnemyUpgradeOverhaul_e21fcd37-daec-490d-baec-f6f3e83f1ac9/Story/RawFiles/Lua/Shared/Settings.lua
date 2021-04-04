@@ -1,7 +1,7 @@
 local function Init()
 
 ---@type ModSettings
-local settings = LeaderLib.CreateModSettings("e21fcd37-daec-490d-baec-f6f3e83f1ac9")
+local settings = CreateModSettings("e21fcd37-daec-490d-baec-f6f3e83f1ac9")
 ---@type TranslatedString
 local ts = LeaderLib.Classes.TranslatedString
 

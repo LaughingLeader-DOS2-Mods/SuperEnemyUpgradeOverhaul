@@ -1,4 +1,4 @@
-local printd = LeaderLib.PrintDebug
+local printd = PrintDebug
 
 UpgradeSystem = {}
 

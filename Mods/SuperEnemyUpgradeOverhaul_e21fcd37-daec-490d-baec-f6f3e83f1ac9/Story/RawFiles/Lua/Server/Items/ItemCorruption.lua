@@ -169,7 +169,7 @@ end
 local function AddRandomNegativeBoost_Old(item,stat,statType,level)
 	if level == nil or level <= 0 then level = 1 end
 	if statType == "Armor" or statType == "Shield" then
-		local boostStat = LeaderLib.Common.GetRandomTableEntry(armorResistances)
+		local boostStat = Common.GetRandomTableEntry(armorResistances)
 		local min = 1 + math.ceil(level/2)
 		local max = 5 + math.min(level,15)
 		AddBoost(item,boostStat,min,max,true)
@@ -178,10 +178,10 @@ local function AddRandomNegativeBoost_Old(item,stat,statType,level)
 		end
 		return true
 	elseif statType == "Weapon" then
-		local boostStatEntry = LeaderLib.Common.GetRandomTableEntry(weaponNegativeBoosts)
+		local boostStatEntry = Common.GetRandomTableEntry(weaponNegativeBoosts)
 		AddBoost(item,boostStatEntry.Stat,boostStatEntry.Min,boostStatEntry.Max,true)
 		if Ext.Random(1,100) >= 50 then
-			boostStatEntry = LeaderLib.Common.GetRandomTableEntry(weaponNegativeBoosts)
+			boostStatEntry = Common.GetRandomTableEntry(weaponNegativeBoosts)
 			AddBoost(item,boostStatEntry.Stat,boostStatEntry.Min,boostStatEntry.Max,true)
 		end
 		return true
@@ -195,7 +195,7 @@ local function AddRandomNegativeBoosts(item,stat,statType,level,total)
 	local i = 0
 	while i < total do
 		---@type ItemBoost
-		local boost = LeaderLib.Common.GetRandomTableEntry(ranNegativeBoosts)
+		local boost = Common.GetRandomTableEntry(ranNegativeBoosts)
 		boost:Apply(item, -1)
 		i = i + 1
 	end
@@ -228,7 +228,7 @@ local function AddRandomDeltaModsFromTable(item,stat,statType,level,boostTable,i
 			end
 		end
 	end
-	LeaderLib.PrintDebug("[LLENEMY_ItemCorruption.lua:AddRandomBoostsFromTable] Boosts:\n" .. LeaderLib.Common.Dump(boosts))
+	LeaderLib.PrintDebug("[LLENEMY_ItemCorruption.lua:AddRandomBoostsFromTable] Boosts:\n" .. Common.Dump(boosts))
 	local boostCount = #boosts
 	local boostAdded = false
 	if boostCount == 1 then
@@ -260,7 +260,7 @@ local function AddRandomDeltaModsFromTable(item,stat,statType,level,boostTable,i
 		end
 	end
 	if not boostAdded then
-		local entry = LeaderLib.Common.GetRandomTableEntry(boosts)
+		local entry = Common.GetRandomTableEntry(boosts)
 		if entry ~= nil then
 			if isClone == true then
 				NRD_ItemCloneAddBoost(entry.Type, entry.Boost)
@@ -294,8 +294,8 @@ ItemCorruption.AddRandomBoosts = AddRandomBoosts
 
 local function SetRandomShadowName(item,statType)
 	if statType == "Weapon" or statType == "Shield" then
-		local name = LeaderLib.Common.GetRandomTableEntry(ItemCorruption.Names)
-		local color = LeaderLib.Common.GetRandomTableEntry(ItemCorruption.Colors)
+		local name = Common.GetRandomTableEntry(ItemCorruption.Names)
+		local color = Common.GetRandomTableEntry(ItemCorruption.Colors)
 		name = string.format("<font color='%s'>%s</font>", color, name)
 		return name
 	end

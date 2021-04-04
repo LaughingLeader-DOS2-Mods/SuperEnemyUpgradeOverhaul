@@ -141,7 +141,7 @@ function ItemBoost:Apply(item, mod)
 		end
 	else
 		Ext.PrintError("[LLENEMY_ItemCorruptionBoosts.lua:ItemBoost:Apply] nil Boosts?")
-		Ext.PrintError(LeaderLib.Common.Dump(self))
+		Ext.PrintError(Common.Dump(self))
 	end
 end
 

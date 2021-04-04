@@ -27,7 +27,7 @@ end
 ---@return string
 function VoidwokenSpawn:GetTemplate()
     if #self.Templates > 1 then
-		return LeaderLib.Common.GetRandomTableEntry(self.Templates)
+		return Common.GetRandomTableEntry(self.Templates)
 	end
     return self.Template
 end
@@ -191,7 +191,7 @@ function SpawnVoidwoken(source,totalPoints,skipSpawning)
 	end
 
 	if #voidwokenTemplates > 0 then
-		LeaderLib.PrintDebug("Voidwoken Templates for SP("..tostring(totalPointsUsed).."): " .. LeaderLib.Common.Dump(voidwokenTemplates))
+		LeaderLib.PrintDebug("Voidwoken Templates for SP("..tostring(totalPointsUsed).."): " .. Common.Dump(voidwokenTemplates))
 		local totalWeight = 0
 		for i=1,#voidwokenTemplates do
 			local entry = voidwokenTemplates[i]
@@ -203,7 +203,7 @@ function SpawnVoidwoken(source,totalPoints,skipSpawning)
 
 		local rand = Ext.Random() * totalWeight
 		local entry = nil
-		voidwokenTemplates = LeaderLib.Common.ShuffleTable(voidwokenTemplates)
+		voidwokenTemplates = Common.ShuffleTable(voidwokenTemplates)
 		for i,v in pairs(voidwokenTemplates) do
 			--print(rand, v.Weight)
 			if rand < v.Weight then
@@ -222,7 +222,7 @@ function SpawnVoidwoken(source,totalPoints,skipSpawning)
 				local combatid = CombatGetIDForCharacter(source)
 				if combatid ~= nil and combatid >= 0 then
 					local combatEntries = Osi.DB_CombatCharacters:Get(nil,combatid)
-					local randomEntry = LeaderLib.Common.GetRandomTableEntry(combatEntries)
+					local randomEntry = Common.GetRandomTableEntry(combatEntries)
 					if randomEntry ~= nil then
 						x,y,z = GetPosition(randomEntry[1])
 					end
