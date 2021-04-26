@@ -376,15 +376,16 @@ local function GetClone(uuid,stat,statType,forceRarity)
 	---@type ItemDefinition
 	local props = constructor[1]
 	props.GoldValueOverwrite = math.floor(item.Stats.Value * 0.4)
+	props.GMFolding = false
 
 	if item.ItemType == "Weapon" then
 		-- Damage type fix
 		-- Deltamods with damage boosts may make the weapon's damage type be all of that type, so overwriting the statType
 		-- fixes this issue.
+		-- May also be fixed with GMFolding set to false.
 		local damageTypeString = Ext.StatGetAttribute(stat, "Damage Type")
 		if damageTypeString == nil then damageTypeString = "Physical" end
-		local damageTypeEnum = LeaderLib.Data.DamageTypeEnums[damageTypeString]
-		props.DamageTypeOverwrite = damageTypeEnum
+		props.DamageTypeOverwrite = damageTypeString
 	end
 
 	props.GenerationStatsId = stat

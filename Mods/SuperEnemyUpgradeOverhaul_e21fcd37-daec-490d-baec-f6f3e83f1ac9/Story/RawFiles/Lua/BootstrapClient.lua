@@ -4,6 +4,7 @@ if UpgradeResultData == nil then
 	UpgradeResultData = {}
 end
 
+Ext.Require("Client/UIExtras.lua")
 Ext.Require("Client/DescriptionParams.lua")
 local tooltipHandler = Ext.Require("Client/TooltipHandler.lua")
 

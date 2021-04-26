@@ -503,7 +503,7 @@ local function Init()
 	Game.Tooltip.RegisterListener("Status", "LLENEMY_DUPLICANT", OnDuplicantTooltip)
 	Game.Tooltip.RegisterListener("Status", "LLENEMY_INFUSION_INFO", OnInfusionInfoTooltip)
 	Game.Tooltip.RegisterListener("Status", "LLENEMY_INFUSION_INFO_ELITE", OnInfusionInfoTooltip)
-	--LeaderLib.UI.RegisterListener("OnTooltipPositioned", FormatTagTooltip)
+	--RegisterListener("OnTooltipPositioned", FormatTagTooltip)
 
 	Ext.RegisterUITypeInvokeListener(LeaderLib.Data.UIType.examine, "updateStatusses", function(ui, method)
 		local main = ui:GetRoot()

@@ -185,6 +185,16 @@ function UpgradeSystem.GetCharacterData(uuid)
 	return nil
 end
 
+function UpgradeSystem.ClearCharacterData(uuid)
+	local region = GetRegion(uuid) or SharedData.RegionData.Current
+	local regionData = PersistentVars.Upgrades.Results[region]
+	if regionData and regionData[uuid] then
+		regionData[uuid] = nil
+		return true
+	end
+	return false
+end
+
 Ext.RegisterConsoleCommand("euo_printupgraderesult", function(cmd, uuid)
 	local data = UpgradeSystem.GetCurrentRegionData(nil, uuid, false)
 	if data ~= nil then
@@ -390,6 +400,8 @@ function UpgradeSystem.ApplyEliteBonuses(character, region)
 			CharacterSetHitpointsPercentage(uuid, math.min(100.0, (character.Stats.CurrentVitality/character.Stats.MaxVitality)*100))
 			CharacterSetArmorPercentage(uuid, 100.0)
 			CharacterSetMagicArmorPercentage(uuid, 100.0)
+
+			SetTag(uuid, "LLENEMY_Elite")
 		end
 
 		local applyImmediately = CharacterIsInCombat(character.MyGuid) == 1
@@ -440,7 +452,11 @@ local function IgnoreCharacter(object)
 	return false
 end
 
-function UpgradeSystem.RollForUpgrades(uuid, region, applyImmediately, skipIgnoreCheck)
+---@param uuid string
+---@param applyImmediately boolean|nil
+---@param skipIgnoreCheck boolean|nil
+---@param skipHasUpgradesCheck boolean|nil
+function UpgradeSystem.RollForUpgrades(uuid, applyImmediately, skipIgnoreCheck, skipHasUpgradesCheck)
 	if skipIgnoreCheck == true or not IgnoreCharacter(uuid) then
 		local successes = 0
 		local character = Ext.GetCharacter(uuid)
@@ -450,7 +466,7 @@ function UpgradeSystem.RollForUpgrades(uuid, region, applyImmediately, skipIgnor
 			end
 		end
 		
-		if ObjectGetFlag(uuid, "LLSENEMY_HasUpgrades") == 0 then
+		if skipHasUpgradesCheck == true or ObjectGetFlag(uuid, "LLSENEMY_HasUpgrades") == 0 then
 			local vars = Settings.Global.Variables
 			local min = vars.Hardmode_MinBonusRolls.Value or Ext.ExtraData["LLENEMY_Hardmode_DefaultBonusRolls_Min"] or 1
 			local max = vars.Hardmode_MaxBonusRolls.Value or Ext.ExtraData["LLENEMY_Hardmode_DefaultBonusRolls_Max"] or 4
@@ -498,7 +514,7 @@ function UpgradeSystem.RollRegion(region, force)
 				SetVarInteger(uuid, "LLENEMY_ChallengePoints", 0)
 			end
 			if not IgnoreCharacter(uuid) then
-				UpgradeSystem.RollForUpgrades(uuid, region, CharacterIsInCombat(uuid) == 1, true)
+				UpgradeSystem.RollForUpgrades(uuid, CharacterIsInCombat(uuid) == 1, true)
 				UpgradeSystem.ApplyEliteBonuses(Ext.GetCharacter(uuid), region)
 			end
 		end
@@ -525,8 +541,10 @@ Ext.RegisterOsirisListener("GameStarted", 2, "after", function(region, isEditorM
 end)
 
 Ext.RegisterOsirisListener("ObjectEnteredCombat", 2, "after", function(object, id)
+	object = StringHelpers.GetUUID(object)
 	if ObjectIsCharacter(object) == 1 then
-		Osi.LLSENEMY_Scaling_LevelUpCharacter(object)
+		--Osi.LLSENEMY_Scaling_LevelUpCharacter(object)
+		LevelUpCharacter(object)
 		if not IgnoreCharacter(object) then
 			if Osi.LLSENEMY_QRY_SkipCombat(id) ~= true and Osi.LLSENEMY_QRY_IsEnemyOfParty(object) == true then
 				local character = Ext.GetCharacter(object)
@@ -535,7 +553,7 @@ Ext.RegisterOsirisListener("ObjectEnteredCombat", 2, "after", function(object, i
 					UpgradeSystem.CalculateChallengePoints(character)
 					UpgradeInfo_ApplyInfoStatus(character.MyGuid, true)
 				else
-					UpgradeSystem.RollForUpgrades(character.MyGuid, character.CurrentLevel, true)
+					UpgradeSystem.RollForUpgrades(character.MyGuid, true)
 				end
 				Duplication.StartDuplicating(character)
 			end
@@ -551,7 +569,7 @@ Ext.RegisterOsirisListener("ProcMakeNPCHostile", 2, "after", function(char, play
 			UpgradeSystem.CalculateChallengePoints(character)
 			UpgradeInfo_ApplyInfoStatus(character.MyGuid, true)
 		else
-			UpgradeSystem.RollForUpgrades(GetUUID(char), GetRegion(char), true)
+			UpgradeSystem.RollForUpgrades(GetUUID(char), true)
 		end
 	end
 end)

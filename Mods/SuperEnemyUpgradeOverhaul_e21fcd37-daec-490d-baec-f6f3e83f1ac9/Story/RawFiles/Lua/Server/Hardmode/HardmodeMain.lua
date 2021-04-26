@@ -20,7 +20,7 @@ function Hardmode:RollAdditionalUpgrades(uuid)
 	local bonusRolls = Ext.Random(min, max)
 	if bonusRolls > 0 then
 		for i=bonusRolls,1,-1 do
-			UpgradeSystem.RollForUpgrades(uuid, nil, false, true)
+			UpgradeSystem.RollForUpgrades(uuid, false, true)
 		end
 	end
 end

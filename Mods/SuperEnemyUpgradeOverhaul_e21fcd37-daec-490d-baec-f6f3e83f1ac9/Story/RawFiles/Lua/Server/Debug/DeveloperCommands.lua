@@ -196,3 +196,31 @@ Ext.RegisterConsoleCommand("euo_dupe", function(command)
 	end
 	
 end)
+
+---@param self LuaTest
+local upgradeTest = Testing.CreateTest("EUOUpgradeSystem", function(self, ...)
+	local host = Ext.GetCharacter(CharacterGetHostCharacter())
+	local x,y,z = GameHelpers.Grid.GetValidPositionInRadius(host.WorldPos, 12.0)
+	local template = "LLENEMY_Creatures_Voidwoken_Drillworm_A_Hatchling_ABC_c1a13a24-8b5c-408c-b2bf-18d965c166d0"
+	local enemy = StringHelpers.GetUUID(TemporaryCharacterCreateAtPosition(x, y, z, template, 0))
+	SetCanJoinCombat(enemy, 0)
+	SetCanFight(enemy, 0)
+	SetFaction(enemy, "Evil NPC")
+	UpgradeSystem.RollForUpgrades(enemy, true, true, true)
+	StartOneshotTimer(string.format("Timers_EUOUpgradeSystemTest_%s", enemy), 1000, function()
+		local data = UpgradeSystem.GetCurrentRegionData(nil, enemy, false)
+		local success = ObjectExists(enemy) == 1 and (data and #data > 0)
+		if data ~= nil then
+			print("Enemy upgrade results:")
+			print(Ext.JsonStringify(data))
+		end
+		RemoveTemporaryCharacter(enemy)
+		UpgradeSystem.ClearCharacterData(enemy)
+		self:Complete(success)
+	end)
+end)
+
+Ext.RegisterConsoleCommand("euo_test_upgrade", function(cmd)
+	print("Running EUOUpgradeSystem test.")
+	upgradeTest:Run()
+end)
