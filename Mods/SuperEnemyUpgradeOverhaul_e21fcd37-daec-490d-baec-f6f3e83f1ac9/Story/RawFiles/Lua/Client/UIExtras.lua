@@ -19,7 +19,6 @@ local function addHealthBarNameExtras(ui, method, name, level, isItem)
 	end)
 end
 Ext.RegisterUITypeInvokeListener(LeaderLib.Data.UIType.enemyHealthBar, "show", addHealthBarNameExtras)
-
 local function addNameExtras(ui, method, setType, name)
 	if setType == 0 then -- name
 		UIExtensions.StartTimer("SEUO_AddExtraNameStuff", 10, function()
