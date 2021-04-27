@@ -23,8 +23,8 @@ local function CanLevelCharacter(uuid)
 	return true
 end
 
-function LevelUpCharacter(uuid)
-	if CanLevelCharacter(uuid) then
+function LevelUpCharacter(uuid, force)
+	if force == true or CanLevelCharacter(uuid) then
 		local targetLevel = GetTargetLevel(uuid)
 		local character = Ext.GetCharacter(uuid)
 		local vit = character.Stats.CurrentVitality / character.Stats.MaxVitality
@@ -34,6 +34,7 @@ function LevelUpCharacter(uuid)
 		CharacterSetHitpointsPercentage(uuid, vit)
 		CharacterSetArmorPercentage(uuid, pArmor)
 		CharacterSetMagicArmorPercentage(uuid, mArmor)
+		ApplyStatus(uuid, "LEADERLIB_RECALC", 0.0, 1, uuid)
 	end
 end
 

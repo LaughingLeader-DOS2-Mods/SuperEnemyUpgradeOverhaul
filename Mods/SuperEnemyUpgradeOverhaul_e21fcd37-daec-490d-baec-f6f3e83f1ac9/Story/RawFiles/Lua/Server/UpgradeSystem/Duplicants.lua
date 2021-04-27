@@ -252,16 +252,20 @@ local function AddToArena(source, dupe)
 end
 
 ---@param source EsvCharacter
-local function Duplicate(source, i)
+local function Duplicate(source, i, makeTemporary)
 	local uuid = source.MyGuid
-	local x,y,z = table.unpack(source.WorldPos)
-	if x == nil then
-		x,y,z = GetPosition(source.MyGuid)
+	local x,y,z = GameHelpers.Grid.GetValidPositionInRadius(source.WorldPos, 12.0)
+	local dupeId = nil
+	if makeTemporary ~= true then
+		dupeId = CharacterCreateAtPosition(x,y,z, "LLENEMY_Dupe_A_54ad4e06-b57f-46d0-90fc-5da1208250e0", 0)
+	else
+		dupeId = TemporaryCharacterCreateAtPosition(x,y,z, "LLENEMY_Dupe_A_54ad4e06-b57f-46d0-90fc-5da1208250e0", 0)
+		SetTag(dupeId, "LeaderLib_TemporaryCharacter")
 	end
-	local dupeId = CharacterCreateAtPosition(x,y,z, "LLENEMY_Dupe_A_54ad4e06-b57f-46d0-90fc-5da1208250e0", 0)
+	
 	if dupeId == nil then
 		Ext.PrintError("[SEUO:Duplicate] Failed to create duplicant at", x, y, z, "for", source.MyGuid)
-		return false
+		return nil
 	end
 	SetOnStage(dupeId, 0)
 	CharacterSetDetached(dupeId, 1)
@@ -298,6 +302,8 @@ local function Duplicate(source, i)
 	CharacterSetFollowCharacter(dupeId, source.MyGuid)
 	PlayEffect(dupeId, "RS3_FX_GP_ScriptedEvent_Teleport_GenericSmoke_01")
 	TeleportToRandomPosition(dupeId, 3.0, "LLENEMY_DupeCharacterTeleported")
+
+	return dupeId
 end
 
 ---@param enemy EsvCharacter
@@ -330,10 +336,14 @@ function OnDuplicantDied(uuid)
 end
 
 ---@param source EsvCharacter
-function Duplication.StartDuplicating(source)
-	if Settings.Global:FlagEquals("LLENEMY_DuplicationEnabled", true) then
-		if IgnoreCharacter(source) then
-			return false
+---@param force boolean|nil
+---@param makeTemporary boolean|nil
+---@param skipTracking boolean|nil
+---@return string[]
+function Duplication.StartDuplicating(source, force, makeTemporary, skipTracking)
+	if force == true or Settings.Global:FlagEquals("LLENEMY_DuplicationEnabled", true) then
+		if force ~= true and IgnoreCharacter(source) then
+			return nil
 		end
 		local maxTotal = Settings.Global.Variables.Duplication_MaxTotal.Value or -1
 		if maxTotal < 0 or (maxTotal > 0 and PersistentVars.ActiveDuplicants < maxTotal) then
@@ -343,15 +353,21 @@ function Duplication.StartDuplicating(source)
 			if chance >= 100 or Ext.Random(1,100) <= chance then
 				local amount = Ext.Random(min, max)
 				if amount > 0 then
+					local dupes = {}
 					for i=amount,1,-1 do
-						if Duplicate(source, amount) then
-							SetTag(source.MyGuid, "LLENEMY_Duplicated")
-							PersistentVars.ActiveDuplicants = PersistentVars.ActiveDuplicants + 1
+						local dupe = Duplicate(source, amount, makeTemporary)
+						if dupe ~= nil then
+							table.insert(dupes, dupe)
+							if skipTracking ~= true then
+								SetTag(source.MyGuid, "LLENEMY_Duplicated")
+								PersistentVars.ActiveDuplicants = PersistentVars.ActiveDuplicants + 1
+							end
 						end
 					end
-					return true
+					return dupes
 				end
 			end
 		end
 	end
+	return nil
 end
