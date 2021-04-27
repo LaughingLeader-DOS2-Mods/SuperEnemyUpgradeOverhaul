@@ -157,7 +157,11 @@ local voidwokenGroups = {
 
 VoidwokenGroups = voidwokenGroups
 
-local function GetTotalPointsForRegion(source)
+if VoidWokenSpawning == nil then
+	VoidWokenSpawning = {}
+end
+
+function VoidWokenSpawning.GetTotalPointsForRegion(source)
 	local region = GetRegion(source)
 	local pointsDB = Osi.DB_LLSENEMY_Hardmode_SourcePointsUsed:Get(region, nil)
 	if pointsDB ~= nil and #pointsDB > 0 then
@@ -171,12 +175,17 @@ end
 
 local totalResets = 0
 
-function SpawnVoidwoken(source,totalPoints,skipSpawning)
+---@param source string
+---@param totalPoints integer
+---@param skipSpawning boolean|nil
+---@param makeTemporary boolean|nil
+function VoidWokenSpawning.Spawn(source,totalPoints,skipSpawning,makeTemporary)
+	local results = {}
 	local totalPointsUsed = 0
 	if totalPoints ~= nil then
 		totalPointsUsed = totalPoints
 	else
-		local b,p = pcall(GetTotalPointsForRegion, source)
+		local b,p = pcall(VoidWokenSpawning.GetTotalPointsForRegion, source)
 		if b then
 			totalPointsUsed = p
 		end
@@ -218,17 +227,23 @@ function SpawnVoidwoken(source,totalPoints,skipSpawning)
 			LeaderLib.PrintDebug("Picked random entry: " .. entry.Template .. " | " ..tostring(rand) .. " / " .. tostring(totalWeight))
 			if skipSpawning ~= true then
 				totalResets = 0
-				local x,y,z = GetPosition(source)
+				local x,y,z = GameHelpers.Grid.GetValidPositionInRadius(table.pack(GetPosition(source)), 12.0)
 				local combatid = CombatGetIDForCharacter(source)
 				if combatid ~= nil and combatid >= 0 then
 					local combatEntries = Osi.DB_CombatCharacters:Get(nil,combatid)
 					local randomEntry = Common.GetRandomTableEntry(combatEntries)
 					if randomEntry ~= nil then
-						x,y,z = GetPosition(randomEntry[1])
+						x,y,z = GameHelpers.Grid.GetValidPositionInRadius(table.pack(GetPosition(randomEntry[1])), 12.0)
 					end
 				end
 
-				local voidwoken = CharacterCreateAtPosition(x, y, z, entry:GetTemplate(), 1)
+				local voidwoken = nil
+				if makeTemporary ~= true then
+					voidwoken = CharacterCreateAtPosition(x, y, z, entry:GetTemplate(), 1)
+				else
+					voidwoken = TemporaryCharacterCreateAtPosition(x, y, z, entry:GetTemplate(), 1)
+					SetTag(voidwoken, "LeaderLib_TemporaryCharacter")
+				end
 				SetTag(voidwoken, "LLENEMY_DuplicationBlocked")
 				ClearGain(voidwoken)
 				SetFaction(voidwoken, "Evil NPC")
@@ -238,9 +253,12 @@ function SpawnVoidwoken(source,totalPoints,skipSpawning)
 				if ObjectExists(voidwoken) == 0 then
 					LeaderLib.PrintDebug("[LLENEMY_VoidwokenSpawning.lua:LLENEMY_SpawnVoidwoken] Failed to spawn voidwoken at (",x,y,z,")")
 				else
+					table.insert(results, voidwoken)
 					x,y,z = GetPosition(voidwoken)
 					PlayEffectAtPosition("RS3_FX_GP_ScriptedEvent_FJ_Worm_Voidwoken_Spawning_01", x,y,z)
 				end
+			else
+				table.insert(results, "NULL_00000000-0000-0000-0000-000000000000")
 			end
 		elseif totalResets < 30 then
 			totalResets = totalResets + 1
@@ -248,9 +266,10 @@ function SpawnVoidwoken(source,totalPoints,skipSpawning)
 			for i,v in pairs(voidwokenTemplates) do
 				v.Weight = v.DefaultWeight
 			end
-			SpawnVoidwoken(source, totalPointsUsed, skipSpawning)
+			Common.MergeTables(results, VoidWokenSpawning.Spawn(source, totalPointsUsed, skipSpawning, makeTemporary))
 		end
 	end
+	return results
 end
 
 local magicPointsVoidwokenChances = {
@@ -274,7 +293,7 @@ end
 --- Gets a chance threshold for spawning voidwoken, based on the source points cost of a skill.
 ---@param points integer
 ---@return integer
-local function GetVoidwokenSpawnChanceRollThreshold(points, totalPointsUsed)
+function VoidWokenSpawning.GetVoidwokenSpawnChanceRollThreshold(points, totalPointsUsed)
 	if type(points) == "string" then
 		points = tonumber(points)
 	end
@@ -300,7 +319,7 @@ IgnoredSourceSkills["Target_Curse"] = {
 	CombatOnly = true
 }
 
-local function SkillCanSummonVoidwoken(char, skill, skilltype, skillelement)
+function VoidWokenSpawning.SkillCanSummonVoidwoken(char, skill, skilltype, skillelement)
 	if IgnoredSourceSkills[skill] ~= nil then
 		local ignoreData = IgnoredSourceSkills[skill]
 		if ignoreData == true then
@@ -317,30 +336,35 @@ local function SkillCanSummonVoidwoken(char, skill, skilltype, skillelement)
 end
 
 local function SkillCanSummonVoidwoken_QRY(char, skill, skilltype, skillelement)
-	local result = SkillCanSummonVoidwoken(char, skill, skilltype, skillelement)
+	local result = VoidWokenSpawning.SkillCanSummonVoidwoken(char, skill, skilltype, skillelement)
 	if result ~= false then
 		return result
 	end
 end
 Ext.NewQuery(SkillCanSummonVoidwoken_QRY, "LLSENEMY_QRY_SkillCanSummonVoidwoken", "[in](CHARACTERGUID)_Character, [in](STRING)_Skill, [in](STRING)_SkillType, [in](STRING)_SkillElement, [out](INTEGER)_SourcePointCost");
 
-function TrySummonVoidwoken(uuid, magicCost)
+function VoidWokenSpawning.TrySpawn(uuid, spCost)
 	local totalPointsUsed = 0
-	local b,p = pcall(GetTotalPointsForRegion, uuid)
+	local b,p = pcall(VoidWokenSpawning.GetTotalPointsForRegion, uuid)
 	if b then
 		totalPointsUsed = p
 	end
-	local chance = GetVoidwokenSpawnChanceRollThreshold(magicCost, totalPointsUsed)
+	local chance = VoidWokenSpawning.GetVoidwokenSpawnChanceRollThreshold(spCost, totalPointsUsed)
 	local roll = Ext.Random(0,100)
 	LeaderLib.PrintDebug(string.format("[LLENEMY_VoidwokenSpawning.lua:TrySummonVoidwoken] Roll(%s)/100 <= %s | TotalSP(%s)", roll, chance, totalPointsUsed))
 	if roll > 0 and roll <= chance then
-		SpawnVoidwoken(uuid, totalPointsUsed)
+		VoidWokenSpawning.Spawn(uuid, totalPointsUsed)
 	elseif roll == 0 then
 		Osi.LLSENEMY_Hardmode_ReduceTotalSourceUsed(Ext.Random(1,3))
 	end
 end
 
-local function GetSourceDegredation(gameHourSpeed, totalPoints)
+--For Osiris use.
+function TrySummonVoidwoken(uuid, spCost)
+	VoidWokenSpawning.TrySpawn(uuid, spCost)
+end
+
+function VoidWokenSpawning.GetSourceDegredation(gameHourSpeed, totalPoints)
 	-- Speed is 300000 by default, i.e. 5 minutes
 	local mult = gameHourSpeed / 300000
 	local min = math.max(1, math.floor(2 * mult))
@@ -350,6 +374,4 @@ local function GetSourceDegredation(gameHourSpeed, totalPoints)
 	return ran
 end
 
-GetSourceDegredation = GetSourceDegredation
-
-Ext.NewQuery(GetSourceDegredation, "LLSENEMY_Ext_QRY_GetSourceDegredation", "[in](INTEGER)_GameHourSpeed, [in](INTEGER)_TotalPoints, [out](INTEGER)_DegredationAmount")
+Ext.NewQuery(VoidWokenSpawning.GetSourceDegredation, "LLSENEMY_Ext_QRY_GetSourceDegredation", "[in](INTEGER)_GameHourSpeed, [in](INTEGER)_TotalPoints, [out](INTEGER)_DegredationAmount")
