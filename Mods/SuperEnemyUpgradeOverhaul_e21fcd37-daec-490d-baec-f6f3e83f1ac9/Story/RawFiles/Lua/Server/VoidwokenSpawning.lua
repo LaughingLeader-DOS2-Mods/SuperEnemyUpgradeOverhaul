@@ -200,7 +200,7 @@ function VoidWokenSpawning.Spawn(source,totalPoints,skipSpawning,makeTemporary)
 	end
 
 	if #voidwokenTemplates > 0 then
-		LeaderLib.PrintDebug("Voidwoken Templates for SP("..tostring(totalPointsUsed).."): " .. Common.Dump(voidwokenTemplates))
+		fprint(LOGLEVEL.TRACE, "[SEUO:VoidWokenSpawning.Spawn] Picked random entry. TotalPointsUsed(%s) Templates(%s)", totalPointsUsed, Common.Dump(voidwokenTemplates))
 		local totalWeight = 0
 		for i=1,#voidwokenTemplates do
 			local entry = voidwokenTemplates[i]
@@ -224,7 +224,7 @@ function VoidWokenSpawning.Spawn(source,totalPoints,skipSpawning,makeTemporary)
 			end
 		end
 		if entry ~= nil then
-			LeaderLib.PrintDebug("Picked random entry: " .. entry.Template .. " | " ..tostring(rand) .. " / " .. tostring(totalWeight))
+			fprint(LOGLEVEL.TRACE, "Picked random entry. Template(%s) rand(%s) totalWeight(%s)", entry.Template, rand, totalWeight)
 			if skipSpawning ~= true then
 				totalResets = 0
 				local x,y,z = GameHelpers.Grid.GetValidPositionInRadius(table.pack(GetPosition(source)), 12.0)
@@ -252,7 +252,7 @@ function VoidWokenSpawning.Spawn(source,totalPoints,skipSpawning,makeTemporary)
 				TeleportToRandomPosition(voidwoken, 12.0, "")
 				CharacterCharacterSetEvent(source, voidwoken, "LLENEMY_VoidwokenSpawned")
 				if ObjectExists(voidwoken) == 0 then
-					LeaderLib.PrintDebug("[LLENEMY_VoidwokenSpawning.lua:LLENEMY_SpawnVoidwoken] Failed to spawn voidwoken at (",x,y,z,")")
+					fprint(LOGLEVEL.TRACE, "[SEUO:VoidWokenSpawning.Spawn] Failed to spawn voidwoken at x(%s) y(%s) z(%s)", x,y,z)
 				else
 					table.insert(results, voidwoken)
 					x,y,z = GetPosition(voidwoken)
@@ -263,7 +263,7 @@ function VoidWokenSpawning.Spawn(source,totalPoints,skipSpawning,makeTemporary)
 			end
 		elseif totalResets < 30 then
 			totalResets = totalResets + 1
-			LeaderLib.PrintDebug("[LLENEMY_VoidwokenSpawning.lua:LLENEMY_SpawnVoidwoken] No entry picked! Resetting.")
+			fprint(LOGLEVEL.TRACE, "[SEUO:VoidWokenSpawning.Spawn] No entry picked! Reseting. totalResets(%s)", totalResets)
 			for i,v in pairs(voidwokenTemplates) do
 				v.Weight = v.DefaultWeight
 			end
@@ -352,7 +352,7 @@ function VoidWokenSpawning.TrySpawn(uuid, spCost)
 	end
 	local chance = VoidWokenSpawning.GetVoidwokenSpawnChanceRollThreshold(spCost, totalPointsUsed)
 	local roll = Ext.Random(0,100)
-	LeaderLib.PrintDebug(string.format("[LLENEMY_VoidwokenSpawning.lua:TrySummonVoidwoken] Roll(%s)/100 <= %s | TotalSP(%s)", roll, chance, totalPointsUsed))
+	fprint(LOGLEVEL.TRACE, "[SEUO:VoidWokenSpawning.TrySpawn] Roll(%s)/100 <= %s | TotalSP(%s)", roll, chance, totalPointsUsed)
 	if roll > 0 and roll <= chance then
 		VoidWokenSpawning.Spawn(uuid, totalPointsUsed)
 	elseif roll == 0 then
@@ -371,7 +371,7 @@ function VoidWokenSpawning.GetSourceDegredation(gameHourSpeed, totalPoints)
 	local min = math.max(1, math.floor(2 * mult))
 	local max = math.min(min * 2, (math.max(6, totalPoints / 2)))
 	local ran = Ext.Random(min, max)
-	LeaderLib.PrintDebug("[LLENEMY_VoidwokenSpawning.lua:GetSourceDegredation] SP degredation speed ("..tostring(min).."-"..tostring(max)..") => ("..tostring(ran)..") TotalSP("..tostring(totalPoints)..") gameHourSpeed("..tostring(gameHourSpeed)..").")
+	fprint(LOGLEVEL.TRACE, "[SEUO:VoidWokenSpawning.GetSourceDegredation] SP degredation speed. min(%s) max(%s) ran(%s) TotalSP(%s) gameHourSpeed(%s)", min, max, ran, totalPoints, gameHourSpeed)
 	return ran
 end
 
