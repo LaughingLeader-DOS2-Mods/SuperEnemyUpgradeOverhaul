@@ -197,30 +197,133 @@ Ext.RegisterConsoleCommand("euo_dupe", function(command)
 	
 end)
 
+---@type table<string,LuaTest>
+local AllTests = {
 ---@param self LuaTest
-local upgradeTest = Testing.CreateTest("EUOUpgradeSystem", function(self, ...)
+Testing.CreateTest("EUOUpgradeSystem", function(self, ...)
 	local host = Ext.GetCharacter(CharacterGetHostCharacter())
 	local x,y,z = GameHelpers.Grid.GetValidPositionInRadius(host.WorldPos, 12.0)
 	local template = "LLENEMY_Creatures_Voidwoken_Drillworm_A_Hatchling_ABC_c1a13a24-8b5c-408c-b2bf-18d965c166d0"
 	local enemy = StringHelpers.GetUUID(TemporaryCharacterCreateAtPosition(x, y, z, template, 0))
+	self:AssertEquals(ObjectExists(enemy), 1, "Enemy does not exist.")
+	self.Cleanup = function(self)
+		RemoveTemporaryCharacter(enemy)
+		UpgradeSystem.ClearCharacterData(enemy)
+	end
+
 	SetCanJoinCombat(enemy, 0)
 	SetCanFight(enemy, 0)
 	SetFaction(enemy, "Evil NPC")
 	UpgradeSystem.RollForUpgrades(enemy, true, true, true)
 	StartOneshotTimer(string.format("Timers_EUOUpgradeSystemTest_%s", enemy), 1000, function()
+		self:AssertEquals(ObjectExists(enemy), 1, "Enemy does not exist.")
 		local data = UpgradeSystem.GetCurrentRegionData(nil, enemy, false)
-		local success = ObjectExists(enemy) == 1 and (data and #data > 0)
+		self:AssertEquals((data and #data > 0), true, "Enemy does not have upgrade data.")
 		if data ~= nil then
 			print("Enemy upgrade results:")
 			print(Ext.JsonStringify(data))
 		end
-		RemoveTemporaryCharacter(enemy)
-		UpgradeSystem.ClearCharacterData(enemy)
-		self:Complete(success)
+		self:Complete(true)
 	end)
-end)
+end),
+---@param self LuaTest
+Testing.CreateTest("EUOLevelSystem", function(self, ...)
+	local host = Ext.GetCharacter(CharacterGetHostCharacter())
+	local x,y,z = GameHelpers.Grid.GetValidPositionInRadius(host.WorldPos, 12.0)
+	local template = "LLENEMY_Creatures_Voidwoken_Drillworm_A_Hatchling_ABC_c1a13a24-8b5c-408c-b2bf-18d965c166d0"
+	local enemy = StringHelpers.GetUUID(TemporaryCharacterCreateAtPosition(x, y, z, template, 0))
+	self:AssertEquals(ObjectExists(enemy), 1, "Enemy does not exist.")
 
-Ext.RegisterConsoleCommand("euo_test_upgrade", function(cmd)
-	print("Running EUOUpgradeSystem test.")
-	upgradeTest:Run()
+	self.Cleanup = function(self)
+		RemoveTemporaryCharacter(enemy)
+	end
+
+	SetCanJoinCombat(enemy, 0)
+	SetCanFight(enemy, 0)
+	SetFaction(enemy, "Evil NPC")
+
+	local level = CharacterGetLevel(enemy)
+
+	LevelUpCharacter(enemy, true)
+	self:AssertEquals(CharacterGetLevel(enemy) > level, true, "Enemy did not level up.")
+	self:Complete(true)
+end),
+---@param self LuaTest
+Testing.CreateTest("EUODupeTest", function(self, ...)
+	local host = Ext.GetCharacter(CharacterGetHostCharacter())
+	local dupes = Duplication.StartDuplicating(host, true, true, true)
+	self:AssertNotEquals(dupes, nil, "No duplicants created.")
+	self:AssertNotEquals(#dupes, 0, "No duplicants created.")
+	self.Cleanup = function(self)
+		for _,v in pairs(dupes) do
+			RemoveTemporaryCharacter(v)
+		end
+	end
+	self:Complete(true)
+end),
+---@param self LuaTest
+Testing.CreateTest("EUOShadowTreasureTest", function(self, ...)
+	local host = Ext.GetCharacter(CharacterGetHostCharacter())
+	local x,y,z = GameHelpers.Grid.GetValidPositionInRadius(host.WorldPos, 12.0)
+	local level = host.Stats.Level
+	local backpack = CreateItemTemplateAtPosition("LOOT_LeaderLib_BackPack_Invisible_98fa7688-0810-4113-ba94-9a8c8463f830", x, y, z)
+	self:AssertEquals(ObjectExists(backpack), 1, "Failed to create backpack.")
+	self.Cleanup = function(self)
+		ItemRemove(backpack)
+	end
+	GenerateTreasure(backpack, "LLENEMY_ShadowOrbRewards", level, host)
+	--GenerateTreasure(backpack, "ST_QuestReward_RG_3", level, host)
+	--GenerateTreasure(backpack, "ST_LLENEMY_JustGloves", level, host)
+	--GenerateTreasure(backpack, "ST_LLENEMY_ShadowTreasureWeaponsTest", level, host)
+	--GenerateTreasure(backpack, "CheatHeavyArmor", level, host)
+	--ShadowCorruptContainerItems(backpack, "Random")
+	ShadowCorruptContainerItems(backpack)
+	local backpackItem = Ext.GetItem(backpack)
+	local inventory = backpackItem:GetInventoryItems()
+
+	self:AssertNotEquals(#inventory, 0, "No items were generated")
+	local hasShadowItem = false
+	local itemData = {}
+	for i,v in pairs(inventory) do
+		local item = Ext.GetItem(v)
+		table.push(itemData, string.format("[%s] %s (%s) %s", item.StatsId, item.DisplayName, item.Stats and item.Stats.ItemTypeReal or item.ItemType, item:HasTag("LLENEMY_ShadowItem") and "*" or ""))
+		if item:HasTag("LLENEMY_ShadowItem") then
+			hasShadowItem = true
+		end
+	end
+	print("Items generated")
+	print(Ext.JsonStringify(itemData))
+
+	self:AssertEquals(hasShadowItem, true, "No shadow items were created.")
+	self:Complete(true)
+end),
+---@param self LuaTest
+Testing.CreateTest("EUOVoidwokenSourceTest", function(self, ...)
+	local host = Ext.GetCharacter(CharacterGetHostCharacter())
+	local x,y,z = GameHelpers.Grid.GetValidPositionInRadius(host.WorldPos, 12.0)
+	local totalPointsUsed = Ext.Random(20,99)
+	local result = VoidWokenSpawning.Spawn(host.MyGuid, totalPointsUsed, false, true)
+	self.Cleanup = function(self)
+		for i,v in pairs(result) do
+			if not StringHelpers.IsNullOrEmpty(v) then
+				RemoveTemporaryCharacter(v)
+			end
+		end
+	end
+	print("Spawned voidwoken:")
+	self:AssertEquals(result and #result > 0, true, "No voidwoken were spawned.")
+	for i,v in pairs(result) do
+		if not StringHelpers.IsNullOrEmpty(v) then
+			local enemy = Ext.GetCharacter(v)
+			SetCanFight(v, 0)
+			SetCanJoinCombat(v, 0)
+			print(string.format("[%s] Template(%s) Stats(%s) x(%s) y(%s) z(%s)", i, enemy.RootTemplate.Id, enemy.Stats.Name, table.unpack(enemy.WorldPos)))
+		end
+	end
+	self:Complete(true)
+end),
+}
+
+Ext.RegisterConsoleCommand("euo_runtests", function(cmd)
+	Testing.RunTests(AllTests, 2000)
 end)
