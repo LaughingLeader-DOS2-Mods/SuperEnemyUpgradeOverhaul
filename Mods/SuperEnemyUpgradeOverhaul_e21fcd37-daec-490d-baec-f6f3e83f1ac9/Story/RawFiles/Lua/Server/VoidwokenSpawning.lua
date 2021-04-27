@@ -244,6 +244,7 @@ function VoidWokenSpawning.Spawn(source,totalPoints,skipSpawning,makeTemporary)
 					voidwoken = TemporaryCharacterCreateAtPosition(x, y, z, entry:GetTemplate(), 1)
 					SetTag(voidwoken, "LeaderLib_TemporaryCharacter")
 				end
+				SetTag(voidwoken, "LLENEMY_SourceVoidwoken")
 				SetTag(voidwoken, "LLENEMY_DuplicationBlocked")
 				ClearGain(voidwoken)
 				SetFaction(voidwoken, "Evil NPC")

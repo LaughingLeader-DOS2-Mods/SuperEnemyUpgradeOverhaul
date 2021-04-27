@@ -6,8 +6,9 @@ LLENEMY_DisplayText_TreasureGoblins_TurnsLeft	<font color='#FF3333' size='23'>[1
 LLENEMY_MessageBox_ConfirmEnemyLevelingCommit	Lock in the enemy scale? This will level up all non-player characters in the world to the the set level.<br><font color='#FF0000' size='26'>This cannot be undone.</font>	hff477e91gde34g4795g863ag2c508293666d
 LLENEMY_MessageBox_SingleplayerUserWarning	<font color='#FF3737' size='23'>The EUO Singleplayer mod is active, yet the game is no longer singleplayer. Upgrade Info will not be synced for players.</font>	h745855c9g9761g40fdg8929g1fbc5ff29cb2
 LLENEMY_Notification_ShadowItem_NoCrafting	<font color='#BF5FFF' size='23'>*The otherwordly properties of this item prevent tampering.*</font>	hffd1c196gaff6g48c9ga687g14752b048946
-LLENEMY_ShadowDuplicationName	<font color='#BF5FFF'>[1] (Shadow)</font>	h02023d82gc736g447fgaea3g327be0956688
+LLENEMY_ShadowDuplicationName	<font color='#BF5FFF'>[1] (SHADOW)</font>	h02023d82gc736g447fgaea3g327be0956688
 LLENEMY_EliteName	<font color='#FFDE36'>[1] (ELITE)</font>	h6e63c146gcc1fg43f0g8b98gcf89cb4c1fc2
+LLENEMY_EliteName	<font color='#00FFAA'>[1] (SOURCE-SPAWNED)</font>	h873b94aeg56aeg47c5gbf72g08bd3a09af51
 LLENEMY_StatusText_AtusaBossActivated	<font color='#FF3737' size='26'>*Atusa's corpse oozes to life!*</font>	hbd7fc3f3g08f1g4684g8c47gccc404622fc6
 LLENEMY_StatusText_CounterAttack	<font color='#FF3737' size='23'>Counter!</font>	h51e25546g078ag4d32gbb99g3af66b2dc917
 LLENEMY_StatusText_ImmuneToDamageOnMove	<font color='#FF3737' size='18'>Immune to Movement-Based Damage Statuses</font>	ha0190ec0g350eg4c71g9456g078481ad4128
