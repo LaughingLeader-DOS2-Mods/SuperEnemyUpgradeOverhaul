@@ -7,7 +7,7 @@ local printd = PrintDebug
 ---@param source EsvCharacter
 ---@param dupe EsvCharacter
 function Duplication.CopyCP(source,dupe)
-	local cp = GetVarInteger(source.MyGuid, "LLENEMY_ChallengePoints")
+	local cp = GetVarInteger(source.MyGuid, "LLENEMY_ChallengePoints") or 0
 	SetVarInteger(dupe.MyGuid, "LLENEMY_ChallengePoints", cp)
 	SetChallengePointsTag(dupe.MyGuid)
 end
@@ -350,7 +350,7 @@ function Duplication.StartDuplicating(source, force, makeTemporary, skipTracking
 			local min = Settings.Global.Variables.Duplication_MinDupesPerEnemy.Value or 0
 			local max = Settings.Global.Variables.Duplication_MaxDupesPerEnemy.Value or 1
 			local chance = Settings.Global.Variables.Duplication_Chance.Value or 30
-			if chance >= 100 or Ext.Random(1,100) <= chance then
+			if force == true or (chance >= 100 or Ext.Random(1,100) <= chance) then
 				local amount = Ext.Random(min, max)
 				if amount > 0 then
 					local dupes = {}

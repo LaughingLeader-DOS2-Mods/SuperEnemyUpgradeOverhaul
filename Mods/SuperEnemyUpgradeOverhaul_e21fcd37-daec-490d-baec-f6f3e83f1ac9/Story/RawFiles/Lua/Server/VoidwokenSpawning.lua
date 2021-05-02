@@ -200,7 +200,7 @@ function VoidWokenSpawning.Spawn(source,totalPoints,skipSpawning,makeTemporary)
 	end
 
 	if #voidwokenTemplates > 0 then
-		fprint(LOGLEVEL.TRACE, "[SEUO:VoidWokenSpawning.Spawn] Picked random entry. TotalPointsUsed(%s) Templates(%s)", totalPointsUsed, Common.Dump(voidwokenTemplates))
+		--fprint(LOGLEVEL.TRACE, "[SEUO:VoidWokenSpawning.Spawn] Picked random entry. TotalPointsUsed(%s) Templates(%s)", totalPointsUsed, Common.Dump(voidwokenTemplates))
 		local totalWeight = 0
 		for i=1,#voidwokenTemplates do
 			local entry = voidwokenTemplates[i]
@@ -242,21 +242,30 @@ function VoidWokenSpawning.Spawn(source,totalPoints,skipSpawning,makeTemporary)
 					voidwoken = CharacterCreateAtPosition(x, y, z, entry:GetTemplate(), 1)
 				else
 					voidwoken = TemporaryCharacterCreateAtPosition(x, y, z, entry:GetTemplate(), 1)
-					SetTag(voidwoken, "LeaderLib_TemporaryCharacter")
+					if not StringHelpers.IsNullOrEmpty(voidwoken) then
+						SetTag(voidwoken, "LeaderLib_TemporaryCharacter")
+					else
+						Ext.PrintError("[SEUO:VoidwokenSpawning:Spawn] Failed to create voidwoken", voidwoken)
+					end
 				end
-				SetTag(voidwoken, "LLENEMY_SourceVoidwoken")
-				SetTag(voidwoken, "LLENEMY_DuplicationBlocked")
-				ClearGain(voidwoken)
-				SetFaction(voidwoken, "Evil NPC")
-				CharacterLevelUpTo(voidwoken, CharacterGetLevel(source))
-				TeleportToRandomPosition(voidwoken, 12.0, "")
-				CharacterCharacterSetEvent(source, voidwoken, "LLENEMY_VoidwokenSpawned")
-				if ObjectExists(voidwoken) == 0 then
-					fprint(LOGLEVEL.TRACE, "[SEUO:VoidWokenSpawning.Spawn] Failed to spawn voidwoken at x(%s) y(%s) z(%s)", x,y,z)
-				else
+				if not StringHelpers.IsNullOrEmpty(voidwoken) then
+					SetTag(voidwoken, "LLENEMY_SourceVoidwoken")
+					SetTag(voidwoken, "LLENEMY_DuplicationBlocked")
+					ClearGain(voidwoken)
+					SetFaction(voidwoken, "Evil NPC")
+					CharacterLevelUpTo(voidwoken, CharacterGetLevel(source))
+					TeleportToRandomPosition(voidwoken, 12.0, "")
+					CharacterCharacterSetEvent(source, voidwoken, "LLENEMY_VoidwokenSpawned")
 					table.insert(results, voidwoken)
-					x,y,z = GetPosition(voidwoken)
-					PlayEffectAtPosition("RS3_FX_GP_ScriptedEvent_FJ_Worm_Voidwoken_Spawning_01", x,y,z)
+					StartOneshotTimer(string.format("Timers_SEUO_PlayVoidwokenSpawnEffect%s", voidwoken), 250, function()
+						if ObjectExists(voidwoken) == 1 then
+							x,y,z = GetPosition(voidwoken)
+							PlayEffectAtPosition("RS3_FX_GP_ScriptedEvent_FJ_Worm_Voidwoken_Spawning_01", x,y,z)
+						end
+					end)
+				else
+					Ext.PrintError("[SEUO:VoidwokenSpawning:Spawn] Failed to create voidwoken", voidwoken)
+					table.insert(results, "NULL_00000000-0000-0000-0000-000000000000")
 				end
 			else
 				table.insert(results, "NULL_00000000-0000-0000-0000-000000000000")
