@@ -33,7 +33,7 @@ CharacterIsNeutral(_Char, _Player, 1)
 AND
 GetUUID(_Char, _UUID)
 THEN
-NRD_ModCall("SuperEnemyUpgradeOverhaul", "LevelUpCharacter", _UUID);
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "LevelUpCharacter", _UUID, "false", "true");
 //END_REGION
 
 //REGION TRANSFORMED_CHARACTER_BUG_WORKAROUND

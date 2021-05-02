@@ -13,18 +13,43 @@ local function GetTargetLevel(uuid)
 	end
 end
 
-local function CanLevelCharacter(uuid)
+if AutoLevelingIgnoreTags == nil then
+	AutoLevelingIgnoreTags = {}
+end
+
+AutoLevelingIgnoreTags["LLENEMY_AutoLevelingDisabled"] = true
+
+local function CanLevelCharacter(uuid, skipAlignmentCheck)
 	if GameHelpers.Character.IsOrigin(uuid) or GameHelpers.Character.IsPlayer(uuid) then
 		return false
 	end
-	if not GameHelpers.Character.IsEnemyOfParty(uuid) and not GameHelpers.Character.IsInCombat(uuid) then
+	for tag,b in pairs(AutoLevelingIgnoreTags) do
+		if b and IsTagged(uuid,tag) == 1 then
+			return false
+		end
+	end
+	if skipAlignmentCheck ~= true and not GameHelpers.Character.IsEnemyOfParty(uuid) then
 		return false
 	end
+	-- if not GameHelpers.Character.IsInCombat(uuid) then
+	-- 	return false
+	-- end
 	return true
 end
 
-function LevelUpCharacter(uuid, force)
-	if force == true or CanLevelCharacter(uuid) then
+---@param uuid string
+---@param force boolean|string|nil
+---@param skipAlignmentCheck boolean|string|nil
+function LevelUpCharacter(uuid, force, skipAlignmentCheck)
+	if skipAlignmentCheck == nil then
+		skipAlignmentCheck = false
+	elseif type(skipAlignmentCheck) == "string" then
+		skipAlignmentCheck = skipAlignmentCheck == "true"
+	end
+	if force ~= nil and type(force) == "string" then
+		force = force == "true"
+	end
+	if force == true or CanLevelCharacter(uuid, skipAlignmentCheck) then
 		local targetLevel = GetTargetLevel(uuid)
 		local character = Ext.GetCharacter(uuid)
 		local vit = character.Stats.CurrentVitality / character.Stats.MaxVitality
