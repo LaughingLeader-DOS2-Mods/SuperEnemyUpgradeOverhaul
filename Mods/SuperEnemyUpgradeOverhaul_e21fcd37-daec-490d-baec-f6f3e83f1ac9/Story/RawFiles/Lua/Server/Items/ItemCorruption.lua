@@ -5,7 +5,7 @@ local ItemBoostGroup = LeaderLib.Classes["ItemBoostGroup"]
 local function RollForBoost(entry)
 	if entry.Chance < 100 and entry.Chance > 0 then
 		local roll = Ext.Random(1,100)
-		LeaderLib.PrintDebug("[LLENEMY_ItemCorruption.lua:RollForBoost] Roll for ("..entry.Boost.."): ".. tostring(roll).."/"..tostring(entry.Chance))
+		fprint(LOGLEVEL.TRACE, "[LLENEMY_ItemCorruption.lua:RollForBoost] Roll for (%s): %s/%s", entry.Boost, roll, entry.Chance)
 		if roll <= entry.Chance then
 			return true
 		end
@@ -23,8 +23,7 @@ local function CanAddBoost(entry, stat, statType)
 			if dm.WeaponType == "Sentinel" or dm.WeaponType == weaponType then
 				return true
 			else
-				LeaderLib.PrintDebug("[LLENEMY_ItemCorruption.lua:CanAddBoost] WeaponType deltamod mismatch for ("..stat..") ("..weaponType..") => ("..dm.WeaponType..") with deltamod ["..entry.Boost.."]")
-				--LeaderLib.PrintDebug(Ext.JsonStringify(dm))
+				fprint(LOGLEVEL.TRACE, "[LLENEMY_ItemCorruption.lua:CanAddBoost] WeaponType deltamod mismatch for (%s) => (%s)/(%s) with deltamod [%s]", stat, weaponType, dm.WeaponType, entry.Boost)
 				return false
 			end
 		else
@@ -163,7 +162,7 @@ local function AddBoost(item,stat,min,max,negative)
 	end
 	local nextValue = currentValue + valMod
 	NRD_ItemSetPermanentBoostInt(item, stat, nextValue)
-	LeaderLib.PrintDebug("	[LLENEMY_ItemCorruption.lua:AddBoost] Adding boost ["..stat.."] to item. ("..tostring(currentValue)..") => ("..tostring(nextValue)..")")
+	fprint(LOGLEVEL.TRACE, "	[LLENEMY_ItemCorruption.lua:AddBoost] Adding boost [%s] to item. (%s) => (%s)", stat, currentValue, nextValue)
 end
 
 local function AddRandomNegativeBoost_Old(item,stat,statType,level)
@@ -228,7 +227,7 @@ local function AddRandomDeltaModsFromTable(item,stat,statType,level,boostTable,i
 			end
 		end
 	end
-	LeaderLib.PrintDebug("[LLENEMY_ItemCorruption.lua:AddRandomBoostsFromTable] Boosts:\n" .. Common.Dump(boosts))
+	fprint(LOGLEVEL.TRACE, "[LLENEMY_ItemCorruption.lua:AddRandomBoostsFromTable] Boosts:\n%s", Common.Dump(boosts))
 	local boostCount = #boosts
 	local boostAdded = false
 	if boostCount == 1 then
@@ -240,7 +239,7 @@ local function AddRandomDeltaModsFromTable(item,stat,statType,level,boostTable,i
 				else
 					ItemAddDeltaModifier(item, entry.Boost)
 				end
-				LeaderLib.PrintDebug("[LLENEMY_ItemCorruption.lua:AddRandomBoostsFromTable] Adding deltamod ["..entry.Type.."]".."("..entry.Boost..") to item ["..item.."]("..stat..")")
+				fprint(LOGLEVEL.TRACE, "[LLENEMY_ItemCorruption.lua:AddRandomBoostsFromTable] Adding deltamod [%s](%s) to item [%s](%s)", entry.Type, entry.Boost, item, stat)
 				totalBoosts = totalBoosts + 1
 				boostAdded = true
 			end
@@ -253,7 +252,7 @@ local function AddRandomDeltaModsFromTable(item,stat,statType,level,boostTable,i
 				else
 					ItemAddDeltaModifier(item, entry.Boost)
 				end
-				LeaderLib.PrintDebug("[LLENEMY_ItemCorruption.lua:AddRandomBoostsFromTable] Adding deltamod ["..entry.Type.."]".."("..entry.Boost..") to item ["..item.."]("..stat..")")
+				fprint(LOGLEVEL.TRACE, "[LLENEMY_ItemCorruption.lua:AddRandomBoostsFromTable] Adding deltamod [%s](%s) to item [%s](%s)", entry.Type, entry.Boost, item, stat)
 				totalBoosts = totalBoosts + 1
 				boostAdded = true
 			end
@@ -267,7 +266,7 @@ local function AddRandomDeltaModsFromTable(item,stat,statType,level,boostTable,i
 			else
 				ItemAddDeltaModifier(item, entry.Boost)
 			end
-			LeaderLib.PrintDebug("[LLENEMY_ItemCorruption.lua:AddRandomBoostsFromTable] Adding fallback deltamod ["..entry.Type.."]".."("..entry.Boost..") to item ["..item.."]("..stat..")")
+			fprint(LOGLEVEL.TRACE, "[LLENEMY_ItemCorruption.lua:AddRandomBoostsFromTable] Adding fallback deltamod [%s](%s) to item [%s](%s)", entry.Type, entry.Boost, item, stat)
 			totalBoosts = totalBoosts + 1
 		end
 	end
@@ -283,7 +282,7 @@ local function AddRandomBoosts(item,stat,statType,level,minBoosts)
 	local boostTable = ItemCorruption.Boosts[statType]
 	if boostTable ~= nil then
 		for i,group in ipairs(boostTable) do
-			LeaderLib.PrintDebug("Applying boosts from group: " .. tostring(group.ID))
+			fprint(LOGLEVEL.TRACE, "Applying boosts from group: %s", group.ID)
 			totalBoosts = totalBoosts + group:Apply(item,stat,statType,level,1,false,nil,minBoosts)
 		end
 	end
@@ -431,6 +430,8 @@ local corruptableTypes = {
 
 ---@param uuid string The item to corrupt.
 ---@param container string The item it's container, if any.
+---@param forceRarity string|nil A rarity result to force.
+---@param forceSuccess boolean|nil Skip rolling.
 ---@return string|nil The corrupted item.
 local function TryShadowCorruptItem(uuid, container, forceRarity)
 	if uuid ~= nil then
@@ -439,7 +440,7 @@ local function TryShadowCorruptItem(uuid, container, forceRarity)
 		local statType = NRD_StatGetType(stat)
 		if statType == "Weapon" or statType == "Armor" or statType == "Shield" then
 			local equippedSlot = Ext.StatGetAttribute(stat, "Slot")
-			--LeaderLib.PrintDebug("[LLENEMY_ItemMechanics.lua:ShadowCorruptItem] stat("..tostring(stat)..") SlotNumber("..tostring(item.Slot)..") Slot("..tostring(equippedSlot)..") ItemType("..tostring(item.ItemType)..")")
+			--fprint(LOGLEVEL.TRACE, "[LLENEMY_ItemMechanics.lua:ShadowCorruptItem] stat("..tostring(stat)..") SlotNumber("..tostring(item.Slot)..") Slot("..tostring(equippedSlot)..") ItemType("..tostring(item.ItemType)..")")
 			if ignoredSlots[equippedSlot] ~= true and string.sub(stat, 1, 1) ~= "_" then -- Not equipped in a hidden slot, not an NPC item
 				if item.Slot > 13 then
 					if ItemCorruption.Boosts[statType] ~= nil then
@@ -461,17 +462,17 @@ local function TryShadowCorruptItem(uuid, container, forceRarity)
 								TeleportToPosition(cloned, x,y,z, "", 0, 1)
 							end
 							ItemRemove(uuid)
-							LeaderLib.PrintDebug("[LLENEMY_ItemMechanics.lua:LLENEMY_ShadowCorruptItem] Successfully corrupted ("..tostring(cloned)..")")
+							fprint(LOGLEVEL.TRACE, "[LLENEMY_ItemMechanics.lua:LLENEMY_ShadowCorruptItem] Successfully corrupted (%s)", cloned)
 							return cloned
 						else
 							return nil
 						end
 					else
-						LeaderLib.PrintDebug("[LLENEMY_ItemMechanics.lua:LLENEMY_ShadowCorruptItem] No boosts table for type ("..tostring(statType)..")")
+						fprint(LOGLEVEL.TRACE, "[LLENEMY_ItemMechanics.lua:LLENEMY_ShadowCorruptItem] No boosts table for type (%s)", statType)
 					end
 				end
 			elseif item.Slot > 13 then -- Not equipped
-				LeaderLib.PrintDebug("[LLENEMY_ItemMechanics.lua:ShadowCorruptItem] Deleting ("..uuid..") Stat("..tostring(stat)..") since it's an item that shouldn't be given to players.")
+				fprint(LOGLEVEL.TRACE, "[LLENEMY_ItemMechanics.lua:ShadowCorruptItem] Deleting (%s) Stat(%s) since it's an item that shouldn't be given to players.", uuid, stat)
 				ItemRemove(uuid)
 				return nil
 			end
@@ -494,7 +495,7 @@ function ShadowCorruptItem(item)
 	return nil
 end
 
-function ShadowCorruptContainerItems(uuid, forceRarity)
+function ShadowCorruptContainerItems(uuid, forceRarity, forceSuccess)
 	local min = math.floor(GameHelpers.GetExtraData("LLENEMY_ItemCorruption_MinItemsAffected", 1))
 	local max = math.ceil(GameHelpers.GetExtraData("LLENEMY_ItemCorruption_MaxItemsAffected", 3))
 
@@ -558,10 +559,6 @@ function ShadowCorruptContainerItems(uuid, forceRarity)
 		corruptionLimit = Ext.Random(min,max)
 	end
 	
-	if Ext.IsDeveloperMode() then
-		--corruptionLimit = 99
-	end
-
 	if items ~= nil then
 		for i,v in pairs(items) do
 			local stat = NRD_ItemGetStatsId(v)
@@ -569,7 +566,7 @@ function ShadowCorruptContainerItems(uuid, forceRarity)
 				ItemRemove(v)
 				Ext.PrintError("[LLENEMY_ItemMechanics.lua:LLENEMY_ShadowCorruptItem] Deleted item with NPC stat: "..stat)
 			else
-				if corruptionLimit <= 0 then
+				if forceSuccess ~= true and corruptionLimit <= 0 then
 					break	
 				end
 				local b,result = xpcall(TryShadowCorruptItem, debug.traceback, v, uuid, forceRarity)
@@ -610,7 +607,7 @@ function CheckEmptyShadowOrb(uuid)
 	end
 	if (itemAmount == nil or itemAmount == 0) and ContainerGetGoldValue(uuid) <= 0 then
 		ItemDestroy(uuid)
-		LeaderLib.PrintDebug("[EUO:CheckEmptyShadowOrb] Shadow Orb ("..uuid..") is empty. Deleting.")
+		fprint(LOGLEVEL.TRACE, "[EUO:CheckEmptyShadowOrb] Shadow Orb (%s) is empty. Deleting.", uuid)
 	end
 end
 

@@ -252,14 +252,16 @@ local function AddToArena(source, dupe)
 end
 
 ---@param source EsvCharacter
-local function Duplicate(source, i, makeTemporary)
+---@param makeTemporary boolean|nil
+---@param skipTracking boolean|nil
+local function Duplicate(source, makeTemporary, skipTracking)
 	local uuid = source.MyGuid
 	local x,y,z = GameHelpers.Grid.GetValidPositionInRadius(source.WorldPos, 12.0)
 	local dupeId = nil
 	if makeTemporary ~= true then
-		dupeId = CharacterCreateAtPosition(x,y,z, "LLENEMY_Dupe_A_54ad4e06-b57f-46d0-90fc-5da1208250e0", 0)
+		dupeId = StringHelpers.GetUUID(CharacterCreateAtPosition(x,y,z, "LLENEMY_Dupe_A_54ad4e06-b57f-46d0-90fc-5da1208250e0", 0))
 	else
-		dupeId = TemporaryCharacterCreateAtPosition(x,y,z, "LLENEMY_Dupe_A_54ad4e06-b57f-46d0-90fc-5da1208250e0", 0)
+		dupeId = StringHelpers.GetUUID(TemporaryCharacterCreateAtPosition(x,y,z, "LLENEMY_Dupe_A_54ad4e06-b57f-46d0-90fc-5da1208250e0", 0))
 		SetTag(dupeId, "LeaderLib_TemporaryCharacter")
 	end
 	
@@ -294,14 +296,17 @@ local function Duplicate(source, i, makeTemporary)
 	NRD_CharacterSetStatInt(dupeId, "CurrentVitality", source.Stats.CurrentVitality)
 	CharacterSetHitpointsPercentage(dupeId, math.min(100.0, (source.Stats.CurrentVitality/source.Stats.MaxVitality)*100))
 
-	Osi.DB_LLSENEMY_Duplication_Temp_Active(source.MyGuid, dupe.MyGuid, source.CurrentLevel)
-	Osi.LLSENEMY_Duplication_SetupArena(source.MyGuid, dupe.MyGuid)
+	if skipTracking ~= true then
+		Osi.DB_LLSENEMY_Duplication_Temp_Active(source.MyGuid, dupe.MyGuid, source.CurrentLevel)
+	end
+	if makeTemporary ~= true then
+		Osi.LLSENEMY_Duplication_SetupArena(source.MyGuid, dupe.MyGuid)
+	end
 
-	TeleportTo(dupeId, source.MyGuid, "", 1, 1, 0)
+	TeleportToRandomPosition(dupeId, 6.0, "LLENEMY_DupeCharacterTeleported")
 	CharacterSetDetached(dupeId, 0)
 	CharacterSetFollowCharacter(dupeId, source.MyGuid)
 	PlayEffect(dupeId, "RS3_FX_GP_ScriptedEvent_Teleport_GenericSmoke_01")
-	TeleportToRandomPosition(dupeId, 3.0, "LLENEMY_DupeCharacterTeleported")
 
 	return dupeId
 end
@@ -345,26 +350,42 @@ function Duplication.StartDuplicating(source, force, makeTemporary, skipTracking
 		if force ~= true and IgnoreCharacter(source) then
 			return nil
 		end
-		local maxTotal = Settings.Global.Variables.Duplication_MaxTotal.Value or -1
-		if maxTotal < 0 or (maxTotal > 0 and PersistentVars.ActiveDuplicants < maxTotal) then
-			local min = Settings.Global.Variables.Duplication_MinDupesPerEnemy.Value or 0
-			local max = Settings.Global.Variables.Duplication_MaxDupesPerEnemy.Value or 1
-			local chance = Settings.Global.Variables.Duplication_Chance.Value or 30
-			if force == true or (chance >= 100 or Ext.Random(1,100) <= chance) then
-				local amount = Ext.Random(min, max)
-				if amount > 0 then
-					local dupes = {}
-					for i=amount,1,-1 do
-						local dupe = Duplicate(source, amount, makeTemporary)
-						if dupe ~= nil then
-							table.insert(dupes, dupe)
-							if skipTracking ~= true then
-								SetTag(source.MyGuid, "LLENEMY_Duplicated")
-								PersistentVars.ActiveDuplicants = PersistentVars.ActiveDuplicants + 1
+		if force == true then
+			local dupes = {}
+			local max = math.max(1, Settings.Global.Variables.Duplication_MaxDupesPerEnemy.Value or 1)
+			for i=Ext.Random(1, max),1,-1 do
+				local dupe = Duplicate(source, makeTemporary, skipTracking)
+				if dupe ~= nil then
+					table.insert(dupes, dupe)
+					if skipTracking ~= true then
+						SetTag(source.MyGuid, "LLENEMY_Duplicated")
+						PersistentVars.ActiveDuplicants = PersistentVars.ActiveDuplicants + 1
+					end
+				end
+			end
+			return dupes
+		else
+			local maxTotal = Settings.Global.Variables.Duplication_MaxTotal.Value or -1
+			if maxTotal < 0 or (maxTotal > 0 and PersistentVars.ActiveDuplicants < maxTotal) then
+				local min = Settings.Global.Variables.Duplication_MinDupesPerEnemy.Value or 0
+				local max = Settings.Global.Variables.Duplication_MaxDupesPerEnemy.Value or 1
+				local chance = Settings.Global.Variables.Duplication_Chance.Value or 30
+				if (chance >= 100 or Ext.Random(1,100) <= chance) then
+					local amount = Ext.Random(min, max)
+					if amount > 0 then
+						local dupes = {}
+						for i=amount,1,-1 do
+							local dupe = Duplicate(source, makeTemporary, skipTracking)
+							if dupe ~= nil then
+								table.insert(dupes, dupe)
+								if skipTracking ~= true then
+									SetTag(source.MyGuid, "LLENEMY_Duplicated")
+									PersistentVars.ActiveDuplicants = PersistentVars.ActiveDuplicants + 1
+								end
 							end
 						end
+						return dupes
 					end
-					return dupes
 				end
 			end
 		end

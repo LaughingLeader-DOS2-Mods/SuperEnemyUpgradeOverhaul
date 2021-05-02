@@ -197,6 +197,19 @@ Ext.RegisterConsoleCommand("euo_dupe", function(command)
 	
 end)
 
+local function GetTempTestEnemy(x, y, z, template)
+	local enemy = StringHelpers.GetUUID(TemporaryCharacterCreateAtPosition(x, y, z, template, 0))
+	if StringHelpers.IsNullOrEmpty(enemy) then
+		return nil
+	end
+	SetTag(enemy, "LLENEMY_UpgradesDisabled")
+	SetTag(enemy, "LLENEMY_AutoLevelingDisabled")
+	SetCanJoinCombat(enemy, 0)
+	SetCanFight(enemy, 0)
+	SetFaction(enemy, "Evil NPC")
+	return enemy
+end
+
 ---@type table<string,LuaTest>
 local AllTests = {
 ---@param self LuaTest
@@ -205,17 +218,12 @@ Testing.CreateTest("EUOUpgradeSystem", function(self, ...)
 	local x,y,z = GameHelpers.Grid.GetValidPositionInRadius(host.WorldPos, 12.0)
 	--"LLENEMY_Creatures_Voidwoken_Drillworm_A_Hatchling_ABC_c1a13a24-8b5c-408c-b2bf-18d965c166d0"
 	print(string.format('TemporaryCharacterCreateAtPosition(%s, %s, %s, "%s", %s)', x, y, z, "c1a13a24-8b5c-408c-b2bf-18d965c166d0", 0))
-	local enemy = StringHelpers.GetUUID(TemporaryCharacterCreateAtPosition(x, y, z, "c1a13a24-8b5c-408c-b2bf-18d965c166d0", 0))
+	local enemy = GetTempTestEnemy(x, y, z, "c1a13a24-8b5c-408c-b2bf-18d965c166d0")
 	self:AssertEquals(StringHelpers.IsNullOrEmpty(enemy), false, "Enemy does not exist.")
 	self.Cleanup = function(self)
 		RemoveTemporaryCharacter(enemy)
 		UpgradeSystem.ClearCharacterData(enemy)
 	end
-
-	SetTag(enemy, "LLENEMY_UpgradesDisabled")
-	SetCanJoinCombat(enemy, 0)
-	SetCanFight(enemy, 0)
-	SetFaction(enemy, "Evil NPC")
 	
 	StartOneshotTimer(string.format("Timers_EUOUpgradeSystemTest_%s", enemy), 1000, function()
 		self:AssertEquals(ObjectExists(enemy), 1, "Enemy does not exist.")
@@ -234,7 +242,7 @@ Testing.CreateTest("EUOLevelSystem", function(self, ...)
 	local host = Ext.GetCharacter(CharacterGetHostCharacter())
 	local x,y,z = GameHelpers.Grid.GetValidPositionInRadius(host.WorldPos, 12.0)
 	local template = "LLENEMY_Creatures_Voidwoken_Drillworm_A_Hatchling_ABC_c1a13a24-8b5c-408c-b2bf-18d965c166d0"
-	local enemy = StringHelpers.GetUUID(TemporaryCharacterCreateAtPosition(x, y, z, template, 0))
+	local enemy = GetTempTestEnemy(x, y, z, template)
 	self:AssertEquals(StringHelpers.IsNullOrEmpty(enemy), false, "Enemy does not exist.")
 	--self:AssertEquals(ObjectExists(enemy), 1, "Enemy does not exist.")
 
@@ -242,15 +250,12 @@ Testing.CreateTest("EUOLevelSystem", function(self, ...)
 		RemoveTemporaryCharacter(enemy)
 	end
 
-	SetTag(enemy, "LLENEMY_UpgradesDisabled")
-	SetCanJoinCombat(enemy, 0)
-	SetCanFight(enemy, 0)
-	SetFaction(enemy, "Evil NPC")
-
 	local level = CharacterGetLevel(enemy)
+	LevelUpCharacter(enemy, true, true)
+	local nextLevel = CharacterGetLevel(enemy)
 
-	LevelUpCharacter(enemy, true)
-	self:AssertEquals(CharacterGetLevel(enemy) > level, true, "Enemy did not level up.")
+	self:AssertEquals(nextLevel > level, true, "Enemy did not level up.")
+	self.SuccessMessage = string.format("Enemy level increased %s -> %s", level, nextLevel)
 	self:Complete(true)
 end),
 ---@param self LuaTest
@@ -264,7 +269,7 @@ Testing.CreateTest("EUODupeTest", function(self, ...)
 			RemoveTemporaryCharacter(v)
 		end
 	end
-	self.SuccessMessage = string.format("Duped created:\n%s", #dupes)
+	self.SuccessMessage = string.format("Duped created: %s\n%s", #dupes, StringHelpers.Join("\n\t", dupes))
 	self:Complete(true)
 end),
 ---@param self LuaTest
@@ -283,7 +288,7 @@ Testing.CreateTest("EUOShadowTreasureTest", function(self, ...)
 	--GenerateTreasure(backpack, "ST_QuestReward_RG_3", level, host.MyGuid)
 	--GenerateTreasure(backpack, "ST_LLENEMY_ShadowTreasureWeaponsTest", level, host.MyGuid)
 	--ShadowCorruptContainerItems(backpack, "Random")
-	ShadowCorruptContainerItems(backpack)
+	ShadowCorruptContainerItems(backpack, nil, true)
 	local backpackItem = Ext.GetItem(backpack)
 	local inventory = backpackItem:GetInventoryItems()
 
@@ -299,10 +304,10 @@ Testing.CreateTest("EUOShadowTreasureTest", function(self, ...)
 		if item:HasTag("LLENEMY_ShadowItem") then
 			hasShadowItem = true
 		end
-		table.insert(itemData, string.format("[%s] %s (%s)%s", item.StatsId, name, item.Stats and item.Stats.ItemTypeReal or item.ItemType, item:HasTag("LLENEMY_ShadowItem") and " *" or ""))
+		table.insert(itemData, string.format("\t[%s] %s (%s)%s", item.StatsId, name, item.Stats and item.Stats.ItemTypeReal or item.ItemType, item:HasTag("LLENEMY_ShadowItem") and " *" or ""))
 	end
 	self:AssertEquals(hasShadowItem, true, "No shadow items were created.")
-	self.SuccessMessage = string.format("Items generated:\n%s", Ext.JsonStringify(itemData))
+	self.SuccessMessage = string.format("Items generated:\n%s", StringHelpers.Join("\n", itemData))
 	print(self.SuccessMessage)
 	self:Complete(true)
 end),
@@ -332,11 +337,11 @@ Testing.CreateTest("EUOVoidwokenSourceTest", function(self, ...)
 		for i,v in pairs(results) do
 			if not StringHelpers.IsNullOrEmpty(v) and ObjectExists(v) == 1 then
 				local enemy = Ext.GetCharacter(v)
-				table.insert(spawnData, string.format("Template(%s) Stats(%s) x(%s) y(%s) z(%s)", enemy.RootTemplate.Id, enemy.Stats.Name, table.unpack(enemy.WorldPos)))
+				table.insert(spawnData, string.format("\tTemplate(%s) Stats(%s) x(%s) y(%s) z(%s)", enemy.RootTemplate.Id, enemy.Stats.Name, table.unpack(enemy.WorldPos)))
 				--print(string.format("[%s] Template(%s) Stats(%s) x(%s) y(%s) z(%s)", i, enemy.RootTemplate.Id, enemy.Stats.Name, table.unpack(enemy.WorldPos)))
 			end
 		end
-		self.SuccessMessage = string.format("Voidwoken spawned:\n%s", Ext.JsonStringify(spawnData))
+		self.SuccessMessage = string.format("Voidwoken spawned:\n%s", StringHelpers.Join("\n", spawnData))
 		print(self.SuccessMessage)
 		self:Complete(true)
 	end)
