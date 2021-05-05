@@ -6,19 +6,22 @@ end
 local ItemBonus = Ext.Require("Server/Items/Bonuses/ItemBonus.lua")
 ItemBonusManager.ItemBonusClass = ItemBonus
 
-ItemBonusManager.OsirisEventsListeners = {}
----@type table<string,ItemBonus[]>
-ItemBonusManager.OsirisItemBonuses = {}
+---@type table<string, ItemBonus>
+ItemBonusManager.AllItemBonuses = {}
 
-function ItemBonusManager.InvokeOsirisListeners(event, ...)
-	local bonuses = ItemBonusManager.OsirisItemBonuses[event]
+ItemBonusManager.EventsListeners = {}
+---@type table<string,ItemBonus[]>
+ItemBonusManager.EventItemBonuses = {}
+
+function ItemBonusManager.OnEvent(event, ...)
+	local bonuses = ItemBonusManager.EventItemBonuses[event]
 	if bonuses then
 		local length = #bonuses
 		if length > 0 then
 			for i=1,length do
 				local bonus = bonuses[i]
-				if bonus:CanApply(...) then
-					bonus:Apply(...)
+				if bonus:CanApply(event, ...) then
+					bonus:Apply(event, ...)
 				end
 			end
 		end
@@ -28,19 +31,34 @@ end
 ---@param event string The osiris event to listen for.
 ---@param itemBonus ItemBonus
 function ItemBonusManager.RegisterToOsirisEvent(event, itemBonus)
-	if ItemBonusManager.OsirisEventsListeners[event] == nil then
+	if ItemBonusManager.EventsListeners[event] == nil then
 		local arity = Data.OsirisEvents[event]
 		if arity then
-			ItemBonusManager.OsirisEventsListeners[event] = function(...)
-				ItemBonusManager.InvokeOsirisListeners(event, ...)
+			ItemBonusManager.EventsListeners[event] = function(...)
+				ItemBonusManager.OnEvent(event, ...)
 			end
-			Ext.RegisterOsirisListener(event, arity, "after", ItemBonusManager.OsirisEventsListeners[event])
+			Ext.RegisterOsirisListener(event, arity, "after", ItemBonusManager.EventsListeners[event])
 		end
 	end
-	if ItemBonusManager.OsirisItemBonuses[event] == nil then
-		ItemBonusManager.OsirisItemBonuses[event] = {}
+	if ItemBonusManager.EventItemBonuses[event] == nil then
+		ItemBonusManager.EventItemBonuses[event] = {}
 	end
-	table.insert(ItemBonusManager.OsirisItemBonuses[event], itemBonus)
+	table.insert(ItemBonusManager.EventItemBonuses[event], itemBonus)
+end
+
+---@param event string The LeaderLib event to listen for.
+---@param itemBonus ItemBonus
+function ItemBonusManager.RegisterToLeaderLibEvent(event, itemBonus, extraParam)
+	if ItemBonusManager.EventsListeners[event] == nil then
+		ItemBonusManager.EventsListeners[event] = function(...)
+			ItemBonusManager.OnEvent(event, ...)
+		end
+		LeaderLib.RegisterListener(event, ItemBonusManager.EventsListeners[event], extraParam)
+	end
+	if ItemBonusManager.EventItemBonuses[event] == nil then
+		ItemBonusManager.EventItemBonuses[event] = {}
+	end
+	table.insert(ItemBonusManager.EventItemBonuses[event], itemBonus)
 end
 
 ---@param event string

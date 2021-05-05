@@ -76,110 +76,100 @@ function ShadowItem_ApplyMadnessTentacleDamage(source, char)
 	GameHelpers.ExplodeProjectile(source, char, "Projectile_LLENEMY_ShadowBonus_Madness_Damage")
 end
 
---- @param target string
---- @param source string
---- @param damage integer
---- @param handle integer
-local function OnPrepareHit(target,source,damage,handle)
-	if ObjectGetFlag(target, "LLENEMY_ShadowBonus_StunDefense_Enabled") == 1 and GameHelpers.Status.IsDisabled(target) then
-		local damageReduction = Ext.ExtraData["LLENEMY_ShadowBonus_StunDefense_DamageReduction"] or 0.5
-		if damageReduction > 0 then
-			GameHelpers.ReduceDamage(target, source, handle, damageReduction, true)
-		end
+ItemBonusManager.AllItemBonuses.StunDefense = ItemBonusManager.CreateBonus("OnPrepareHit", function(self, event, target,source,damage,handle)
+	return ObjectGetFlag(target, "LLENEMY_ShadowBonus_StunDefense_Enabled") == 1 and GameHelpers.Status.IsDisabled(target)
+end, function(self,event,target,source,damage,handle)
+	local damageReduction = Ext.ExtraData["LLENEMY_ShadowBonus_StunDefense_DamageReduction"] or 0.5
+	if damageReduction > 0 then
+		GameHelpers.ReduceDamage(target, source, handle, damageReduction, true)
 	end
-end
-LeaderLib.RegisterListener("OnPrepareHit", OnPrepareHit)
+end)
 
 local skipHitCheck = {}
 
---- @param target string
---- @param source string
---- @param damage integer
---- @param handle integer
---- @param skill string
-local function OnHit(target,source,damage,handle,skill)
-	if skill ~= nil and source ~= nil and damage > 0 and not skipHitCheck[target..source] then
-		local ability = Ext.StatGetAttribute(skill, "Ability")
-		if ability == "Fire" and ObjectGetFlag(source, "LLENEMY_ShadowBonus_CursedFire_Enabled") == 1 then
-			local chance = Ext.ExtraData["LLENEMY_ShadowBonus_CursedFire_Chance"] or 40
-			if Ext.Random(0,100) <= chance then
-				ApplyStatus(target, "NECROFIRE", 6.0, 0, source)
-				--local x,y,z = GetPosition(target)
-				--TransformSurfaceAtPosition(x, y, z, "Curse", "Ground", 1.0, 6.0, source)
-				if ObjectIsCharacter(target) == 1 then
-					local text = GameHelpers.GetStringKeyText("LLENEMY_ShadowBonus_CursedFire", "<font color='#B823FF'>Cursed Fire</font>")
-					CharacterStatusText(target, text)
-				end
-				skipHitCheck[target..source] = true
-				local timerName = string.format("Timers_LLENEMY_ResetSkipHitCheck_%s%s", target, source)
-				LeaderLib.StartOneshotTimer(timerName, 50, function()
-					skipHitCheck[target..source] = nil
-				end)
-			end
+ItemBonusManager.AllItemBonuses.CursedFire = ItemBonusManager.CreateBonus("OnHit", function(self,event,target,source,damage,handle,skill)
+	if skill and damage > 0 and not StringHelpers.IsNullOrEmpty(source) and ObjectGetFlag(source, "LLENEMY_ShadowBonus_CursedFire_Enabled") == 1 then
+		if not skipHitCheck[target..source] and Ext.StatGetAttribute(skill, "Ability") == "Fire" then
+			return true
 		end
 	end
-end
-LeaderLib.RegisterListener("OnHit", OnHit)
-
-local function OnTurnEndedOrLeftCombat(object, combatId)
-	if ObjectGetFlag(object, "LLENEMY_ShadowBonus_DotCleanser_Enabled") == 1 then
-		if ObjectIsCharacter(object) == 1 then
-			local cleansed = {}
-			local character = Ext.GetCharacter(object)
-			for i,status in pairs(character:GetStatuses()) do
-				if type(status) ~= "string" and status.StatusId ~= nil then
-					status = status.StatusId
-				end
-				if Ext.StatGetAttribute(status, "StatusType") == "DAMAGE" then
-					local weaponStat = Ext.StatGetAttribute(status, "DamageStats")
-					if weaponStat ~= nil and Ext.StatGetAttribute(weaponStat, "DamageFromBase") > 0 then
-						table.insert(cleansed, GameHelpers.GetStringKeyText(Ext.StatGetAttribute(status, "DisplayName"), status))
-						RemoveStatus(object, status)
-					end
-				end
-			end
-			if #cleansed > 0 then
-				local statusText = GameHelpers.GetStringKeyText("LLENEMY_StatusText_Cleansed", "<font color='#73F6FF'>[1] Cleansed [2]</font>")
-				local itemResponsible = CharacterFindTaggedItem(object, "LLENEMY_ShadowBonus_DotCleanser")
-				local cleanseSource = GameHelpers.GetStringKeyText("LLENEMY_ShadowBonus_DotCleanser", "Immune Boost")
-				-- if itemResponsible ~= nil then
-				-- 	cleanseSource = Ext.GetItem(itemResponsible).DisplayName
-				-- else
-				-- 	cleanseSource = GameHelpers.GetStringKeyText("LLENEMY_ShadowBonus_DotCleanser", "Immune Boost")
-				-- end
-				statusText = statusText:gsub("%[1%]", cleanseSource):gsub("%[2%]", StringHelpers.Join(", ", cleansed))
-				CharacterStatusText(object, statusText)
-
-				local health = CharacterGetHitpointsPercentage(object)
-				if health < 100.0 then
-					for i=#cleansed,1,-1 do
-						health = health + ((Ext.ExtraData["LLENEMY_ShadowBonus_ImmuneBoost_HealPercentage"] or 0.1) * 100)
-					end
-					CharacterSetHitpointsPercentage(object, math.min(100.0, health))
-				end
-			end
+	return false
+end, function(self,event,target,source,damage,handle,skill)
+	local chance = Ext.ExtraData["LLENEMY_ShadowBonus_CursedFire_Chance"] or 40
+	if chance >= 100 or (chance > 0 and Ext.Random(0,100) <= chance) then
+		ApplyStatus(target, "NECROFIRE", 6.0, 0, source)
+		--local x,y,z = GetPosition(target)
+		--TransformSurfaceAtPosition(x, y, z, "Curse", "Ground", 1.0, 6.0, source)
+		if ObjectIsCharacter(target) == 1 then
+			local text = GameHelpers.GetStringKeyText("LLENEMY_ShadowBonus_CursedFire", "<font color='#B823FF'>Cursed Fire</font>")
+			CharacterStatusText(target, text)
 		end
+		skipHitCheck[target..source] = true
+		local timerName = string.format("Timers_LLENEMY_ResetSkipHitCheck_%s%s", target, source)
+		LeaderLib.StartOneshotTimer(timerName, 50, function()
+			skipHitCheck[target..source] = nil
+		end)
 	end
-	if HasActiveStatus(object, "LLENEMY_SHADOWBONUS_MADNESS") == 1 then
-		MadnessBonus_FindTargets(object)
-	end
-end
-
-Ext.RegisterOsirisListener("ObjectTurnEnded", 1, "after", function(object)
-	OnTurnEndedOrLeftCombat(object)
 end)
 
-Ext.RegisterOsirisListener("ObjectLeftCombat", 2, "after", OnTurnEndedOrLeftCombat)
+ItemBonusManager.AllItemBonuses.Madness = ItemBonusManager.CreateBonus({"ObjectTurnEnded", "ObjectLeftCombat"}, function(self, event, object, combatid)
+	return HasActiveStatus(object, "LLENEMY_SHADOWBONUS_MADNESS") == 1
+end, function(self, event, object, combatid)
+	MadnessBonus_FindTargets(object)
+end)
 
-local slipperyRogue = ItemBonusManager.CreateBonus("ObjectEnteredCombat", function(self, object, combatid)
+ItemBonusManager.AllItemBonuses.SlipperyRogue = ItemBonusManager.CreateBonus("ObjectEnteredCombat", function(self, event, object, combatid)
 	return ObjectGetFlag(object, "LLENEMY_ShadowBonus_SlipperyRogue_Enabled") == 1
-end, function(self, object, combatid)
+end, function(self, event, object, combatid)
 	ApplyStatus(object, "INVISIBLE", 6.0, 0, object)
 end)
 
-local defensiveStart = ItemBonusManager.CreateBonus("ObjectEnteredCombat", function(self, object, combatid)
+ItemBonusManager.AllItemBonuses.DefensiveStart = ItemBonusManager.CreateBonus("ObjectEnteredCombat", function(self, event, object, combatid)
 	return ObjectGetFlag(object, "LLENEMY_ShadowBonus_DefensiveStart_Enabled") == 1
-end, function(self, object, combatid)
+end, function(self, event, object, combatid)
 	ApplyStatus(object, "FORTIFIED", 12.0, 0, object)
 	ApplyStatus(object, "MAGIC_SHELL", 12.0, 0, object)
+end)
+
+ItemBonusManager.AllItemBonuses.DotCleanser = ItemBonusManager.CreateBonus({"ObjectTurnEnded", "ObjectLeftCombat"}, function(self, event, object, combatid)
+	return ObjectGetFlag(object, "LLENEMY_ShadowBonus_DotCleanser_Enabled") == 1
+end, function(self, event, object, combatid)
+	local cleansed = {}
+	local character = Ext.GetCharacter(object)
+	if not character then
+		Ext.PrintError("[SEUO:DotCleanser] Failed to get character from ", object)
+		return
+	end
+	for i,status in pairs(character:GetStatuses()) do
+		if type(status) ~= "string" and status.StatusId ~= nil then
+			status = status.StatusId
+		end
+		if Ext.StatGetAttribute(status, "StatusType") == "DAMAGE" then
+			local weaponStat = Ext.StatGetAttribute(status, "DamageStats")
+			if weaponStat ~= nil and Ext.StatGetAttribute(weaponStat, "DamageFromBase") > 0 then
+				table.insert(cleansed, GameHelpers.GetStringKeyText(Ext.StatGetAttribute(status, "DisplayName"), status))
+				RemoveStatus(object, status)
+			end
+		end
+	end
+	if #cleansed > 0 then
+		local statusText = GameHelpers.GetStringKeyText("LLENEMY_StatusText_Cleansed", "<font color='#73F6FF'>[1] Cleansed [2]</font>")
+		local itemResponsible = CharacterFindTaggedItem(object, "LLENEMY_ShadowBonus_DotCleanser")
+		local cleanseSource = GameHelpers.GetStringKeyText("LLENEMY_ShadowBonus_DotCleanser", "Immune Boost")
+		-- if itemResponsible ~= nil then
+		-- 	cleanseSource = Ext.GetItem(itemResponsible).DisplayName
+		-- else
+		-- 	cleanseSource = GameHelpers.GetStringKeyText("LLENEMY_ShadowBonus_DotCleanser", "Immune Boost")
+		-- end
+		statusText = statusText:gsub("%[1%]", cleanseSource):gsub("%[2%]", StringHelpers.Join(", ", cleansed))
+		CharacterStatusText(object, statusText)
+
+		local health = CharacterGetHitpointsPercentage(object)
+		if health < 100.0 then
+			for i=#cleansed,1,-1 do
+				health = health + ((Ext.ExtraData["LLENEMY_ShadowBonus_ImmuneBoost_HealPercentage"] or 0.1) * 100)
+			end
+			CharacterSetHitpointsPercentage(object, math.min(100.0, health))
+		end
+	end
 end)
