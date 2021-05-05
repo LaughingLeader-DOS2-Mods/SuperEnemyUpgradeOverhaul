@@ -104,7 +104,7 @@ end
 ---@param params table<string,any>
 ---@return ItemBonus
 function ItemBonusManager.CreateEventBonus(event, canApplyCallback, actionCallback, params)
-	local bonus = ItemBonus:Create(event, canApplyCallback, actionCallback, params)
+	local bonus = ItemBonus:Create(canApplyCallback, actionCallback, params)
 	if type(event) == "table" then
 		for i,v in pairs(event) do
 			if LeaderLib.Listeners[v] then
@@ -133,7 +133,7 @@ end
 ---@param params table<string,any>
 ---@return ItemBonus
 function ItemBonusManager.CreateSkillBonus(skill, canApplyCallback, actionCallback, params)
-	local bonus = ItemBonus:Create(skill, canApplyCallback, actionCallback, params)
+	local bonus = ItemBonus:Create(canApplyCallback, actionCallback, params)
 	ItemBonusManager.RegisterToSkillListener(skill, bonus)
 	return bonus
 end

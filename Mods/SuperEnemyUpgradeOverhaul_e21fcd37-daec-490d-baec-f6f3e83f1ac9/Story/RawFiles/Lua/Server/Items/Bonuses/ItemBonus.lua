@@ -1,3 +1,5 @@
+---Basically a wrapper around a function to see if a bonus can be applied, and a function to call if it can.
+---Requires the ItemBonusManager to register this bonus to the related event or skill.
 ---@class ItemBonus
 local ItemBonus = {
 	Type = "ItemBonus",
@@ -5,24 +7,21 @@ local ItemBonus = {
 	CanApplyCallback = nil,
 	---@type ItemBonusActionCallback
 	ApplyCallback = nil,
-	Event = "",
 }
 ItemBonus.__index = ItemBonus
 
 ---@alias ItemBonusConditionCheckCallback fun(self:ItemBonus, event:string, ...):boolean
 ---@alias ItemBonusActionCallback fun(self:ItemBonus, event:string, ...):void
 
----@param event string
 ---@param canApplyCallback ItemBonusConditionCheckCallback
 ---@param actionCallback ItemBonusActionCallback
 ---@param params table<string,any>
 ---@return ItemBonus
-function ItemBonus:Create(event, canApplyCallback, actionCallback, params)
+function ItemBonus:Create(canApplyCallback, actionCallback, params)
 	local this =
 	{
 		CanApplyCallback = canApplyCallback,
 		ApplyCallback = actionCallback,
-		Event = event or "",
 	}
 	if params then
 		for prop,value in pairs(params) do
