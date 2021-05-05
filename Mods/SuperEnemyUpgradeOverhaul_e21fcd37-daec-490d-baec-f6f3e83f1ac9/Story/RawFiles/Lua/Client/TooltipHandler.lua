@@ -131,15 +131,15 @@ local function OnUpgradeInfoTooltip(character, status, tooltip)
 	local upgradeInfo = upgradeInfoHelpers.GetUpgradeInfoText(character, tooltip.ControllerEnabled)
 	if upgradeInfo and #upgradeInfo > 0 then
 		element.Label = element.Label .. "<br><img src='Icon_Line' width='350%'>"
+		--element.Label = element.Label .. "<br><img src='Icon_Line' width='350%'>" .. StringHelpers.Join("<br>", upgradeInfo)
 		for i,v in pairs(upgradeInfo) do
 			if v.Description then
 				tooltip:AppendElement({
 					Type = "StatusDescription",
-					Label = string.format("%s<br>%s", v.DisplayName, v.Description)
+					Label = v.Output
 				})
-				print(v.Description)
 			else
-				element.Label = element.Label .. "<br>" .. v.DisplayName
+				element.Label = element.Label .. "<br>" .. v.Output
 			end
 		end
 	end

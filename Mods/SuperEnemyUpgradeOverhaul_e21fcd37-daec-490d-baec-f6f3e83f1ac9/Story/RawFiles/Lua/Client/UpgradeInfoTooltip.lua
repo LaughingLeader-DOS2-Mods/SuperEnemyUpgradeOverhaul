@@ -5,6 +5,10 @@ local function sortupgrades(a,b)
 	return a:upper() < b:upper()
 end
 
+local function sortUpgradeEntries(a,b)
+	return a.SortOn < b.SortOn
+end
+
 local upgradeInfoEntryColorText = TranslatedString:Create("ha4587526ge140g42f9g9a98gc92b537d4209", "<font color='[2]' size='18'>[1]</font>")
 local upgradeInfoEntryColorlessText = TranslatedString:Create("h869a7616gfbb7g4cc2ga233g7c22612af67b", "<font size='18'>[1]</font>")
 local bulletImage = "<img src='Icon_BulletPoint'>"
@@ -72,6 +76,8 @@ end
 ---@class UpgradeTextEntry:table
 ---@field DisplayName string
 ---@field Description string
+---@field Output string
+---@field SortOn string
 
 ---@return UpgradeTextEntry[]
 local function BuildUpgradeEntries(character, upgradeKeys, hardmodeStatuses, isControllerMode)
@@ -80,9 +86,10 @@ local function BuildUpgradeEntries(character, upgradeKeys, hardmodeStatuses, isC
 		local loreMin = UpgradeData.Statuses[status] or 0
 		local nameText = GameHelpers.Tooltip.StripFont(Ext.GetTranslatedStringFromKey(Ext.StatGetAttribute(status, "DisplayName")) or "")
 		local description = ""
-		if UpgradeData.Statuses[status] or string.find(status, "LLENEMY") then
+		local canShowDesc = StringHelpers.IsNullOrWhitespace(Ext.StatGetAttribute(status, "Icon"))
+		if canShowDesc and (UpgradeData.Statuses[status] or string.find(status, "LLENEMY")) then
 			description = Ext.GetTranslatedStringFromKey(Ext.StatGetAttribute(status, "Description")) or ""
-			if not StringHelpers.IsNullOrEmpty(description) then
+			if not StringHelpers.IsNullOrWhitespace(description) then
 				description = GameHelpers.Tooltip.StripFont(GameHelpers.Tooltip.ReplacePlaceholders(description, character))
 			end
 		end
@@ -123,6 +130,7 @@ local function BuildUpgradeEntries(character, upgradeKeys, hardmodeStatuses, isC
 		if nameText ~= "" then
 			---@type UpgradeTextEntry
 			local entry = {}
+			entry.SortOn = GameHelpers.Tooltip.StripFont(nameText):upper()
 			local colorName = Ext.StatGetAttribute(status, "FormatColor") or "Special"
 			local color = FormatColor[colorName] or "#C9AA58"
 			if HighestLoremaster < loreMin then
@@ -136,10 +144,13 @@ local function BuildUpgradeEntries(character, upgradeKeys, hardmodeStatuses, isC
 			entry.DisplayName = string.format("%s%s", text, hardmodeText)
 			if not StringHelpers.IsNullOrEmpty(description) and HighestLoremaster >= loreMin then
 				entry.Description = string.format("<font size='16' color='#C3C3FF'>%s</font>", description)
+				entry.Output = entry.DisplayName .. "<br>" .. entry.Description .. "<br>"
 			else
 				entry.Description = nil
+				entry.Output = entry.DisplayName
 			end
 			table.insert(entries, entry)
+			--table.insert(entries, entry.Output)
 		end
 	end
 	return entries
@@ -222,10 +233,6 @@ end
 ---@param character EclCharacter
 ---@return UpgradeTextEntry[]|nil
 local function GetUpgradeInfoText(character, isControllerMode)
-	print("GetUpgradeInfoText", character.NetID)
-	-- if character.MyGuid == nil then
-	-- 	return ""
-	-- end
 	if Ext.IsDeveloperMode() then
 		HighestLoremaster = 10
 	end
@@ -259,8 +266,10 @@ local function GetUpgradeInfoText(character, isControllerMode)
 
 	local count = #upgradeKeys
 	if count > 0 then
-		table.sort(upgradeKeys, sortupgrades)
-		return BuildUpgradeEntries(character, upgradeKeys, hardmodeStatuses, isControllerMode)
+		--table.sort(upgradeKeys, sortupgrades)
+		local entries = BuildUpgradeEntries(character, upgradeKeys, hardmodeStatuses, isControllerMode)
+		table.sort(entries, sortUpgradeEntries)
+		return entries
 	end
 	return nil
 end
