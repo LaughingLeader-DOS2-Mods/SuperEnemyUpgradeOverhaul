@@ -24,7 +24,7 @@ LeaderLib.RegisterListener("ModSettingsLoaded", function(globalSettings)
 end)
 
 -- Retroactively remove blacklisted skills if they were modified
-LeaderLib.RegisterListener("Initialized", function()
+RegisterListener("Initialized", function()
 	local status,err = xpcall(function()
 		if EnemySkills ~= nil and #EnemySkills > 0 then
 			for _,skillgroup in pairs(EnemySkills) do
@@ -44,4 +44,39 @@ LeaderLib.RegisterListener("Initialized", function()
 	end
 
 	SetHighestPartyLoremaster()
+
+	local db = Osi.DB_IsPlayer:Get(nil)
+	if db and #db > 0 then
+		for i,v in pairs(db) do
+			for _,slot in Data.VisibleEquipmentSlots:Get() do
+				local uuid = CharacterGetEquippedItem(v[1], slot)
+				if not StringHelpers.IsNullOrEmpty(uuid) then
+					local item = Ext.GetItem(uuid)
+					if item then
+						local name = item.DisplayName
+						fprint(LOGLEVEL.TRACE, "DisplayName(%s) StatsId(%s) NetID(%s)", item.DisplayName, item.StatsId, item.NetID)
+						if not StringHelpers.IsNullOrEmpty(item.CustomDisplayName) then
+							name = item.CustomDisplayName
+						end
+						Ext.BroadcastMessage("SEUO_SaveItemName", Ext.JsonStringify({NetID=item.NetID, DisplayName=name}))
+					end
+				end
+			end
+		end
+	end
+end)
+
+Ext.RegisterOsirisListener("ItemEquipped", Data.OsirisEvents.ItemEquipped, "after", function(uuid, char)
+	if GameHelpers.Character.IsPlayer(char) == 1 then
+		local item = Ext.GetItem(uuid)
+		if item then
+			local name = item.DisplayName
+			if not StringHelpers.IsNullOrEmpty(item.CustomDisplayName) then
+				name = item.CustomDisplayName
+			end
+			if not StringHelpers.IsNullOrEmpty(name) then
+				Ext.BroadcastMessage("SEUO_SaveItemName", Ext.JsonStringify({NetID=item.NetID, DisplayName=name}))
+			end
+		end
+	end
 end)

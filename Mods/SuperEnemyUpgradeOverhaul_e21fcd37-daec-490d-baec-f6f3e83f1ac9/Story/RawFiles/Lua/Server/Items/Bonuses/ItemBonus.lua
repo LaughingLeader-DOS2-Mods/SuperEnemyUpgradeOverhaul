@@ -53,3 +53,5 @@ function ItemBonus:Apply(...)
 		end
 	end
 end
+
+return ItemBonus

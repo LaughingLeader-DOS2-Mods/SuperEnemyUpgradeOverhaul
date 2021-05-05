@@ -1,6 +1,14 @@
 local tb = Classes.TagBoost
 
 local DefaultParams = {DisplayInTooltip = true}
+local function Params(params)
+	for k,v in pairs(DefaultParams) do
+		if params[k] == nil then
+			params[k] = v
+		end
+	end
+	return params
+end
 
 local entries = {
 	LLENEMY_ShadowBonus_Madness = tb:Create("LLENEMY_ShadowBonus_Madness","LLENEMY_ShadowBonus_Madness_Enabled", {HasToggleScript = true, DisplayInTooltip = true}),
