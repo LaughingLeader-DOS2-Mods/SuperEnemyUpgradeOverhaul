@@ -7,6 +7,7 @@ end
 
 local upgradeInfoEntryColorText = TranslatedString:Create("ha4587526ge140g42f9g9a98gc92b537d4209", "<font color='[2]' size='18'>[1]</font>")
 local upgradeInfoEntryColorlessText = TranslatedString:Create("h869a7616gfbb7g4cc2ga233g7c22612af67b", "<font size='18'>[1]</font>")
+local bulletImage = "<img src='Icon_BulletPoint'>"
 
 local FormatColor = {
 	White = "#FFFFFF",
@@ -68,11 +69,163 @@ local function HasUpgrade(character, id, upgradeData)
 	return false
 end
 
----@param character EclCharacter
-local function GetUpgradeInfoText(character, isControllerMode)
-	if character.MyGuid == nil then
-		return ""
+---@class UpgradeTextEntry:table
+---@field DisplayName string
+---@field Description string
+
+---@return UpgradeTextEntry[]
+local function BuildUpgradeEntries(character, upgradeKeys, hardmodeStatuses, isControllerMode)
+	local entries = {}
+	for _,status in pairs(upgradeKeys) do
+		local loreMin = UpgradeData.Statuses[status] or 0
+		local nameText = GameHelpers.Tooltip.StripFont(Ext.GetTranslatedStringFromKey(Ext.StatGetAttribute(status, "DisplayName")) or "")
+		local description = ""
+		if UpgradeData.Statuses[status] or string.find(status, "LLENEMY") then
+			description = Ext.GetTranslatedStringFromKey(Ext.StatGetAttribute(status, "Description")) or ""
+			if not StringHelpers.IsNullOrEmpty(description) then
+				description = GameHelpers.Tooltip.StripFont(GameHelpers.Tooltip.ReplacePlaceholders(description, character))
+			end
+		end
+
+		local skills = Ext.StatGetAttribute(status, "Skills")
+		if not StringHelpers.IsNullOrEmpty(skills) then
+			skills = StringHelpers.Split(skills, ";")
+			local skillNames = {}
+			for i,v in pairs(skills) do
+				local skillName = Ext.GetTranslatedStringFromKey(Ext.StatGetAttribute(v, "DisplayName"))
+				if not StringHelpers.IsNullOrEmpty(skillName) then
+					local ability = Ext.StatGetAttribute(v, "Ability")
+					if ability then
+						local color = FormatColor[ability]
+						if color then
+							if isControllerMode ~= true then
+								skillName = string.format("%s<font color='%s'>%s</font>", bulletImage, color, skillName)
+							else
+								skillName = string.format("<font color='%s'>%s</font>", color, skillName)
+							end
+						end
+					end
+					skillNames[#skillNames+1] = skillName
+				end
+			end
+			if not StringHelpers.IsNullOrEmpty(description) then
+				description = string.format("%s<br>Gained Skills:<br>%s", description, StringHelpers.Join("<br>", skillNames))
+			else
+				description = string.format("Gained Skills:<br>%s", StringHelpers.Join("<br>", skillNames))
+			end
+		end
+		if nameText == "" then
+			local potion = Ext.StatGetAttribute(status, "StatsId") or ""
+			if potion ~= "" then
+				nameText = Ext.GetTranslatedStringFromKey(potion) or ""
+			end
+		end
+		if nameText ~= "" then
+			---@type UpgradeTextEntry
+			local entry = {}
+			local colorName = Ext.StatGetAttribute(status, "FormatColor") or "Special"
+			local color = FormatColor[colorName] or "#C9AA58"
+			if HighestLoremaster < loreMin then
+				nameText = "???"
+			end
+			local text = string.gsub(upgradeInfoEntryColorText.Value, "%[1%]", nameText):gsub("%[2%]", color)
+			local hardmodeText = ""
+			if hardmodeStatuses[status] == true then
+				hardmodeText = " <font color='#834DFF' size='18'>*H*</font>"
+			end
+			entry.DisplayName = string.format("%s%s", text, hardmodeText)
+			if not StringHelpers.IsNullOrEmpty(description) and HighestLoremaster >= loreMin then
+				entry.Description = string.format("<font size='16' color='#FF00CC'>%s</font>", description)
+			else
+				entry.Description = nil
+			end
+			table.insert(entries, entry)
+		end
 	end
+	return entries
+end
+
+local function FormatUpgrades(character, upgradeKeys, hardmodeStatuses, isControllerMode)
+	local output = "<img src='Icon_Line' width='350%'><br>"
+	local allUpgradeText = {}
+	if isControllerMode == true then
+		output = "" -- No Icon_Line
+	end
+	local i = 0
+	for _,status in pairs(upgradeKeys) do
+		local loreMin = UpgradeData.Statuses[status] or 0
+		local nameText = Ext.GetTranslatedStringFromKey(Ext.StatGetAttribute(status, "DisplayName")) or ""
+		local description = Ext.GetTranslatedStringFromKey(Ext.StatGetAttribute(status, "Description")) or ""
+		if not StringHelpers.IsNullOrEmpty(description) then
+			description = GameHelpers.Tooltip.ReplacePlaceholders(description, character)
+		end
+		local skills = Ext.StatGetAttribute(status, "Skills")
+		if not StringHelpers.IsNullOrEmpty(skills) then
+			skills = StringHelpers.Split(skills, ";")
+			local skillNames = {}
+			for i,v in pairs(skills) do
+				local skillName = Ext.GetTranslatedStringFromKey(Ext.StatGetAttribute(v, "DisplayName"))
+				if not StringHelpers.IsNullOrEmpty(skillName) then
+					local ability = Ext.StatGetAttribute(v, "Ability")
+					if ability then
+						local color = FormatColor[ability]
+						if color then
+							skillName = string.format("<font color='%s'>%s</font>", color, skillName)
+						end
+					end
+					skillNames[#skillNames+1] = skillName
+				end
+			end
+			if not StringHelpers.IsNullOrEmpty(description) then
+				description = string.format("%s<br>Gained Skills:<br>%s", description, StringHelpers.Join("<br>", skillNames))
+			else
+				description = string.format("Gained Skills:<br><font size='12'>%s</font>", StringHelpers.Join("<br>", skillNames))
+			end
+		end
+		if nameText == "" then
+			local potion = Ext.StatGetAttribute(status, "StatsId") or ""
+			if potion ~= "" then
+				nameText = Ext.GetTranslatedStringFromKey(potion) or ""
+			end
+		end
+		if nameText ~= "" then
+			local colorName = Ext.StatGetAttribute(status, "FormatColor") or "Special"
+			local color = FormatColor[colorName] or "#C9AA58"
+			if HighestLoremaster < loreMin then
+				nameText = "???"
+			end
+			local text = string.gsub(upgradeInfoEntryColorText.Value, "%[1%]", nameText):gsub("%[2%]", color)
+			-- if isControllerMode ~= true then
+			-- 	text = "<img src='Icon_BulletPoint'>"..text
+			-- end
+			local hardmodeText = ""
+			if hardmodeStatuses[status] == true then
+				hardmodeText = " <font color='#834DFF' size='18'>*H*</font>"
+			end
+			if not StringHelpers.IsNullOrEmpty(description) and HighestLoremaster >= loreMin then
+				allUpgradeText[#allUpgradeText+1] = string.format("%s%s<br><font size='14'>%s</font>", text, hardmodeText, description)
+			else
+				allUpgradeText[#allUpgradeText+1] = string.format("%s%s", text, hardmodeText)
+			end
+			i = i + 1
+		end
+	end
+	if #allUpgradeText > 0 then
+		output = output .. StringHelpers.Join("<br>", allUpgradeText)
+	end
+	if isControllerMode == true then
+		output = output:gsub("size='%d+'", "")
+	end
+	return output
+end
+
+---@param character EclCharacter
+---@return UpgradeTextEntry[]|nil
+local function GetUpgradeInfoText(character, isControllerMode)
+	print("GetUpgradeInfoText", character.NetID)
+	-- if character.MyGuid == nil then
+	-- 	return ""
+	-- end
 	if Ext.IsDeveloperMode() then
 		HighestLoremaster = 10
 	end
@@ -107,46 +260,9 @@ local function GetUpgradeInfoText(character, isControllerMode)
 	local count = #upgradeKeys
 	if count > 0 then
 		table.sort(upgradeKeys, sortupgrades)
-		local output = "<img src='Icon_Line' width='350%'><br>"
-		if isControllerMode == true then
-			output = "" -- No Icon_Line
-		end
-		local i = 0
-		for _,status in pairs(upgradeKeys) do
-			local loreMin = UpgradeData.Statuses[status] or 0
-			local nameText = Ext.GetTranslatedStringFromKey(Ext.StatGetAttribute(status, "DisplayName")) or ""
-			if nameText == "" then
-				local potion = Ext.StatGetAttribute(status, "StatsId") or ""
-				if potion ~= "" then
-					nameText = Ext.GetTranslatedStringFromKey(potion) or ""
-				end
-			end
-			if nameText ~= "" then
-				local colorName = Ext.StatGetAttribute(status, "FormatColor") or "Special"
-				local color = FormatColor[colorName] or "#C9AA58"
-				if HighestLoremaster < loreMin then
-					nameText = "???"
-				end
-				local text = string.gsub(upgradeInfoEntryColorText.Value, "%[1%]", nameText):gsub("%[2%]", color)
-				if isControllerMode ~= true then
-					text = "<img src='Icon_BulletPoint'>"..text
-				end
-				output = output..text
-				if hardmodeStatuses[status] == true then
-					output = output .. " <font color='#834DFF' size='18'>*H*</font>"
-				end
-				if i < count - 1 then
-					output = output.."<br>"
-				end
-				i = i + 1
-			end
-		end
-		if isControllerMode == true then
-			output = output:gsub("size='%d+'", "")
-		end
-		return output
+		return BuildUpgradeEntries(character, upgradeKeys, hardmodeStatuses, isControllerMode)
 	end
-	return ""
+	return nil
 end
 
 ---@param character EsvCharacter

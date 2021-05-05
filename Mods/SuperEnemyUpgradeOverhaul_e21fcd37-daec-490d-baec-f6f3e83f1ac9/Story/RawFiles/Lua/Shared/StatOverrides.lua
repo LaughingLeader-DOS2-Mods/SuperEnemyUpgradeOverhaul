@@ -120,6 +120,10 @@ local FormatColorOverrides = {
 	},
 	Ranger = {
 		"REACTION_SHOT"
+	},
+	Decay = {
+		"DEATH_RESIST",
+		"DEATH_WISH",
 	}
 }
 

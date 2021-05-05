@@ -1,4 +1,4 @@
-RegisterProtectedOsirisListener = Mods.LeaderLib.RegisterProtectedOsirisListener
+
 ---@type CharacterData
 CharacterData = LeaderLib.Classes.CharacterData
 

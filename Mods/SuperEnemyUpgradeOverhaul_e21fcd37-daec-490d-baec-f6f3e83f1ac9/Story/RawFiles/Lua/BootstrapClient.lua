@@ -6,7 +6,7 @@ end
 
 Ext.Require("Client/UIExtras.lua")
 Ext.Require("Client/DescriptionParams.lua")
-local tooltipHandler = Ext.Require("Client/TooltipHandler.lua")
+Ext.Require("Client/TooltipHandler.lua")
 
 if Ext.IsDeveloperMode() then
 	Ext.Require("Client/ClientDebug.lua")
@@ -18,10 +18,6 @@ end
 
 Ext.RegisterListener("ModuleLoading", LLENEMY_Client_ModuleLoading)
 --Ext.RegisterListener("ModuleResume", LLENEMY_Client_ModuleResume)
-
-Ext.RegisterListener("SessionLoaded", function()
-	tooltipHandler.Init()
-end)
 
 Ext.RegisterNetListener("LLENEMY_SetHighestLoremaster", function(call, valStr)
 	HighestLoremaster = math.tointeger(valStr)

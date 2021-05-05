@@ -1,6 +1,8 @@
 ---@class TranslatedString
 local ts = LeaderLib.Classes["TranslatedString"]
 
+ShadowItemTooltipData = {}
+
 local maxSummonsText = ts:Create("hd248998fge250g4a7bg8dd3gc88f19fbe5f6", "Maximum Summons")
 local ShadowItemFallbackDescription = "A <i>strange</i> item retrieved from a <font color='#9B30FF' face='Copperplate Gothic Bold'>Shadow Orb</font>.<br><font color='#BDA0CB'>Cold to the touch, when this item is held, your grip on reality may begin to slip.</font>"
 local ShadowItemDescription = ts:Create("h179efab0g7e6cg441ag8083gb11964394dc4", ShadowItemFallbackDescription)
@@ -18,6 +20,8 @@ local rarityColor = {
 	Divine = "#AA00FF",
 	Unique = "#BF5FFF"
 }
+
+ShadowItemTooltipData.RarityColor = rarityColor
 
 local originalRarityColor = {
 	Common = "#FFFFFF",
@@ -111,15 +115,38 @@ local upgradeInfoHelpers = Ext.Require("Client/UpgradeInfoTooltip.lua")
 ---@param status EsvStatus
 ---@param tooltip TooltipData
 local function OnUpgradeInfoTooltip(character, status, tooltip)
+	--print(Ext.JsonStringify(tooltip.Data))
+	-- local element = tooltip:GetElement("StatusDescription")
+	-- if element ~= nil then
+	-- 	--local upgradeInfoText = upgradeInfoHelpers.GetUpgradeInfoText(character, tooltip.ControllerEnabled)
+	-- 	if not character:HasTag("LLENEMY_RewardsDisabled") then
+	-- 		local challengePointsText = upgradeInfoHelpers.GetChallengePointsText(character, tooltip.ControllerEnabled)
+	-- 		--element.Label = string.format("%s<br>%s<br>%s", element.Label, upgradeInfoText, challengePointsText)
+	-- 		element.Label = string.format("%s<br>%s", element.Label, challengePointsText)
+	-- 	else
+	-- 		--element.Label = string.format("%s<br>%s", element.Label, upgradeInfoText)
+	-- 	end
+	-- end
 	local element = tooltip:GetElement("StatusDescription")
-	if element ~= nil then
-		local upgradeInfoText = upgradeInfoHelpers.GetUpgradeInfoText(character, tooltip.ControllerEnabled)
-		if not character:HasTag("LLENEMY_RewardsDisabled") then
-			local challengePointsText = upgradeInfoHelpers.GetChallengePointsText(character, tooltip.ControllerEnabled)
-			element.Label = string.format("%s<br>%s<br>%s", element.Label, upgradeInfoText, challengePointsText)
-		else
-			element.Label = string.format("%s<br>%s", element.Label, upgradeInfoText)
+	local upgradeInfo = upgradeInfoHelpers.GetUpgradeInfoText(character, tooltip.ControllerEnabled)
+	if upgradeInfo and #upgradeInfo > 0 then
+		element.Label = element.Label .. "<br><img src='Icon_Line' width='350%'>"
+		for i,v in pairs(upgradeInfo) do
+			if v.Description then
+				tooltip:AppendElement({
+					Type = "StatusDescription",
+					Label = string.format("%s<br>%s", v.DisplayName, v.Description)
+				})
+				print(v.Description)
+			else
+				element.Label = element.Label .. "<br>" .. v.DisplayName
+			end
 		end
+	end
+	if not character:HasTag("LLENEMY_RewardsDisabled") then
+		local challengePointsText = upgradeInfoHelpers.GetChallengePointsText(character, tooltip.ControllerEnabled)
+		tooltip:AppendElement({Type="StatusDescription", Label=string.format("<p align='center'>%s</p>", challengePointsText)})
+		--element.Label = string.format("%s<br>%s<br>%s", element.Label, upgradeInfoText, challengePointsText)
 	end
 end
 
@@ -497,12 +524,15 @@ end
 
 local lastUpgradeInfoCharacter = nil
 
+local OnSkillTooltip = Ext.Require("Client/SkillTooltips.lua")
+
 local function Init()
 	Game.Tooltip.RegisterListener("Item", nil, OnItemTooltip)
 	Game.Tooltip.RegisterListener("Status", "LLENEMY_UPGRADE_INFO", OnUpgradeInfoTooltip)
 	Game.Tooltip.RegisterListener("Status", "LLENEMY_DUPLICANT", OnDuplicantTooltip)
 	Game.Tooltip.RegisterListener("Status", "LLENEMY_INFUSION_INFO", OnInfusionInfoTooltip)
 	Game.Tooltip.RegisterListener("Status", "LLENEMY_INFUSION_INFO_ELITE", OnInfusionInfoTooltip)
+	Game.Tooltip.RegisterListener("Skill", nil, OnSkillTooltip)
 	--RegisterListener("OnTooltipPositioned", FormatTagTooltip)
 
 	Ext.RegisterUITypeInvokeListener(LeaderLib.Data.UIType.examine, "updateStatusses", function(ui, method)
@@ -559,6 +589,17 @@ local function Init()
 		lastUpgradeInfoCharacter = nil
 	end)
 end
-return {
-	Init = Init
-}
+
+---@type table<integer,string>
+ItemDisplayNames = {}
+
+Ext.RegisterNetListener("SEUO_SaveItemName", function(cmd, payload)
+	local data = Common.JsonParse(payload)
+	if data then
+		ItemDisplayNames[data.NetID] = data.DisplayName
+	end
+end)
+
+Ext.RegisterListener("SessionLoaded", function()
+	Init()
+end)
