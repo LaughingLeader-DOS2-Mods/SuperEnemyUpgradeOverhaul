@@ -135,7 +135,7 @@ local function BuildUpgradeEntries(character, upgradeKeys, hardmodeStatuses, isC
 			end
 			entry.DisplayName = string.format("%s%s", text, hardmodeText)
 			if not StringHelpers.IsNullOrEmpty(description) and HighestLoremaster >= loreMin then
-				entry.Description = string.format("<font size='16' color='#FF00CC'>%s</font>", description)
+				entry.Description = string.format("<font size='16' color='#C3C3FF'>%s</font>", description)
 			else
 				entry.Description = nil
 			end
