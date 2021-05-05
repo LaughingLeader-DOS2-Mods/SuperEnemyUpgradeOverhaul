@@ -22,7 +22,7 @@ function ItemBonus:Create(event, canApplyCallback, actionCallback, params)
 	{
 		CanApplyCallback = canApplyCallback,
 		ApplyCallback = actionCallback,
-		Event = event,
+		Event = event or "",
 	}
 	if params then
 		for prop,value in pairs(params) do
@@ -30,31 +30,12 @@ function ItemBonus:Create(event, canApplyCallback, actionCallback, params)
 		end
 	end
 	setmetatable(this, self)
-	if type(event) == "table" then
-		for i,v in pairs(event) do
-			if LeaderLib.Listeners[v] then
-				ItemBonusManager.RegisterToLeaderLibEvent(v, this)
-			elseif Data.OsirisEvents[v] then
-				ItemBonusManager.RegisterToOsirisEvent(v, this)
-			else
-				Ext.PrintError(string.format("[SEUO:ItemBonus:Create] Event %s does not exist.", v))
-			end
-		end
-	elseif type(event) == "string" then
-		if LeaderLib.Listeners[event] then
-			ItemBonusManager.RegisterToLeaderLibEvent(event, this)
-		elseif Data.OsirisEvents[event] then
-			ItemBonusManager.RegisterToOsirisEvent(event, this)
-		else
-			Ext.PrintError(string.format("[SEUO:ItemBonus:Create] Event %s does not exist.", event))
-		end
-	end
 	return this
 end
 
-function ItemBonus:CanApply(event, ...)
+function ItemBonus:CanApply(...)
 	if self.CanApplyCallback then
-		local b,canApply = xpcall(self.CanApplyCallback, debug.traceback, self, event, ...)
+		local b,canApply = xpcall(self.CanApplyCallback, debug.traceback, self, ...)
 		if b then
 			return canApply
 		else
@@ -65,9 +46,9 @@ function ItemBonus:CanApply(event, ...)
 	return true
 end
 
-function ItemBonus:Apply(event, ...)
+function ItemBonus:Apply(...)
 	if self.ApplyCallback then
-		local b,err = xpcall(self.ApplyCallback, debug.traceback, self, event, ...)
+		local b,err = xpcall(self.ApplyCallback, debug.traceback, self, ...)
 		if not b then
 			Ext.PrintError(err)
 		end

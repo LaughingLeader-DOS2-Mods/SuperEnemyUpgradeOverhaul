@@ -76,7 +76,7 @@ function ShadowItem_ApplyMadnessTentacleDamage(source, char)
 	GameHelpers.ExplodeProjectile(source, char, "Projectile_LLENEMY_ShadowBonus_Madness_Damage")
 end
 
-ItemBonusManager.AllItemBonuses.StunDefense = ItemBonusManager.CreateBonus("OnPrepareHit", function(self, event, target,source,damage,handle)
+ItemBonusManager.AllItemBonuses.StunDefense = ItemBonusManager.CreateEventBonus("OnPrepareHit", function(self, event, target,source,damage,handle)
 	return ObjectGetFlag(target, "LLENEMY_ShadowBonus_StunDefense_Enabled") == 1 and GameHelpers.Status.IsDisabled(target)
 end, function(self,event,target,source,damage,handle)
 	local damageReduction = Ext.ExtraData["LLENEMY_ShadowBonus_StunDefense_DamageReduction"] or 0.5
@@ -87,7 +87,7 @@ end)
 
 local skipHitCheck = {}
 
-ItemBonusManager.AllItemBonuses.CursedFire = ItemBonusManager.CreateBonus("OnHit", function(self,event,target,source,damage,handle,skill)
+ItemBonusManager.AllItemBonuses.CursedFire = ItemBonusManager.CreateEventBonus("OnHit", function(self,event,target,source,damage,handle,skill)
 	if skill and damage > 0 and not StringHelpers.IsNullOrEmpty(source) and ObjectGetFlag(source, "LLENEMY_ShadowBonus_CursedFire_Enabled") == 1 then
 		if not skipHitCheck[target..source] and Ext.StatGetAttribute(skill, "Ability") == "Fire" then
 			return true
@@ -112,26 +112,29 @@ end, function(self,event,target,source,damage,handle,skill)
 	end
 end)
 
-ItemBonusManager.AllItemBonuses.Madness = ItemBonusManager.CreateBonus({"ObjectTurnEnded", "ObjectLeftCombat"}, function(self, event, object, combatid)
+ItemBonusManager.AllItemBonuses.Madness = ItemBonusManager.CreateEventBonus({"ObjectTurnEnded", "ObjectLeftCombat"}, function(self, event, object, combatid)
 	return HasActiveStatus(object, "LLENEMY_SHADOWBONUS_MADNESS") == 1
 end, function(self, event, object, combatid)
 	MadnessBonus_FindTargets(object)
 end)
 
-ItemBonusManager.AllItemBonuses.SlipperyRogue = ItemBonusManager.CreateBonus("ObjectEnteredCombat", function(self, event, object, combatid)
+ItemBonusManager.AllItemBonuses.SlipperyRogue = ItemBonusManager.CreateEventBonus("ObjectEnteredCombat", function(self, event, object, combatid)
 	return ObjectGetFlag(object, "LLENEMY_ShadowBonus_SlipperyRogue_Enabled") == 1
 end, function(self, event, object, combatid)
+	if HasActiveStatus(object, "WET") == 1 then
+		RemoveStatus(object, "WET")
+	end
 	ApplyStatus(object, "INVISIBLE", 6.0, 0, object)
 end)
 
-ItemBonusManager.AllItemBonuses.DefensiveStart = ItemBonusManager.CreateBonus("ObjectEnteredCombat", function(self, event, object, combatid)
+ItemBonusManager.AllItemBonuses.DefensiveStart = ItemBonusManager.CreateEventBonus("ObjectEnteredCombat", function(self, event, object, combatid)
 	return ObjectGetFlag(object, "LLENEMY_ShadowBonus_DefensiveStart_Enabled") == 1
 end, function(self, event, object, combatid)
 	ApplyStatus(object, "FORTIFIED", 12.0, 0, object)
 	ApplyStatus(object, "MAGIC_SHELL", 12.0, 0, object)
 end)
 
-ItemBonusManager.AllItemBonuses.DotCleanser = ItemBonusManager.CreateBonus({"ObjectTurnEnded", "ObjectLeftCombat"}, function(self, event, object, combatid)
+ItemBonusManager.AllItemBonuses.DotCleanser = ItemBonusManager.CreateEventBonus({"ObjectTurnEnded", "ObjectLeftCombat"}, function(self, event, object, combatid)
 	return ObjectGetFlag(object, "LLENEMY_ShadowBonus_DotCleanser_Enabled") == 1
 end, function(self, event, object, combatid)
 	local cleansed = {}
