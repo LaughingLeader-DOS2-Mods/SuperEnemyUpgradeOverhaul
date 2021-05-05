@@ -1,7 +1,7 @@
 <contentList>
 	<content contentuid="h00b8f45bg409bg4963gb505gc75fab2a5a01">Voidwoken now have a chance to appear when source skills are cast. Good luck!</content>
 	<content contentuid="h00b9a551g2b32g43d4g8c3fg450945250ef0">Armor Boost</content>
-	<content contentuid="h02023d82gc736g447fgaea3g327be0956688">&lt;font color=&apos;#BF5FFF&apos;&gt;[1] (Shadow)&lt;/font&gt;</content>
+	<content contentuid="h02023d82gc736g447fgaea3g327be0956688">&lt;font color=&apos;#BF5FFF&apos;&gt;[1] (SHADOW)&lt;/font&gt;</content>
 	<content contentuid="h02eee7f9g3786g4f33gad32gf34e10349c42">Upgrading world...</content>
 	<content contentuid="h0301fb1cg95a6g47e5gade7g8ccfc0ffef2f">&lt;font color=&apos;[1]&apos;&gt;[2]&lt;/font&gt;</content>
 	<content contentuid="h034ae0a4g858eg4d30g82dege3c983c8b18a">&lt;font color=&apos;#BBFF00&apos; size=&apos;23&apos;&gt;*[1] beings gained a new level of power...*&lt;/font&gt;</content>
@@ -33,7 +33,7 @@
 	<content contentuid="h0dda4bf0g924ag4c8bgaf5ag1d6e7e643b50">Talent: Haymaker</content>
 	<content contentuid="h0e137225ge71fg4b5dg9822g1f73a6646671">Elite Venomstriker</content>
 	<content contentuid="h0e4f18e6g16feg44cfgae15g59a88e718a6a">Enable the main group of upgrades, including anything from Rested to Death Resist.</content>
-	<content contentuid="h0ec991aag3f8dg4100gb60bg272af43d6334">&lt;font color=&apos;#99CC00&apos;&gt;Immune Boost&lt;/font&gt;</content>
+	<content contentuid="h0ec991aag3f8dg4100gb60bg272af43d6334">&lt;font color=&apos;#99CC00&apos;&gt;Immunity Boost&lt;/font&gt;</content>
 	<content contentuid="h0f2a61a6g5427g4e2bgbc76g986dc3e1fa79">Disable Bonus Skill Upgrades. These give enemies new skills using the Script Extender. (Currently Enabled)</content>
 	<content contentuid="h0f4b3d6bg416cg43b1g9ae2g879d929b4151">Commit Level Modifier to the World - This will level up every non-player character in the world to the desired level modifier, including neutral or allied characters (non-recruited Origin companions are ignored).</content>
 	<content contentuid="h0fac50d9g63c1g4dc1gb769g9fba10e602df">Piercing Immunity</content>
@@ -168,6 +168,7 @@
 	<content contentuid="h582a8e7eg3fe8g46f4ga652g5ba5576c1217">Enable Rewards</content>
 	<content contentuid="h58acccd4g5c09g48a8g96c4gda7abce5973e">Enemies will get additional upgrades by rolling between the minimum and maximum values set to determine bonus rolls. Each roll runs through the upgrade system to see if they get any upgrades.</content>
 	<content contentuid="h5a190392g61c4g439dgbd08gc227c5e69923">Disable Immunity Upgrades. Includes limited duration elemental immunities like Fire Skin (2 turns), to Immune to Electrifying (3 turns). (Currently Enabled)</content>
+	<content contentuid="h5a832238gdc72g49d8g9306g0962a768dc11">If enabled, the level modifier will use the party&apos;s highest level together with the level modifier.</content>
 	<content contentuid="h5aa2a41bgbaa4g46d0g9987ge5c19c4b4aa4">Bonus Skillset</content>
 	<content contentuid="h5ad0d829g7dd4g4a79gaa2cgd5d882d05390">Character deals 50% extra damage with direct attacks against opponents that are Slowed, Crippled or Knocked Down.</content>
 	<content contentuid="h5addfbc4gcac7g4935g8effg8096574b8913">&lt;font color=&apos;#FFFFFF&apos; size=&apos;12&apos;&gt;Regular Loot&lt;/font&gt;</content>
@@ -186,15 +187,15 @@
 	<content contentuid="h5f6eb2f9g93d6g4054gae42gd34eb9d7bbf6">Elite Electric Infusion</content>
 	<content contentuid="h5ff7ce69gb95ag417ag8a63g5fe67a7fb7f7">Character has a chance to counter-attack when attacked within weapon range.</content>
 	<content contentuid="h61b66388gee60g4c43ga6degc9a4ac34d11b">Vitality Boost Per Elite Rank</content>
-	<content contentuid="h623a7ed0gaaacg4c3egacdfg56f3c23a1dec">&lt;font color=&apos;#00FFAA&apos; size=&apos;16&apos;&gt;Will drop &lt;textformat leftmargin=&apos;1&apos; rightmargin=&apos;1&apos;&gt;[1]&lt;/textformat&gt; on death.&lt;/font&gt;</content>
-	<content contentuid="h623a9ed0gaaacg4c3egacdfg56f1c23a1dec">&lt;font color=&apos;#00FFAA&apos; size=&apos;16&apos;&gt;Drops ??? on death.&lt;/font&gt;</content>
+	<content contentuid="h623a7ed0gaaacg4c3egacdfg56f3c23a1dec">&lt;font color=&apos;#00FFAA&apos; size=&apos;22&apos;&gt;Will drop &lt;textformat leftmargin=&apos;1&apos; rightmargin=&apos;1&apos;&gt;[1]&lt;/textformat&gt; on death.&lt;/font&gt;</content>
+	<content contentuid="h623a9ed0gaaacg4c3egacdfg56f1c23a1dec">&lt;font color=&apos;#00FFAA&apos; size=&apos;22&apos;&gt;Drops ??? on death.&lt;/font&gt;</content>
 	<content contentuid="h626f03b5gb1a5g4e8eg94b3g1686a8687718">Character is immune to losing control, either through Fear, Charm, Madness, or being turned into a chicken.</content>
 	<content contentuid="h62cbd27fgb53ag4e4bgaee0gb0dfd466fe48">&lt;font color=&apos;#FF3333&apos; size=&apos;23&apos;&gt;[1] Turn(s) Left&lt;/font&gt;</content>
 	<content contentuid="h64144ff5gee91g4ac5g87cdg43d27aaacef3">Character has the ability for certain statuses to no longer be blocked by Magic or Physical Armour, and their duration is extended by one turn.</content>
 	<content contentuid="h64497dc1gb13dg4e22gba1ag630a0ca66154">Disable Summoner Upgrades - These grant enemies the power to summon creatures. (Currently Enabled)</content>
 	<content contentuid="h645270dag6b15g47a8gad4bgfcc34034a77e">Cascader</content>
 	<content contentuid="h6493380bgf46eg46fdga0f8g399ed299b249">[DEBUG] Disable Enemy Level Limit - &lt;b&gt;WARNING&lt;/b&gt; - Enemy levels above 35 may crash the game. Uncap at your own risk! (Level Limit Currently &lt;font color=&apos;#8AFF49&apos;&gt;Enabled&lt;/font&gt;)</content>
-	<content contentuid="h662390f7gfd9eg4a56g95e5g658283cc548a">&lt;font color=&apos;#9B30FF&apos; size=&apos;16&apos;&gt;Drops Corrupted Treasure (&lt;textformat leftmargin=&apos;1&apos; rightmargin=&apos;1&apos;&gt;[1]&lt;/textformat&gt;) on death.&lt;/font&gt;</content>
+	<content contentuid="h662390f7gfd9eg4a56g95e5g658283cc548a">&lt;font color=&apos;#9B30FF&apos; size=&apos;22&apos;&gt;Drops Corrupted Treasure (&lt;textformat leftmargin=&apos;1&apos; rightmargin=&apos;1&apos;&gt;[1]&lt;/textformat&gt;) on death.&lt;/font&gt;</content>
 	<content contentuid="h66c91c9cg953dg4834gb6bag6eae82f73167">Hardmode grants enemies bonus upgrades and enables specific challenges in various sections of the game. </content>
 	<content contentuid="h66ec71efgc7eeg47f2g920bgcbe909afcee4">Blood Infusion</content>
 	<content contentuid="h6819a20fg7aefg4b55g919bg3dbe4b22cb81">Source-Hungry Voidwoken Statue</content>
@@ -261,13 +262,14 @@
 	<content contentuid="h844592e8g9000g4ce9gafd0ga87c8b086ef1">Vitality Boost</content>
 	<content contentuid="h84c27debgd38dg4844g84d4g75eb558eb5de">Upgraded</content>
 	<content contentuid="h84c9caecgf4f2g4e36ga17ag1ee9b85184a2">Ignitionmancer</content>
-	<content contentuid="h869a7616gfbb7g4cc2ga233g7c22612af67b">&lt;font size=&apos;18&apos;&gt;[1]&lt;/font&gt;</content>
+	<content contentuid="h869a7616gfbb7g4cc2ga233g7c22612af67b">&lt;font size=&apos;22&apos;&gt;[1]&lt;/font&gt;</content>
 	<content contentuid="h86a4a201g7c6eg474cgbfbeg2b49c803a093">Enable immunity upgrades, including upgrades that grant full resistance or evasion.</content>
 	<content contentuid="h86cfb164g8505g4e4fg89degcb3c24372f3c">Treasure Goblin</content>
+	<content contentuid="h873b94aeg56aeg47c5gbf72g08bd3a09af51">&lt;font color=&apos;#00FFAA&apos;&gt;[1] (SOURCE-SPAWNED)&lt;/font&gt;</content>
 	<content contentuid="h87d1a253g6ec1g4352g96ffg856537b4759c">Shadow Reflection</content>
 	<content contentuid="h87d832d2gca5dg4086g9e83g5bcf2467d3c7">Elite Bonus Multiplier</content>
 	<content contentuid="h87dc0798g71d4g40a7ga672g27fdee5d3c77">Source-Hungry Voidling</content>
-	<content contentuid="h882390f1gfd9eg4a56g95e5g658283cc548a">&lt;font color=&apos;#9B30FF&apos; size=&apos;16&apos;&gt;Drops ??? on death.&lt;/font&gt;</content>
+	<content contentuid="h882390f1gfd9eg4a56g95e5g658283cc548a">&lt;font color=&apos;#9B30FF&apos; size=&apos;22&apos;&gt;Drops ??? on death.&lt;/font&gt;</content>
 	<content contentuid="h8886e1f1gb725g4e9fg8f5bg4ab1f7262f48">&lt;font color=&apos;#B823CB&apos; size=&apos;18&apos;&gt;Great Loot&lt;/font&gt;</content>
 	<content contentuid="h897741cbg8002g4c03g816fgcdba9d369b54">Magic Armor Boost</content>
 	<content contentuid="h89a403b4g8365g4109g96adg88d6136f2256">Source-Hungry Oiled Voidling</content>
@@ -325,7 +327,7 @@
 	<content contentuid="ha17708c3g1ac2g4036g9a44gd94ccc794825">Hardmode</content>
 	<content contentuid="ha3ccca0bg576dg4a64gb2edg8819d8f2cdc0">Chicken Infantry</content>
 	<content contentuid="ha3f84340g5d90g493cg82a3g694fc62b4228">Enable Level Scaling</content>
-	<content contentuid="ha4587526ge140g42f9g9a98gc92b537d4209">&lt;font color=&apos;[2]&apos; size=&apos;18&apos;&gt;[1]&lt;/font&gt;</content>
+	<content contentuid="ha4587526ge140g42f9g9a98gc92b537d4209">&lt;font color=&apos;[2]&apos; size=&apos;22&apos;&gt;[1]&lt;/font&gt;</content>
 	<content contentuid="ha4a3d3cfg755ag46deg86d2g4f1060841ee2">Elite Blood Infusion</content>
 	<content contentuid="ha5b5dafeg1804g494dg92a2gcc7af36a3092">&lt;font color=&apos;#7D71D9&apos;&gt;Shocking Rain&lt;/font&gt;</content>
 	<content contentuid="ha5f6b750g5322g4043gac1dgfc82734fde21">Updated settings.</content>
@@ -390,7 +392,6 @@
 	<content contentuid="hc505e9aagab98g49e8g8777g72eb60325a35">Character will discover hidden enemies while in combat.&lt;br&gt;&lt;font color=&apos;#FF00CC&apos;&gt;Stealthed and Invisible enemies within 4m are revealed.&lt;/font&gt;&lt;br&gt;&lt;font color=&apos;#FF3333&apos;&gt;Becoming Drunk or disabled temporarily disables a Seeker&apos;s detection.&lt;/font&gt;</content>
 	<content contentuid="hc72f3a26g48bdg4a46gb705geab32e0f93fa">[GLOBAL] Enable Hard Mode Extra Upgrade Rolling (Default - Enabled) (Currently Disabled)</content>
 	<content contentuid="hc7c70ba4g0bfdg4afbg8db1ga39d0eead1eb">&lt;font color=&apos;#7D71D9&apos;&gt;Empowered by Madness&lt;/font&gt;</content>
-	<content contentuid="hc7fa1576g2273g4ae1gac32gcc8983de3eb0">Enable level scaling. Enemies and NPCs will be leveled up to the set modifier (+1 level higher than the party etc.).</content>
 	<content contentuid="hc950451dgfa32g421eg8f77g3de4f2ba4937">Character is obsessed with collecting grenades. One misstep and boom!</content>
 	<content contentuid="hcb08a432g19a5g4571g820fg92ddc92ac4d9">Talent: Lone Wolf</content>
 	<content contentuid="hcd5648efg6d58g48a2gb9f5gf6fdcaaa07b1">Totemancer</content>
@@ -433,6 +434,7 @@
 	<content contentuid="he2172050g115bg4345gae5eg4a45798086b4">Empowered</content>
 	<content contentuid="he23ccfa9gadbcg4c34g9f04g1c93f864badf">Character must wait before they can mug again.</content>
 	<content contentuid="he28799e1gaeb5g4ba6gbb8agae9ba710cdd0">Enable restricting the highest level an enemy can be leveled up to when scaling them per the level modifier. This is not recommended, as leveling past 35 can crash the game.</content>
+	<content contentuid="he29f4a80gc52ag4961gb273g70768807e108">Scale to Party Level</content>
 	<content contentuid="he4a9526dg0dd1g4babg824eg01a0e9993e55">Disable Talent Upgrades. Includes talent types Normal, Elite, and Weapon. (Currently Enabled)</content>
 	<content contentuid="he60340acg7e80g46b2g9449geba4ea159ab1">Really make characters in the level gain upgrades? This cannot be undone!</content>
 	<content contentuid="he6532e10gc9d5g4923g9544g033fca885329">Character has increased recovery and maximum Action Points when their health is below 50%.</content>
