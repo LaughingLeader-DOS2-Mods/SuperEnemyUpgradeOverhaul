@@ -165,18 +165,21 @@ local function OnTurnEndedOrLeftCombat(object, combatId)
 	end
 end
 
-Ext.RegisterOsirisListener("ObjectEnteredCombat", 2, "after", function(object, combatid)
-	if ObjectGetFlag(object, "LLENEMY_ShadowBonus_SlipperyRogue_Enabled") == 1 then
-		ApplyStatus(object, "INVISIBLE", 6.0, 0, object)
-	end
-	if ObjectGetFlag(object, "LLENEMY_ShadowBonus_DefensiveStart_Enabled") == 1 then
-		ApplyStatus(object, "FORTIFIED", 12.0, 0, object)
-		ApplyStatus(object, "MAGIC_SHELL", 12.0, 0, object)
-	end
-end)
-
 Ext.RegisterOsirisListener("ObjectTurnEnded", 1, "after", function(object)
 	OnTurnEndedOrLeftCombat(object)
 end)
 
 Ext.RegisterOsirisListener("ObjectLeftCombat", 2, "after", OnTurnEndedOrLeftCombat)
+
+local slipperyRogue = ItemBonusManager.CreateBonus("ObjectEnteredCombat", function(self, object, combatid)
+	return ObjectGetFlag(object, "LLENEMY_ShadowBonus_SlipperyRogue_Enabled") == 1
+end, function(self, object, combatid)
+	ApplyStatus(object, "INVISIBLE", 6.0, 0, object)
+end)
+
+local defensiveStart = ItemBonusManager.CreateBonus("ObjectEnteredCombat", function(self, object, combatid)
+	return ObjectGetFlag(object, "LLENEMY_ShadowBonus_DefensiveStart_Enabled") == 1
+end, function(self, object, combatid)
+	ApplyStatus(object, "FORTIFIED", 12.0, 0, object)
+	ApplyStatus(object, "MAGIC_SHELL", 12.0, 0, object)
+end)

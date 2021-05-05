@@ -224,18 +224,15 @@ Testing.CreateTest("EUOUpgradeSystem", function(self, ...)
 		RemoveTemporaryCharacter(enemy)
 		UpgradeSystem.ClearCharacterData(enemy)
 	end
+
+	self:Wait(1000)
 	
-	StartOneshotTimer(string.format("Timers_EUOUpgradeSystemTest_%s", enemy), 1000, function()
-		self:AssertEquals(ObjectExists(enemy), 1, "Enemy does not exist.")
-		UpgradeSystem.RollForUpgrades(enemy, true, true, true)
-		local data = UpgradeSystem.GetCurrentRegionData(nil, enemy, false)
-		self:AssertEquals((data ~= nil and #data > 0) or false, true, "Enemy does not have upgrade data.")
-		if data ~= nil then
-			self.SuccessMessage = string.format("Enemy upgrade results:\n%s", Ext.JsonStringify(data))
-			print(self.SuccessMessage)
-		end
-		self:Complete(true)
-	end)
+	self:AssertEquals(ObjectExists(enemy), 1, "Enemy does not exist.")
+	UpgradeSystem.RollForUpgrades(enemy, true, true, true)
+	local data = UpgradeSystem.GetCurrentRegionData(nil, enemy, false)
+	self:AssertEquals((data ~= nil and #data > 0) or false, true, "Enemy does not have upgrade data.")
+	self.SuccessMessage = string.format("Enemy upgrade results:\n%s", Ext.JsonStringify(data))
+	print(self.SuccessMessage)
 end),
 ---@param self LuaTest
 Testing.CreateTest("EUOLevelSystem", function(self, ...)
@@ -256,7 +253,7 @@ Testing.CreateTest("EUOLevelSystem", function(self, ...)
 
 	self:AssertEquals(nextLevel > level, true, "Enemy did not level up.")
 	self.SuccessMessage = string.format("Enemy level increased %s -> %s", level, nextLevel)
-	self:Complete(true)
+	
 end),
 ---@param self LuaTest
 Testing.CreateTest("EUODupeTest", function(self, ...)
@@ -270,7 +267,7 @@ Testing.CreateTest("EUODupeTest", function(self, ...)
 		end
 	end
 	self.SuccessMessage = string.format("Duped created: %s\n%s", #dupes, StringHelpers.Join("\n\t", dupes))
-	self:Complete(true)
+	
 end),
 ---@param self LuaTest
 Testing.CreateTest("EUOShadowTreasureTest", function(self, ...)
@@ -288,6 +285,7 @@ Testing.CreateTest("EUOShadowTreasureTest", function(self, ...)
 	--GenerateTreasure(backpack, "ST_QuestReward_RG_3", level, host.MyGuid)
 	--GenerateTreasure(backpack, "ST_LLENEMY_ShadowTreasureWeaponsTest", level, host.MyGuid)
 	--ShadowCorruptContainerItems(backpack, "Random")
+
 	ShadowCorruptContainerItems(backpack, nil, true)
 	local backpackItem = Ext.GetItem(backpack)
 	local inventory = backpackItem:GetInventoryItems()
@@ -309,7 +307,7 @@ Testing.CreateTest("EUOShadowTreasureTest", function(self, ...)
 	self:AssertEquals(hasShadowItem, true, "No shadow items were created.")
 	self.SuccessMessage = string.format("Items generated:\n%s", StringHelpers.Join("\n", itemData))
 	print(self.SuccessMessage)
-	self:Complete(true)
+	
 end),
 ---@param self LuaTest
 Testing.CreateTest("EUOVoidwokenSourceTest", function(self, ...)
@@ -332,19 +330,18 @@ Testing.CreateTest("EUOVoidwokenSourceTest", function(self, ...)
 			SetCanJoinCombat(v, 0)
 		end
 	end
-	StartOneshotTimer(string.format("Timers_EUOVoidwokenTest_%s", Ext.MonotonicTime()), 260, function()
-		local spawnData = {}
-		for i,v in pairs(results) do
-			if not StringHelpers.IsNullOrEmpty(v) and ObjectExists(v) == 1 then
-				local enemy = Ext.GetCharacter(v)
-				table.insert(spawnData, string.format("\tTemplate(%s) Stats(%s) x(%s) y(%s) z(%s)", enemy.RootTemplate.Id, enemy.Stats.Name, table.unpack(enemy.WorldPos)))
-				--print(string.format("[%s] Template(%s) Stats(%s) x(%s) y(%s) z(%s)", i, enemy.RootTemplate.Id, enemy.Stats.Name, table.unpack(enemy.WorldPos)))
-			end
+	self:Wait(500)
+	local spawnData = {}
+	for i,v in pairs(results) do
+		if not StringHelpers.IsNullOrEmpty(v) and ObjectExists(v) == 1 then
+			local enemy = Ext.GetCharacter(v)
+			table.insert(spawnData, string.format("\tTemplate(%s) Stats(%s) x(%s) y(%s) z(%s)", enemy.RootTemplate.Id, enemy.Stats.Name, table.unpack(enemy.WorldPos)))
+			--print(string.format("[%s] Template(%s) Stats(%s) x(%s) y(%s) z(%s)", i, enemy.RootTemplate.Id, enemy.Stats.Name, table.unpack(enemy.WorldPos)))
 		end
-		self.SuccessMessage = string.format("Voidwoken spawned:\n%s", StringHelpers.Join("\n", spawnData))
-		print(self.SuccessMessage)
-		self:Complete(true)
-	end)
+	end
+	self.SuccessMessage = string.format("Voidwoken spawned:\n%s", StringHelpers.Join("\n", spawnData))
+	print(self.SuccessMessage)
+	
 end),
 }
 
