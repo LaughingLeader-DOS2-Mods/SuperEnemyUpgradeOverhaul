@@ -63,15 +63,20 @@ local function ApplyBonusText(character, skill, tooltip, bonuses, items)
 					}
 					tooltip:AppendElement(descriptionElement)
 				end
-				if Input.GetKeyState("SplitItemToggle") then
-					if not StringHelpers.IsNullOrEmpty(itemName) then
-						descriptionElement.Label = string.format("%s<br>%s<br>%s<br>(%s)", descriptionElement.Label, name, description, itemName)
-					else
-						descriptionElement.Label = string.format("%s<br>%s<br>%s", descriptionElement.Label, name, description)
-					end
+				if not StringHelpers.IsNullOrWhitespace(itemName) then
+					descriptionElement.Label = string.format("%s<br>%s<br>%s<br>(%s)", descriptionElement.Label, name, description, itemName)
 				else
-					descriptionElement.Label = string.format("%s<br><font color='#CC4400'>Hold Shift for More Info</font>", descriptionElement.Label)
+					descriptionElement.Label = string.format("%s<br>%s<br>%s", descriptionElement.Label, name, description)
 				end
+				-- if TooltipExpander.ShowMoreInfo() then
+				-- 	if not StringHelpers.IsNullOrEmpty(itemName) then
+				-- 		descriptionElement.Label = string.format("%s<br>%s<br>%s<br>(%s)", descriptionElement.Label, name, description, itemName)
+				-- 	else
+				-- 		descriptionElement.Label = string.format("%s<br>%s<br>%s", descriptionElement.Label, name, description)
+				-- 	end
+				-- else
+				-- 	descriptionElement.Label = string.format("%s<br><font color='#CC4400'>Hold Shift for More Info</font>", descriptionElement.Label)
+				-- end
 			end
 		end
 	end

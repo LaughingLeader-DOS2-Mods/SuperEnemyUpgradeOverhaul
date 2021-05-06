@@ -3,6 +3,9 @@ local eliteName = ts:Create("h6e63c146gcc1fg43f0g8b98gcf89cb4c1fc2", "<font colo
 local sourceSpawnedWrapper = ts:Create("h873b94aeg56aeg47c5gbf72g08bd3a09af51", "<font color='#00FFAA'>[1] (SOURCE-SPAWNED)</font>")
 
 local function addHealthBarNameExtras(ui, method, name, level, isItem)
+	if not Ext.GetPickingState then
+		return
+	end
 	UIExtensions.StartTimer("SEUO_AddExtraNameStuff", 10, function()
 		local state = Ext.GetPickingState()
 		local characterHandle = state.HoverCharacter or state.HoverCharacter2

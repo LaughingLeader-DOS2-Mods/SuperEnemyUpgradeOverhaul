@@ -84,43 +84,46 @@ local function BuildUpgradeEntries(character, upgradeKeys, hardmodeStatuses, isC
 	local entries = {}
 	for _,status in pairs(upgradeKeys) do
 		local loreMin = UpgradeData.Statuses[status] or 0
-		local nameText = GameHelpers.Tooltip.StripFont(Ext.GetTranslatedStringFromKey(Ext.StatGetAttribute(status, "DisplayName")) or "")
+		local nameText = StringHelpers.StripFont(Ext.GetTranslatedStringFromKey(Ext.StatGetAttribute(status, "DisplayName")) or "")
 		local description = ""
-		local canShowDesc = StringHelpers.IsNullOrWhitespace(Ext.StatGetAttribute(status, "Icon"))
+		local canShowDesc = TooltipExpander.ShowMoreInfo() and StringHelpers.IsNullOrWhitespace(Ext.StatGetAttribute(status, "Icon"))
 		if canShowDesc and (UpgradeData.Statuses[status] or string.find(status, "LLENEMY")) then
 			description = Ext.GetTranslatedStringFromKey(Ext.StatGetAttribute(status, "Description")) or ""
 			if not StringHelpers.IsNullOrWhitespace(description) then
-				description = GameHelpers.Tooltip.StripFont(GameHelpers.Tooltip.ReplacePlaceholders(description, character))
+				description = StringHelpers.StripFont(GameHelpers.Tooltip.ReplacePlaceholders(description, character))
 			end
 		end
 
-		local skills = Ext.StatGetAttribute(status, "Skills")
-		if not StringHelpers.IsNullOrEmpty(skills) then
-			skills = StringHelpers.Split(skills, ";")
-			local skillNames = {}
-			for i,v in pairs(skills) do
-				local skillName = Ext.GetTranslatedStringFromKey(Ext.StatGetAttribute(v, "DisplayName"))
-				if not StringHelpers.IsNullOrEmpty(skillName) then
-					local ability = Ext.StatGetAttribute(v, "Ability")
-					if ability then
-						local color = FormatColor[ability]
-						if color then
-							if isControllerMode ~= true then
-								skillName = string.format("%s<font color='%s'>%s</font>", bulletImage, color, skillName)
-							else
-								skillName = string.format("<font color='%s'>%s</font>", color, skillName)
+		if TooltipExpander.ShowMoreInfo() then
+			local skills = Ext.StatGetAttribute(status, "Skills")
+			if not StringHelpers.IsNullOrWhitespace(skills) then
+				skills = StringHelpers.Split(skills, ";")
+				local skillNames = {}
+				for i,v in pairs(skills) do
+					local skillName = Ext.GetTranslatedStringFromKey(Ext.StatGetAttribute(v, "DisplayName"))
+					if not StringHelpers.IsNullOrEmpty(skillName) then
+						local ability = Ext.StatGetAttribute(v, "Ability")
+						if ability then
+							local color = FormatColor[ability]
+							if color then
+								if isControllerMode ~= true then
+									skillName = string.format("%s<font color='%s'>%s</font>", bulletImage, color, skillName)
+								else
+									skillName = string.format("<font color='%s'>%s</font>", color, skillName)
+								end
 							end
 						end
+						skillNames[#skillNames+1] = skillName
 					end
-					skillNames[#skillNames+1] = skillName
+				end
+				if not StringHelpers.IsNullOrEmpty(description) then
+					description = string.format("%s<br>Gained Skills:<br>%s", description, StringHelpers.Join("<br>", skillNames))
+				else
+					description = string.format("Gained Skills:<br>%s", StringHelpers.Join("<br>", skillNames))
 				end
 			end
-			if not StringHelpers.IsNullOrEmpty(description) then
-				description = string.format("%s<br>Gained Skills:<br>%s", description, StringHelpers.Join("<br>", skillNames))
-			else
-				description = string.format("Gained Skills:<br>%s", StringHelpers.Join("<br>", skillNames))
-			end
 		end
+
 		if nameText == "" then
 			local potion = Ext.StatGetAttribute(status, "StatsId") or ""
 			if potion ~= "" then
@@ -130,7 +133,7 @@ local function BuildUpgradeEntries(character, upgradeKeys, hardmodeStatuses, isC
 		if nameText ~= "" then
 			---@type UpgradeTextEntry
 			local entry = {}
-			entry.SortOn = GameHelpers.Tooltip.StripFont(nameText):upper()
+			entry.SortOn = StringHelpers.StripFont(nameText):upper()
 			local colorName = Ext.StatGetAttribute(status, "FormatColor") or "Special"
 			local color = FormatColor[colorName] or "#C9AA58"
 			if HighestLoremaster < loreMin then
