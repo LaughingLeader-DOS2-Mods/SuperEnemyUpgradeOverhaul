@@ -79,14 +79,15 @@ end
 ---@field Output string
 ---@field SortOn string
 
+---@param tooltip TooltipData
 ---@return UpgradeTextEntry[]
-local function BuildUpgradeEntries(character, upgradeKeys, hardmodeStatuses, isControllerMode)
+local function BuildUpgradeEntries(character, upgradeKeys, hardmodeStatuses, tooltip)
 	local entries = {}
 	for _,status in pairs(upgradeKeys) do
 		local loreMin = UpgradeData.Statuses[status] or 0
 		local nameText = StringHelpers.StripFont(Ext.GetTranslatedStringFromKey(Ext.StatGetAttribute(status, "DisplayName")) or "")
 		local description = ""
-		local canShowDesc = TooltipExpander.ShowMoreInfo() and StringHelpers.IsNullOrWhitespace(Ext.StatGetAttribute(status, "Icon"))
+		local canShowDesc = isExpanded and StringHelpers.IsNullOrWhitespace(Ext.StatGetAttribute(status, "Icon"))
 		if canShowDesc and (UpgradeData.Statuses[status] or string.find(status, "LLENEMY")) then
 			description = Ext.GetTranslatedStringFromKey(Ext.StatGetAttribute(status, "Description")) or ""
 			if not StringHelpers.IsNullOrWhitespace(description) then
@@ -94,7 +95,7 @@ local function BuildUpgradeEntries(character, upgradeKeys, hardmodeStatuses, isC
 			end
 		end
 
-		if TooltipExpander.ShowMoreInfo() then
+		if tooltip:IsExpanded() then
 			local skills = Ext.StatGetAttribute(status, "Skills")
 			if not StringHelpers.IsNullOrWhitespace(skills) then
 				skills = StringHelpers.Split(skills, ";")
@@ -106,7 +107,7 @@ local function BuildUpgradeEntries(character, upgradeKeys, hardmodeStatuses, isC
 						if ability then
 							local color = FormatColor[ability]
 							if color then
-								if isControllerMode ~= true then
+								if tooltip.ControllerEnabled ~= true then
 									skillName = string.format("%s<font color='%s'>%s</font>", bulletImage, color, skillName)
 								else
 									skillName = string.format("<font color='%s'>%s</font>", color, skillName)
@@ -234,8 +235,9 @@ local function FormatUpgrades(character, upgradeKeys, hardmodeStatuses, isContro
 end
 
 ---@param character EclCharacter
+---@param tooltip TooltipData
 ---@return UpgradeTextEntry[]|nil
-local function GetUpgradeInfoText(character, isControllerMode)
+local function GetUpgradeInfoText(character, tooltip)
 	if Ext.IsDeveloperMode() then
 		HighestLoremaster = 10
 	end
@@ -270,7 +272,7 @@ local function GetUpgradeInfoText(character, isControllerMode)
 	local count = #upgradeKeys
 	if count > 0 then
 		--table.sort(upgradeKeys, sortupgrades)
-		local entries = BuildUpgradeEntries(character, upgradeKeys, hardmodeStatuses, isControllerMode)
+		local entries = BuildUpgradeEntries(character, upgradeKeys, hardmodeStatuses, tooltip)
 		table.sort(entries, sortUpgradeEntries)
 		return entries
 	end

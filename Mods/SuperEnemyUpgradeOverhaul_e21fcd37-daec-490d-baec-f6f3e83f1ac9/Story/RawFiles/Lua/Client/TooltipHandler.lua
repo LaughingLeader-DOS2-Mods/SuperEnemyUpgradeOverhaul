@@ -115,7 +115,7 @@ local upgradeInfoHelpers = Ext.Require("Client/UpgradeInfoTooltip.lua")
 ---@param status EsvStatus
 ---@param tooltip TooltipData
 local function OnUpgradeInfoTooltip(character, status, tooltip)
-	TooltipExpander.MarkDirty()
+	tooltip:MarkDirty()
 	--print(Ext.JsonStringify(tooltip.Data))
 	-- local element = tooltip:GetElement("StatusDescription")
 	-- if element ~= nil then
@@ -129,7 +129,7 @@ local function OnUpgradeInfoTooltip(character, status, tooltip)
 	-- 	end
 	-- end
 	local element = tooltip:GetElement("StatusDescription")
-	local upgradeInfo = upgradeInfoHelpers.GetUpgradeInfoText(character, tooltip.ControllerEnabled)
+	local upgradeInfo = upgradeInfoHelpers.GetUpgradeInfoText(character, tooltip)
 	if upgradeInfo and #upgradeInfo > 0 then
 		element.Label = element.Label .. "<br><img src='Icon_Line' width='350%'>"
 		--element.Label = element.Label .. "<br><img src='Icon_Line' width='350%'>" .. StringHelpers.Join("<br>", upgradeInfo)
@@ -142,17 +142,6 @@ local function OnUpgradeInfoTooltip(character, status, tooltip)
 			else
 				element.Label = element.Label .. "<br>" .. v.Output
 			end
-		end
-		if TooltipExpander.IsExpanded then
-			tooltip:AppendElement({
-				Type = "StatusDescription",
-				Label = "<font color='#CC4400'>Release Shift for Less Info</font>"
-			})
-		else
-			tooltip:AppendElement({
-				Type = "StatusDescription",
-				Label = "<font color='#CC4400'>Hold Shift for More Info</font>"
-			})
 		end
 	end
 	if not character:HasTag("LLENEMY_RewardsDisabled") then
