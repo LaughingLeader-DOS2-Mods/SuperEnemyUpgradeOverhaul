@@ -25,6 +25,8 @@ end)
 
 -- Retroactively remove blacklisted skills if they were modified
 RegisterListener("Initialized", function()
+	Common.InitializeTableFromSource(PersistentVars, DefaultPersistentVars)
+
 	local status,err = xpcall(function()
 		if EnemySkills ~= nil and #EnemySkills > 0 then
 			for _,skillgroup in pairs(EnemySkills) do
@@ -64,6 +66,8 @@ RegisterListener("Initialized", function()
 			end
 		end
 	end
+
+	Combat.CheckSaved()
 end)
 
 Ext.RegisterOsirisListener("ItemEquipped", Data.OsirisEvents.ItemEquipped, "after", function(uuid, char)
@@ -79,4 +83,8 @@ Ext.RegisterOsirisListener("ItemEquipped", Data.OsirisEvents.ItemEquipped, "afte
 			end
 		end
 	end
+end)
+
+Ext.RegisterOsirisListener("CombatEnded", Data.OsirisEvents.CombatEnded, "after", function(id)
+	Combat.OnEnded(id)
 end)

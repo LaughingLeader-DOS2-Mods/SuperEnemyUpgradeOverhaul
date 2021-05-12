@@ -2,25 +2,24 @@
 ---@type CharacterData
 CharacterData = LeaderLib.Classes.CharacterData
 
-PersistentVars = {}
-if PersistentVars.Upgrades == nil then
-	PersistentVars.Upgrades = {}
-end
-if PersistentVars.Upgrades.DropCounts == nil then
-	PersistentVars.Upgrades.DropCounts = {}
-end
-if PersistentVars.Upgrades.Results == nil then
-	---@type table<string, table<string, SavedUpgradeData[]>>
-	PersistentVars.Upgrades.Results = {}
-end
-if PersistentVars.ActiveDuplicants == nil then
-	PersistentVars.ActiveDuplicants = 0
-end
-if PersistentVars.LeveledRegions == nil then
-	PersistentVars.LeveledRegions = {}
-end
+---@class SuperEnemyUpgradeOverhaulPersistentVars:table
+DefaultPersistentVars = {
+	Upgrades = {
+		DropCounts = {},
+		---@type table<string, table<string, SavedUpgradeData[]>>
+		Results = {}
+	},
+	ActiveDuplicants = 0,
+	LeveledRegions = {},
+	---@type table<int,table<string,bool>>
+	WaitForCombatEnd = {}
+}
+
+---@type SuperEnemyUpgradeOverhaulPersistentVars
+PersistentVars = Common.CopyTable(DefaultPersistentVars, true)
 
 Ext.Require("Server/Listeners.lua")
+Ext.Require("Server/CombatHelpers.lua")
 Ext.Require("Server/UpgradeInfo.lua")
 Ext.Require("Server/GameMechanics.lua")
 Ext.Require("Server/ItemMechanics.lua")

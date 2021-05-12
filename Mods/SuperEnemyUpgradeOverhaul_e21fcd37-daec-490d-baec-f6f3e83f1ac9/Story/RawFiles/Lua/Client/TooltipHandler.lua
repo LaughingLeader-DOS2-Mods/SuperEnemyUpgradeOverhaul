@@ -454,76 +454,6 @@ local function OnInfusionInfoTooltip(character, status, tooltip)
 	end
 end
 
-local function FormatTagElements(tooltip_mc, group, ...)
-	group.iconId = 16
-	--group.setupHeader()
-	for i=0,#group.list.content_array,1 do
-		local element = group.list.content_array[i]
-		if element ~= nil then
-			local b,result = xpcall(function()
-				-- local icon = element.getChildAt(3) or element.getChildByName("tt_groupIcon")
-				-- if icon ~= nil then
-				-- 	icon.gotoAndStop(17)
-				-- else
-				-- 	element.removeChildAt(3)
-				-- end
-				element.removeChildAt(3) -- Removes the tag icon
-
-				element.label_txt.x = 0
-				element.value_txt.x = 0
-				element.warning_txt.x = 0
-
-				local tag = element.label_txt.htmlText
-				local tagEntry = ItemCorruption.TagBoosts[tag]
-
-				if tagEntry ~= nil then
-					local tagName,nameHandle = Ext.GetTranslatedStringFromKey(tag)
-					local tagDesc,descHandle = Ext.GetTranslatedStringFromKey(tag.."_Description")
-					tagDesc = GameHelpers.Tooltip.ReplacePlaceholders(tagDesc)
-					element.label_txt.htmlText = tagName
-					element.warning_txt.htmlText = tagDesc
-					element.warning_txt.y = element.label_txt.y + element.label_txt.textHeight
-				end
-			end, debug.traceback)
-			if not b then
-				Ext.PrintError("[EUO:FormatTagElements] Error:")
-				Ext.PrintError(result)
-			end
-		end
-	end
-	--tooltip_mc.resetBackground()
-	--[[
-	CASEINSENSITIVE : uint = 1
-	  Specifies case-insensitive sorting for the Array class sorting methods.
-	DESCENDING : uint = 2
-	  Specifies descending sorting for the Array class sorting methods.
-	NUMERIC : uint = 16
-	  Specifies numeric (instead of character-string) sorting for the Array class sorting methods.
-	RETURNINDEXEDARRAY : uint = 8
-	  Specifies that a sort returns an array that consists of array indices.
-	UNIQUESORT : uint = 4
-	  Specifies the unique sorting requirement for the Array class sorting methods.
-	]]
-	--tooltip_mc.list.TOP_SPACING = 0
-	--tooltip_mc.list.m_SortOnFieldName = "label_txt"
-	--tooltip_mc.list.m_SortOnOptions = 1
-	--print(string.format("m_SortOnFieldName(%s) m_SortOnOptions(%s)", tooltip_mc.list.m_SortOnFieldName, tooltip_mc.list.m_SortOnOptions))
-	--tooltip_mc.repositionElements()
-end
-
-local function FormatTagTooltip(ui, tooltip_mc, ...)
-	if #tooltip_mc.list.content_array > 0 then
-		for i=0,#tooltip_mc.list.content_array,1 do
-			local group = tooltip_mc.list.content_array[i]
-			if group ~= nil then
-				if group.groupID == 13 and group.list ~= nil then
-					FormatTagElements(tooltip_mc, group, ...)
-				end
-			end
-		end
-	end
-end
-
 local lastUpgradeInfoCharacter = nil
 
 local OnSkillTooltip = Ext.Require("Client/SkillTooltips.lua")
@@ -535,9 +465,8 @@ local function Init()
 	Game.Tooltip.RegisterListener("Status", "LLENEMY_INFUSION_INFO", OnInfusionInfoTooltip)
 	Game.Tooltip.RegisterListener("Status", "LLENEMY_INFUSION_INFO_ELITE", OnInfusionInfoTooltip)
 	Game.Tooltip.RegisterListener("Skill", nil, OnSkillTooltip)
-	--RegisterListener("OnTooltipPositioned", FormatTagTooltip)
 
-	Ext.RegisterUITypeInvokeListener(LeaderLib.Data.UIType.examine, "updateStatusses", function(ui, method)
+	Ext.RegisterUITypeInvokeListener(Data.UIType.examine, "updateStatusses", function(ui, method)
 		local main = ui:GetRoot()
 		local array = main.status_array
 		---@type EclCharacter
@@ -565,12 +494,6 @@ local function Init()
 				for i=1,#array,6 do
 					local statusHandleDouble = array[i]
 					if statusHandleDouble ~= nil then
-						print(i+1, array[i+1])
-						print(i+2, array[i+2])
-						print(i+3, array[i+3])
-						print(i+4, array[i+4])
-						print(i+5, array[i+5])
-						print(i+6, array[i+6])
 						local statusHandle = Ext.DoubleToHandle(statusHandleDouble)
 						if statusHandle ~= nil then
 							local status = Ext.GetStatus(character.Handle, statusHandle)
@@ -587,7 +510,7 @@ local function Init()
 			Ext.PostMessageToServer("LLENEMY_RequestUpgradeInfo", Ext.JsonStringify({ID=Client.ID, NetID=character.NetID}))
 		end
 	end)
-	Ext.RegisterUITypeCall(LeaderLib.Data.UIType.examine, "hideUI", function(...)
+	Ext.RegisterUITypeCall(Data.UIType.examine, "hideUI", function(...)
 		lastUpgradeInfoCharacter = nil
 	end)
 end

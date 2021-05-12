@@ -18,6 +18,7 @@ local entries = {
 	LLENEMY_ShadowBonus_ShockingRain = tb:Create("LLENEMY_ShadowBonus_ShockingRain","LLENEMY_ShadowBonus_ShockingRain_Enabled", DefaultParams),
 	LLENEMY_ShadowBonus_SlipperyRogue = tb:Create("LLENEMY_ShadowBonus_SlipperyRogue","LLENEMY_ShadowBonus_SlipperyRogue_Enabled", DefaultParams),
 	LLENEMY_ShadowBonus_DefensiveStart = tb:Create("LLENEMY_ShadowBonus_DefensiveStart","LLENEMY_ShadowBonus_DefensiveStart_Enabled", DefaultParams),
+	LLENEMY_ShadowBonus_TimeHaste = tb:Create("LLENEMY_ShadowBonus_TimeHaste","LLENEMY_ShadowBonus_TimeHaste_Enabled", DefaultParams),
 }
 
 if Ext.IsClient() then
