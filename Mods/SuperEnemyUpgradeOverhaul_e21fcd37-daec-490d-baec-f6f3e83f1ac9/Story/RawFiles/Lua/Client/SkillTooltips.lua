@@ -6,7 +6,14 @@ local SkillBonuses = {
 		Target_EnemyHaste = {"LLENEMY_ShadowBonus_TimeHaste"},
 	},
 	Ability = {
-		Fire = {"LLENEMY_ShadowBonus_CursedFire"}
+		--Fire = {"LLENEMY_ShadowBonus_CursedFire"}
+	},
+	Custom = {
+		function(character, skill, stat)
+			if (stat.Ability == "Fire" or stat.DamageType == "Fire") and stat["Damage Multiplier"] > 0 then
+				return "LLENEMY_ShadowBonus_CursedFire"
+			end
+		end
 	}
 }
 
@@ -17,6 +24,7 @@ local BonusConditionalText = {
 local function GetBonuses(character, skill)
 	local bonuses = {}
 	local hasBonuses = false
+	local stat = not Data.ActionSkills[skill] and Ext.GetStat(skill) or {}
 	if SkillBonuses.Skill[skill] then
 		for i,v in pairs(SkillBonuses.Skill[skill]) do
 			bonuses[v] = true
@@ -27,9 +35,37 @@ local function GetBonuses(character, skill)
 		local ability = Ext.StatGetAttribute(skill, "Ability")
 		if SkillBonuses.Ability[ability] then
 			for i,v in pairs(SkillBonuses.Ability[ability]) do
-				bonuses[v] = true
+				local t = type(v)
+				if t == "string "then
+					bonuses[v] = true
+					hasBonuses = true
+				elseif t == "function" then
+					local b,result = xpcall(v, debug.traceback, character, skill, ability, stat)
+					if b and result then
+						bonuses[result] = true
+						hasBonuses = true
+					elseif not b then
+						Ext.PrintError(result)
+					end
+				end
 			end
-			hasBonuses = true
+		end
+	end
+	for i,v in pairs(SkillBonuses.Custom) do
+		local b,result = xpcall(v, debug.traceback, character, skill, stat)
+		if b and result then
+			local t = type(result)
+			if t == "string" then
+				bonuses[result] = true
+				hasBonuses = true
+			elseif t == "table" then
+				for _,v2 in pairs(result) do
+					bonuses[v2] = true
+					hasBonuses = true
+				end
+			end
+		elseif not b then
+			Ext.PrintError(result)
 		end
 	end
 	return bonuses,hasBonuses
@@ -55,10 +91,10 @@ end
 local function ApplyBonusText(character, skill, tooltip, bonuses, items)
 	for tag,b in pairs(bonuses) do
 		local itemName,slot = HasTaggedItemEquipped(items, tag)
-		if itemName ~= false then
+		if itemName ~= false or Vars.DebugMode then
 			local name = Ext.GetTranslatedStringFromKey(tag)
 			local description = Ext.GetTranslatedStringFromKey(tag .. "_Description")
-			if name and description then
+			if not StringHelpers.IsNullOrWhitespace(name) and not StringHelpers.IsNullOrWhitespace(description) then
 				name = GameHelpers.Tooltip.ReplacePlaceholders(name, character)
 				description = GameHelpers.Tooltip.ReplacePlaceholders(description, character)
 				local descriptionElement = tooltip:GetElement("SkillDescription")
@@ -81,6 +117,16 @@ local function ApplyBonusText(character, skill, tooltip, bonuses, items)
 						descriptionElement.Label = descriptionElement.Label .. "<br>" .. bonusText
 					end
 				end
+			elseif Vars.DebugMode then
+				local descriptionElement = tooltip:GetElement("SkillDescription")
+				if descriptionElement == nil then
+					descriptionElement = {
+						Type = "SkillDescription",
+						Label = ""
+					}
+					tooltip:AppendElement(descriptionElement)
+				end
+				descriptionElement.Label = string.format("%s<br>%s", descriptionElement.Label, tag)
 			end
 		end
 	end

@@ -3,6 +3,7 @@ LeaderLib = Mods.LeaderLib
 Vars = {
 	UPGRADE_MAX_ROLL = 100,
 	DefaultDropCount = 4,
+	DebugMode = LeaderLib.Vars.DebugMode
 }
 
 ---@type table<string, boolean>

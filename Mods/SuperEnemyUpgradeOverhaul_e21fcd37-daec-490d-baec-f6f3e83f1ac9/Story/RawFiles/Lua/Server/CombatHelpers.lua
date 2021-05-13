@@ -15,10 +15,10 @@ if not Combat.ClearFlagOrTag then
 end
 
 function Combat.WaitForEnd(id, uuid)
-	if not WaitForCombatToEnd[id] then
-		WaitForCombatToEnd[id] = {}
+	if not PersistentVars.WaitForCombatEnd[id] then
+		PersistentVars.WaitForCombatEnd[id] = {}
 	end
-	WaitForCombatToEnd[id][uuid] = true
+	PersistentVars.WaitForCombatEnd[id][uuid] = true
 end
 
 function Combat.OnEnded(id)

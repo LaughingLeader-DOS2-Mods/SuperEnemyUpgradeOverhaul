@@ -36,7 +36,7 @@ function ItemBonusManager.OnSkill(skill, ...)
 		if length > 0 then
 			for i=1,length do
 				local bonus = bonuses[i]
-				if bonus:CanApply(...) then
+				if bonus and bonus:CanApply(...) then
 					bonus:Apply(...)
 				end
 			end

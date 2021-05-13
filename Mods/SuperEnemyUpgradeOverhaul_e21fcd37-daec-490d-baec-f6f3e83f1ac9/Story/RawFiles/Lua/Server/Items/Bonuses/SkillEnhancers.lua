@@ -1,4 +1,4 @@
-ItemBonusManager.AllItemBonuses.ShockingRain = ItemBonusManager.RegisterToSkillListener({"Rain_Water", "Rain_EnemyWater"}, 
+ItemBonusManager.AllItemBonuses.ShockingRain = ItemBonusManager.CreateSkillBonus({"Rain_Water", "Rain_EnemyWater"}, 
 function(skill, char, state, skillData)
 	return state == SKILL_STATE.CAST and ObjectGetFlag(char, "LLENEMY_ShadowBonus_ShockingRain_Enabled") == 1
 end,
@@ -14,9 +14,9 @@ function(skill, char, state, skillData)
 	NRD_GameActionSetLifeTime(handle, 12.0)
 end)
 
-ItemBonusManager.AllItemBonuses.TimeHaste = ItemBonusManager.RegisterToSkillListener({"Target_Haste", "Target_EnemyHaste"}, 
+ItemBonusManager.AllItemBonuses.TimeHaste = ItemBonusManager.CreateSkillBonus({"Target_Haste", "Target_EnemyHaste"}, 
 function(skill, char, state, skillData)
-	return state == SKILL_STATE.CAST and ObjectGetFlag(char, "LLENEMY_ShadowBonus_TimeHaste_Enabled") == 1 and ObjectGetFlag(char, "LLENEMY_TimeHastedUsed") == 0
+	return state == SKILL_STATE.CAST and Vars.DebugMode or (ObjectGetFlag(char, "LLENEMY_ShadowBonus_TimeHaste_Enabled") == 1 and ObjectGetFlag(char, "LLENEMY_TimeHastedUsed") == 0)
 end,
 function(skill, char, state, skillData)
 	---@type SkillEventData
@@ -28,25 +28,32 @@ function(skill, char, state, skillData)
 				local combat = Ext.GetCombat(id)
 				if combat then
 					local order = combat:GetCurrentTurnOrder()
-					local casterIndex = -1
+					local casterIndex = 1
 					local targetEntry = nil
+					local nextOrder = {}
 					for i,v in ipairs(order) do
-						if v.Character then
+						if v.Character.MyGuid == target then
+							targetEntry = v
+						else
 							if v.Character.MyGuid == char then
 								casterIndex = i
-							elseif v.Character.MyGuid == target then
-								targetEntry = v
-								table.remove(order, i)
 							end
+							nextOrder[#nextOrder+1] = v
 						end
 					end
-					if casterIndex > -1 and targetEntry then
-						table.insert(order, casterIndex+1, targetEntry)
-						combat:UpdateCurrentTurnOrder(order)
+					--Turn ended after casting Haste?
+					if casterIndex > 1 then
+						casterIndex = 1
+					end
+					if targetEntry then
+						table.insert(nextOrder, casterIndex+1, targetEntry)
+						combat:UpdateCurrentTurnOrder(nextOrder)
 						local text = GameHelpers.GetStringKeyText("LLENEMY_StatusText_TimeHasted", "<font color='#88CCFF'>Time Hasted!</font>")
 						CharacterStatusText(target, text)
-						SetTag(char, "LLENEMY_TimeHasteUsed", 0)
-						WaitForCombatToEnd(id, char)
+						SetTag(char, "LLENEMY_TimeHasteUsed")
+						Combat.WaitForEnd(id, char)
+					else
+						Ext.PrintWarning("[SEUO:TimeHaste] Failed to find target character in combat turn order.")
 					end
 				end
 			end
@@ -54,4 +61,4 @@ function(skill, char, state, skillData)
 	end, data.TargetMode.Objects)
 end)
 
-CombatEndedClearFlags.TimeHaste = CLEARTYPE.Tag
+Combat.ClearFlagOrTag.TimeHaste = CLEARTYPE.Tag
