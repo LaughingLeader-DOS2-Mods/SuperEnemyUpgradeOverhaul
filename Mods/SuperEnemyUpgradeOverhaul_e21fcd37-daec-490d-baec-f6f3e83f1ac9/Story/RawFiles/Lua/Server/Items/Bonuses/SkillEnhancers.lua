@@ -16,7 +16,7 @@ end)
 
 ItemBonusManager.AllItemBonuses.TimeHaste = ItemBonusManager.CreateSkillBonus({"Target_Haste", "Target_EnemyHaste"}, 
 function(skill, char, state, skillData)
-	return state == SKILL_STATE.CAST and Vars.DebugMode or (ObjectGetFlag(char, "LLENEMY_ShadowBonus_TimeHaste_Enabled") == 1 and ObjectGetFlag(char, "LLENEMY_TimeHastedUsed") == 0)
+	return state == SKILL_STATE.CAST and (ObjectGetFlag(char, "LLENEMY_ShadowBonus_TimeHaste_Enabled") == 1 and ObjectGetFlag(char, "LLENEMY_TimeHastedUsed") == 0)
 end,
 function(skill, char, state, skillData)
 	---@type SkillEventData
@@ -48,9 +48,10 @@ function(skill, char, state, skillData)
 					if targetEntry then
 						table.insert(nextOrder, casterIndex+1, targetEntry)
 						combat:UpdateCurrentTurnOrder(nextOrder)
-						local text = GameHelpers.GetStringKeyText("LLENEMY_StatusText_TimeHasted", "<font color='#88CCFF'>Time Hasted!</font>")
+						local text = GameHelpers.GetStringKeyText("LLENEMY_StatusText_TimeHasted", "<font color='#88CCFF'>Time Skip!</font>")
 						CharacterStatusText(target, text)
 						SetTag(char, "LLENEMY_TimeHasteUsed")
+						PlayEffectAtPosition("RS3_FX_Skills_Void_Divine_Impact_Root_01", GetPosition(target))
 						Combat.WaitForEnd(id, char)
 					else
 						Ext.PrintWarning("[SEUO:TimeHaste] Failed to find target character in combat turn order.")
