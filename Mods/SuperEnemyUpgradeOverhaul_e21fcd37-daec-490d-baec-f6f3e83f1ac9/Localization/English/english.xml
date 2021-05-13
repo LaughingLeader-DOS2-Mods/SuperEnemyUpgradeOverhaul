@@ -68,6 +68,7 @@
 	<content contentuid="h1b262514g57c3g428dga028gb3fe6e5e963a">Enable enemy duplication. Depending on duplication settings, enemies may gain duplicate copies in battle that grant special loot.</content>
 	<content contentuid="h1b451d33g304bg4112gab43g51a4721adab7">Elite Oil Infusion</content>
 	<content contentuid="h1c2d5b0eg1592g498aga1dfg0c9d7fe116dc">Source-Hungry Voidwoken Nightmare</content>
+	<content contentuid="h1c47cb34gfc77g42eeg8731gc0e57eb857c1">&lt;font color=&apos;#88CCFF&apos;&gt;Time Hasted!&lt;/font&gt;</content>
 	<content contentuid="h1c56b275gf13cg410fga7f4gd6e9ac70f1c9">Min Bonus Skills</content>
 	<content contentuid="h1c81c46bg9330g4d43gba21g6b72b951b3fd">Talent: Sadist</content>
 	<content contentuid="h1d2be7b0gea03g4bfagbeaag02c29c65b877">Summons your glorious chicken armada to the battlefield. Bwak!</content>
@@ -393,6 +394,7 @@
 	<content contentuid="hc72f3a26g48bdg4a46gb705geab32e0f93fa">[GLOBAL] Enable Hard Mode Extra Upgrade Rolling (Default - Enabled) (Currently Disabled)</content>
 	<content contentuid="hc7c70ba4g0bfdg4afbg8db1ga39d0eead1eb">&lt;font color=&apos;#7D71D9&apos;&gt;Empowered by Madness&lt;/font&gt;</content>
 	<content contentuid="hc950451dgfa32g421eg8f77g3de4f2ba4937">Character is obsessed with collecting grenades. One misstep and boom!</content>
+	<content contentuid="hca9de7e1ga17cg4574g9d6bgfceee44061da">&lt;font color=&apos;#88CCFF&apos;&gt;Time Skip&lt;/font&gt;</content>
 	<content contentuid="hcb08a432g19a5g4571g820fg92ddc92ac4d9">Talent: Lone Wolf</content>
 	<content contentuid="hcd5648efg6d58g48a2gb9f5gf6fdcaaa07b1">Totemancer</content>
 	<content contentuid="hce14d863g96b1g4817ga295gbea6423c0190">Magic Armor Boost</content>
@@ -465,7 +467,9 @@
 	<content contentuid="hf60945a4g7f7ag445cgacceg7f43da4a7f06">Armor Boost</content>
 	<content contentuid="hf6486123g0005g46c9g8a40ga098203e2ab6">Character is growing even more powerful through a second round of upgrades!</content>
 	<content contentuid="hf652aa9fgeca8g4265ga6b2ge3d557dfb11c">Disabling Enemy Level Scaling</content>
+	<content contentuid="hf6ec21eagcee6g4f70g8d07g040e42a5d551">&lt;font color=&apos;#FF3333&apos;&gt;Already time hasted this combat.&lt;/font&gt;</content>
 	<content contentuid="hf91deedcga4c7g427eg8153g2e347c06d3e8">Shadow Duplicant</content>
+	<content contentuid="hf9326badg6213g4e95g80b5g8c4c86ea13e1">&lt;font color=&apos;#C7A758&apos;&gt;The first allied, non-self target of [Key:Target_Haste_DisplayName] immediately takes their turn after yours.&lt;/font&gt;&lt;br&gt;&lt;font color=&apos;#EECC33&apos;&gt;Can only occur once per combat.&lt;/font&gt;</content>
 	<content contentuid="hfb82117ag09acg4668ga5ccg081651aff9a9">Character has a [1] chance to counter-attack when attacked within weapon range.</content>
 	<content contentuid="hfb8bbaa3gc050g425egaaa1gc5fdba8b0705">The maximum amount of bonus upgrades to gain in hardmode. Hardmode bonus upgrades will be a random value between the min and max.</content>
 	<content contentuid="hfd58a531g37f8g4573gbce3gdbac65d61add">Elite Necrofire Infusion</content>

@@ -13,6 +13,6 @@ LLENEMY_ShadowBonus_SlipperyRogue	<font color='#639594'>Slippery Rogue</font>	h2
 LLENEMY_ShadowBonus_SlipperyRogue_Description	<font color='#C7A758'>Start combat by going [Key:INVISIBLE_DisplayName].</font>	hb5046330g2473g4d21g80ecgc49d05235e4e
 LLENEMY_ShadowBonus_DefensiveStart	<font color='#FCD203'>Defensive Start</font>	h37849b58g7693g4058g88e2g9c3e934eedca
 LLENEMY_ShadowBonus_DefensiveStart_Description	<font color='#C7A758'>Start combat with [Key:FORTIFIED_DisplayName] and [Key:MAGIC_SHELL_DisplayName].</font> 	h4cbda363g10cfg4587g94c4gdc6e539d4397
-LLENEMY_ShadowBonus_TimeHaste	<font color='#88CCFF'>Time Haste</font>	hca9de7e1ga17cg4574g9d6bgfceee44061da
-LLENEMY_ShadowBonus_TimeHaste_Description	<font color='#C7A758'>The first ally hasted immediately takes their turn after yours.</font><br><font color='#EECC33'>Can only occur once per combat.</font>	hf9326badg6213g4e95g80b5g8c4c86ea13e1
+LLENEMY_ShadowBonus_TimeHaste	<font color='#88CCFF'>Time Skip</font>	hca9de7e1ga17cg4574g9d6bgfceee44061da
+LLENEMY_ShadowBonus_TimeHaste_Description	<font color='#C7A758'>The first allied, non-self target of [Key:Target_Haste_DisplayName] immediately takes their turn after yours.</font><br><font color='#EECC33'>Can only occur once per combat.</font>	hf9326badg6213g4e95g80b5g8c4c86ea13e1
 LLENEMY_TimeHasteUsed	<font color='#FF3333'>Already time hasted this combat.</font>	hf6ec21eagcee6g4f70g8d07g040e42a5d551
