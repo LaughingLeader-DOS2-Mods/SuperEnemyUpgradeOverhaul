@@ -63,3 +63,38 @@ function(skill, char, state, skillData)
 end)
 
 Combat.ClearFlagOrTag.TimeHaste = CLEARTYPE.Tag
+
+ItemBonusManager.AllItemBonuses.BloodyWinter = ItemBonusManager.CreateUnregisteredBonus(
+function(skill, char, state, skillData)
+	return state == SKILL_STATE.CAST and ObjectGetFlag(char, "LLENEMY_ShadowBonus_BloodyWinter_Enabled") == 1
+end,
+function(skill, char, state, skillData)
+	local grid = Ext.GetAiGrid()
+	---@type SkillEventData
+	local data = skillData
+	data:ForEach(function(target, t, self)
+		local x,y,z = nil,nil,nil
+		if t == "table" then
+			x,y,z = table.unpack(target)
+		else
+			x,y,z = GetPosition(target)
+		end
+		if x and z then
+			local surfaceData = GameHelpers.Grid.GetSurfaces(x, z, grid, 2.0)
+			if surfaceData then
+				for _,v in pairs(surfaceData.Ground) do
+					local surface = v.Surface
+					if string.find(string.lower(surface.SurfaceType), "water") then
+						GameHelpers.Surface.Transform(v.Position, "Bloodify", 0, surface.LifeTime, surface.OwnerHandle, surface.SurfaceType, surface.StatusChance)
+						GameHelpers.Surface.Transform(v.Position, "Freeze", 0, surface.LifeTime, surface.OwnerHandle, surface.SurfaceType, surface.StatusChance)
+					end
+				end
+			end
+
+			--Ground water surfaces
+			-- if surfaceData and surfaceData.HasSurface("water", true, 0) then
+				
+			-- end
+		end
+	end, data.TargetMode.All)
+end)

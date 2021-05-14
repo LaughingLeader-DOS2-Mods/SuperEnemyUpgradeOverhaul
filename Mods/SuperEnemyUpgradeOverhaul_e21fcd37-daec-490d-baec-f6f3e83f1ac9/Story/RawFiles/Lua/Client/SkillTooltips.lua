@@ -1,20 +1,23 @@
-local SkillBonuses = {
-	Skill = {
-		Rain_Water = {"LLENEMY_ShadowBonus_ShockingRain"},
-		Rain_EnemyWater = {"LLENEMY_ShadowBonus_ShockingRain"},
-		Target_Haste = {"LLENEMY_ShadowBonus_TimeHaste"},
-		Target_EnemyHaste = {"LLENEMY_ShadowBonus_TimeHaste"},
-	},
-	Ability = {
-		--Fire = {"LLENEMY_ShadowBonus_CursedFire"}
-	},
-	Custom = {
-		function(character, skill, stat)
-			if (stat.Ability == "Fire" or stat.DamageType == "Fire") and stat["Damage Multiplier"] > 0 then
-				return "LLENEMY_ShadowBonus_CursedFire"
-			end
+if SkillTagBonuses == nil then
+	SkillTagBonuses = {}
+end
+
+SkillTagBonuses.Skill = {
+	Rain_Water = {"LLENEMY_ShadowBonus_ShockingRain"},
+	Rain_EnemyWater = {"LLENEMY_ShadowBonus_ShockingRain"},
+	Target_Haste = {"LLENEMY_ShadowBonus_TimeHaste"},
+	Target_EnemyHaste = {"LLENEMY_ShadowBonus_TimeHaste"},
+	--Shout_GlobalCooling = {"LLENEMY_ShadowBonus_BloodyWinter"},
+}
+SkillTagBonuses.Ability = {
+	--Fire = {"LLENEMY_ShadowBonus_CursedFire"}
+}
+SkillTagBonuses.Custom = {
+	function(character, skill, stat)
+		if (stat.Ability == "Fire" or stat.DamageType == "Fire") and stat["Damage Multiplier"] > 0 then
+			return "LLENEMY_ShadowBonus_CursedFire"
 		end
-	}
+	end
 }
 
 local BonusConditionalText = {
@@ -25,16 +28,16 @@ local function GetBonuses(character, skill)
 	local bonuses = {}
 	local hasBonuses = false
 	local stat = not Data.ActionSkills[skill] and Ext.GetStat(skill) or {}
-	if SkillBonuses.Skill[skill] then
-		for i,v in pairs(SkillBonuses.Skill[skill]) do
+	if SkillTagBonuses.Skill[skill] then
+		for i,v in pairs(SkillTagBonuses.Skill[skill]) do
 			bonuses[v] = true
 		end
 		hasBonuses = true
 	end
 	if Data.ActionSkills[skill] ~= true then
 		local ability = Ext.StatGetAttribute(skill, "Ability")
-		if SkillBonuses.Ability[ability] then
-			for i,v in pairs(SkillBonuses.Ability[ability]) do
+		if SkillTagBonuses.Ability[ability] then
+			for i,v in pairs(SkillTagBonuses.Ability[ability]) do
 				local t = type(v)
 				if t == "string "then
 					bonuses[v] = true
@@ -51,7 +54,7 @@ local function GetBonuses(character, skill)
 			end
 		end
 	end
-	for i,v in pairs(SkillBonuses.Custom) do
+	for i,v in pairs(SkillTagBonuses.Custom) do
 		local b,result = xpcall(v, debug.traceback, character, skill, stat)
 		if b and result then
 			local t = type(result)

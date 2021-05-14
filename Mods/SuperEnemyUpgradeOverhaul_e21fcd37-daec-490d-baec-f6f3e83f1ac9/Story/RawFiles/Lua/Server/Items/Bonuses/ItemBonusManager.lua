@@ -137,3 +137,12 @@ function ItemBonusManager.CreateSkillBonus(skill, canApplyCallback, actionCallba
 	ItemBonusManager.RegisterToSkillListener(skill, bonus)
 	return bonus
 end
+
+---@param canApplyCallback ItemBonusConditionCheckCallback
+---@param actionCallback ItemBonusActionCallback
+---@param params table<string,any>
+---@return ItemBonus
+function ItemBonusManager.CreateUnregisteredBonus(canApplyCallback, actionCallback, params)
+	local bonus = ItemBonus:Create(canApplyCallback, actionCallback, params)
+	return bonus
+end

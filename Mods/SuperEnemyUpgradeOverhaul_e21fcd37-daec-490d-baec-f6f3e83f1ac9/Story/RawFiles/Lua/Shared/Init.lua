@@ -3,7 +3,8 @@ LeaderLib = Mods.LeaderLib
 Vars = {
 	UPGRADE_MAX_ROLL = 100,
 	DefaultDropCount = 4,
-	DebugMode = LeaderLib.Vars.DebugMode
+	DebugMode = LeaderLib.Vars.DebugMode,
+	FreezeSkills = {}
 }
 
 ---@type table<string, boolean>
@@ -129,6 +130,31 @@ Ext.RegisterListener("SessionLoaded", function()
 	LeaderLib.EnableFeature("TooltipGrammarHelper")
 	LeaderLib.EnableFeature("WingsWorkaround")
     LeaderLib.EnableFeature("ReplaceTooltipPlaceholders")
+
+	for _,name in pairs(Ext.GetStatEntries("SkillData")) do
+		local stat = Ext.GetStat(name)
+		if stat.SkillProperties and #stat.SkillProperties > 0 then
+			for _,prop in pairs(stat.SkillProperties) do
+				if prop.Action == "Freeze" then
+					Vars.FreezeSkills[name] = true
+					if Ext.IsClient() then
+						if not SkillTagBonuses.Skill[name] then
+							SkillTagBonuses.Skill[name] = {}
+						end
+						if not Common.TableHasValue(SkillTagBonuses.Skill[name], "LLENEMY_ShadowBonus_BloodyWinter") then
+							table.insert(SkillTagBonuses.Skill[name], "LLENEMY_ShadowBonus_BloodyWinter")
+						end
+					else
+						ItemBonusManager.RegisterToSkillListener(name, ItemBonusManager.AllItemBonuses.BloodyWinter)
+					end
+				end
+			end
+		end
+	end
+
+	if Ext.IsClient() then
+		print(Common.Dump(SkillTagBonuses.Skill))
+	end
 end)
 
 if Ext.IsServer() then
