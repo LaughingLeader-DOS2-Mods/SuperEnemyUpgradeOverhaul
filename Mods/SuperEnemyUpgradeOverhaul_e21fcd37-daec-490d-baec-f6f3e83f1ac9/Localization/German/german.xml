@@ -283,6 +283,7 @@
 	<content contentuid="h8c7cfc30gfa1ag46b8ga23bg524410b565c8">Rage (IV)</content>
 	<content contentuid="h8cfd1ba3gcfb3g4f0cga950gc29672af34c9">Perfect Control</content>
 	<content contentuid="h8d127986g3f48g4594ga0aeg36773f79d4c7">Despite looking like a large dowsing rod, this spear is more akin to a demon&apos;s carving fork.</content>
+	<content contentuid="h8dd8809fgbb71g412agacdag6662aad67ab0">&lt;font color=&apos;#C7A758&apos;&gt;Water frozen from skills is transformed into frozen blood. Your blood is frozen as well.&lt;/font&gt;</content>
 	<content contentuid="h8e2441d5g2c10g490ag8bd4g9b74ffeb72e9">Evolved Voidling</content>
 	<content contentuid="h8e75cbbdg06d7g4404gbfb2g92f6fd11147d">Infernoblazer</content>
 	<content contentuid="h8edc2076g91e3g43d3g8314g5efb21208571">Character has increased attack range of Bows and Crossbows by 2m.</content>
@@ -459,6 +460,7 @@
 	<content contentuid="hf13c9277g29bfg4baegbecega1e5cd8aef76">Enemy Scaling Settings</content>
 	<content contentuid="hf180561cge97ag426cg84ddg83dd257ce95d">Double Dip</content>
 	<content contentuid="hf27abd79gae4bg4fc1g82e6g794c46d7de42">Enable Immunities</content>
+	<content contentuid="hf30d61b0g2a71g4a31gb18fg41b521d262d5">&lt;font color=&apos;#FF3399&apos;&gt;Bloody Winter&lt;/font&gt;</content>
 	<content contentuid="hf34ecf43gdb49g40b5g9e50g876244609429">Melee attacks deal additional fire damage to burning targets, poison damage to poisoned targets and physical damage to bleeding targets.</content>
 	<content contentuid="hf39968a3gf18eg4e17gba81g6d3cff64d4aa">Character will explode in a bloody cloud when killed, dealing 50% of their vitality as &lt;font color=&apos;#9A00FF&apos;&gt;chaos damage&lt;/font&gt; in a 3m radius to their enemies.</content>
 	<content contentuid="hf3eea666ge611g406eg9838gcaf7b89b5c93">Talent: The Pawn</content>

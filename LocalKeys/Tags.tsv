@@ -16,3 +16,5 @@ LLENEMY_ShadowBonus_DefensiveStart_Description	<font color='#C7A758'>Start comba
 LLENEMY_ShadowBonus_TimeHaste	<font color='#88CCFF'>Time Skip</font>	hca9de7e1ga17cg4574g9d6bgfceee44061da
 LLENEMY_ShadowBonus_TimeHaste_Description	<font color='#C7A758'>The first allied, non-self target of [Key:Target_Haste_DisplayName] immediately takes their turn after yours.</font><br><font color='#EECC33'>Can only occur once per combat.</font>	hf9326badg6213g4e95g80b5g8c4c86ea13e1
 LLENEMY_TimeHasteUsed	<font color='#FF3333'>Already skipped time this combat.</font>	hf6ec21eagcee6g4f70g8d07g040e42a5d551
+LLENEMY_ShadowBonus_BloodyWinter	<font color='#FF3399'>Bloody Winter</font>	hf30d61b0g2a71g4a31gb18fg41b521d262d5
+LLENEMY_ShadowBonus_BloodyWinter_Description	<font color='#C7A758'>Water frozen from skills is transformed into frozen blood. Your blood is frozen as well.</font>	h8dd8809fgbb71g412agacdag6662aad67ab0
