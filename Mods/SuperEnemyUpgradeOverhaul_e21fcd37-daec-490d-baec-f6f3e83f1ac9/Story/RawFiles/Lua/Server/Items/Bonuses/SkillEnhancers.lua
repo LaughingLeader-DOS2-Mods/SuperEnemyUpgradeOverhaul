@@ -149,20 +149,23 @@ RegisterListener("NamedTimerFinished", "LLENEMY_BloodyWinter_CreateSurfaces", fu
 	local positions = PersistentVars.BloodyWinterTargets[uuid]
 	--print("NamedTimerFinished", timerName, uuid, #positions)
 	if positions then
-		local charHandle = Ext.GetCharacter(uuid).Handle
-		local grid = Ext.GetAiGrid()
-		for i,data in pairs(positions) do
-			local pos = data.Pos
-			local radius = data.Radius
-			--GameHelpers.Surface.TransformSurfaces("BloodFrozen", waterSurfaces, pos[1], pos[3], radius, 0, nil, charHandle, 1.0, true, grid, true, 0.8)
-			local surfaces = GameHelpers.Grid.GetSurfaces(pos[1], pos[3], grid, radius, 18)
-			for i,v in pairs(surfaces.Ground) do
-				if StringHelpers.IsMatch(v.Surface.SurfaceType, waterSurfaces, true) then
-					--CreatePuddle(CharacterGetHostCharacter(), "SurfaceBloodFrozen", 4, 4, 4, 4, 1.0)
-					--CreateSurfaceAtPosition(v.Position[1], v.Position[2], v.Position[3], "SurfaceBloodFrozen", createdSurfaceSize, duration)
-					GameHelpers.Surface.CreateSurface(v.Position, "BloodFrozen", 0.8, v.Surface.LifeTime, charHandle, true)
-					PlayEffectAtPosition("RS3_FX_Skills_Voodoo_Cast_Aoe_Voodoo_Blood_Root_01", pos[1], pos[2], pos[3])
-					--PlayScaledEffectAtPosition("RS3_FX_Skills_Voodoo_Cast_Aoe_Voodoo_Blood_Root_01", Ext.Round(radius/2), pos[1], pos[2], pos[3])
+		local source = Ext.GetCharacter(uuid)
+		if source then
+			local charHandle = source.Handle
+			local grid = Ext.GetAiGrid()
+			for i,data in pairs(positions) do
+				local pos = data.Pos
+				local radius = data.Radius
+				--GameHelpers.Surface.TransformSurfaces("BloodFrozen", waterSurfaces, pos[1], pos[3], radius, 0, nil, charHandle, 1.0, true, grid, true, 0.8)
+				local surfaces = GameHelpers.Grid.GetSurfaces(pos[1], pos[3], grid, radius, 18)
+				for i,v in pairs(surfaces.Ground) do
+					if StringHelpers.IsMatch(v.Surface.SurfaceType, waterSurfaces, true) then
+						--CreatePuddle(CharacterGetHostCharacter(), "SurfaceBloodFrozen", 4, 4, 4, 4, 1.0)
+						--CreateSurfaceAtPosition(v.Position[1], v.Position[2], v.Position[3], "SurfaceBloodFrozen", createdSurfaceSize, duration)
+						GameHelpers.Surface.CreateSurface(v.Position, "BloodFrozen", 0.8, v.Surface.LifeTime, charHandle, true)
+						PlayEffectAtPosition("RS3_FX_Skills_Voodoo_Cast_Aoe_Voodoo_Blood_Root_01", pos[1], pos[2], pos[3])
+						--PlayScaledEffectAtPosition("RS3_FX_Skills_Voodoo_Cast_Aoe_Voodoo_Blood_Root_01", Ext.Round(radius/2), pos[1], pos[2], pos[3])
+					end
 				end
 			end
 		end
