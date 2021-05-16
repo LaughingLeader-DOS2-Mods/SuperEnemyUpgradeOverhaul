@@ -81,7 +81,7 @@ local waterSurfaces = {
 
 ItemBonusManager.AllItemBonuses.BloodyWinter = ItemBonusManager.CreateUnregisteredBonus(
 function(self, skill, char, state)
-	return (Vars.DebugMode or ObjectGetFlag(char, "LLENEMY_ShadowBonus_BloodyWinter_Enabled") == 1)
+	return state ~= SKILL_STATE.PREPARE and ObjectGetFlag(char, "LLENEMY_ShadowBonus_BloodyWinter_Enabled") == 1
 end,
 function(self, skill, char, state, skillData)
 	local stat = Ext.GetStat(skill)
