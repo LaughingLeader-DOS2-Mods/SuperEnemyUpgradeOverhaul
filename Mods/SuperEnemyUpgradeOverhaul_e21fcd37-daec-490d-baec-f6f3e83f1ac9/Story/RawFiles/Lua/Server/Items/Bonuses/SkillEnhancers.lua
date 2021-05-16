@@ -1,8 +1,8 @@
 ItemBonusManager.AllItemBonuses.ShockingRain = ItemBonusManager.CreateSkillBonus({"Rain_Water", "Rain_EnemyWater"}, 
-function(skill, char, state, skillData)
+function(self, skill, char, state, skillData)
 	return state == SKILL_STATE.CAST and ObjectGetFlag(char, "LLENEMY_ShadowBonus_ShockingRain_Enabled") == 1
 end,
-function(skill, char, state, skillData)
+function(self, skill, char, state, skillData)
 	local target = skillData.TargetPositions[1] or skillData.TargetObjects[1]
 	local x,y,z = 0
 	if type(target) == "string" then
@@ -15,10 +15,10 @@ function(skill, char, state, skillData)
 end)
 
 ItemBonusManager.AllItemBonuses.TimeHaste = ItemBonusManager.CreateSkillBonus({"Target_Haste", "Target_EnemyHaste"}, 
-function(skill, char, state, skillData)
+function(self, skill, char, state, skillData)
 	return state == SKILL_STATE.CAST and (ObjectGetFlag(char, "LLENEMY_ShadowBonus_TimeHaste_Enabled") == 1 and ObjectGetFlag(char, "LLENEMY_TimeHastedUsed") == 0)
 end,
-function(skill, char, state, skillData)
+function(self, skill, char, state, skillData)
 	---@type SkillEventData
 	local data = skillData
 	data:ForEach(function(target, t, self)
@@ -64,37 +64,86 @@ end)
 
 Combat.ClearFlagOrTag.TimeHaste = CLEARTYPE.Tag
 
-ItemBonusManager.AllItemBonuses.BloodyWinter = ItemBonusManager.CreateUnregisteredBonus(
-function(skill, char, state, skillData)
-	return state == SKILL_STATE.CAST and ObjectGetFlag(char, "LLENEMY_ShadowBonus_BloodyWinter_Enabled") == 1
-end,
-function(skill, char, state, skillData)
-	local grid = Ext.GetAiGrid()
-	---@type SkillEventData
-	local data = skillData
-	data:ForEach(function(target, t, self)
-		local x,y,z = nil,nil,nil
-		if t == "table" then
-			x,y,z = table.unpack(target)
-		else
-			x,y,z = GetPosition(target)
-		end
-		if x and z then
-			local surfaceData = GameHelpers.Grid.GetSurfaces(x, z, grid, 2.0)
-			if surfaceData then
-				for _,v in pairs(surfaceData.Ground) do
-					local surface = v.Surface
-					if string.find(string.lower(surface.SurfaceType), "water") then
-						GameHelpers.Surface.Transform(v.Position, "Bloodify", 0, surface.LifeTime, surface.OwnerHandle, surface.SurfaceType, surface.StatusChance)
-						GameHelpers.Surface.Transform(v.Position, "Freeze", 0, surface.LifeTime, surface.OwnerHandle, surface.SurfaceType, surface.StatusChance)
-					end
-				end
-			end
+local waterSurfaces = {
+	"Water",
+	"WaterElectrified",
+	"WaterFrozen",
+	--"WaterBlessed",
+	--"WaterElectrifiedBlessed",
+	--"WaterFrozenBlessed",
+	--"WaterCursed",
+	--"WaterElectrifiedCursed",
+	--"WaterFrozenCursed",
+	--"WaterPurified",
+	--"WaterElectrifiedPurified",
+	--"WaterFrozenPurified",
+}
 
-			--Ground water surfaces
-			-- if surfaceData and surfaceData.HasSurface("water", true, 0) then
-				
-			-- end
+ItemBonusManager.AllItemBonuses.BloodyWinter = ItemBonusManager.CreateUnregisteredBonus(
+function(self, skill, char, state)
+	return (state == SKILL_STATE.USED or state == SKILL_STATE.CAST) and (Vars.DebugMode or ObjectGetFlag(char, "LLENEMY_ShadowBonus_BloodyWinter_Enabled") == 1)
+end,
+function(self, skill, char, state, skillData)
+	local stat = Ext.GetStat(skill)
+	local radius = math.max(stat.ExplodeRadius or 3.0, stat.AreaRadius or 3.0)
+	if stat.SkillType == "Shout" then
+		if state == SKILL_STATE.USED then
+			local x,y,z = GetPosition(char)
+			TransformSurfaceAtPosition(x, y, z, "Bloodify", "Ground", radius, -1.0, char)
 		end
-	end, data.TargetMode.All)
+	elseif state == SKILL_STATE.CAST then
+		local hasPositions = false
+		---@type SkillEventData
+		local data = Common.CloneTable(skillData)
+		data:ForEach(function(target, t, self)
+			local x,y,z = nil,nil,nil
+			if t == "table" then
+				x,y,z = table.unpack(target)
+			else
+				x,y,z = GetPosition(target)
+			end
+			if x and z then
+				if PersistentVars.BloodyWinterTargets[char] == nil then
+					PersistentVars.BloodyWinterTargets[char] = {}
+				end
+				table.insert(PersistentVars.BloodyWinterTargets[char], {Pos={x,y,z},Radius=radius})
+				hasPositions = true
+				--TransformSurfaceAtPosition(x, y, z, "Bloodify", "Ground", radius, -1.0, char)
+			end
+		end, data.TargetMode.All)
+		if hasPositions then
+			StartTimer("LLENEMY_BloodyWinter_CreateSurfaces", 500, char)
+		end
+	end
+end, {
+	EquipCallback = function(self, char, item)
+		if not GameHelpers.Character.IsUndead(char) then
+			local character = Ext.GetCharacter(char)
+			if StringHelpers.IsNullOrEmpty(character.CustomBloodSurface) then
+				CharacterSetCustomBloodSurface(char, "SurfaceBloodFrozen")
+			end
+		end
+	end,
+	UnEquipCallback = function(self, char, item)
+		if not GameHelpers.Character.IsUndead(char) then
+			local character = Ext.GetCharacter(char)
+			if not StringHelpers.IsNullOrEmpty(character.CustomBloodSurface) and string.find(character.CustomBloodSurface, "BloodFrozen") then
+				CharacterSetCustomBloodSurface(char, "")
+			end
+		end
+	end
+})
+
+RegisterListener("NamedTimerFinished", "LLENEMY_BloodyWinter_CreateSurfaces", function(timerName, uuid)
+	local positions = PersistentVars.BloodyWinterTargets[uuid]
+	if positions then
+		local charHandle = Ext.GetCharacter(uuid).Handle
+		local grid = Ext.GetAiGrid()
+		for i,data in pairs(positions) do
+			local pos = data.Pos
+			local radius = data.Radius
+			GameHelpers.Surface.TransformSurfaces("BloodFrozen", waterSurfaces, pos[1], pos[3], radius, 0, 18.0, charHandle, 1.0, true, grid, true, 0.8)
+		end
+		PersistentVars.BloodyWinterTargets[uuid] = nil
+	end
 end)

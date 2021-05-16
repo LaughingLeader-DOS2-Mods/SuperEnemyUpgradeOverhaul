@@ -12,7 +12,9 @@ DefaultPersistentVars = {
 	ActiveDuplicants = 0,
 	LeveledRegions = {},
 	---@type table<int,table<string,bool>>
-	WaitForCombatEnd = {}
+	WaitForCombatEnd = {},
+	---@type table<string, table>
+	BloodyWinterTargets = {}
 }
 
 ---@type SuperEnemyUpgradeOverhaulPersistentVars

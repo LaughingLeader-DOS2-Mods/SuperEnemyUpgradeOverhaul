@@ -131,11 +131,13 @@ Ext.RegisterListener("SessionLoaded", function()
 	LeaderLib.EnableFeature("WingsWorkaround")
     LeaderLib.EnableFeature("ReplaceTooltipPlaceholders")
 
+	local freezeSkills = {}
+
 	for _,name in pairs(Ext.GetStatEntries("SkillData")) do
-		local stat = Ext.GetStat(name)
-		if stat.SkillProperties and #stat.SkillProperties > 0 then
-			for _,prop in pairs(stat.SkillProperties) do
-				if prop.Action == "Freeze" then
+		local skillProperties = GameHelpers.Stats.GetSkillProperties(name)
+		if skillProperties and #skillProperties > 0 then
+			for _,prop in pairs(skillProperties) do
+				if not Vars.FreezeSkills[name] and prop.Action == "Freeze" then
 					Vars.FreezeSkills[name] = true
 					if Ext.IsClient() then
 						if not SkillTagBonuses.Skill[name] then
@@ -145,15 +147,16 @@ Ext.RegisterListener("SessionLoaded", function()
 							table.insert(SkillTagBonuses.Skill[name], "LLENEMY_ShadowBonus_BloodyWinter")
 						end
 					else
-						ItemBonusManager.RegisterToSkillListener(name, ItemBonusManager.AllItemBonuses.BloodyWinter)
+						table.insert(freezeSkills, name)
 					end
 				end
 			end
 		end
 	end
 
-	if Ext.IsClient() then
-		print(Common.Dump(SkillTagBonuses.Skill))
+	if Ext.IsServer() then
+		print(Ext.JsonStringify(freezeSkills))
+		ItemBonusManager.RegisterToSkillListener(freezeSkills, ItemBonusManager.AllItemBonuses.BloodyWinter)
 	end
 end)
 

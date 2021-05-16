@@ -36,8 +36,8 @@ function ItemBonusManager.OnSkill(skill, ...)
 		if length > 0 then
 			for i=1,length do
 				local bonus = bonuses[i]
-				if bonus and bonus:CanApply(...) then
-					bonus:Apply(...)
+				if bonus and bonus:CanApply(skill, ...) then
+					bonus:Apply(skill, ...)
 				end
 			end
 		end
@@ -89,6 +89,7 @@ function ItemBonusManager.RegisterToSkillListener(skill, itemBonus)
 			ItemBonusManager.SkillListeners[skill] = function(usedSkill, ...)
 				ItemBonusManager.OnSkill(usedSkill, ...)
 			end
+			print("Registering", skill, LeaderLib.RegisterSkillListener, ItemBonusManager.SkillListeners[skill])
 			LeaderLib.RegisterSkillListener(skill, ItemBonusManager.SkillListeners[skill])
 		end
 		if ItemBonusManager.SkillItemBonuses[skill] == nil then

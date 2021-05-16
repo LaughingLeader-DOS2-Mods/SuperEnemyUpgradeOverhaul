@@ -7,6 +7,10 @@ local ItemBonus = {
 	CanApplyCallback = nil,
 	---@type ItemBonusActionCallback
 	ApplyCallback = nil,
+	---@type fun(self:ItemBonus, char:string, item:string):void
+	EquipCallback = nil,
+	---@type fun(self:ItemBonus, char:string, item:string):void
+	UnEquipCallback = nil
 }
 ItemBonus.__index = ItemBonus
 
@@ -20,8 +24,10 @@ ItemBonus.__index = ItemBonus
 function ItemBonus:Create(canApplyCallback, actionCallback, params)
 	local this =
 	{
-		CanApplyCallback = canApplyCallback,
-		ApplyCallback = actionCallback,
+		CanApplyCallback = canApplyCallback or nil,
+		ApplyCallback = actionCallback or nil,
+		EquipCallback = nil,
+		UnEquipCallback = nil,
 	}
 	if params then
 		for prop,value in pairs(params) do
@@ -48,6 +54,24 @@ end
 function ItemBonus:Apply(...)
 	if self.ApplyCallback then
 		local b,err = xpcall(self.ApplyCallback, debug.traceback, self, ...)
+		if not b then
+			Ext.PrintError(err)
+		end
+	end
+end
+
+function ItemBonus:OnEquipped(char, item)
+	if self.EquipCallback then
+		local b,err = xpcall(self.EquipCallback, debug.traceback, self, char, item)
+		if not b then
+			Ext.PrintError(err)
+		end
+	end
+end
+
+function ItemBonus:OnUnEquipped(char, item)
+	if self.UnEquipCallback then
+		local b,err = xpcall(self.UnEquipCallback, debug.traceback, self, char, item)
 		if not b then
 			Ext.PrintError(err)
 		end

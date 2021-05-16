@@ -47,7 +47,7 @@ local function IsSummmonSkill(skill)
 		return true
 	else
 		---@type StatProperty[]
-		local props = Ext.StatGetAttribute(skill, "SkillProperties")
+		local props = GameHelpers.Stats.GetSkillProperties(skill)
 		if props ~= nil and #props > 0 then
 			for i,v in pairs(props) do
 				if v.Type == "Summon" then

@@ -7,6 +7,11 @@ function ShadowItem_OnEquipped(char, item)
 			else
 				ObjectSetFlag(char, entry.Flag, 0)
 			end
+			local id = string.gsub(tag, "LLENEMY_ShadowBonus_", "")
+			local itemBonus = ItemBonusManager.AllItemBonuses[id]
+			if itemBonus then
+				itemBonus:OnEquipped(char, item)
+			end
 		end
 	end
 end
@@ -34,6 +39,11 @@ function ShadowItem_OnUnEquipped(char, item)
 				Osi.LeaderLib_ToggleScripts_DisableScriptForObject(char, entry.Flag, "SuperEnemyUpgradeOverhaul", 1)
 			else
 				ObjectClearFlag(char, entry.Flag, 0)
+			end
+			local id = string.gsub(entry.Tag, "LLENEMY_ShadowBonus_", "")
+			local itemBonus = ItemBonusManager.AllItemBonuses[id]
+			if itemBonus then
+				itemBonus:OnUnEquipped(char, item)
 			end
 		end
 	end

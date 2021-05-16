@@ -24,7 +24,7 @@ function TagBoost:Create(tag,flag,params,onTagAdded)
 		Flag = flag,
 		OnTagAdded = onTagAdded or nil,
 		DisplayInTooltip = false,
-		HasToggleScript = false,
+		HasToggleScript = false
 	}
 	if params ~= nil then
 		for prop,value in pairs(params) do
