@@ -81,38 +81,49 @@ local waterSurfaces = {
 
 ItemBonusManager.AllItemBonuses.BloodyWinter = ItemBonusManager.CreateUnregisteredBonus(
 function(self, skill, char, state)
-	return (state == SKILL_STATE.USED or state == SKILL_STATE.CAST) and (Vars.DebugMode or ObjectGetFlag(char, "LLENEMY_ShadowBonus_BloodyWinter_Enabled") == 1)
+	return (Vars.DebugMode or ObjectGetFlag(char, "LLENEMY_ShadowBonus_BloodyWinter_Enabled") == 1)
 end,
 function(self, skill, char, state, skillData)
 	local stat = Ext.GetStat(skill)
 	local radius = math.max(stat.ExplodeRadius or 3.0, stat.AreaRadius or 3.0)
 	if stat.SkillType == "Shout" then
+		local x,y,z = GetPosition(char)
 		if state == SKILL_STATE.USED then
-			local x,y,z = GetPosition(char)
 			TransformSurfaceAtPosition(x, y, z, "Bloodify", "Ground", radius, -1.0, char)
+			--PlayScaledEffectAtPosition("RS3_FX_Skills_Voodoo_Cast_Aoe_Voodoo_Blood_Root_01", Ext.Round(radius/2), x, y, z)
+		elseif state == SKILL_STATE.CAST then
+			PlayEffectAtPosition("RS3_FX_Skills_Voodoo_Cast_Aoe_Voodoo_Blood_Root_01", x, y, z)
 		end
-	elseif state == SKILL_STATE.CAST then
-		local hasPositions = false
+	elseif state == SKILL_STATE.PROJECTILEHIT then
+		---@type ProjectileHitData
+		local data = skillData
+		if PersistentVars.BloodyWinterTargets[char] == nil then
+			PersistentVars.BloodyWinterTargets[char] = {}
+		end
+		table.insert(PersistentVars.BloodyWinterTargets[char], {Pos=data.Position,Radius=radius})
+		StartTimer("LLENEMY_BloodyWinter_CreateSurfaces", 1000, char)
+	elseif (state == SKILL_STATE.CAST and stat.SkillType ~= "Projectile") then
 		---@type SkillEventData
-		local data = Common.CloneTable(skillData)
-		data:ForEach(function(target, t, self)
-			local x,y,z = nil,nil,nil
-			if t == "table" then
-				x,y,z = table.unpack(target)
-			else
-				x,y,z = GetPosition(target)
-			end
-			if x and z then
-				if PersistentVars.BloodyWinterTargets[char] == nil then
-					PersistentVars.BloodyWinterTargets[char] = {}
-				end
-				table.insert(PersistentVars.BloodyWinterTargets[char], {Pos={x,y,z},Radius=radius})
-				hasPositions = true
-				--TransformSurfaceAtPosition(x, y, z, "Bloodify", "Ground", radius, -1.0, char)
-			end
-		end, data.TargetMode.All)
+		local data = skillData
+		local hasPositions = data.TotalTargetObjects > 0 or data.TotalTargetPositions > 0
 		if hasPositions then
-			StartTimer("LLENEMY_BloodyWinter_CreateSurfaces", 500, char)
+			data:ForEach(function(target, t, self)
+				local x,y,z = nil,nil,nil
+				if t == "table" then
+					x,y,z = table.unpack(target)
+				else
+					x,y,z = GetPosition(target)
+				end
+				if x and z then
+					if PersistentVars.BloodyWinterTargets[char] == nil then
+						PersistentVars.BloodyWinterTargets[char] = {}
+					end
+					table.insert(PersistentVars.BloodyWinterTargets[char], {Pos={x,y,z},Radius=radius})
+					hasPositions = true
+					--TransformSurfaceAtPosition(x, y, z, "Bloodify", "Ground", radius, -1.0, char)
+				end
+			end, data.TargetMode.All)
+			StartTimer("LLENEMY_BloodyWinter_CreateSurfaces", 1000, char)
 		end
 	end
 end, {
@@ -127,7 +138,7 @@ end, {
 	UnEquipCallback = function(self, char, item)
 		if not GameHelpers.Character.IsUndead(char) then
 			local character = Ext.GetCharacter(char)
-			if not StringHelpers.IsNullOrEmpty(character.CustomBloodSurface) and string.find(character.CustomBloodSurface, "BloodFrozen") then
+			if string.find(character.CustomBloodSurface or "", "BloodFrozen") then
 				CharacterSetCustomBloodSurface(char, "")
 			end
 		end
@@ -136,13 +147,24 @@ end, {
 
 RegisterListener("NamedTimerFinished", "LLENEMY_BloodyWinter_CreateSurfaces", function(timerName, uuid)
 	local positions = PersistentVars.BloodyWinterTargets[uuid]
+	--print("NamedTimerFinished", timerName, uuid, #positions)
 	if positions then
 		local charHandle = Ext.GetCharacter(uuid).Handle
 		local grid = Ext.GetAiGrid()
 		for i,data in pairs(positions) do
 			local pos = data.Pos
 			local radius = data.Radius
-			GameHelpers.Surface.TransformSurfaces("BloodFrozen", waterSurfaces, pos[1], pos[3], radius, 0, 18.0, charHandle, 1.0, true, grid, true, 0.8)
+			--GameHelpers.Surface.TransformSurfaces("BloodFrozen", waterSurfaces, pos[1], pos[3], radius, 0, nil, charHandle, 1.0, true, grid, true, 0.8)
+			local surfaces = GameHelpers.Grid.GetSurfaces(pos[1], pos[3], grid, radius, 18)
+			for i,v in pairs(surfaces.Ground) do
+				if StringHelpers.IsMatch(v.Surface.SurfaceType, waterSurfaces, true) then
+					--CreatePuddle(CharacterGetHostCharacter(), "SurfaceBloodFrozen", 4, 4, 4, 4, 1.0)
+					--CreateSurfaceAtPosition(v.Position[1], v.Position[2], v.Position[3], "SurfaceBloodFrozen", createdSurfaceSize, duration)
+					GameHelpers.Surface.CreateSurface(v.Position, "BloodFrozen", 0.8, v.Surface.LifeTime, charHandle, true)
+					PlayEffectAtPosition("RS3_FX_Skills_Voodoo_Cast_Aoe_Voodoo_Blood_Root_01", pos[1], pos[2], pos[3])
+					--PlayScaledEffectAtPosition("RS3_FX_Skills_Voodoo_Cast_Aoe_Voodoo_Blood_Root_01", Ext.Round(radius/2), pos[1], pos[2], pos[3])
+				end
+			end
 		end
 		PersistentVars.BloodyWinterTargets[uuid] = nil
 	end

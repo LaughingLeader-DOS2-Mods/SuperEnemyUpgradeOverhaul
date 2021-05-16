@@ -132,22 +132,25 @@ Ext.RegisterListener("SessionLoaded", function()
     LeaderLib.EnableFeature("ReplaceTooltipPlaceholders")
 
 	local freezeSkills = {}
+	local ignoredKeywords = {"_Quest", "_Status", "_Talent", "_Trap"}
 
 	for _,name in pairs(Ext.GetStatEntries("SkillData")) do
-		local skillProperties = GameHelpers.Stats.GetSkillProperties(name)
-		if skillProperties and #skillProperties > 0 then
-			for _,prop in pairs(skillProperties) do
-				if not Vars.FreezeSkills[name] and prop.Action == "Freeze" then
-					Vars.FreezeSkills[name] = true
-					if Ext.IsClient() then
-						if not SkillTagBonuses.Skill[name] then
-							SkillTagBonuses.Skill[name] = {}
+		if not StringHelpers.IsMatch(name, ignoredKeywords, false) then
+			local skillProperties = GameHelpers.Stats.GetSkillProperties(name)
+			if skillProperties and #skillProperties > 0 then
+				for _,prop in pairs(skillProperties) do
+					if not Vars.FreezeSkills[name] and prop.Action == "Freeze" then
+						Vars.FreezeSkills[name] = true
+						if Ext.IsClient() then
+							if not SkillTagBonuses.Skill[name] then
+								SkillTagBonuses.Skill[name] = {}
+							end
+							if not Common.TableHasValue(SkillTagBonuses.Skill[name], "LLENEMY_ShadowBonus_BloodyWinter") then
+								table.insert(SkillTagBonuses.Skill[name], "LLENEMY_ShadowBonus_BloodyWinter")
+							end
+						else
+							table.insert(freezeSkills, name)
 						end
-						if not Common.TableHasValue(SkillTagBonuses.Skill[name], "LLENEMY_ShadowBonus_BloodyWinter") then
-							table.insert(SkillTagBonuses.Skill[name], "LLENEMY_ShadowBonus_BloodyWinter")
-						end
-					else
-						table.insert(freezeSkills, name)
 					end
 				end
 			end
