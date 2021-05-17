@@ -31,6 +31,10 @@ local function CanLevelCharacter(uuid, skipAlignmentCheck)
 	if skipAlignmentCheck ~= true and not GameHelpers.Character.IsEnemyOfParty(uuid) then
 		return false
 	end
+	local level = CharacterGetLevel(uuid)
+	if level >= Ext.ExtraData.LevelCap then
+		return false
+	end
 	-- if not GameHelpers.Character.IsInCombat(uuid) then
 	-- 	return false
 	-- end
