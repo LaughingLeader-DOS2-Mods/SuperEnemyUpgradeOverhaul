@@ -284,9 +284,6 @@ local PotionStats = {
 	--["IsConsumable"] = "YesNo",
 }
 
----@type TranslatedString
-local ts = LeaderLib.Classes.TranslatedString
-
 local ImmuneToText = ts:Create("hac7cca96gd0dfg4391gb188gc53fd12cb6a5", "Immune to [1]")
 local ImmunityStatuses = {
 	["FreezeImmunity"] = {},--ts:Create("h712e9a08g723eg48dbg9724ga28af68f0e87", "Immune To Freezing"),
@@ -368,18 +365,6 @@ local function DisplayNameIsInTable(tbl, name)
 	return false
 end
 
-Ext.RegisterListener("SessionLoaded", function()
-	for i,status in pairs(Ext.GetStatEntries("StatusData")) do
-		if not string.find(status, "QUEST_") then
-			local immuneFlag = Ext.StatGetAttribute(status, "ImmuneFlag") or ""
-			local displayName = Ext.StatGetAttribute(status, "DisplayName") or ""
-			local tbl = ImmunityStatuses[immuneFlag]
-			if tbl ~= nil and displayName ~= "" and not DisplayNameIsInTable(tbl, Ext.GetTranslatedStringFromKey(displayName)) then
-				table.insert(ImmunityStatuses[immuneFlag], status)
-			end
-		end
-	end
-end)
 --print(Ext.StatGetAttribute("Stats_LLENEMY_Infusion_Blood", "Flags"))
 ---@param character EsvCharacter
 ---@param status EsvStatus
@@ -527,4 +512,15 @@ end)
 
 Ext.RegisterListener("SessionLoaded", function()
 	Init()
+
+	for i,status in pairs(Ext.GetStatEntries("StatusData")) do
+		if not string.find(status, "QUEST_") then
+			local immuneFlag = Ext.StatGetAttribute(status, "ImmuneFlag") or ""
+			local displayName = Ext.StatGetAttribute(status, "DisplayName") or ""
+			local tbl = ImmunityStatuses[immuneFlag]
+			if tbl ~= nil and displayName ~= "" and not DisplayNameIsInTable(tbl, Ext.GetTranslatedStringFromKey(displayName)) then
+				table.insert(ImmunityStatuses[immuneFlag], status)
+			end
+		end
+	end
 end)
