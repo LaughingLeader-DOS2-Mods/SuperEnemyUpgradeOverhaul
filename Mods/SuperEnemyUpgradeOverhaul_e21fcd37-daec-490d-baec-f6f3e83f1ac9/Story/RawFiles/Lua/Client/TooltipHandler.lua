@@ -500,16 +500,6 @@ local function Init()
 	end)
 end
 
----@type table<integer,string>
-ItemDisplayNames = {}
-
-Ext.RegisterNetListener("SEUO_SaveItemName", function(cmd, payload)
-	local data = Common.JsonParse(payload)
-	if data then
-		ItemDisplayNames[data.NetID] = data.DisplayName
-	end
-end)
-
 Ext.RegisterListener("SessionLoaded", function()
 	Init()
 

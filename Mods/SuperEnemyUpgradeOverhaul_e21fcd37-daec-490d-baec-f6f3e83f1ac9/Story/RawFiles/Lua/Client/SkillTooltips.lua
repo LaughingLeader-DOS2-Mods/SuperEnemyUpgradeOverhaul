@@ -80,7 +80,7 @@ end
 local function HasTaggedItemEquipped(items, tag)
 	for i,v in pairs(items) do
 		if v:HasTag(tag) then
-			local name = ItemDisplayNames[v.NetID]
+			local name = v.DisplayName
 			if v:HasTag("LLENEMY_ShadowItem") and name ~= nil then
 				local color = ShadowItemTooltipData.RarityColor[v.Stats.ItemTypeReal]
 				name = string.format("<font color='%s' size='16'>%s</font>", color, name)
