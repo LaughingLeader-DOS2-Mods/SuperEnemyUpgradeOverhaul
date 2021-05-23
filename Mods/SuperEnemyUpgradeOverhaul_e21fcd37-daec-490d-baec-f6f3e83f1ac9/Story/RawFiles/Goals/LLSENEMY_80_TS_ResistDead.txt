@@ -32,10 +32,12 @@ AND
 GetUUID(_Enemy, _UUID)
 AND
 Real(_Amount, _Percentage)
+AND
+RealMax(_Percentage, 1.0, _Max)
 THEN
 NOT DB_LLSENEMY_Talents_Temp_ReviveNext(_Enemy, _Amount);
 PlayEffect(_Enemy, "LLENEMY_FX_Status_ComebackKid_Resurrect_01");
-CharacterSetHitpointsPercentage(_Enemy, _Percentage);
+CharacterSetHitpointsPercentage(_Enemy, _Max);
 LeaderLib_ToggleScripts_DisableScriptForObject(_Enemy, "LLENEMY_ResistDead_Active", "SuperEnemyUpgradeOverhaul");
 //NRD_ModCall("SuperEnemyUpgradeOverhaul", "OnResurrected", _UUID);
 
