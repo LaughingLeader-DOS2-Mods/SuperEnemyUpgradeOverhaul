@@ -17,9 +17,11 @@ if AutoLevelingIgnoreTags == nil then
 	AutoLevelingIgnoreTags = {}
 end
 
-AutoLevelingIgnoreTags["LLENEMY_AutoLevelingDisabled"] = true
+AutoLevelingIgnoreTags.LLENEMY_AutoLevelingDisabled = true
+AutoLevelingIgnoreTags.LLDUMMY_TrainingDummy = true
+AutoLevelingIgnoreTags.LeaderLib_Dummy = true
 
-local function CanLevelCharacter(uuid, skipAlignmentCheck)
+local function CanLevelCharacter(uuid, skipAlignmentCheck, targetLevel)
 	if GameHelpers.Character.IsOrigin(uuid) or GameHelpers.Character.IsPlayer(uuid) then
 		return false
 	end
@@ -32,7 +34,7 @@ local function CanLevelCharacter(uuid, skipAlignmentCheck)
 		return false
 	end
 	local level = CharacterGetLevel(uuid)
-	if level >= Ext.ExtraData.LevelCap then
+	if level >= Ext.ExtraData.LevelCap or level >= targetLevel then
 		return false
 	end
 	-- if not GameHelpers.Character.IsInCombat(uuid) then
@@ -53,16 +55,32 @@ function LevelUpCharacter(uuid, force, skipAlignmentCheck)
 	if force ~= nil and type(force) == "string" then
 		force = force == "true"
 	end
-	if force == true or CanLevelCharacter(uuid, skipAlignmentCheck) then
-		local targetLevel = GetTargetLevel(uuid)
+	local targetLevel = GetTargetLevel(uuid)
+	if force == true or CanLevelCharacter(uuid, skipAlignmentCheck, targetLevel) then
 		local character = Ext.GetCharacter(uuid)
-		local vit = character.Stats.CurrentVitality / character.Stats.MaxVitality
-		local pArmor = character.Stats.CurrentArmor / character.Stats.MaxArmor
-		local mArmor = character.Stats.CurrentMagicArmor / character.Stats.MaxMagicArmor
+		if not character then
+			return
+		end
+		local vit,pa,ma = 0,0,0
+		if character.Stats.MaxVitality > 0 then
+			vit = math.max(0, character.Stats.CurrentVitality / character.Stats.MaxVitality)
+		end
+		if character.Stats.MaxArmor > 0 then
+			pa = math.max(0, character.Stats.CurrentArmor / character.Stats.MaxArmor)
+		end
+		if character.Stats.MaxMagicArmor > 0 then
+			ma = math.max(0, character.Stats.CurrentMagicArmor / character.Stats.MaxMagicArmor)
+		end
 		CharacterLevelUpTo(uuid, targetLevel)
-		CharacterSetHitpointsPercentage(uuid, vit)
-		CharacterSetArmorPercentage(uuid, pArmor)
-		CharacterSetMagicArmorPercentage(uuid, mArmor)
+		if vit > 0 then
+			CharacterSetHitpointsPercentage(uuid, vit)
+		end
+		if pa > 0 then
+			CharacterSetArmorPercentage(uuid, pa)
+		end
+		if ma > 0 then
+			CharacterSetMagicArmorPercentage(uuid, ma)
+		end
 		ApplyStatus(uuid, "LEADERLIB_RECALC", 0.0, 1, uuid)
 	end
 end
