@@ -47,6 +47,9 @@ end
 ---@param force boolean|string|nil
 ---@param skipAlignmentCheck boolean|string|nil
 function LevelUpCharacter(uuid, force, skipAlignmentCheck)
+	if GlobalGetFlag("LLENEMY_EnemyLevelingEnabled") == 0 then
+		return
+	end
 	if skipAlignmentCheck == nil then
 		skipAlignmentCheck = false
 	elseif type(skipAlignmentCheck) == "string" then
@@ -86,6 +89,9 @@ function LevelUpCharacter(uuid, force, skipAlignmentCheck)
 end
 
 function LevelUpRegion(region)
+	if GlobalGetFlag("LLENEMY_EnemyLevelingEnabled") == 0 then
+		return
+	end
 	if not PersistentVars.LeveledRegions[region] then
 		PersistentVars.LeveledRegions[region] = 0
 		for i,v in pairs(Ext.GetAllCharacters(region)) do
