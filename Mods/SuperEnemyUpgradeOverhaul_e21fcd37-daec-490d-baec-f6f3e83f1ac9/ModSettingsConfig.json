@@ -38,6 +38,7 @@
 			"Entries" : {
 				"AutoLeveling_Modifier" : {
 					"Max" : "ExtraData.SoftLevelCap",
+					"Min" : -10,
 					"Value": 0
 				},
 				"Hardmode_MinBonusRolls" : { "Value" : "ExtraData.LLENEMY_Hardmode_DefaultBonusRolls_Min"},

@@ -6,10 +6,10 @@ local function GetTargetLevel(uuid)
 	local modifier = Settings.Global:GetVariable("AutoLeveling_Modifier", 0)
 	if Settings.Global:FlagEquals("LLENEMY_LevelEnemiesToPartyLevelDisabled", true) then
 		local level = CharacterGetLevel(uuid) + modifier
-		return cap > -1 and math.min(cap, level) or level
+		return math.max(1, cap > -1 and math.min(cap, level) or level)
 	else
 		local level = GameHelpers.Character.GetHighestPlayerLevel() + modifier
-		return cap > -1 and math.min(cap, level) or level
+		return math.max(1, cap > -1 and math.min(cap, level) or level)
 	end
 end
 
@@ -34,7 +34,7 @@ local function CanLevelCharacter(uuid, skipAlignmentCheck, targetLevel)
 		return false
 	end
 	local level = CharacterGetLevel(uuid)
-	if level >= Ext.ExtraData.LevelCap or level >= targetLevel then
+	if level >= Ext.ExtraData.LevelCap or level == targetLevel then
 		return false
 	end
 	-- if not GameHelpers.Character.IsInCombat(uuid) then
@@ -74,7 +74,8 @@ function LevelUpCharacter(uuid, force, skipAlignmentCheck)
 		if character.Stats.MaxMagicArmor > 0 then
 			ma = math.max(0, character.Stats.CurrentMagicArmor / character.Stats.MaxMagicArmor)
 		end
-		CharacterLevelUpTo(uuid, targetLevel)
+
+		GameHelpers.Character.SetLevel(character, targetLevel)
 		if vit > 0 then
 			CharacterSetHitpointsPercentage(uuid, vit)
 		end
@@ -97,6 +98,22 @@ function LevelUpRegion(region)
 		for i,v in pairs(Ext.GetAllCharacters(region)) do
 			if LevelUpCharacter(v) then
 				PersistentVars.LeveledRegions[region] = PersistentVars.LeveledRegions[region] + 1
+			end
+		end
+	end
+end
+
+function RevertLevelUpRegion(region)
+	if Ext.GetGameState() == "Running" then
+		PersistentVars.LeveledRegions[region] = nil
+		for i,v in pairs(Ext.GetAllCharacters(region)) do
+			if not GameHelpers.Character.IsPlayer(v) 
+			and not GameHelpers.Character.IsSummonOrPartyFollower(v) 
+			and not GameHelpers.Character.IsOrigin(v) then
+				local character = Ext.GetCharacter(v)
+				if character and character.RootTemplate then
+					GameHelpers.Character.SetLevel(character, math.max(character.RootTemplate.LevelOverride, 1))
+				end
 			end
 		end
 	end

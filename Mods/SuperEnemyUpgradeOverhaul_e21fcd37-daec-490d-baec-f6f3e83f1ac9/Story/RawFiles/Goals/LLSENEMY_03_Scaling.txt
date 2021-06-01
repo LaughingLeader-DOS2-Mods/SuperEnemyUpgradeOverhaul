@@ -240,6 +240,13 @@ GlobalSetFlag("LLENEMY_Scaling_CommitToWorld_Enabled");
 NRD_ModCall("SuperEnemyUpgradeOverhaul", "LevelUpRegion", _Region);
 ProcObjectTimer(_Player, "Timers_LLENEMY_Scaling_DisplayTotalLeveled", 250);
 
+IF
+GlobalFlagCleared("LLENEMY_Scaling_CommitToWorld_Enabled")
+AND
+DB_CurrentLevel(_Region)
+THEN
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "RevertLevelUpRegion", _Region);
+
 PROC
 ProcObjectTimerFinished((CHARACTERGUID)_Player, "Timers_LLENEMY_Scaling_DisplayTotalLeveled")
 AND

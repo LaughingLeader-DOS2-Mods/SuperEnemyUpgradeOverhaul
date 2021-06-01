@@ -16,7 +16,7 @@ local function Enable()
 end
 
 local function Disable()
-	if not SuperFleshGolem:IsInCombat() and not SuperFleshGolem.IsDead() then
+	if not SuperFleshGolem:IsInCombat() and not SuperFleshGolem:IsDead() then
 		SuperFleshGolem:SetOffStage()
 	end
 end
