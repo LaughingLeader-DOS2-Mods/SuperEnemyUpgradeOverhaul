@@ -342,7 +342,9 @@ THEN
 LLSENEMY_Mechanics_Statuses_ApplyEmpowered(_Char, _IsVoidling, _HardmodeEnabled);
 
 PROC
-LLSENEMY_Mechanics_Statuses_ApplyEmpowered((CHARACTERGUID)_Char, (INTEGER)_IsVoidling, 0)
+LLSENEMY_Mechanics_Statuses_ApplyEmpowered((CHARACTERGUID)_Char, (INTEGER)_IsVoidling, (INTEGER)_IsHardMode)
+AND
+IntegerMin(_IsVoidling, _IsHardMode, 0)
 THEN
 ApplyStatus(_Char, "LLENEMY_EMPOWERED", -1.0, 1, _Char);
 LLSENEMY_Upgrades_IncreaseChallengePoints(_Char, 10);
