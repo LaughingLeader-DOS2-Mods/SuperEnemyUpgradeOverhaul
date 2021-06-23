@@ -149,6 +149,14 @@ AND
 CharacterIsInCombat(_Goblin, 0)
 THEN
 EnterCombat(_Goblin, _Player);
+
+IF
+ObjectEnteredCombat((CHARACTERGUID)_Goblin, _ID)
+AND DB_LLSENEMY_TreasureGoblins_Temp_Active(_Goblin)
+AND GetUUID(_Goblin, _UUID)
+AND NRD_IntegerToString(_ID, _IDStr)
+THEN
+NRD_ModCall("SuperEnemyUpgradeOverhaul", "TreasureGoblins_OnJoinedCombat", _UUID, _IDStr);
 //END_REGION
 
 //REGION TREASURE_DROPPING

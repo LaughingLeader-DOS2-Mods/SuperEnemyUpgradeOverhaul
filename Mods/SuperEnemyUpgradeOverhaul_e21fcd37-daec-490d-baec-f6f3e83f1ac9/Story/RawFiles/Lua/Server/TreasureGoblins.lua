@@ -1,12 +1,35 @@
 local goblinScatteredItems = {}
 
+---Makes the goblin always go last.
+function TreasureGoblins_OnJoinedCombat(char, id)
+	id = tonumber(id)
+	local combat = Ext.GetCombat(id)
+	if combat then
+		--Make the goblin always go last
+		local order = combat:GetCurrentTurnOrder()
+		local indexMap = {}
+		for i=1,#order do
+			indexMap[order[i].Character.MyGuid] = i
+		end
+		table.sort(order, function(a,b)
+			if b.Character.MyGuid == char then
+				return true
+			elseif a.Character.MyGuid == char then
+				return false
+			end
+			return indexMap[a.Character.MyGuid] < indexMap[b.Character.MyGuid]
+		end)
+		combat:UpdateCurrentTurnOrder(order)
+	end
+end
+
 local function SaveScatteredItem(item, uuid)
 	if goblinScatteredItems[uuid] == nil then
 		goblinScatteredItems[uuid] = {}
 	end
 	local tbl = goblinScatteredItems[uuid]
 	tbl[#tbl+1] = item
-	LeaderLib.PrintDebug("[LLENEMY_TreasureGoblins.lua:SaveScatteredItem] Saved ("..tostring(item)..") for character ("..tostring(uuid).."). Count: ("..tostring(#tbl)..")")
+	PrintDebug("[LLENEMY_TreasureGoblins.lua:SaveScatteredItem] Saved ("..tostring(item)..") for character ("..tostring(uuid).."). Count: ("..tostring(#tbl)..")")
 end
 
 local function TreasureGoblins_MoveItemsToSack(uuid,x,y,z,lootSack)
@@ -27,22 +50,22 @@ local function TreasureGoblins_MoveItemsToSack(uuid,x,y,z,lootSack)
 						ItemMoveToPosition(v, x, y, z, 1.0, 8.0, "LLENEMY_TreasureGoblins_AddItemToSack", 0)
 						PlayBeamEffect(lootSack, v, "RS3_FX_GP_Beams_Telekinesis_01", "", "")
 					else
-						LeaderLib.PrintDebug("[LLENEMY_TreasureGoblins.lua:TreasureGoblins_MoveItemsToSack] Item ("..v..") is in an inventory already?")
+						PrintDebug("[LLENEMY_TreasureGoblins.lua:TreasureGoblins_MoveItemsToSack] Item ("..v..") is in an inventory already?")
 					end
 				end
 			else
-				LeaderLib.PrintDebug("[LLENEMY_TreasureGoblins.lua:TreasureGoblins_MoveItemsToSack] No loot sack for ("..goblin..").")
+				PrintDebug("[LLENEMY_TreasureGoblins.lua:TreasureGoblins_MoveItemsToSack] No loot sack for ("..goblin..").")
 			end
 		else
-			LeaderLib.PrintDebug("[LLENEMY_TreasureGoblins.lua:TreasureGoblins_MoveItemsToSack] No saved scattered items for ("..goblin..") (length <= 0).")
+			PrintDebug("[LLENEMY_TreasureGoblins.lua:TreasureGoblins_MoveItemsToSack] No saved scattered items for ("..goblin..") (length <= 0).")
 		end
 		goblinScatteredItems[goblin] = nil
 	else
-		LeaderLib.PrintDebug("[LLENEMY_TreasureGoblins.lua:TreasureGoblins_MoveItemsToSack] No saved scattered items for ("..goblin..") (table is nil).")
+		PrintDebug("[LLENEMY_TreasureGoblins.lua:TreasureGoblins_MoveItemsToSack] No saved scattered items for ("..goblin..") (table is nil).")
 	end
 end
 
-local function LLENEMY_TryScatterInventory(uuid)
+local function TryScatterInventory(uuid)
 	local x,y,z = GetPosition(uuid)
 	local character = Ext.GetCharacter(uuid)
 	if character ~= nil then
@@ -62,27 +85,27 @@ local function LLENEMY_TryScatterInventory(uuid)
 						ItemClearOwner(v)
 						SaveScatteredItem(v,uuid)
 						
-						LeaderLib.PrintDebug("[LLENEMY_TreasureGoblins.lua:ScatterInventory] Scattering item ("..tostring(stat)..")["..v.."]")
+						fprint(LOGLEVEL.TRACE2, "[LLENEMY_TreasureGoblins.lua:ScatterInventory] Scattering item (%s)[%s]", stat, v)
 						if not string.find(stat, "Gold") and (LLENEMY_ItemIsRare(v, item.ItemType)) then
 							PlayEffect(v, "LLENEMY_FX_TreasureGoblin_Loot_Dropped_01");
 						end
 					else
-						LeaderLib.PrintDebug("[LLENEMY_TreasureGoblins.lua:ScatterInventory] Item ("..tostring(stat)..")["..v.."] is equipped ("..tostring(equipped)..") or an NPC item. Skipping.")
+						fprint(LOGLEVEL.TRACE2, "[LLENEMY_TreasureGoblins.lua:ScatterInventory] Item (%s)[%s] is equipped (%s) or an NPC item. Skipping.", stat, v, equipped)
 					end
 				end
 			end
 		else
-			error("Inventory from ("..uuid..") is empty or null!")
+			error(string.format("Inventory from (%s) is empty or null!", uuid))
 		end
 	else
-		error("Character from ("..uuid..") is null!")
+		error(string.format("Character from (%s) is null!", uuid))
 	end
 end
 
 function TreasureGoblins_ScatterInventory(char)
-	local success = pcall(LLENEMY_TryScatterInventory, char)
-	if not success then
-		LeaderLib.PrintDebug("[LLENEMY_TreasureGoblins.lua:ScatterInventory] Failed to scatter items for ("..tostring(char)..").")
+	local b,result = xpcall(TryScatterInventory, debug.traceback, char)
+	if not b then
+		fprint(LOGLEVEL.ERROR, "[SEUO:TreasureGoblins_ScatterInventory] Error scattering inventory:\n%s", result)
 	end
 end
 
@@ -102,7 +125,7 @@ local function LLENEMY_TreasureGoblinDefeated_TrySpawnLoot(goblin)
 	if current < max then
 		lootSack = CreateItemTemplateAtPosition("CONT_LLENEMY_Bag_TreasureGoblinSack_A_2b7888b9-833c-4443-b4b5-cc372b95b459", x, y, z)
 		PlayEffect(lootSack,"RS3_FX_Skills_Void_Netherswap_Reappear_01")
-		LeaderLib.PrintDebug("[LLENEMY_TreasureGoblins.lua:TreasureGoblinDefeated] Dropping remaining items ("..tostring(current).."/"..tostring(max)..") for goblin ("..tostring(goblin)..")")
+		PrintDebug("[LLENEMY_TreasureGoblins.lua:TreasureGoblinDefeated] Dropping remaining items ("..tostring(current).."/"..tostring(max)..") for goblin ("..tostring(goblin)..")")
 		for i=current,max,1 do
 			CharacterGiveReward(goblin, "LLENEMY_TreasureGoblin_A", 1)
 		end
@@ -118,15 +141,15 @@ local function LLENEMY_TreasureGoblinDefeated_TrySpawnLoot(goblin)
 				-- Stats that start with an underscore aren't meant for players
 				if equipped ~= true and string.sub(stat, 1, 1) ~= "_" then
 					ItemToInventory(v,lootSack,item.Amount,0,1)
-					LeaderLib.PrintDebug("[LLENEMY_TreasureGoblins.lua:TreasureGoblinDefeated] Added item ("..tostring(stat)..")["..v.."] to loot sack.")
+					PrintDebug("[LLENEMY_TreasureGoblins.lua:TreasureGoblinDefeated] Added item ("..tostring(stat)..")["..v.."] to loot sack.")
 				end
 			end
 		else
-			LeaderLib.PrintDebug("[LLENEMY_TreasureGoblins.lua:TreasureGoblinDefeated] [*ERROR*] GetInventoryItems returned nil for ("..tostring(goblin)..").")
+			PrintDebug("[LLENEMY_TreasureGoblins.lua:TreasureGoblinDefeated] [*ERROR*] GetInventoryItems returned nil for ("..tostring(goblin)..").")
 			MoveAllItemsTo(goblin, lootSack, 0, 0, 1)
 		end
 	else
-		LeaderLib.PrintDebug("[LLENEMY_TreasureGoblins.lua:TreasureGoblinDefeated] Skipping loot sack spawning for ("..tostring(goblin)..") since it already dropped the max amount ["..tostring(current).."/"..tostring(max).."]")
+		PrintDebug("[LLENEMY_TreasureGoblins.lua:TreasureGoblinDefeated] Skipping loot sack spawning for ("..tostring(goblin)..") since it already dropped the max amount ["..tostring(current).."/"..tostring(max).."]")
 	end
 
 	TreasureGoblins_MoveItemsToSack(character.MyGuid,x,y,z,lootSack)
