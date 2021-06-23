@@ -29,7 +29,7 @@ function IncreaseRage(character, damage, handle, source)
 	local add_rage = math.ceil(damage_ratio)
 	Osi.LeaderLib_Variables_DB_ModifyVariableInt(character, "LLENEMY_Rage", add_rage, 100, 0, source);
 	local rage_entry = Osi.DB_LeaderLib_Variables_Integer:Get(character, "LLENEMY_Rage", nil, nil)
-	--LeaderLib.PrintDebug("[LLENEMY_GameMechanics.lua:IncreaseRage] Added ("..tostring(add_rage)..") Rage to ("..tostring(character).."). Total: ("..tostring(rage_entry[1][3])..")")
+	--PrintDebug("[LLENEMY_GameMechanics.lua:IncreaseRage] Added ("..tostring(add_rage)..") Rage to ("..tostring(character).."). Total: ("..tostring(rage_entry[1][3])..")")
 end
 
 function MugTarget_Start(attacker, target, damage, handle)
@@ -50,9 +50,9 @@ function MugTarget_Start(attacker, target, damage, handle)
 			isMelee = true
 		end
 		if isMelee then
-			--LeaderLib.PrintDebug("[LLENEMY_GameMechanics.lua:MugTarget_Start] Hit type: " .. tostring(hit_type))
-			LeaderLib.PrintDebug("[LLENEMY_GameMechanics.lua:MugTarget_Start] ("..tostring(attacker)..") is mugging target: ", target)
-			--LeaderLib.PrintDebug("[LLENEMY_GameMechanics.lua:MugTarget_Start] Dodged: ",NRD_StatusGetInt(target, handle, "Dodged")," | Missed: ", NRD_StatusGetInt(target, handle, "Missed")," | Blocked: ",NRD_StatusGetInt(target, handle, "Blocked"))
+			--PrintDebug("[LLENEMY_GameMechanics.lua:MugTarget_Start] Hit type: " .. tostring(hit_type))
+			PrintDebug("[LLENEMY_GameMechanics.lua:MugTarget_Start] ("..tostring(attacker)..") is mugging target: ", target)
+			--PrintDebug("[LLENEMY_GameMechanics.lua:MugTarget_Start] Dodged: ",NRD_StatusGetInt(target, handle, "Dodged")," | Missed: ", NRD_StatusGetInt(target, handle, "Missed")," | Blocked: ",NRD_StatusGetInt(target, handle, "Blocked"))
 			Osi.LLSENEMY_Talents_MugTarget(attacker, target)
 		end
 	end
@@ -60,7 +60,7 @@ end
 
 function MugTarget_StealGold(character, target)
 	local gold = CharacterGetGold(target)
-	LeaderLib.PrintDebug("[LLENEMY_GameMechanics.lua:MugTarget_StealGold] Target ("..tostring(target)..") has ("..tostring(gold)..") gold.")
+	PrintDebug("[LLENEMY_GameMechanics.lua:MugTarget_StealGold] Target ("..tostring(target)..") has ("..tostring(gold)..") gold.")
 	if gold > 0 then
 		local add_gold = math.tointeger(math.max(math.ceil(gold / 8), 1))
 		local remove_gold = math.tointeger(add_gold * -1)
@@ -75,11 +75,11 @@ end
 
 function MugTarget_End(character, target)
 	local items = Osi.DB_LLSENEMY_Talents_Temp_MasterThief_Items:Get(target, nil, nil)
-	LeaderLib.PrintDebug("[LLENEMY_GameMechanics.lua:MugTarget_End] Picking items from:\n",Common.Dump(items))
+	PrintDebug("[LLENEMY_GameMechanics.lua:MugTarget_End] Picking items from:\n",Common.Dump(items))
 	local item_entry = Common.GetRandomTableEntry(items)	
 	if item_entry ~= nil then
 		local item = item_entry[3]
-		LeaderLib.PrintDebug("[LLENEMY_GameMechanics.lua:MugTarget_End] Transfering (",item,") from (",target,") to (",character,").")
+		PrintDebug("[LLENEMY_GameMechanics.lua:MugTarget_End] Transfering (",item,") from (",target,") to (",character,").")
 		ItemToInventory(item, character, 1, CharacterIsPlayer(character), 0)
 		Osi.LLSENEMY_Talents_OnTargetMugged(character, target, item, 1)
 		MugTarget_DisplayText(character, target, item, 1)

@@ -82,11 +82,11 @@ local function ApplyBoost(item,mod,itemBoostObject,boost)
 				nextValue = currentValue .. ";" .. boost.Min
 			end
 			NRD_ItemSetPermanentBoostString(item, boost.Stat, nextValue)
-			LeaderLib.PrintDebug("[LLENEMY_ItemCorruptionDeltamods.lua:Boost:Apply] Adding boost ["..boost.Stat.."] to item. ("..tostring(currentValue)..") => ("..tostring(nextValue)..")")
+			PrintDebug("[LLENEMY_ItemCorruptionDeltamods.lua:Boost:Apply] Adding boost ["..boost.Stat.."] to item. ("..tostring(currentValue)..") => ("..tostring(nextValue)..")")
 		elseif boost.Stat == "ItemColor" then
 			local currentValue = NRD_ItemGetPermanentBoostString(item, boost.Stat)
 			NRD_ItemSetPermanentBoostString(item, boost.Stat, boost.Min)
-			LeaderLib.PrintDebug("[LLENEMY_ItemCorruptionDeltamods.lua:Boost:Apply] Adding boost ["..boost.Stat.."] to item. ("..tostring(currentValue)..") => ("..tostring(boost.Min)..")")
+			PrintDebug("[LLENEMY_ItemCorruptionDeltamods.lua:Boost:Apply] Adding boost ["..boost.Stat.."] to item. ("..tostring(currentValue)..") => ("..tostring(boost.Min)..")")
 		else
 			local currentValue = NRD_ItemGetPermanentBoostInt(item, boost.Stat)
 			if currentValue == nil then currentValue = 0 end
@@ -97,11 +97,11 @@ local function ApplyBoost(item,mod,itemBoostObject,boost)
 			
 			local nextValue = currentValue + valMod
 			NRD_ItemSetPermanentBoostInt(item, boost.Stat, nextValue)
-			LeaderLib.PrintDebug("[LLENEMY_ItemCorruptionDeltamods.lua:Boost:Apply] Adding boost ["..boost.Stat.."] to item. ("..tostring(currentValue)..") => ("..tostring(nextValue)..")")
+			PrintDebug("[LLENEMY_ItemCorruptionDeltamods.lua:Boost:Apply] Adding boost ["..boost.Stat.."] to item. ("..tostring(currentValue)..") => ("..tostring(nextValue)..")")
 		end
 		itemBoostObject.Applied = itemBoostObject.Applied + 1
 	elseif boost.Type == "TagBoost" then
-		LeaderLib.PrintDebug("[LLENEMY_ItemCorruptionDeltamods.lua:Boost:Apply] Adding TagBoost ["..boost.Tag.."] to item ["..item.."].")
+		PrintDebug("[LLENEMY_ItemCorruptionDeltamods.lua:Boost:Apply] Adding TagBoost ["..boost.Tag.."] to item ["..item.."].")
 		SetTag(item, boost.Tag)
 		if boost.OnTagAdded ~= nil then
 			local status,err = xpcall(boost.OnTagAdded, debug.traceback, item, boost.Tag)

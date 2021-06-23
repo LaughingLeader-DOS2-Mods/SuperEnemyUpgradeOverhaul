@@ -52,11 +52,11 @@ Ext.RegisterConsoleCommand("goblintest", function(command)
 			--local x,y,z = GetPosition(combat[1][1])
 			--Osi.LLSENEMY_TreasureGoblins_Internal_Spawn(x, y, z, combatid)
 			SpawnTreasureGoblin(x,y,z,CharacterGetLevel(host),combatid)
-			LeaderLib.PrintDebug("Spawning treasure goblin at ", x, y, z)
+			PrintDebug("Spawning treasure goblin at ", x, y, z)
 		end
 	else
 		SpawnTreasureGoblin(x,y,z,CharacterGetLevel(host),0)
-		LeaderLib.PrintDebug("Spawning treasure goblin at ", x, y, z)
+		PrintDebug("Spawning treasure goblin at ", x, y, z)
 	end
 end)
 

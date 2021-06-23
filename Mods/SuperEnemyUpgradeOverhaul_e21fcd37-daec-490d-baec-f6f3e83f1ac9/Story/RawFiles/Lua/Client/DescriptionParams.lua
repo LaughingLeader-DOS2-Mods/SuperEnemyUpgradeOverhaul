@@ -22,7 +22,7 @@ StatusDescriptionParams["LLENEMY_Talent_CounterChance"] = StatDescription_Counte
 ---@param target StatCharacter
 ---@param param string
 local function StatusGetDescriptionParam(status, statusSource, target, param, ...)
-	--LeaderLib.PrintDebug("[LLENEMY_StatusGetDescriptionParam] status("..tostring(status.Name)..") statusSource("..tostring(statusSource.Name)..")["..tostring(statusSource.NetID).."] character("..tostring(target.Name)..")["..tostring(target.NetID).."] param("..tostring(param)..")")
+	--PrintDebug("[LLENEMY_StatusGetDescriptionParam] status("..tostring(status.Name)..") statusSource("..tostring(statusSource.Name)..")["..tostring(statusSource.NetID).."] character("..tostring(target.Name)..")["..tostring(target.NetID).."] param("..tostring(param)..")")
 	local func = StatusDescriptionParams[param]
 	if func ~= nil then
 		if target.Character ~= nil then

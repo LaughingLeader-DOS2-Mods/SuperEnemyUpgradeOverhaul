@@ -1,6 +1,6 @@
 
 ---@type CharacterData
-CharacterData = LeaderLib.Classes.CharacterData
+CharacterData = Classes.CharacterData
 
 ---@class SuperEnemyUpgradeOverhaulPersistentVars:table
 DefaultPersistentVars = {

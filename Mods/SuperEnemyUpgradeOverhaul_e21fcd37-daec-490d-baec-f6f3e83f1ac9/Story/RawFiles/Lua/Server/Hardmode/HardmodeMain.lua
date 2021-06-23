@@ -88,15 +88,17 @@ end
 -- 	end
 -- end)
 
-LeaderLib.RegisterListener("LuaReset", function()
-	local enabled = Settings.Global:FlagEquals("LLENEMY_HardmodeEnabled", true)
-	if enabled then
-		Hardmode:Init()
-		Hardmode:Enable()
-	else
-		Hardmode:Disable()
-	end
-end)
+if Vars.DebugMode then
+	RegisterListener("LuaReset", function()
+		local enabled = Settings.Global:FlagEquals("LLENEMY_HardmodeEnabled", true)
+		if enabled then
+			Hardmode:Init()
+			Hardmode:Enable()
+		else
+			Hardmode:Disable()
+		end
+	end)
+end
 
 function Hardmode_InitLevel(region)
 	Hardmode:Init(region)

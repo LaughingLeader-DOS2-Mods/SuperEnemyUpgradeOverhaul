@@ -213,14 +213,14 @@ local function Init(boosts)
 		if Ext.IsModLoaded(uuid) then
 			for tableName,entries in pairs(tbl) do
 				if boosts[tableName] ~= nil then
-					LeaderLib.PrintDebug("[LLENEMY_ItemCorruptionDeltamods.lua] Merging entries from ("..uuid..") into main table ("..tableName..")")
+					PrintDebug("[LLENEMY_ItemCorruptionDeltamods.lua] Merging entries from ("..uuid..") into main table ("..tableName..")")
 					for i,entry in ipairs(entries) do
 						table.insert(boosts[tableName], entry)
 					end
 				end
 			end
 		else
-			LeaderLib.PrintDebug("[LLENEMY_ItemCorruptionDeltamods.lua] Mod ("..uuid..") is not active. Skipping deltamod registration.")
+			PrintDebug("[LLENEMY_ItemCorruptionDeltamods.lua] Mod ("..uuid..") is not active. Skipping deltamod registration.")
 		end
 	end
 
@@ -238,7 +238,7 @@ local function Init(boosts)
 	--table.insert(boosts.All, DeltaMod:Create("Primary", MinLevel=8})
 	--table.insert(boosts.All, DeltaMod:Create("Legendary", MinLevel=16})
 
-	LeaderLib.PrintDebug("[LLENEMY_ItemCorruptionDeltamods.lua] Boosts:\n" .. Common.Dump(boosts))
+	PrintDebug("[LLENEMY_ItemCorruptionDeltamods.lua] Boosts:\n" .. Common.Dump(boosts))
 end
 
 return {

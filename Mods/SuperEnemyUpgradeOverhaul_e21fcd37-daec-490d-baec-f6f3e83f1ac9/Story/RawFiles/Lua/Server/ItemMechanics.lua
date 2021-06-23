@@ -25,12 +25,12 @@ local function LLENEMY_TryScatterInventory(uuid)
 						ItemScatterAt(v, x,y,z)
 						ItemClearOwner(v)
 						
-						LeaderLib.PrintDebug("[LLENEMY_ItemMechanics.lua:ScatterInventory] Scattering item ("..tostring(stat)..")["..v.."] Slot("..tostring(item.Slot)..")")
+						PrintDebug("[LLENEMY_ItemMechanics.lua:ScatterInventory] Scattering item ("..tostring(stat)..")["..v.."] Slot("..tostring(item.Slot)..")")
 						if not string.find(stat, "Gold") and (LLENEMY_ItemIsRare(v, item.ItemType)) then
 							PlayEffect(v, "LLENEMY_FX_TreasureGoblin_Loot_Dropped_01");
 						end
 					else
-						LeaderLib.PrintDebug("[LLENEMY_ItemMechanics.lua:ScatterInventory] Item ("..tostring(stat)..")["..v.."] is equipped ("..tostring(equipped)..") or an NPC item. Skipping.")
+						PrintDebug("[LLENEMY_ItemMechanics.lua:ScatterInventory] Item ("..tostring(stat)..")["..v.."] is equipped ("..tostring(equipped)..") or an NPC item. Skipping.")
 					end
 				end
 			end
@@ -45,7 +45,7 @@ end
 function ScatterInventory(char)
 	local success = pcall(LLENEMY_TryScatterInventory, char)
 	if not success then
-		LeaderLib.PrintDebug("[LLENEMY_ItemMechanics.lua:ScatterInventory] Failed to scatter items for ("..char..").")
+		PrintDebug("[LLENEMY_ItemMechanics.lua:ScatterInventory] Failed to scatter items for ("..char..").")
 	end
 end
 

@@ -10,7 +10,7 @@ function SetChallengePointsTag(uuid)
 	end
 	if cp >= 5 then
 		--local data = UpgradeSystem.GetCurrentRegionData(nil, uuid, false)
-		--LeaderLib.PrintDebug(string.format("[EUO:SetChallengePointsTag] (%s) CP(%i) Upgrades(%s)", uuid, cp, Ext.JsonStringify(data)))
+		--PrintDebug(string.format("[EUO:SetChallengePointsTag] (%s) CP(%i) Upgrades(%s)", uuid, cp, Ext.JsonStringify(data)))
 	end
 end
 
@@ -62,7 +62,7 @@ function UpgradeInfo_RefreshInfoStatuses()
 			
 			end
 		end
-		LeaderLib.PrintDebug("[EUO:UpgradeInfo.lua:RefreshInfoStatuses] Refreshed upgrade info on characters in combat.")
+		PrintDebug("[EUO:UpgradeInfo.lua:RefreshInfoStatuses] Refreshed upgrade info on characters in combat.")
 	end
 end
 
@@ -85,7 +85,7 @@ function SetHighestPartyLoremaster()
 	HighestLoremaster = GetHighestPartyLoremaster()
 	if Ext.GetGameState() == "Running" then
 		Ext.BroadcastMessage("LLENEMY_SetHighestLoremaster", tostring(HighestLoremaster), nil)
-		LeaderLib.PrintDebug("[EUO:SetHighestPartyLoremaster] Synced highest party loremaster.",HighestLoremaster)
+		PrintDebug("[EUO:SetHighestPartyLoremaster] Synced highest party loremaster.",HighestLoremaster)
 	else
 		TimerCancel("Timers_LLENEMY_SyncHighestLoremaster")
 		TimerLaunch("Timers_LLENEMY_SyncHighestLoremaster", 500)
