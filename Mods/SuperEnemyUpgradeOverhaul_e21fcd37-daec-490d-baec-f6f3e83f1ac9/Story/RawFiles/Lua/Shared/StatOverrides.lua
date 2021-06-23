@@ -95,7 +95,10 @@ local stat_overrides = {
 	-- So Piercing Immunity doesn't make you immune to deathfog
 	DamageSurface_Deathfog = {
 		["Damage Type"] = "None"
-	},
+	}
+}
+
+local OriginOverrides = {
 	Shout_Quest_LureTheKraken = {
 		IgnoreSilence = "Yes"
 	},
@@ -103,6 +106,7 @@ local stat_overrides = {
 		IgnoreSilence = "Yes"
 	}
 }
+
 local FormatColorOverrides = {
 	Fire = {
 		"FIRE_BRAND",
@@ -203,31 +207,42 @@ local function OverrideStats()
 
     for statname,overrides in pairs(stat_overrides) do
         for property,value in pairs(overrides) do
-            --LeaderLib.PrintDebug("LLENEMY_StatOverrides.lua] Overriding stat: " .. statname .. " (".. property ..") = \"".. value .."\"")
+            --PrintDebug("LLENEMY_StatOverrides.lua] Overriding stat: " .. statname .. " (".. property ..") = \"".. value .."\"")
             Ext.StatSetAttribute(statname, property, value)
             total_changes = total_changes + 1
         end
         total_stats = total_stats + 1
 	end
 
+	if Ext.IsModLoaded("1301db3d-1f54-4e98-9be5-5094030916e4") then
+		for statname,overrides in pairs(OriginOverrides) do
+			for property,value in pairs(overrides) do
+				--PrintDebug("LLENEMY_StatOverrides.lua] Overriding stat: " .. statname .. " (".. property ..") = \"".. value .."\"")
+				Ext.StatSetAttribute(statname, property, value)
+				total_changes = total_changes + 1
+			end
+			total_stats = total_stats + 1
+		end
+	end
+
 	for statname,overrides in pairs(talent_belt_overrides) do
 		for property,value in pairs(overrides) do
-			--LeaderLib.PrintDebug("LLENEMY_StatOverrides.lua] Overriding stat: " .. statname .. " (".. property ..") = \"".. value .."\"")
+			--PrintDebug("LLENEMY_StatOverrides.lua] Overriding stat: " .. statname .. " (".. property ..") = \"".. value .."\"")
 			Ext.StatSetAttribute(statname, property, value)
 			total_changes = total_changes + 1
 		end
 		total_stats = total_stats + 1
 	end
 
-	--LeaderLib.PrintDebug("LLENEMY_StatOverrides.lua] Enabling v42+ enhancements.")
-	--LeaderLib.PrintDebug("==============================================================")
-	--LeaderLib.PrintDebug("LLENEMY_StatOverrides.lua] (Upgrade Info) enabled. Hiding statuses used for info.")
+	--PrintDebug("LLENEMY_StatOverrides.lua] Enabling v42+ enhancements.")
+	--PrintDebug("==============================================================")
+	--PrintDebug("LLENEMY_StatOverrides.lua] (Upgrade Info) enabled. Hiding statuses used for info.")
 	for _,statname in pairs(upgrade_info_statuses) do
 		Ext.StatSetAttribute(statname, "Icon", "")
 		total_changes = total_changes + 1
 		total_stats = total_stats + 1
 	end
-	--LeaderLib.PrintDebug("==============================================================")
+	--PrintDebug("==============================================================")
 
 	for color,tbl in pairs(FormatColorOverrides) do
 		for _,stat in pairs(tbl) do
@@ -239,7 +254,7 @@ local function OverrideStats()
 	if Ext.IsModLoaded("be822931-e829-4555-b50f-3b80b6f17d86") then
 		Ext.StatSetAttribute("WPN_LLENEMY_ShadowTreasure_Shovel_2H", "Skills", "Target_HeavyAttack;Target_LLGRAVE_Dig")
 	end
-	LeaderLib.PrintDebug("LLENEMY_StatOverrides.lua] Changed ("..tostring(total_changes)..") properties in ("..tostring(total_stats)..") stats (added talents to enemy weapons).")
+	PrintDebug("LLENEMY_StatOverrides.lua] Changed ("..tostring(total_changes)..") properties in ("..tostring(total_stats)..") stats (added talents to enemy weapons).")
 end
 
 return {
