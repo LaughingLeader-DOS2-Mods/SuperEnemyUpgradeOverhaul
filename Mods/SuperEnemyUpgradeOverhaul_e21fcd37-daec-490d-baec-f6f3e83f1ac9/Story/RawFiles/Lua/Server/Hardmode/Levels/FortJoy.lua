@@ -23,7 +23,7 @@ end
 
 local function OnEvent(event)
 	if event == "WakeSuperGolem" then
-		RemoveStatus(SuperFleshGolem.UUID, "SLEEPING")
+		SuperFleshGolem:RemoveStatus("SLEEPING")
 		GlobalSetFlag("LLSENEMY_HM_FTJ_SuperGolemReady")
 	end
 end
