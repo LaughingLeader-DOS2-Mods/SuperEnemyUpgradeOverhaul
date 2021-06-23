@@ -22,7 +22,7 @@ ENDIF
 IF "!c1"
 	CharacterHasStatus(__Me, LLENEMY_TREASURE_GOBLIN)
 THEN
-	GetRandomBetween(_RanTurns, 2,3)
+	GetRandomBetween(_RanTurns, 3, 4)
 	CharacterApplyStatus(__Me, LLENEMY_TREASURE_GOBLIN, _RanTurns, 1, __Me)
 ENDIF
 	//CharacterEvent(__Me, "LLENEMY_TreasureGoblins_OnInit")
