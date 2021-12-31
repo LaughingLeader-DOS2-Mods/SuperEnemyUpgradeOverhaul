@@ -1,6 +1,27 @@
 local printd = PrintDebug
 
-UpgradeSystem = {}
+UpgradeSystem = {
+	Settings = {
+		ActiveDefenseStatuses = {
+			LLENEMY_ACTIVATE_FLAMING_TONGUES = "FLAMING_TONGUES",
+			LLENEMY_ACTIVATE_HEALING_TEARS = "HEALING_TEARS",
+		},
+		AddTalentStatuses = {
+			LLENEMY_TALENT_TORTURER = "Torturer",
+			LLENEMY_TALENT_WHATARUSH = "WhatARush",
+			LLENEMY_TALENT_LEECH = "Leech",
+			LLENEMY_TALENT_QUICKSTEP = "QuickStep",
+			LLENEMY_TALENT_SADIST = "Sadist",
+			LLENEMY_TALENT_GLADIATOR = "Gladiator",
+			LLENEMY_TALENT_HAYMAKER = "Haymaker",
+			LLENEMY_TALENT_INDOMITABLE = "Indomitable",
+			LLENEMY_TALENT_SOULCATCHER = "Soulcatcher",
+			LLENEMY_TALENT_MAGICCYCLES = "MagicCycles",
+			LLENEMY_TALENT_GREEDYVESSEL = "GreedyVessel",
+			LLENEMY_TALENT_BACKSTAB = "RogueLoreDaggerBackStab",
+		}
+	},
+}
 
 ---@param group UpgradeGroup
 ---@param subgroup UpgradeSubGroup

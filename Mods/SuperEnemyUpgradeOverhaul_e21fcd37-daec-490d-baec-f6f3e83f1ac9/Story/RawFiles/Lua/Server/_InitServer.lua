@@ -1,24 +1,26 @@
-
----@type CharacterData
-CharacterData = Classes.CharacterData
-
 ---@class SuperEnemyUpgradeOverhaulPersistentVars:table
-DefaultPersistentVars = {
+local defaultPersistentVars = {
 	Upgrades = {
 		DropCounts = {},
 		---@type table<string, table<string, SavedUpgradeData[]>>
 		Results = {}
 	},
-	ActiveDuplicants = 0,
 	LeveledRegions = {},
 	---@type table<int,table<string,bool>>
 	WaitForCombatEnd = {},
+	---@type table<UUID, string>
+	WaitForStatusRemoval = {},
 	---@type table<string, table>
-	BloodyWinterTargets = {}
+	BloodyWinterTargets = {},
+	ActiveDuplicants = {},
 }
 
 ---@type SuperEnemyUpgradeOverhaulPersistentVars
-PersistentVars = Common.CopyTable(DefaultPersistentVars, true)
+PersistentVars = Common.CopyTable(defaultPersistentVars, true)
+
+RegisterListener("PersistentVarsLoaded", function()
+	Common.InitializeTableFromSource(PersistentVars, defaultPersistentVars)
+end)
 
 Ext.Require("Server/Listeners.lua")
 Ext.Require("Server/CombatHelpers.lua")
@@ -36,10 +38,10 @@ Ext.Require("Server/ServerMessages.lua")
 Ext.Require("Server/Recruiter.lua")
 Ext.Require("Server/SummoningMechanics.lua")
 Ext.Require("Server/LevelScaling.lua")
-Ext.Require("Server/UpgradeSystem/UpgradesController.lua")
-Ext.Require("Server/UpgradeSystem/Duplicants.lua")
-Ext.Require("Server/UpgradeSystem/BonusSkills.lua")
-Ext.Require("Server/UpgradeSystem/MiscUpgradeMechanics.lua")
+Ext.Require("Server/Upgrades/UpgradesController.lua")
+Ext.Require("Server/Upgrades/Duplicants.lua")
+Ext.Require("Server/Upgrades/BonusSkills.lua")
+Ext.Require("Server/Upgrades/MiscUpgradeMechanics.lua")
 Ext.Require("Server/Hardmode/_Init.lua")
 
 Ext.Require("Server/Debug/ConsoleCommands.lua")

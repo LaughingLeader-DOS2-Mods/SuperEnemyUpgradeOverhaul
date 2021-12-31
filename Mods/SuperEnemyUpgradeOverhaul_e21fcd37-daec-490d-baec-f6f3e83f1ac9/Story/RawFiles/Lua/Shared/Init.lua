@@ -27,7 +27,7 @@ Commands = {
 	CHECKLOREMASTER = "CheckLoremaster"
 }
 
-Mods.LeaderLib.ImportUnsafe(Mods.SuperEnemyUpgradeOverhaul)
+Mods.LeaderLib.Import(Mods.SuperEnemyUpgradeOverhaul)
 
 Ext.Require("Shared/Classes/Init.lua")
 
@@ -155,7 +155,6 @@ Ext.RegisterListener("SessionLoaded", function()
 	end
 
 	if Ext.IsServer() then
-		print(Ext.JsonStringify(freezeSkills))
 		ItemBonusManager.RegisterToSkillListener(freezeSkills, ItemBonusManager.AllItemBonuses.BloodyWinter)
 	end
 end)
@@ -211,7 +210,6 @@ if Ext.IsServer() then
 end
 if Ext.IsClient() then
 	Ext.RegisterNetListener("LLENEMY_SyncUpgradeData", function(cmd, payload)
-		print(cmd, payload)
 		local data = Ext.JsonParse(payload)
 		if data ~= nil then
 			local id = data.ID

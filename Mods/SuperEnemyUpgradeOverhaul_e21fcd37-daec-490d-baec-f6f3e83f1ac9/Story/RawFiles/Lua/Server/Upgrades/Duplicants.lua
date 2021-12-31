@@ -123,7 +123,7 @@ end
 function Duplication.CopyStats(source,dupe,baseStat)
 	local status,err = xpcall(CopyStats, debug.traceback, source, dupe, baseStat)
 	if not status then
-		print(err)
+		Ext.PrintError(err)
 	end
 end
 
@@ -254,6 +254,7 @@ end
 ---@param source EsvCharacter
 ---@param makeTemporary boolean|nil
 ---@param skipTracking boolean|nil
+---@return UUID
 local function Duplicate(source, makeTemporary, skipTracking)
 	local uuid = source.MyGuid
 	local x,y,z = GameHelpers.Grid.GetValidPositionInRadius(source.WorldPos, 12.0)
@@ -296,11 +297,14 @@ local function Duplicate(source, makeTemporary, skipTracking)
 	NRD_CharacterSetStatInt(dupeId, "CurrentVitality", source.Stats.CurrentVitality)
 	CharacterSetHitpointsPercentage(dupeId, math.min(100.0, (source.Stats.CurrentVitality/source.Stats.MaxVitality)*100))
 
-	if skipTracking ~= true then
-		Osi.DB_LLSENEMY_Duplication_Temp_Active(source.MyGuid, dupe.MyGuid, source.CurrentLevel)
-	end
 	if makeTemporary ~= true then
-		Osi.LLSENEMY_Duplication_SetupArena(source.MyGuid, dupe.MyGuid)
+		local arenaDB = Osi.DB_Arena_MobParticipants:Get(nil, source.MyGuid, nil, nil)
+		if arenaDB and #arenaDB > 0 then
+			local inst,_,trigger,team = table.unpack(arenaDB[1])
+			Osi.DB_Arena_MobParticipants(inst, dupe.MyGuid, trigger, team)
+			SetInArena(dupe.MyGuid, 1)
+			SetFaction(dupe.MyGuid, team)
+		end
 	end
 
 	TeleportToRandomPosition(dupeId, 6.0, "LLENEMY_DupeCharacterTeleported")
@@ -330,14 +334,10 @@ local function IgnoreCharacter(enemy)
 	if IsBoss(enemy.MyGuid) == 1 and Settings.Global:FlagEquals("LLENEMY_BossDuplicationEnabled", true) then
 		return true
 	end
-	if enemy:HasTag("LLENEMY_Duplicated") or enemy:HasTag("LLENEMY_DuplicationBlocked") then
+	if ObjectGetFlag(enemy.MyGuid, "LLENEMY_HasDuplicant") == 1 or enemy:HasTag("LLENEMY_DuplicationBlocked") then
 		return true
 	end
 	return false
-end
-
-function OnDuplicantDied(uuid)
-	PersistentVars.ActiveDuplicants = math.max(0, PersistentVars.ActiveDuplicants - 1)
 end
 
 ---@param source EsvCharacter
@@ -358,15 +358,16 @@ function Duplication.StartDuplicating(source, force, makeTemporary, skipTracking
 				if dupe ~= nil then
 					table.insert(dupes, dupe)
 					if skipTracking ~= true then
-						SetTag(source.MyGuid, "LLENEMY_Duplicated")
-						PersistentVars.ActiveDuplicants = PersistentVars.ActiveDuplicants + 1
+						ObjectSetFlag(source.MyGuid, "LLENEMY_HasDuplicant", 0)
+						PersistentVars.ActiveDuplicants[dupe] = source.MyGuid
 					end
 				end
 			end
 			return dupes
 		else
+			local currentTotal = Common.TableLength(PersistentVars.ActiveDuplicants, true)
 			local maxTotal = Settings.Global.Variables.Duplication_MaxTotal.Value or -1
-			if maxTotal < 0 or (maxTotal > 0 and PersistentVars.ActiveDuplicants < maxTotal) then
+			if maxTotal < 0 or (maxTotal > 0 and currentTotal < maxTotal) then
 				local min = Settings.Global.Variables.Duplication_MinDupesPerEnemy.Value or 0
 				local max = Settings.Global.Variables.Duplication_MaxDupesPerEnemy.Value or 1
 				local chance = Settings.Global.Variables.Duplication_Chance.Value or 30
@@ -379,8 +380,8 @@ function Duplication.StartDuplicating(source, force, makeTemporary, skipTracking
 							if dupe ~= nil then
 								table.insert(dupes, dupe)
 								if skipTracking ~= true then
-									SetTag(source.MyGuid, "LLENEMY_Duplicated")
-									PersistentVars.ActiveDuplicants = PersistentVars.ActiveDuplicants + 1
+									ObjectSetFlag(source.MyGuid, "LLENEMY_HasDuplicant", 0)
+									PersistentVars.ActiveDuplicants[dupe] = source.MyGuid
 								end
 							end
 						end
@@ -392,3 +393,68 @@ function Duplication.StartDuplicating(source, force, makeTemporary, skipTracking
 	end
 	return nil
 end
+
+local function CleanupDupe(uuid)
+	if ObjectExists(uuid) == 1 then
+		Osi.LeaderLib_Tags_ClearAllPreservedTagData(uuid)
+		SetOnStage(uuid, 0)
+	end
+	PersistentVars.ActiveDuplicants[uuid] = nil
+end
+
+--region Ported Osiris Rules
+RegisterProtectedOsirisListener("CharacterWentOnStage", 1, "after", function(char)
+	if IsTagged(char, "LLENEMY_Duplicant") == 1 and CharacterIsDead(char) == 1 then
+		SetOnStage(char, 0)
+	end
+end)
+
+RegisterProtectedOsirisListener("CharacterDied", 1, "after", function(char)
+	if IsTagged(char, "LLENEMY_Duplicant") == 1 then
+		char = StringHelpers.GetUUID(char)
+		CleanupDupe(char)
+	end
+end)
+
+RegisterProtectedOsirisListener("CharacterRelationChangedTo", 3, "after", function(character, target, attitude)
+	character = StringHelpers.GetUUID(character)
+	if ObjectGetFlag(character, "LLENEMY_HasDuplicant") == 1 then
+		for uuid,source in pairs(PersistentVars.ActiveDuplicants) do
+			if source == character then
+				ChangeAttitude(uuid, target, attitude)
+			end
+		end
+	end
+end)
+
+Ext.RegisterOsirisListener("RegionEnded", 1, "after", function(region)
+	for uuid,source in pairs(PersistentVars.ActiveDuplicants) do
+		CleanupDupe(uuid)
+	end
+end)
+
+RegisterProtectedOsirisListener("ObjectEnteredCombat", 2, "after", function(character, combatID)
+	character = StringHelpers.GetUUID(character)
+	if ObjectGetFlag(character, "LLENEMY_HasDuplicant") == 1 then
+		for uuid,source in pairs(PersistentVars.ActiveDuplicants) do
+			if source == character and ObjectIsOnStage(uuid) == 0 then
+				TeleportTo(uuid, character, "", 0, 1)
+				CharacterSetDetached(uuid, 0)
+				SetOnStage(uuid, 1)
+			end
+		end
+	end
+end)
+
+RegisterProtectedOsirisListener("ObjectLeftCombat", 2, "after", function(character, combatID)
+	character = StringHelpers.GetUUID(character)
+	if ObjectGetFlag(character, "LLENEMY_HasDuplicant") == 1 then
+		for uuid,source in pairs(PersistentVars.ActiveDuplicants) do
+			if source == character and CharacterIsDead(character) == 0 then
+				LeaveCombat(uuid)
+				SetOnStage(uuid, 0)
+			end
+		end
+	end
+end)
+--endregion

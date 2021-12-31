@@ -72,7 +72,7 @@ LLENEMY_SEEKER_DisplayName	Seeker	h2a92d66eg220eg4196gb8dag81570a513978
 LLENEMY_TALENT_BACKSTAB_Description	Character can backstab with non-dagger weapons.	h9305ff62g9590g4f7fg82beg5e3ab9edafbf
 LLENEMY_TALENT_BACKSTAB_DisplayName	Talent: Backstabber	hac3946feg2bc8g4337gbcb7ge3980e905f1b
 LLENEMY_TALENT_BASE_DisplayName	Talent	h1ad605c4gb69bg4562ga6adgc2d42e102770
-LLENEMY_TALENT_BULLY_Description	Character deals 50% extra damage with direct attacks against opponents that are Slowed, Crippled or Knocked Down.	h5ad0d829g7dd4g4a79gaa2cgd5d882d05390
+LLENEMY_TALENT_BULLY_Description	Character deals [ExtraData:LLENEMY_Bully_DamageMultiplier]% extra damage with direct attacks against opponents that are Slowed, Crippled or Knocked Down.	h5ad0d829g7dd4g4a79gaa2cgd5d882d05390
 LLENEMY_TALENT_BULLY_DisplayName	Talent: Bully	hdd62da1agf6adg438dg811cg08c9e58e07c9
 LLENEMY_TALENT_COUNTER_Description	Character has a chance to counter-attack when attacked within weapon range.	h5ff7ce69gb95ag417ag8a63g5fe67a7fb7f7
 LLENEMY_TALENT_COUNTER_DisplayName	Talent: Counter	h3c47b59cgd1f6g49a4g9e6bg9624181d40d1

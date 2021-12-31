@@ -25,8 +25,6 @@ end)
 
 -- Retroactively remove blacklisted skills if they were modified
 RegisterListener("Initialized", function()
-	Common.InitializeTableFromSource(PersistentVars, DefaultPersistentVars)
-
 	local status,err = xpcall(function()
 		if EnemySkills ~= nil and #EnemySkills > 0 then
 			for _,skillgroup in pairs(EnemySkills) do
