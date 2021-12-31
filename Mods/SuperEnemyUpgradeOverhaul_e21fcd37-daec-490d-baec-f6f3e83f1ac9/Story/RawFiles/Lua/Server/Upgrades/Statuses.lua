@@ -103,11 +103,26 @@ Timer.RegisterListener("LLENEMY_DemonicHasted_CheckForMovement", function(timerN
 	if not GameHelpers.Status.IsDisabled(target)
 	and GameHelpers.Character.IsInSurface(target, "Frozen")
 	then
-		if GameHelpers.Math.GetDistance(target, startPosition) >= 0.5
-		and GameHelpers.Roll(GameHelpers.GetExtraData("LLENEMY_DemonicHasted_SlipChance", 80))
-		then
-			GameHelpers.Status.Apply(target, "KNOCKED_DOWN", 6.0, true, target)
-		elseif GameHelpers.Status.IsActive(target, "LLENEMY_DEMONIC_HASTED") then
+		local startTimer = true
+		if GameHelpers.Math.GetDistance(target, startPosition) >= 0.5 then
+			local success,roll = GameHelpers.Roll(GameHelpers.GetExtraData("LLENEMY_DemonicHasted_SlipSaveChance", 20))
+			if not success then
+				startTimer = false
+				GameHelpers.Status.Apply(target, "KNOCKED_DOWN", 6.0, true, target)
+				if roll == 0 then
+					--Deal 20% of vitality as damage, but non-lethally
+					local character = GameHelpers.GetCharacter(target)
+					if character.Stats.CurrentVitality > 1 then
+						local damageMult = GameHelpers.GetExtraData("LLENEMY_DemonicHasted_SlipDamagePercentage", 20) * 0.01
+						if damageMult > 0 then
+							local damage = math.max(character.Stats.MaxVitality * damageMult, character.Stats.CurrentVitality - 1)
+							ApplyDamage(target, damage, "Physical", target)
+						end
+					end
+				end
+			end
+		end
+		if startTimer and GameHelpers.Status.IsActive(target, "LLENEMY_DEMONIC_HASTED") then
 			Timer.ClearObjectData("LLENEMY_DemonicHasted_CheckForMovement", target)
 			Timer.StartObjectTimer("LLENEMY_DemonicHasted_CheckForMovement", target, 750, GameHelpers.Math.GetPosition(target))
 		end
