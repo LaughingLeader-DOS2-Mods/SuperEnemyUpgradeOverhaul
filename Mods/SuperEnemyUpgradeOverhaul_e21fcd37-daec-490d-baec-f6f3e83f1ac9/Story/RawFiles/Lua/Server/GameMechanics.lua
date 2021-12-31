@@ -1,17 +1,3 @@
----Increases rage
----@param character string
----@param damage integer
----@param handle integer
-function IncreaseRage(character, damage, handle, source)
-	--local hp = NRD_CharacterGetStatInt(character, "CurrentVitality")
-	local maxhp = NRD_CharacterGetStatInt(character, "MaxVitality")
-	local damage_ratio = math.max((damage / maxhp) * 88.88, 1.0)
-	local add_rage = math.ceil(damage_ratio)
-	Osi.LeaderLib_Variables_DB_ModifyVariableInt(character, "LLENEMY_Rage", add_rage, 100, 0, source);
-	local rage_entry = Osi.DB_LeaderLib_Variables_Integer:Get(character, "LLENEMY_Rage", nil, nil)
-	--PrintDebug("[LLENEMY_GameMechanics.lua:IncreaseRage] Added ("..tostring(add_rage)..") Rage to ("..tostring(character).."). Total: ("..tostring(rage_entry[1][3])..")")
-end
-
 function RemoveInvisible(target, source)
 	local detected = false
 	for status,b in pairs(InvisibleStatuses) do

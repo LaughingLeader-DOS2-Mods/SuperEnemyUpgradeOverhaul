@@ -20,7 +20,17 @@ UpgradeSystem = {
 			LLENEMY_TALENT_GREEDYVESSEL = "GreedyVessel",
 			LLENEMY_TALENT_BACKSTAB = "RogueLoreDaggerBackStab",
 		},
-		GrenadeSkills = {}
+		GrenadeSkills = {},
+		Rage = {
+			Max = 999,
+			Statuses = {
+				{Status = "LLENEMY_RAGE", Min = 0, Max = 20},
+				{Status = "LLENEMY_RAGE2", Min = 20, Max = 40},
+				{Status = "LLENEMY_RAGE3", Min = 40, Max = 60},
+				{Status = "LLENEMY_RAGE4", Min = 60, Max = 90},
+				{Status = "LLENEMY_RAGE5", Min = 90, Max = 999},
+			}
+		},
 	},
 }
 
