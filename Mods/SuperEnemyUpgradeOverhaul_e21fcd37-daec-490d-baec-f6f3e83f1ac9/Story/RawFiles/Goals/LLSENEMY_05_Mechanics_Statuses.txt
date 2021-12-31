@@ -395,66 +395,6 @@ CharacterSetArmorPercentage(_Char,100.0);
 CharacterSetMagicArmorPercentage(_Char,100.0);
 CharacterResetCooldowns(_Char);
 //END_REGION
-
-//REGION DEMONIC_HASTED
-IF
-CharacterStatusRemoved(_Char, "LLENEMY_DEMONIC_HASTED", _)
-THEN
-LeaderLib_ToggleScripts_DisableScriptForObject(_Char, "LLENEMY_DemonicHasted_Active", "SuperEnemyUpgradeOverhaul");
-
-IF
-CharacterStatusApplied(_Char, "LLENEMY_DEMONIC_HASTED", _)
-THEN
-LeaderLib_ToggleScripts_EnableScriptForObject(_Char, "LLENEMY_DemonicHasted_Active", "SuperEnemyUpgradeOverhaul");
-//END_REGION
-
-//REGION DEMONIC_HASTED_SLIPPING_WEAKNESS
-IF
-StoryEvent((CHARACTERGUID)_Char, "LLENEMY_DemonicHasted_CheckForMovement")
-AND
-HasActiveStatus(_Char, "KNOCKED_DOWN", 0)
-AND
-DB_LLSENEMY_StatusLogic_Temp_DemonicHastedMoveCheck(_Char, _x, _y, _z)
-AND
-GetDistanceToPosition(_Char, _x, _y, _z, _Dist)
-AND
-_Dist >= 0.5
-THEN
-NOT DB_LLSENEMY_StatusLogic_Temp_DemonicHastedMoveCheck(_Char, _x, _y, _z);
-SetStoryEvent(_Char, "LLENEMY_DemonicHasted_RollForSlip");
-
-IF
-StoryEvent((CHARACTERGUID)_Char, "LLENEMY_DemonicHasted_CheckForMovement")
-AND
-DB_LLSENEMY_StatusLogic_Temp_DemonicHastedMoveCheck(_Char, _x, _y, _z)
-THEN
-NOT DB_LLSENEMY_StatusLogic_Temp_DemonicHastedMoveCheck(_Char, _x, _y, _z);
-
-IF
-StoryEvent(_Char, "LLENEMY_DemonicHasted_RollForSlip")
-AND
-LeaderLib_Roll_QRY(800) // Very high chance to slip
-THEN
-ApplyStatus(_Char, "KNOCKED_DOWN", 6.0, 1, _Char);
-
-//Check for movement again if they didn't slip
-
-IF
-StoryEvent((CHARACTERGUID)_Char, "LLENEMY_DemonicHasted_RollForSlip")
-AND
-NOT LeaderLib_Helper_QRY_HasStatus(_Char, "KNOCKED_DOWN")
-AND
-LeaderLib_Combat_QRY_IsActiveTurn(_Char)
-AND
-GetSurfaceGroundAt(_Char, _Surface)
-AND
-StringContains(_Surface, "Frozen", 1)
-AND
-GetPosition(_Char, _x, _y, _z)
-THEN
-DB_LLSENEMY_StatusLogic_Temp_DemonicHastedMoveCheck(_Char, _x, _y, _z);
-LeaderLib_Timers_StartObjectTimer(_Char, 750, "Timers_LLENEMY_DemonicHasted_CheckForMovement", "LLENEMY_DemonicHasted_CheckForMovement");
-//END_REGION
 EXITSECTION
 ENDEXITSECTION
 ParentTargetEdge "LaughingLeader_SuperEnemyUpgradeOverhaul"

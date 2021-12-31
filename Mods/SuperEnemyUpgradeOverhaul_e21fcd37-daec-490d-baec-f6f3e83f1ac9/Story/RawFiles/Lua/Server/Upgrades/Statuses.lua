@@ -76,3 +76,42 @@ StatusManager.Register.Removed("LLENEMY_AUTOMATON_INACTIVE", function(target, st
 		end
 	end
 end)
+
+---@param target EsvCharacter|EsvItem
+---@param status EsvStatus
+---@param source EsvCharacter|EsvItem|nil
+---@param statusType string
+---@param statusEvent StatusEventID
+local function CheckSurfaces(target, status, source, statusType, statusEvent)
+	if GameHelpers.Status.IsActive(target, "LLENEMY_DEMONIC_HASTED")
+	and not GameHelpers.Status.IsDisabled(target)
+	and not target.Stats.SlippingImmunity
+	and not target.Stats.KnockdownImmunity
+	and GameHelpers.Character.IsInSurface(target, "Frozen")
+	then
+		Timer.ClearObjectData("LLENEMY_DemonicHasted_CheckForMovement", target)
+		Timer.StartObjectTimer("LLENEMY_DemonicHasted_CheckForMovement", target, 750, GameHelpers.Math.GetPosition(target))
+	end
+
+	if target:GetStatus("LLENEMY_TALENT_NATURALCONDUCTOR") and GameHelpers.Character.IsInSurface(target, "Electrified") then
+		GameHelpers.Status.Apply(target, "HASTED", 6.0, false, target)
+	end
+end
+
+--Demonic Hasted slipping weakness
+Timer.RegisterListener("LLENEMY_DemonicHasted_CheckForMovement", function(timerName, target, startPosition)
+	if not GameHelpers.Status.IsDisabled(target)
+	and GameHelpers.Character.IsInSurface(target, "Frozen")
+	then
+		if GameHelpers.Math.GetDistance(target, startPosition) >= 0.5
+		and GameHelpers.Roll(GameHelpers.GetExtraData("LLENEMY_DemonicHasted_SlipChance", 80))
+		then
+			GameHelpers.Status.Apply(target, "KNOCKED_DOWN", 6.0, true, target)
+		elseif GameHelpers.Status.IsActive(target, "LLENEMY_DEMONIC_HASTED") then
+			Timer.ClearObjectData("LLENEMY_DemonicHasted_CheckForMovement", target)
+			Timer.StartObjectTimer("LLENEMY_DemonicHasted_CheckForMovement", target, 750, GameHelpers.Math.GetPosition(target))
+		end
+	end
+end)
+
+StatusManager.Register.Applied({"INSURFACE", "LLENEMY_DEMONIC_HASTED", "LLENEMY_TALENT_NATURALCONDUCTOR"}, CheckSurfaces)
