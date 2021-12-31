@@ -1,17 +1,33 @@
 StatusManager.Register.Removed("RESURRECT", function(target, status, source, statusType, statusEvent)
-	if ObjectGetFlag(target, "LLENEMY_AddedGrenadeStash") == 1 then
-		ApplyStatus(target, "LLENEMY_GRANADA", -1.0, 0, target)
+	if GameHelpers.ObjectHasFlag(target, "LLENEMY_AddedGrenadeStash") then
+		GameHelpers.Status.Apply(target, "LLENEMY_GRANADA", -1.0, false, target)
 	end
 end)
 
+local grenadeExplodeText = Classes.TranslatedString:CreateFromKey("LLENEMY_StatusText_GrenadeExploded", "<font color='#FF3333'>[1] Exploded!</font>")
+local grenadeExplodeCombatLogText = Classes.TranslatedString:CreateFromKey("LLENEMY_CombatLog_GrenadeExploded", "[1] fell and exploded a grenade ([2]) as a result ([3]).")
+
+---Explode a random grenade skill after falling down.
+---@param target EsvCharacter|UUID
+function Upgrade_GrenadeEnthusiast_ExplodeGrenade(target)
+	target = GameHelpers.GetCharacter(target)
+	local skill = Common.GetRandomTableEntry(UpgradeSystem.Settings.GrenadeSkills)
+	GameHelpers.Skill.Explode(target, skill, target)
+	local name = GameHelpers.GetStringKeyText(Ext.StatGetAttribute(skill, "DisplayName"), "Grenade")
+	local text = grenadeExplodeText:ReplacePlaceholders(name)
+	local statusName = GameHelpers.GetStringKeyText(Ext.StatGetAttribute("LLENEMY_GRANADA", "DisplayName"), "Grenade Enthusiast")
+	CharacterStatusText(target.MyGuid, text)
+	CombatLog.AddTextToAllPlayers(CombatLog.Filters.Combat, grenadeExplodeCombatLogText:ReplacePlaceholders(target.DisplayName, name, statusName))
+end
+
 StatusManager.Register.Applied("KNOCKED_DOWN", function(target, status, source, statusType, statusEvent)
-	if HasActiveStatus(target, "LLENEMY_GRANADA") == 1 then
-		ExplodeGrenade(target)
+	if GameHelpers.Status.IsActive(target, "LLENEMY_GRANADA") then
+		Upgrade_GrenadeEnthusiast_ExplodeGrenade(target)
 	end
 end)
 
 StatusManager.Register.Applied("LLENEMY_GRANADA", function(target, status, source, statusType, statusEvent)
-	if ObjectGetFlag(target, "LLENEMY_AddedGrenadeStash") == 0 then
+	if not GameHelpers.ObjectHasFlag(target, "LLENEMY_AddedGrenadeStash") then
 		CharacterGiveReward(target, "LLENEMY_GranadaStatus_GrenadeStash", 1)
 		ObjectSetFlag(target, "LLENEMY_AddedGrenadeStash", 0)
 	end
@@ -93,7 +109,9 @@ local function CheckSurfaces(target, status, source, statusType, statusEvent)
 		Timer.StartObjectTimer("LLENEMY_DemonicHasted_CheckForMovement", target, 750, GameHelpers.Math.GetPosition(target))
 	end
 
-	if target:GetStatus("LLENEMY_TALENT_NATURALCONDUCTOR") and GameHelpers.Character.IsInSurface(target, "Electrified") then
+	if GameHelpers.Status.IsActive(target, "LLENEMY_TALENT_NATURALCONDUCTOR") 
+	and GameHelpers.Character.IsInSurface(target, "Electrified")
+	then
 		GameHelpers.Status.Apply(target, "HASTED", 6.0, false, target)
 	end
 end

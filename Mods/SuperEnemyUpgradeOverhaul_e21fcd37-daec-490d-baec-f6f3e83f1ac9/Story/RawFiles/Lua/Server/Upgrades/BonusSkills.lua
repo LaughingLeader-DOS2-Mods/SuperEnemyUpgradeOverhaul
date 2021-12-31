@@ -133,66 +133,63 @@ function BuildEnemySkills()
 		SkillGroup:Create("Sourcery", "Source"),
 	}
 	local skills = Ext.GetStatEntries("SkillData")
-	for k,skill in pairs(skills) do
-		if redirected_skills[skill] ~= nil then
-			local swapped_skill = redirected_skills[skill]
-			printd("[EUO:BonusSkills] Swapping skill '" .. tostring(skill) .. "' for '"..swapped_skill .. "'")
-			skill = swapped_skill
+	for k,skillId in pairs(skills) do
+		if redirected_skills[skillId] ~= nil then
+			local swapped_skill = redirected_skills[skillId]
+			fprint(LOGLEVEL.TRACE, "[EUO:BonusSkills] Swapping skill '%s' for '%s'", skillId, swapped_skill)
+			skillId = swapped_skill
 		end
-		local isenemy = Ext.StatGetAttribute(skill, "IsEnemySkill")
-		local aiflags = Ext.StatGetAttribute(skill, "AIFlags")
-		local ap = Ext.StatGetAttribute(skill, "ActionPoints")
-		local cd = Ext.StatGetAttribute(skill, "Cooldown")
 
-		if not IgnoreSkill(skill) then
-			if aiflags ~= AIFLAG_CANNOT_USE and (isenemy == "Yes" and string.find(skill, "Enemy")) then
-				if ap > 0 or cd > 0 then
-					local b,invalidSkill = pcall(LLENEMY_ParentSkillIsInvalid, skill)
+		---@type StatEntrySkillData
+		local skillData = Ext.GetStat(skillId)
+
+		if string.find(skillId, "Grenade") 
+		and skillData.SkillType == "Projectile" 
+		and skillData.IsEnemySkill == "No"
+		and not StringHelpers.IsNullOrWhitespace(skillData.DisplayName)
+		and not StringHelpers.IsNullOrEmpty(skillData.MovingObject) then
+			table.insert(UpgradeSystem.Settings.GrenadeSkills, skillId)
+		end
+
+		if not IgnoreSkill(skillId) then
+			if skillData.AIFlags ~= AIFLAG_CANNOT_USE and (skillData.IsEnemySkill == "Yes" and string.find(skillId, "Enemy")) then
+				if skillData.ActionPoints > 0 or skillData.Cooldown > 0 then
+					local b,invalidSkill = pcall(LLENEMY_ParentSkillIsInvalid, skillId)
 					if not b then invalidSkill = true end
 					if not invalidSkill then
-						local ability = Ext.StatGetAttribute(skill, "Ability")
-						local requirement = Ext.StatGetAttribute(skill, "Requirement")
-						local sp = Ext.StatGetAttribute(skill, "Magic Cost")
+						local sp = skillData["Magic Cost"]
 						if sp == nil then sp = 0 end
-						local tier = Ext.StatGetAttribute(skill, "Tier")
-						if IsSummmonSkill(skill) then
-							EnemySummonSkills[skill] = SkillEntry:Create(skill, requirement, sp, tier)
+						if IsSummmonSkill(skillId) then
+							EnemySummonSkills[skillId] = SkillEntry:Create(skillId, skillData.Requirement, sp, skillData.Tier)
 						else
-							local skillgroup = GetSkillGroup(EnemySkills, ability)
+							local skillgroup = GetSkillGroup(EnemySkills, skillData.Ability)
 							if skillgroup ~= nil then
-								skillgroup:Add(SkillEntry:Create(skill, requirement, sp, tier))
+								skillgroup:Add(SkillEntry:Create(skillId, skillData.Requirement, sp, skillData.Tier))
 							end
 						end
-					else
-						printd("[EUO:BonusSkills] Skill '" .. tostring(skill) .. "' is invalid? pcall (".. tostring(b) ..") invalidSkill(".. tostring(invalidSkill)..")")
 					end
 				end
 			else
-				if Ext.StatGetAttribute(skill, "ForGameMaster") == "Yes" and isenemy ~= "Yes" and Ext.StatGetAttribute(skill, "Memory Cost") > 0 then
-					local tier = Ext.StatGetAttribute(skill, "Tier")
-					if LeaderLib.Data.OriginalSkillTiers ~= nil and LeaderLib.Data.OriginalSkillTiers[skill] ~= nil then
-						tier = LeaderLib.Data.OriginalSkillTiers[skill]
+				if skillData.ForGameMaster == "Yes" and skillData.IsEnemySkill ~= "Yes" and skillData["Memory Cost"] > 0 then
+					local tier = skillData.Tier
+					if LeaderLib.Data.OriginalSkillTiers ~= nil and LeaderLib.Data.OriginalSkillTiers[skillId] ~= nil then
+						tier = LeaderLib.Data.OriginalSkillTiers[skillId]
 					end
 					if tier ~= nil and tier ~= "" and tier ~= "None" then
-						---@type StatRequirement[]
-						local requirements = Ext.StatGetAttribute(skill, "Requirements")
-						---@type StatRequirement[]
-						local memorizationRequirements = Ext.StatGetAttribute(skill, "MemorizationRequirements")
-
 						-- Skills with tag requirements tend to be special and shouldn't be randomly added
-						if not HasTagRequirement(requirements) and not HasTagRequirement(memorizationRequirements) then
-							local ability = Ext.StatGetAttribute(skill, "Ability")
+						if not HasTagRequirement(skillData.Requirements) and not HasTagRequirement(skillData.MemorizationRequirements) then
+							local ability = skillData.Ability
 							if ability ~= "" and ability ~= "None" then
 								-- Poison skills being under the Earth Ability
 								if ability == "Earth" then
-									if string.find(skill, "Poison") or Ext.StatGetAttribute(skill, "DamageType") == "Poison" then
+									if string.find(skillId, "Poison") or skillData.DamageType == "Poison" then
 										ability = "Poison"
 									end
 								end
 								if ItemCorruption.Boosts.BonusSkills[ability] == nil then
 									ItemCorruption.Boosts.BonusSkills[ability] = {}
 								end
-								table.insert(ItemCorruption.Boosts.BonusSkills[ability], skill)
+								table.insert(ItemCorruption.Boosts.BonusSkills[ability], skillId)
 							end
 						end
 					end

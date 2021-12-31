@@ -8,9 +8,7 @@ KBSECTION
 PROC
 LLSENEMY_ToggleScripts_RegisterScripts()
 THEN
-LeaderLib_ToggleScripts_Register_ObjectScript("LLSENEMY_80_TS_Granada", "LLENEMY_Granada_Active", 0, 1);
 LeaderLib_ToggleScripts_Register_ObjectScript("LLSENEMY_80_TS_ResistDead", "LLENEMY_ResistDead_Active", 0, 1);
-LeaderLib_ToggleScripts_Register_ObjectScript("LLSENEMY_80_TS_MasterThief", "LLENEMY_MasterThief_Active", 0, 1);
 LeaderLib_ToggleScripts_Register_ObjectScript("LLSENEMY_80_TS_Rage", "LLENEMY_Rage_Active", 0, 1);
 LeaderLib_ToggleScripts_Register_ObjectScript("LLSENEMY_80_TS_Seeker", "LLENEMY_SeekerEnabled", 0, 1);
 

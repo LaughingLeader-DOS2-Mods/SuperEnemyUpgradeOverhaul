@@ -19,7 +19,8 @@ UpgradeSystem = {
 			LLENEMY_TALENT_MAGICCYCLES = "MagicCycles",
 			LLENEMY_TALENT_GREEDYVESSEL = "GreedyVessel",
 			LLENEMY_TALENT_BACKSTAB = "RogueLoreDaggerBackStab",
-		}
+		},
+		GrenadeSkills = {}
 	},
 }
 

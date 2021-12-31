@@ -1,6 +1,8 @@
 Key	Content	Handle
-LLENEMY_DisplayText_MuggedGold_Enemy	<font color='#33FF33' size='23'>*Stole </font><font color='#C7A758' size='26'>[1]</font> <font color='#33FF33' size='23'>Gold!*</font>	hb5ed98e3g8acbg404cgaab9gdf882ba463ce
-LLENEMY_DisplayText_MuggedGold_Target	<font color='#FF3333' size='23'>*Lost </font><font color='#C7A758' size='26'>[1]</font> <font color='#FF3333' size='23'>Gold!*</font>	h9b5ef2b3gc8c3g4a89g986egb3ac78cde891
+LLENEMY_StatusText_MasterThief_Attacker	<font color='#33FF33' size='23'>*Stole [1]!*</font>	hb5ed98e3g8acbg404cgaab9gdf882ba463ce
+LLENEMY_StatusText_MasterThief_Victim	<font color='#FF3333' size='23'>*Lost [1]!*</font>	h9b5ef2b3gc8c3g4a89g986egb3ac78cde891
+LLENEMY_CombatLog_MasterThief	[1] stole <font color='#FF3333'>[2]</font> from [3] ([4]).	hf6b1ebf1g7e69g4958gb36cg2f8c60de8b0b
+LLENEMY_GoldWithAmount	[1] [Handle:h55e5ec72g331dg4dc9g9532g4a68ba0bc2a3:Gold]	hc90c58dbgc927g4ba7g9535g6989ac8b67cb
 LLENEMY_DisplayText_TotalCharactersLeveled	<font color='#BBFF00' size='23'>*[1] beings gained a new level of power...*</font>	h034ae0a4g858eg4d30g82dege3c983c8b18a
 LLENEMY_DisplayText_TreasureGoblins_TurnsLeft	<font color='#FF3333' size='23'>[1] Turn(s) Left</font>	h62cbd27fgb53ag4e4bgaee0gb0dfd466fe48
 LLENEMY_MessageBox_ConfirmEnemyLevelingCommit	Lock in the enemy scale? This will level up all non-player characters in the world to the the set level.<br><font color='#FF0000' size='26'>This cannot be undone.</font>	hff477e91gde34g4795g863ag2c508293666d
@@ -17,6 +19,7 @@ LLENEMY_StatusText_SeekerDiscoveredTarget	<font color='#FF3737' size='26'>*Revea
 LLENEMY_StatusText_VoidlingTransformed	<font color='#73F6FF' size='26'>Empowered Evolution</font>	h0c6fe9ccg70f0g434dgbe60gc2275abaa7d1
 LLENEMY_StatusText_Cleansed	<font color='#73F6FF'>[1] Cleansed [2]</font>	h19830defg8efbg4be0ga890g34311649a588
 LLENEMY_StatusText_GrenadeExploded	<font color='#FF3333'>[1] Exploded!</font>	hd8dc7391g5bc4g4e3dgb76dg00c32c9a1eaf
+LLENEMY_CombatLog_GrenadeExploded	[1] fell and exploded a grenade ([2]) as a result ([3]).	h0872919dg5104g45begaa55g31bb1af5c925
 LLENEMY_StatusText_TimeHasted	<font color='#88CCFF'>Time Skip!</font>	h1c47cb34gfc77g42eeg8731gc0e57eb857c1
 LLENEMY_ModDisplayName	Super Enemy Upgrade Overhaul	hb216bc96gc66ag4016g9c6agf7af5a5d78d3
 LLENEMY_ModDescription	A difficulty enhancement mod that upgrades enemies with random bonuses, new loot, and a plethora of optional features, such as voidwoken spawning from source skills, enemies being duplicated in combat, and a hard mode for the bravest of souls.	hdf18843dg2cbbg4ccfg9cdcgd2bad67e2dd5

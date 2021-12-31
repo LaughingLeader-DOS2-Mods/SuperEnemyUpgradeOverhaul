@@ -41,7 +41,6 @@ Ext.Require("Server/LevelScaling.lua")
 Ext.Require("Server/Upgrades/UpgradesController.lua")
 Ext.Require("Server/Upgrades/Duplicants.lua")
 Ext.Require("Server/Upgrades/BonusSkills.lua")
-Ext.Require("Server/Upgrades/MiscUpgradeMechanics.lua")
 Ext.Require("Server/Hardmode/_Init.lua")
 
 Ext.Require("Server/Debug/ConsoleCommands.lua")
