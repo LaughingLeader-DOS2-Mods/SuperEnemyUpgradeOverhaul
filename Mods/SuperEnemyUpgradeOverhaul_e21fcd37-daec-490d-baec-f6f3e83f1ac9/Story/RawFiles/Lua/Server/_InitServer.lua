@@ -13,6 +13,8 @@ local defaultPersistentVars = {
 	---@type table<string, table>
 	BloodyWinterTargets = {},
 	ActiveDuplicants = {},
+	Rage = {},
+	Seekers = {},
 }
 
 ---@type SuperEnemyUpgradeOverhaulPersistentVars

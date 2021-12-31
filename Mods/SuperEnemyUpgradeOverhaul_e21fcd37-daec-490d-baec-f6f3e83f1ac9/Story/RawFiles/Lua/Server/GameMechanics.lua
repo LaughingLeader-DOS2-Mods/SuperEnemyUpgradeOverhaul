@@ -1,28 +1,3 @@
-function RemoveInvisible(target, source)
-	local detected = false
-	for status,b in pairs(InvisibleStatuses) do
-		if b == true and HasActiveStatus(target, status) == 1 then
-			RemoveStatus(target, status)
-			detected = true
-		end
-	end
-	if detected then
-		CharacterStatusText(target, "LLENEMY_StatusText_SeekerDiscoveredTarget")
-		PlayEffect(source, "RS3_FX_GP_Status_Warning_Red_01", "Dummy_OverheadFX")
-		Osi.CharacterSawSneakingCharacter(source, target)
-	end
-	return detected
-end
-
-function CharacterIsHidden(target)
-	for status,b in pairs(InvisibleStatuses) do
-		if b == true and HasActiveStatus(target, status) == 1 then
-			return 1
-		end
-	end
-	return 0
-end
-
 function ClearGain(char)
 	--ScaleExperienceByPlayerLevel_d5e1b4bc-dc7b-43dc-8bd0-d9f2b5e3a418
 	if Ext.IsModLoaded("d5e1b4bc-dc7b-43dc-8bd0-d9f2b5e3a418") then
