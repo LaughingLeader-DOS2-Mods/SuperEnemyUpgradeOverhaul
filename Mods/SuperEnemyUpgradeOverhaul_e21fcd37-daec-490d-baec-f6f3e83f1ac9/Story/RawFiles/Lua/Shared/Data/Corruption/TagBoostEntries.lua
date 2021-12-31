@@ -25,7 +25,7 @@ local entries = {
 if Ext.IsClient() then
 	Ext.RegisterListener("SessionLoaded", function()
 		for tag,entry in pairs(entries) do
-			LeaderLib.UI.RegisterItemTooltipTag(tag)
+			TooltipHandler.RegisterItemTooltipTag(tag)
 		end
 	end)
 end
