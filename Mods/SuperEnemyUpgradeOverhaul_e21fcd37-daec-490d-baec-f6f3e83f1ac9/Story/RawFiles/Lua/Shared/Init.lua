@@ -61,9 +61,9 @@ ItemCorruption.Names = Ext.Require("Shared/Data/Corruption/Names.lua")
 local statOverrides = Ext.Require("Shared/StatOverrides.lua")
 Ext.Require("Shared/VoiceData.lua")
 Ext.Require("Shared/SharedUpgradeInfo.lua")
----@type ModSettings
-Settings = nil
 local initSettings = Ext.Require("Shared/Settings.lua")
+---@type ModSettings
+Settings = initSettings()
 
 local function FixModTypos()
 	-- Greed typos
@@ -89,7 +89,7 @@ function LLENEMY_Shared_InitModuleLoading()
 	FixModTypos()
 end
 
-local function LLENEMY_Shared_SessionLoading()
+Ext.RegisterListener("SessionLoaded", function()
 	Ext.Print("[LLENEMY:Bootstrap.lua] Session is loading.")
 	local statuses = Ext.GetStatEntries("StatusData")
 	for _,stat in pairs(statuses) do
@@ -102,10 +102,8 @@ local function LLENEMY_Shared_SessionLoading()
 	boostsScript.Init()
 	modBoosts.Init()
 
-	Settings = initSettings()
 	LeaderLib.SettingsManager.AddSettings(Settings)
-end
-Ext.RegisterListener("SessionLoading", LLENEMY_Shared_SessionLoading)
+end)
 
 local function RegisterVoiceMetaData()
 	for speaker,entries in pairs(VoiceMetaData) do
