@@ -1,9 +1,9 @@
 --Magister Knight that dies from the Kraken on the top deck
-local KrakenMagisterVictim = CharacterData:Create("b5e74192-498f-4eb3-844a-4a817f9802d3")
+local KrakenMagisterVictim = Classes.CharacterData:Create("b5e74192-498f-4eb3-844a-4a817f9802d3")
 --Magister Knight near Captain Kalwyn
-local TopDeckMagister = CharacterData:Create("de400bda-b14e-4cff-b5f5-737781437902")
-local CaptainKalwyn = CharacterData:Create("e2d47d73-4f9d-4de2-8a3c-c774a0ea114a")
-local MagisterRennart = CharacterData:Create("a06e61dd-58c6-4119-99be-716c3a4fc1ef")
+local TopDeckMagister = Classes.CharacterData:Create("de400bda-b14e-4cff-b5f5-737781437902")
+local CaptainKalwyn = Classes.CharacterData:Create("e2d47d73-4f9d-4de2-8a3c-c774a0ea114a")
+local MagisterRennart = Classes.CharacterData:Create("a06e61dd-58c6-4119-99be-716c3a4fc1ef")
 
 local function Init()
 	Osi.LLSENEMY_Upgrades_AddToIgnoreList(KrakenMagisterVictim.UUID)

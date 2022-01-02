@@ -1,5 +1,5 @@
 local Kniles = "1d1c0ba0-a91e-4927-af79-6d8d27e0646b"
-local SuperFleshGolem = CharacterData:Create("82a1c335-d5b6-4046-9286-400faf67e08e")
+local SuperFleshGolem = Classes.CharacterData:Create("82a1c335-d5b6-4046-9286-400faf67e08e")
 
 local function Init()
 

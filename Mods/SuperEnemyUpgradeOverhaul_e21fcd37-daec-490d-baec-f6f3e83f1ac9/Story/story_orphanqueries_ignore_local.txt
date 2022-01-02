@@ -13,3 +13,4 @@ DB_GLO_LVHub_Henchmen_Captain 1
 DB_GLO_LVHub_Henchmen_HiredFlags 3
 DB_GLO_LVHub_Henchmen_PriceGroup 3
 DB_LLSENEMY_Origins_DuplicationBlocked 1
+DB_TUT_LostWeapon 3
