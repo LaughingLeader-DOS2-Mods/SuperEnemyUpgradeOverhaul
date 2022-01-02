@@ -31,13 +31,6 @@ LeaderLib_Helper_QRY_CharacterIsHumanoid(_Char)
 THEN
 DB_NOOP(1);
 
-IF
-CharacterScriptFrameFinished(_Char, "NonExistentScriptFrame")
-AND
-DB_LLSENEMY_Duplication_Temp_Active(_Char,_,_)
-THEN
-DB_NOOP(1);
-
 EXITSECTION
 ENDEXITSECTION
 ParentTargetEdge "LLSENEMY_00__System"

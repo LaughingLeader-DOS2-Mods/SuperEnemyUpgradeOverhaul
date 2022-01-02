@@ -609,3 +609,5 @@ end)
 -- Ext.RegisterOsirisListener("CombatStarted", 1, "after", function(id)
 
 -- end)
+
+Ext.Require("Server/Upgrades/Mechanics/Seeker.lua")
