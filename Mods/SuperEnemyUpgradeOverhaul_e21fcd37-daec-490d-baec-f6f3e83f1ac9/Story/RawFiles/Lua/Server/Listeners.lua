@@ -1,7 +1,9 @@
 ---@param globalSettings GlobalSettings
 LeaderLib.RegisterListener("ModSettingsLoaded", function(globalSettings)
-	Osi.DB_LLSENEMY_LevelModifier:Delete(nil)
-	Osi.DB_LLSENEMY_LevelModifier(Settings.Global:GetVariable("AutoLeveling_Modifier", 0))
+	if Ext.OsirisIsCallable() then
+		Osi.DB_LLSENEMY_LevelModifier:Delete(nil)
+		Osi.DB_LLSENEMY_LevelModifier(Settings.Global:GetVariable("AutoLeveling_Modifier", 0))
+	end
 
 	-- Migrating settings from old EUO
 	if not Settings.LoadedExternally then
