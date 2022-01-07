@@ -95,7 +95,7 @@ local function Init()
 	settings.Global.Flags.LLENEMY_Debug_LevelCapDisabled.DebugOnly = true
 
 	--settings.Global:AddFlag("MigrateSettings", "Global", true)
-	settings.Global:AddLocalizedVariable("AutoLeveling_Modifier", "LLENEMY_Variable_AutoLeveling_Modifier", 0, 1, Ext.ExtraData.SoftLevelCap)
+	settings.Global:AddLocalizedVariable("AutoLeveling_Modifier", "LLENEMY_Variable_AutoLeveling_Modifier", 0, 1, GameHelpers.GetExtraData("SoftLevelCap", 20))
 	settings.Global:AddLocalizedVariable("Hardmode_MinBonusRolls", "LLENEMY_Variable_Hardmode_MinBonusRolls", 1, 0, 99)
 	settings.Global:AddLocalizedVariable("Hardmode_MaxBonusRolls", "LLENEMY_Variable_Hardmode_MaxBonusRolls", 4, 0, 99)
 	settings.Global:AddLocalizedVariable("Hardmode_StatusBonusTurnsMin", "LLENEMY_Variable_Hardmode_StatusBonusTurnsMin", 0, 0, 99)
