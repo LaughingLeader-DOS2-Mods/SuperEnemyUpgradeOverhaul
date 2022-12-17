@@ -1,8 +1,8 @@
 
 -- DeltaMods
 
-local DeltaMod = LeaderLib.Classes["DeltaMod"]
-local DeltaModGroup = LeaderLib.Classes["DeltaModGroup"]
+local DeltaMod = Classes.DeltaModEntry
+local DeltaModGroup = Classes.DeltaModEntryGroup
 
 local ModBoosts = {
 	--Greed - Increased Loot Variety
@@ -163,7 +163,7 @@ local ModBoosts = {
 
 local function GetDefaultDeltamods()
 	--local deltamods = Ext.GetStatEntries("DeltaModifier")
-	--Ext.Print("Deltamods:\n" .. Common.Dump(deltamods))
+	--Ext.Utils.Print("Deltamods:\n" .. Common.Dump(deltamods))
 end
 
 local function Init(boosts)
@@ -210,7 +210,7 @@ local function Init(boosts)
 	}))
 
 	for uuid,tbl in pairs(ModBoosts) do
-		if Ext.IsModLoaded(uuid) then
+		if Ext.Mod.IsModLoaded(uuid) then
 			for tableName,entries in pairs(tbl) do
 				if boosts[tableName] ~= nil then
 					PrintDebug("[LLENEMY_ItemCorruptionDeltamods.lua] Merging entries from ("..uuid..") into main table ("..tableName..")")

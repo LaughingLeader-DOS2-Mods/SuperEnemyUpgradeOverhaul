@@ -72,7 +72,7 @@ local function CanAddUpgradeToList(entry)
 	if entry.HardmodeOnly and GlobalGetFlag("LLENEMY_HardmodeEnabled") == 0 then
 		return false
 	end
-	if entry.ModRequirement ~= nil and not Ext.IsModLoaded(entry.ModRequirement) then
+	if entry.ModRequirement ~= nil and not Ext.Mod.IsModLoaded(entry.ModRequirement) then
 		return false
 	end
 	return true
@@ -139,7 +139,7 @@ function UpgradeSubGroup:TryApplyUpgrades(target, applyImmediately, hardmodeOnly
 			return self:TryApplyUpgrades(target, applyImmediately, hardmodeOnly, Ext.Random(1, Vars.UPGRADE_MAX_ROLL), totalAttempts, successes)
 		end
 	else
-		Ext.PrintError("[SEUO] Failed to build droplist", upgrades)
+		Ext.Utils.PrintError("[SEUO] Failed to build droplist", upgrades)
 	end
 	return successes
 end
@@ -164,8 +164,8 @@ function UpgradeSubGroup:Apply(target, applyImmediately, hardmodeOnly)
 					elseif type(self.OnApplied) == "function" then
 						local b,err = xpcall(self.OnApplied, debug.traceback, target, self)
 						if not b then
-							Ext.PrintError("[EUO] Error invoking OnApplied for:", self.Value)
-							Ext.PrintError(err)
+							Ext.Utils.PrintError("[EUO] Error invoking OnApplied for:", self.Value)
+							Ext.Utils.PrintError(err)
 						end
 					end
 				end

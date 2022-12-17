@@ -54,7 +54,7 @@ function(self, skill, char, state, skillData)
 						PlayEffectAtPosition("RS3_FX_Skills_Void_Divine_Impact_Root_01", GetPosition(target))
 						Combat.WaitForEnd(id, char)
 					else
-						Ext.PrintWarning("[SEUO:TimeHaste] Failed to find target character in combat turn order.")
+						Ext.Utils.PrintWarning("[SEUO:TimeHaste] Failed to find target character in combat turn order.")
 					end
 				end
 			end
@@ -145,30 +145,29 @@ end, {
 	end
 })
 
-RegisterListener("NamedTimerFinished", "LLENEMY_BloodyWinter_CreateSurfaces", function(timerName, uuid)
-	local positions = PersistentVars.BloodyWinterTargets[uuid]
+Timer.Subscribe("LLENEMY_BloodyWinter_CreateSurfaces", function (e)
+	local positions = PersistentVars.BloodyWinterTargets[e.Data.UUID]
 	--print("NamedTimerFinished", timerName, uuid, #positions)
 	if positions then
-		local source = Ext.GetCharacter(uuid)
+		local source = e.Data.Object --[[@as EsvCharacter]]
 		if source then
 			local charHandle = source.Handle
-			local grid = Ext.GetAiGrid()
-			for i,data in pairs(positions) do
+			local grid = Ext.Entity.GetAiGrid()
+			for _,data in pairs(positions) do
 				local pos = data.Pos
 				local radius = data.Radius
-				--GameHelpers.Surface.TransformSurfaces("BloodFrozen", waterSurfaces, pos[1], pos[3], radius, 0, nil, charHandle, 1.0, true, grid, true, 0.8)
 				local surfaces = GameHelpers.Grid.GetSurfaces(pos[1], pos[3], grid, radius, 18)
-				for i,v in pairs(surfaces.Ground) do
+				for _,v in pairs(surfaces.Ground) do
 					if StringHelpers.IsMatch(v.Surface.SurfaceType, waterSurfaces, true) then
 						--CreatePuddle(CharacterGetHostCharacter(), "SurfaceBloodFrozen", 4, 4, 4, 4, 1.0)
 						--CreateSurfaceAtPosition(v.Position[1], v.Position[2], v.Position[3], "SurfaceBloodFrozen", createdSurfaceSize, duration)
 						GameHelpers.Surface.CreateSurface(v.Position, "BloodFrozen", 0.8, v.Surface.LifeTime, charHandle, true)
-						PlayEffectAtPosition("RS3_FX_Skills_Voodoo_Cast_Aoe_Voodoo_Blood_Root_01", pos[1], pos[2], pos[3])
+						EffectManager.PlayEffectAt("RS3_FX_Skills_Voodoo_Cast_Aoe_Voodoo_Blood_Root_01", pos)
 						--PlayScaledEffectAtPosition("RS3_FX_Skills_Voodoo_Cast_Aoe_Voodoo_Blood_Root_01", Ext.Round(radius/2), pos[1], pos[2], pos[3])
 					end
 				end
 			end
 		end
-		PersistentVars.BloodyWinterTargets[uuid] = nil
+		PersistentVars.BloodyWinterTargets[e>Data.UUID] = nil
 	end
 end)

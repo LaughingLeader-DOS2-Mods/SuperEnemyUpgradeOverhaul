@@ -1,9 +1,9 @@
-local TranslatedString = LeaderLib.Classes["TranslatedString"]
+local ts = Classes.TranslatedString
 
-local ArmorBoostText = {Name = TranslatedString:Create("h05040c61g84bfg4989ga083g48f7642fbeb5","Armor Boost"), Color = "#CCCCCC"}
-local MagicArmorBoostText = {Name = TranslatedString:Create("h8fecc0a7g0c7eg4a22g8528g1a6ac5bf5f30","Magic Armor Boost"), Color = "#4499FF"}
-local VitalityBoostText = {Name = TranslatedString:Create("h0982817bgf111g4dc3g811bga9fbd51ab0ca","Vitality Boost"), Color = "#CC0000"}
-local DamageBoostText = {Name = TranslatedString:Create("h6f6ccb6ag9cc6g4122g9040g432f4e787491","Damage Boost"), Color = "#FF0033"}
+local ArmorBoostText = {Name = ts:Create("h05040c61g84bfg4989ga083g48f7642fbeb5","Armor Boost"), Color = "#CCCCCC"}
+local MagicArmorBoostText = {Name = ts:Create("h8fecc0a7g0c7eg4a22g8528g1a6ac5bf5f30","Magic Armor Boost"), Color = "#4499FF"}
+local VitalityBoostText = {Name = ts:Create("h0982817bgf111g4dc3g811bga9fbd51ab0ca","Vitality Boost"), Color = "#CC0000"}
+local DamageBoostText = {Name = ts:Create("h6f6ccb6ag9cc6g4122g9040g432f4e787491","Damage Boost"), Color = "#FF0033"}
 
 ---@class UpgradeInfoData
 local UpgradeInfoData = {
@@ -141,15 +141,15 @@ UpgradeData = {
 	},
 }
 
-DropText = TranslatedString:Create("h623a7ed0gaaacg4c3egacdfg56f3c23a1dec", "<font color='#00FFAA' size='16'>Will drop <textformat leftmargin='1' rightmargin='1'>[1]</textformat> on death.</font>")
-ShadowDropText = TranslatedString:Create("h662390f7gfd9eg4a56g95e5g658283cc548a", "<font color='#9B30FF' size='16'>Drops Void treasure (<textformat leftmargin='1' rightmargin='1'>[1]</textformat>) on death.</font>")
-HiddenDropText = TranslatedString:Create("h623a9ed0gaaacg4c3egacdfg56f1c23a1dec", "<font color='#00FFAA' size='16'>Drops ??? on death.</font>")
-HiddenShadowDropText = TranslatedString:Create("h882390f1gfd9eg4a56g95e5g658283cc548a", "<font color='#9B30FF' size='16'>Drops ??? on death.</font>")
+DropText = ts:Create("h623a7ed0gaaacg4c3egacdfg56f3c23a1dec", "<font color='#00FFAA' size='16'>Will drop <textformat leftmargin='1' rightmargin='1'>[1]</textformat> on death.</font>")
+ShadowDropText = ts:Create("h662390f7gfd9eg4a56g95e5g658283cc548a", "<font color='#9B30FF' size='16'>Drops Void treasure (<textformat leftmargin='1' rightmargin='1'>[1]</textformat>) on death.</font>")
+HiddenDropText = ts:Create("h623a9ed0gaaacg4c3egacdfg56f1c23a1dec", "<font color='#00FFAA' size='16'>Drops ??? on death.</font>")
+HiddenShadowDropText = ts:Create("h882390f1gfd9eg4a56g95e5g658283cc548a", "<font color='#9B30FF' size='16'>Drops ??? on death.</font>")
 
 ChallengePointsText = {
-	{Tag = "LLENEMY_CP_01", Min = 1, Max = 10, Text = TranslatedString:Create("h5addfbc4gcac7g4935g8effg8096574b8913", "<font color='#FFFFFF' size='12'>Regular Loot</font>")},
-	{Tag = "LLENEMY_CP_02", Min = 11, Max = 16, Text = TranslatedString:Create("h8a442345g8c3ag4161g8f45gd93745f99d3e", "<font color='#4197E2' size='14'>Moderate Loot</font>")},
-	{Tag = "LLENEMY_CP_03", Min = 17, Max = 31, Text = TranslatedString:Create("hf03d120ag2329g476dg94dcg7df0d27c3e1e", "<font color='#F7BA14' size='16'>Good Loot</font>")},
-	{Tag = "LLENEMY_CP_04", Min = 32, Max = 99, Text = TranslatedString:Create("h8886e1f1gb725g4e9fg8f5bg4ab1f7262f48", "<font color='#B823CB' size='18'>Great Loot</font>")},
-	{Tag = "LLENEMY_CP_05", Min = 100, Max = 999, Text = TranslatedString:Create("h99aba0bag7acbg4deagb9f3g0c52b807ce09", "<font color='#FF00CC' size='18'>Amazing Loot</font>")},
+	{Tag = "LLENEMY_CP_01", Min = 1, Max = 10, Text = ts:Create("h5addfbc4gcac7g4935g8effg8096574b8913", "<font color='#FFFFFF' size='12'>Regular Loot</font>")},
+	{Tag = "LLENEMY_CP_02", Min = 11, Max = 16, Text = ts:Create("h8a442345g8c3ag4161g8f45gd93745f99d3e", "<font color='#4197E2' size='14'>Moderate Loot</font>")},
+	{Tag = "LLENEMY_CP_03", Min = 17, Max = 31, Text = ts:Create("hf03d120ag2329g476dg94dcg7df0d27c3e1e", "<font color='#F7BA14' size='16'>Good Loot</font>")},
+	{Tag = "LLENEMY_CP_04", Min = 32, Max = 99, Text = ts:Create("h8886e1f1gb725g4e9fg8f5bg4ab1f7262f48", "<font color='#B823CB' size='18'>Great Loot</font>")},
+	{Tag = "LLENEMY_CP_05", Min = 100, Max = 999, Text = ts:Create("h99aba0bag7acbg4deagb9f3g0c52b807ce09", "<font color='#FF00CC' size='18'>Amazing Loot</font>")},
 }

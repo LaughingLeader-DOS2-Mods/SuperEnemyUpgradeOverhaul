@@ -1,5 +1,5 @@
 ---@class TranslatedString
-local TranslatedString = LeaderLib.Classes["TranslatedString"]
+local ts = Classes.TranslatedString
 
 local function sortupgrades(a,b)
 	return a:upper() < b:upper()
@@ -9,8 +9,8 @@ local function sortUpgradeEntries(a,b)
 	return a.SortOn < b.SortOn
 end
 
-local upgradeInfoEntryColorText = TranslatedString:Create("ha4587526ge140g42f9g9a98gc92b537d4209", "<font color='[2]' size='18'>[1]</font>")
-local upgradeInfoEntryColorlessText = TranslatedString:Create("h869a7616gfbb7g4cc2ga233g7c22612af67b", "<font size='18'>[1]</font>")
+local upgradeInfoEntryColorText = ts:Create("ha4587526ge140g42f9g9a98gc92b537d4209", "<font color='[2]' size='18'>[1]</font>")
+local upgradeInfoEntryColorlessText = ts:Create("h869a7616gfbb7g4cc2ga233g7c22612af67b", "<font size='18'>[1]</font>")
 local bulletImage = "<img src='Icon_BulletPoint'>"
 
 local FormatColor = {
@@ -238,16 +238,11 @@ end
 ---@param tooltip TooltipData
 ---@return UpgradeTextEntry[]|nil
 local function GetUpgradeInfoText(character, tooltip)
-	if Ext.IsDeveloperMode() then
-		HighestLoremaster = 10
-	end
 	if HighestLoremaster == nil or HighestLoremaster == 0 then
 		pcall(function()
-			if LeaderLib.UI.ClientCharacter ~= nil then
-				local clientChar = Ext.GetCharacter(LeaderLib.UI.ClientCharacter)
-				if clientChar ~= nil and clientChar.Stats.Loremaster > 0 then
-					HighestLoremaster = clientChar.Stats.Loremaster
-				end
+			local clientChar = GameHelpers.Client.GetCharacter()
+			if clientChar and clientChar.Stats.Loremaster > 0 then
+				HighestLoremaster = clientChar.Stats.Loremaster
 			end
 		end)
 	end

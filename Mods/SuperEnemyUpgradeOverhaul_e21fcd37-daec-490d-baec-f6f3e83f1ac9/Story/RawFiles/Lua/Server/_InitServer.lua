@@ -1,4 +1,4 @@
----@class SuperEnemyUpgradeOverhaulPersistentVars:table
+---@class SuperEnemyUpgradeOverhaulPersistentVars
 local defaultPersistentVars = {
 	Upgrades = {
 		DropCounts = {},
@@ -6,7 +6,7 @@ local defaultPersistentVars = {
 		Results = {}
 	},
 	LeveledRegions = {},
-	---@type table<int,table<string,bool>>
+	---@type table<integer,table<string,boolean>>
 	WaitForCombatEnd = {},
 	---@type table<UUID, string>
 	WaitForStatusRemoval = {},
@@ -18,11 +18,7 @@ local defaultPersistentVars = {
 }
 
 ---@type SuperEnemyUpgradeOverhaulPersistentVars
-PersistentVars = Common.CopyTable(defaultPersistentVars, true)
-
-RegisterListener("PersistentVarsLoaded", function()
-	Common.InitializeTableFromSource(PersistentVars, defaultPersistentVars)
-end)
+PersistentVars = GameHelpers.PersistentVars.Initialize(Mods.SuperEnemyUpgradeOverhaul, defaultPersistentVars, nil, true)
 
 Ext.Require("Server/Listeners.lua")
 Ext.Require("Server/CombatHelpers.lua")
@@ -46,24 +42,24 @@ Ext.Require("Server/Upgrades/BonusSkills.lua")
 Ext.Require("Server/Hardmode/_Init.lua")
 
 Ext.Require("Server/Debug/ConsoleCommands.lua")
-if Ext.IsDeveloperMode() then
+if Ext.Debug.IsDeveloperMode() then
 	Ext.Require("Server/Debug/Init.lua")
 	Ext.Require("Server/Debug/DeveloperCommands.lua")
 end
 
 local function LLENEMY_Server_SessionLoaded()
 	-- Odinblade's Necromancy Overhaul
-	if Ext.IsModLoaded("8700ba4e-7d4b-40ca-a23f-b43816794957") then
+	if Ext.Mod.IsModLoaded("8700ba4e-7d4b-40ca-a23f-b43816794957") then
 		-- This is a skill that applies DOS1's Oath of Desecration potion for +40% damage
 		IgnoredSkills["Target_EnemyTargetedDamageBoost"] = true
 	end
 	-- Odinblade's Aerotheurge Class Overhaul
-	if Ext.IsModLoaded("961ae59d-2964-46dd-9762-073697915dc2") then
+	if Ext.Mod.IsModLoaded("961ae59d-2964-46dd-9762-073697915dc2") then
 		-- Pretty brutal apparently
 		IgnoredSkills["Target_OdinAERO_Enemy_InsulationShield"] = true
 	end
 	-- Divinity Conflux by Xorn
-	if Ext.IsModLoaded("723ad06b-0241-4a2e-a9f3-4d2b419e0fe3") then
+	if Ext.Mod.IsModLoaded("723ad06b-0241-4a2e-a9f3-4d2b419e0fe3") then
 		-- Super damage
 		IgnoredSkills["ProjectileStrike_Enemy_Xorn_Comdor_Smash"] = true
 	end
@@ -73,4 +69,4 @@ local function LLENEMY_Server_SessionLoaded()
 	Settings.Global:SetVariable("Hardmode_MinBonusRolls", math.tointeger(Ext.ExtraData.LLENEMY_Hardmode_DefaultBonusRolls_Min or 1))
 	Settings.Global:SetVariable("Hardmode_MaxBonusRolls", math.tointeger(Ext.ExtraData.LLENEMY_Hardmode_DefaultBonusRolls_Max or 4))
 end
-Ext.RegisterListener("SessionLoaded", LLENEMY_Server_SessionLoaded)
+Ext.Events.SessionLoaded:Subscribe(LLENEMY_Server_SessionLoaded)

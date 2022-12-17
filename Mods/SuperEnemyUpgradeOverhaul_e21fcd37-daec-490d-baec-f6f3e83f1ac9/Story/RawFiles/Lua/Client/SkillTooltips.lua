@@ -27,14 +27,15 @@ local BonusConditionalText = {
 local function GetBonuses(character, skill)
 	local bonuses = {}
 	local hasBonuses = false
-	local stat = not Data.ActionSkills[skill] and Ext.GetStat(skill) or {}
+	local isAction = GameHelpers.Skill.IsAction(skill)
+	local stat = not isAction and Ext.GetStat(skill) or {}
 	if SkillTagBonuses.Skill[skill] then
 		for i,v in pairs(SkillTagBonuses.Skill[skill]) do
 			bonuses[v] = true
 		end
 		hasBonuses = true
 	end
-	if Data.ActionSkills[skill] ~= true then
+	if not isAction then
 		local ability = Ext.StatGetAttribute(skill, "Ability")
 		if SkillTagBonuses.Ability[ability] then
 			for i,v in pairs(SkillTagBonuses.Ability[ability]) do
@@ -48,7 +49,7 @@ local function GetBonuses(character, skill)
 						bonuses[result] = true
 						hasBonuses = true
 					elseif not b then
-						Ext.PrintError(result)
+						Ext.Utils.PrintError(result)
 					end
 				end
 			end
@@ -68,7 +69,7 @@ local function GetBonuses(character, skill)
 				end
 			end
 		elseif not b then
-			Ext.PrintError(result)
+			Ext.Utils.PrintError(result)
 		end
 	end
 	return bonuses,hasBonuses

@@ -196,66 +196,67 @@ local upgrade_info_statuses = {
 	"LLENEMY_BONUSSKILLS_SET_ELITE",
 }
 
-local function OverrideStats()
-    local total_changes = 0
-    local total_stats = 0
-    --LeaderLib_7e737d2f-31d2-4751-963f-be6ccc59cd0c
-    -- if _G["LeaderLib"] ~= nil or Ext.IsModLoaded("7e737d2f-31d2-4751-963f-be6ccc59cd0c") then
-    --     if _G["LeaderLib_Lua_PrintEnabled"] == true then
-    --     end
-    -- end
-
-    for statname,overrides in pairs(stat_overrides) do
-        for property,value in pairs(overrides) do
-            --PrintDebug("LLENEMY_StatOverrides.lua] Overriding stat: " .. statname .. " (".. property ..") = \"".. value .."\"")
-            Ext.StatSetAttribute(statname, property, value)
-            total_changes = total_changes + 1
-        end
-        total_stats = total_stats + 1
-	end
-
-	if Ext.IsModLoaded("1301db3d-1f54-4e98-9be5-5094030916e4") then
-		for statname,overrides in pairs(OriginOverrides) do
+---@param tbl table<string,table<string,any>>
+---@param totalChanges integer
+---@param totalStats integer
+local function _ProcessTable(tbl, totalChanges, totalStats)
+	for statname,overrides in pairs(tbl) do
+		local stat = Ext.Stats.Get(statname, nil, false)
+		if stat then
 			for property,value in pairs(overrides) do
-				--PrintDebug("LLENEMY_StatOverrides.lua] Overriding stat: " .. statname .. " (".. property ..") = \"".. value .."\"")
-				Ext.StatSetAttribute(statname, property, value)
-				total_changes = total_changes + 1
+				stat[property] = value
+				totalChanges = totalChanges + 1
 			end
-			total_stats = total_stats + 1
+			totalStats = totalStats + 1
 		end
 	end
+	return totalChanges, totalStats
+end
 
-	for statname,overrides in pairs(talent_belt_overrides) do
-		for property,value in pairs(overrides) do
-			--PrintDebug("LLENEMY_StatOverrides.lua] Overriding stat: " .. statname .. " (".. property ..") = \"".. value .."\"")
-			Ext.StatSetAttribute(statname, property, value)
-			total_changes = total_changes + 1
-		end
-		total_stats = total_stats + 1
+local function OverrideStats()
+    local totalChanges = 0
+    local totalStats = 0
+
+	totalChanges, totalStats = _ProcessTable(stat_overrides, totalChanges, totalStats)
+
+	if Ext.Mod.IsModLoaded(Data.ModID.DivinityOriginalSin2) then
+		totalChanges, totalStats = _ProcessTable(OriginOverrides, totalChanges, totalStats)
 	end
+	totalChanges, totalStats = _ProcessTable(talent_belt_overrides, totalChanges, totalStats)
 
-	--PrintDebug("LLENEMY_StatOverrides.lua] Enabling v42+ enhancements.")
-	--PrintDebug("==============================================================")
-	--PrintDebug("LLENEMY_StatOverrides.lua] (Upgrade Info) enabled. Hiding statuses used for info.")
 	for _,statname in pairs(upgrade_info_statuses) do
-		Ext.StatSetAttribute(statname, "Icon", "")
-		total_changes = total_changes + 1
-		total_stats = total_stats + 1
+		local stat = Ext.Stats.Get(statname, nil, false)
+		if stat then
+			stat.Icon = ""
+			totalChanges = totalChanges + 1
+			totalStats = totalStats + 1
+		end
 	end
-	--PrintDebug("==============================================================")
 
 	for color,tbl in pairs(FormatColorOverrides) do
-		for _,stat in pairs(tbl) do
-			Ext.StatSetAttribute(stat, "FormatColor", color)
+		for _,statname in pairs(tbl) do
+			local stat = Ext.Stats.Get(statname, nil, false)
+			if stat then
+				stat.FormatColor = color
+				totalChanges = totalChanges + 1
+				totalStats = totalStats + 1
+			end
 		end
 	end
 
 	-- Gravedigger_be822931-e829-4555-b50f-3b80b6f17d86
-	if Ext.IsModLoaded("be822931-e829-4555-b50f-3b80b6f17d86") then
-		Ext.StatSetAttribute("WPN_LLENEMY_ShadowTreasure_Shovel_2H", "Skills", "Target_HeavyAttack;Target_LLGRAVE_Dig")
+	if Ext.Mod.IsModLoaded("be822931-e829-4555-b50f-3b80b6f17d86") then
+		local stat = Ext.Stats.Get("WPN_LLENEMY_ShadowTreasure_Shovel_2H", nil, false)
+		if stat then
+			stat.Skills = "Target_HeavyAttack;Target_LLGRAVE_Dig"
+			totalChanges = totalChanges + 1
+			totalStats = totalStats + 1
+		end
 	end
-	PrintDebug("LLENEMY_StatOverrides.lua] Changed ("..tostring(total_changes)..") properties in ("..tostring(total_stats)..") stats (added talents to enemy weapons).")
+	fprint(LOGLEVEL.TRACE, "[LLENEMY_StatOverrides.lua] Changed (%s) properties in (%s) stats (added talents to enemy weapons).", totalChanges, totalStats)
 end
+
+Ext.Events.StatsLoaded:Subscribe(OverrideStats)
 
 return {
 	Init = OverrideStats

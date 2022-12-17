@@ -69,7 +69,7 @@ function ItemBonusManager.RegisterToLeaderLibEvent(event, itemBonus, extraParam)
 		ItemBonusManager.EventListeners[event] = function(...)
 			ItemBonusManager.OnEvent(event, ...)
 		end
-		LeaderLib.RegisterListener(event, ItemBonusManager.EventListeners[event], extraParam)
+		RegisterListener(event, ItemBonusManager.EventListeners[event], extraParam)
 	end
 	if ItemBonusManager.EventItemBonuses[event] == nil then
 		ItemBonusManager.EventItemBonuses[event] = {}
@@ -89,8 +89,7 @@ function ItemBonusManager.RegisterToSkillListener(skill, itemBonus)
 			ItemBonusManager.SkillListeners[skill] = function(usedSkill, ...)
 				ItemBonusManager.OnSkill(usedSkill, ...)
 			end
-			print("Registering", skill, LeaderLib.RegisterSkillListener, ItemBonusManager.SkillListeners[skill])
-			LeaderLib.RegisterSkillListener(skill, ItemBonusManager.SkillListeners[skill])
+			RegisterSkillListener(skill, ItemBonusManager.SkillListeners[skill])
 		end
 		if ItemBonusManager.SkillItemBonuses[skill] == nil then
 			ItemBonusManager.SkillItemBonuses[skill] = {}
@@ -108,21 +107,21 @@ function ItemBonusManager.CreateEventBonus(event, canApplyCallback, actionCallba
 	local bonus = ItemBonus:Create(canApplyCallback, actionCallback, params)
 	if type(event) == "table" then
 		for i,v in pairs(event) do
-			if LeaderLib.Listeners[v] then
+			if Listeners[v] then
 				ItemBonusManager.RegisterToLeaderLibEvent(v, bonus)
 			elseif Data.OsirisEvents[v] then
 				ItemBonusManager.RegisterToOsirisEvent(v, bonus)
 			else
-				Ext.PrintError(string.format("[SEUO:ItemBonus:Create] Event %s does not exist.", v))
+				Ext.Utils.PrintError(string.format("[SEUO:ItemBonus:Create] Event %s does not exist.", v))
 			end
 		end
 	elseif type(event) == "string" then
-		if LeaderLib.Listeners[event] then
+		if Listeners[event] then
 			ItemBonusManager.RegisterToLeaderLibEvent(event, bonus)
 		elseif Data.OsirisEvents[event] then
 			ItemBonusManager.RegisterToOsirisEvent(event, bonus)
 		else
-			Ext.PrintError(string.format("[SEUO:ItemBonus:Create] Event %s does not exist.", event))
+			Ext.Utils.PrintError(string.format("[SEUO:ItemBonus:Create] Event %s does not exist.", event))
 		end
 	end
 	return bonus

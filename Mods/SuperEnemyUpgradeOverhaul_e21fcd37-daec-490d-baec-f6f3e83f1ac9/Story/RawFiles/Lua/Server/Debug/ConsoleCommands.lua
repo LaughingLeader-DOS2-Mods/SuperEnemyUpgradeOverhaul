@@ -66,7 +66,7 @@ end)
 
 Ext.RegisterConsoleCommand("euo_resetdatadelayed", function(cmd, delay)
 	delay = tonumber(delay) or 2000
-	LeaderLib.StartOneshotTimer("LLENEMY_Debug_ResetData", delay, function()
+	Timer.StartOneshot("LLENEMY_Debug_ResetData", delay, function()
 		ResetData()
 	end)
 end)

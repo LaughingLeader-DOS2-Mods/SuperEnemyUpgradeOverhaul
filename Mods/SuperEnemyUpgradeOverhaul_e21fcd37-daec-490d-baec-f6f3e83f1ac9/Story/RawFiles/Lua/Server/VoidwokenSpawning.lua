@@ -245,7 +245,7 @@ function VoidWokenSpawning.Spawn(source,totalPoints,skipSpawning,makeTemporary)
 					if not StringHelpers.IsNullOrEmpty(voidwoken) then
 						SetTag(voidwoken, "LeaderLib_TemporaryCharacter")
 					else
-						Ext.PrintError("[SEUO:VoidwokenSpawning:Spawn] Failed to create voidwoken", voidwoken)
+						Ext.Utils.PrintError("[SEUO:VoidwokenSpawning:Spawn] Failed to create voidwoken", voidwoken)
 					end
 				end
 				if not StringHelpers.IsNullOrEmpty(voidwoken) then
@@ -264,7 +264,7 @@ function VoidWokenSpawning.Spawn(source,totalPoints,skipSpawning,makeTemporary)
 						end
 					end)
 				else
-					Ext.PrintError("[SEUO:VoidwokenSpawning:Spawn] Failed to create voidwoken", voidwoken)
+					Ext.Utils.PrintError("[SEUO:VoidwokenSpawning:Spawn] Failed to create voidwoken", voidwoken)
 					table.insert(results, "NULL_00000000-0000-0000-0000-000000000000")
 				end
 			else

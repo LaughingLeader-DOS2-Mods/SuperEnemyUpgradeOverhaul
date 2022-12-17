@@ -44,7 +44,7 @@ function ItemBonus:CanApply(...)
 		if b then
 			return canApply
 		else
-			Ext.PrintError(canApply)
+			Ext.Utils.PrintError(canApply)
 		end
 		return false
 	end
@@ -55,7 +55,7 @@ function ItemBonus:Apply(...)
 	if self.ApplyCallback then
 		local b,err = xpcall(self.ApplyCallback, debug.traceback, self, ...)
 		if not b then
-			Ext.PrintError(err)
+			Ext.Utils.PrintError(err)
 		end
 	end
 end
@@ -64,7 +64,7 @@ function ItemBonus:OnEquipped(char, item)
 	if self.EquipCallback then
 		local b,err = xpcall(self.EquipCallback, debug.traceback, self, char, item)
 		if not b then
-			Ext.PrintError(err)
+			Ext.Utils.PrintError(err)
 		end
 	end
 end
@@ -73,7 +73,7 @@ function ItemBonus:OnUnEquipped(char, item)
 	if self.UnEquipCallback then
 		local b,err = xpcall(self.UnEquipCallback, debug.traceback, self, char, item)
 		if not b then
-			Ext.PrintError(err)
+			Ext.Utils.PrintError(err)
 		end
 	end
 end

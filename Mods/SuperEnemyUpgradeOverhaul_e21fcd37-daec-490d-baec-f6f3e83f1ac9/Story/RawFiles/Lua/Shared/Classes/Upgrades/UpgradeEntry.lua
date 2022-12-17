@@ -85,7 +85,7 @@ function UpgradeEntry:Create(id, frequency, cp, params)
 		this.DropCount = this.DefaultDropCount or Vars.DefaultDropCount
 	end
 	if this.UpgradeType == "Status" then
-		if this.ModRequirement == nil or Ext.IsModLoaded(this.ModRequirement) then
+		if this.ModRequirement == nil or Ext.Mod.IsModLoaded(this.ModRequirement) then
 			this.StatusType = Ext.StatGetAttribute(this.ID, "StatusType") or "CONSUME"
 		else
 			this.StatusType = "CONSUME"
@@ -123,8 +123,8 @@ function UpgradeEntry:Apply(target, applyImmediately, hardmodeOnly)
 			for i,callback in pairs(self.OnApplied) do
 				local b,err = xpcall(callback, debug.traceback, target, self)
 				if not b then
-					Ext.PrintError("[EUO] Error invoking OnApplied callback for:", self.ID)
-					Ext.PrintError(err)
+					Ext.Utils.PrintError("[EUO] Error invoking OnApplied callback for:", self.ID)
+					Ext.Utils.PrintError(err)
 				else
 					success = true
 				end
@@ -132,8 +132,8 @@ function UpgradeEntry:Apply(target, applyImmediately, hardmodeOnly)
 		elseif type(self.OnApplied) == "function" then
 			local b,err = xpcall(self.OnApplied, debug.traceback, target, self)
 			if not b then
-				Ext.PrintError("[EUO] Error invoking OnApplied for:", self.ID)
-				Ext.PrintError(err)
+				Ext.Utils.PrintError("[EUO] Error invoking OnApplied for:", self.ID)
+				Ext.Utils.PrintError(err)
 			end
 		end
 	end

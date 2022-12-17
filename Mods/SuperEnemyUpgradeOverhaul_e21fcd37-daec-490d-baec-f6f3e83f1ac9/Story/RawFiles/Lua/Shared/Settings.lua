@@ -1,8 +1,7 @@
 local function Init()
 	---@type ModSettings
 	local settings = CreateModSettings("e21fcd37-daec-490d-baec-f6f3e83f1ac9")
-	---@type TranslatedString
-	local ts = LeaderLib.Classes.TranslatedString
+	local ts = Classes.TranslatedString
 
 	local MenuSectionUpgrades = ts:Create("hd77b5837g7edag4a4cgbf65g812d6dab70b7", "Upgrades")
 	local MenuSectionHardmode = ts:Create("ha17708c3g1ac2g4036g9a44gd94ccc794825", "Hardmode")

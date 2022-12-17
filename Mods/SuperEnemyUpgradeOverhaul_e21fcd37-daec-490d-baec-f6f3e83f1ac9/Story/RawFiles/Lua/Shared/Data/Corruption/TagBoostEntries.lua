@@ -23,7 +23,7 @@ local entries = {
 }
 
 if Ext.IsClient() then
-	Ext.RegisterListener("SessionLoaded", function()
+	Ext.Events.SessionLoaded:Subscribe(function()
 		for tag,entry in pairs(entries) do
 			TooltipHandler.RegisterItemTooltipTag(tag)
 		end

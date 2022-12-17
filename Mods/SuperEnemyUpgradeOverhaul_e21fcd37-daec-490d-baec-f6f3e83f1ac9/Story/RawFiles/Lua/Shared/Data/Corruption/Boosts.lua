@@ -22,9 +22,9 @@ local Boosts = {
 local OnLeaderLibResPenTag = function(item,tag)
 	SetTag(item, "LeaderLib_HasResistancePenetration")
 	local skills = NRD_ItemGetPermanentBoostString(item, "Skills")
-	if LeaderLib.StringHelpers.IsNullOrEmpty(skills) then
+	if StringHelpers.IsNullOrEmpty(skills) then
 		local bonusSkillChance = Ext.ExtraData["LLENEMY_Treasure_BoostChance_ResistancePenetrationBonusSkill"] or 20
-		if Ext.Random(1,100) <= bonusSkillChance then
+		if GameHelpers.Math.Roll(bonusSkillChance) then
 			local skill = ""
 			if string.find(tag, "Piercing") then
 				if NRD_ItemGetPermanentBoostInt(item, "IntelligenceBoost") > 0 then

@@ -81,7 +81,7 @@ local function CopyStats(source,dupe,baseStat)
 			printd("Added", boost, "to", next, "for", dupe, "from", dupeVal,sourceVal)
 		end
 	end
-	for i,stat in LeaderLib.Data.Attribute:Get() do
+	for i,stat in Data.Attribute:Get() do
 		local baseSource = CharacterGetBaseAttribute(source.MyGuid, stat)
 		--NRD_PlayerSetBaseAttribute(dupe, stat, baseSource)
 		local baseDupe = CharacterGetBaseAttribute(dupe.MyGuid, stat)
@@ -91,7 +91,7 @@ local function CopyStats(source,dupe,baseStat)
 			printd("Added", stat, "to", next, "for", dupe.MyGuid, "from", baseDupe, baseSource)
 		end
 	end
-	for i,stat in LeaderLib.Data.Ability:Get() do
+	for i,stat in Data.Ability:Get() do
 		local baseSource = CharacterGetBaseAbility(source.MyGuid, stat)
 		--NRD_PlayerSetBaseAbility(dupe, stat, baseSource)
 		local baseDupe = CharacterGetBaseAbility(dupe.MyGuid, stat)
@@ -123,14 +123,14 @@ end
 function Duplication.CopyStats(source,dupe,baseStat)
 	local status,err = xpcall(CopyStats, debug.traceback, source, dupe, baseStat)
 	if not status then
-		Ext.PrintError(err)
+		Ext.Utils.PrintError(err)
 	end
 end
 
 ---@param source EsvCharacter
 ---@param dupe EsvCharacter
 function Duplication.CopyTalents(source,dupe)
-	for i,talent in LeaderLib.Data.Talents:Get() do
+	for i,talent in Data.Talents:Get() do
 		if CharacterHasTalent(source.MyGuid,talent) == 1 then
 			NRD_CharacterSetPermanentBoostTalent(dupe.MyGuid, talent, 1)
 		end
@@ -164,7 +164,7 @@ local IgnoredDuplicantStatuses = {
 
 ---@param dupe EsvCharacter
 local function IgnoreStatus(dupe, status)
-	if LeaderLib.Data.EngineStatus[status] == true then
+	if Data.EngineStatus[status] == true then
 		return true
 	end
 	if IgnoredDuplicantStatuses[status] == true then
@@ -267,7 +267,7 @@ local function Duplicate(source, makeTemporary, skipTracking)
 	end
 	
 	if dupeId == nil then
-		Ext.PrintError("[SEUO:Duplicate] Failed to create duplicant at", x, y, z, "for", source.MyGuid)
+		Ext.Utils.PrintError("[SEUO:Duplicate] Failed to create duplicant at", x, y, z, "for", source.MyGuid)
 		return nil
 	end
 	SetOnStage(dupeId, 0)

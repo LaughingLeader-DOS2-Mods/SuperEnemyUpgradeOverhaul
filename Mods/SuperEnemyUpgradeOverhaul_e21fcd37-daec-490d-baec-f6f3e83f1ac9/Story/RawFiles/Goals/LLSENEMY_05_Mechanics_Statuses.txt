@@ -1,8 +1,6 @@
 Version 1
 SubGoalCombiner SGC_AND
 INITSECTION
-LLSENEMY_Mechanics_Statuses_InitSettings();
-
 KBSECTION
 //REGION SETTINGS
 
@@ -13,21 +11,6 @@ Creatures_Voidwoken_Drillworm_B_c8b96409-5ce4-4f83-80f0-b83084efcd60
 LLSENEMY_Creatures_Voidwoken_Drillworm_A_b24d5c4c-8a5a-4cd7-8518-f4684509be66
 LLSENEMY_Creatures_Voidwoken_Drillworm_B_8713b59d-a564-4b90-910c-e5c6a384c0d9
 */
-
-PROC
-LLSENEMY_Mechanics_Statuses_InitSettings()
-AND
-LeaderLib_Array_QRY_EmptyLength("LLENEMY_VoidlingTransformations")
-THEN
-//LeaderLib_Array_ClearArray("LLENEMY_VoidlingTransformations");
-//LeaderLib_Array_AddToArray("LLENEMY_VoidlingTransformations", "Creatures_Voidwoken_Drillworm_A_Hatchling_B_9b929973-72a8-4e06-9357-acfcf3278f5e");
-LeaderLib_Array_AddToArray("LLENEMY_VoidlingTransformations", "LLENEMY_Creatures_Voidwoken_Drillworm_A_b24d5c4c-8a5a-4cd7-8518-f4684509be66");
-LeaderLib_Array_AddToArray("LLENEMY_VoidlingTransformations", "LLENEMY_Creatures_Voidwoken_Drillworm_B_8713b59d-a564-4b90-910c-e5c6a384c0d9");
-
-PROC
-LeaderUpdater_ModUpdated("SuperEnemyUpgradeOverhaul", "LaughingLeader", (STRING)_OldVersion, (STRING)_NewVersion)
-THEN
-LLSENEMY_Mechanics_Statuses_InitSettings();
 //END_REGION
 
 //REGION GATHERING_POWER_EMPOWERED

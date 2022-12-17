@@ -1,6 +1,6 @@
 function ClearGain(char)
 	--ScaleExperienceByPlayerLevel_d5e1b4bc-dc7b-43dc-8bd0-d9f2b5e3a418
-	if Ext.IsModLoaded("d5e1b4bc-dc7b-43dc-8bd0-d9f2b5e3a418") then
+	if Ext.Mod.IsModLoaded("d5e1b4bc-dc7b-43dc-8bd0-d9f2b5e3a418") then
 		SetTag(char, "LLXPSCALE_DisableDeathExperience")
 	end
 	local gain = NRD_CharacterGetPermanentBoostInt(char, "Gain")

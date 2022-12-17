@@ -74,21 +74,26 @@ local function OnAutomatonSummon(target, status, source, statusType, statusEvent
 	end
 end
 
-Timer.RegisterListener("LLENEMY_Statuses_SummonAutomaton", function(timerName, uuid)
-	SummonAutomaton(uuid)
+Timer.Subscribe("LLENEMY_Statuses_SummonAutomaton", function (e)
+	if e.Data.UUID then
+		SummonAutomaton(e.Data.UUID)
+	end
 end)
 
-RegisterListener("ObjectEvent", "LLENEMY_Automaton_PlayActivateAnimation", function(uuid, event)
-	PlayAnimation(uuid, "Custom_Activate_01", "LLENEMY_Automaton_ClearInactive")
-	SummonSetFaction(uuid)
-end)
+Events.ObjectEvent:Subscribe(function(e)
+	for _,v in pairs(e.Objects) do
+		if ObjectIsCharacter(v.MyGuid) == 1 then
+			PlayAnimation(v.MyGuid, "Custom_Activate_01", "LLENEMY_Automaton_ClearInactive")
+			SummonSetFaction(v.MyGuid)
+		end
+	end
+end, {MatchArgs={ID="LLENEMY_Automaton_PlayActivateAnimation"}})
 
-StatusManager.Register.Removed("LLENEMY_AUTOMATON_INACTIVE", function(target, status, source, statusType, statusEvent)
-	local summon = GameHelpers.GetCharacter(target)
-	if summon.HasOwner then
-		local owner = GameHelpers.GetCharacter(summon.OwnerHandle)
+StatusManager.Subscribe.Removed("LLENEMY_AUTOMATON_INACTIVE", function(e)
+	if e.Target and e.Target.HasOwner then
+		local owner = GameHelpers.GetObjectFromHandle(e.Target.OwnerHandle, "EsvCharacter")
 		if owner then
-			ApplyStatus(summon.MyGuid, "SUMMONING_ABILITY", summon.LifeTime, 1, owner.MyGuid)
+			GameHelpers.Status.Apply(e.Target, "SUMMONING_ABILITY", e.Target.LifeTime, true, owner)
 		end
 	end
 end)
@@ -105,7 +110,7 @@ local function CheckSurfaces(target, status, source, statusType, statusEvent)
 	and not target.Stats.KnockdownImmunity
 	and GameHelpers.Character.IsInSurface(target, "Frozen")
 	then
-		Timer.ClearObjectData("LLENEMY_DemonicHasted_CheckForMovement", target)
+		Timer.Cancel("LLENEMY_DemonicHasted_CheckForMovement", target)
 		Timer.StartObjectTimer("LLENEMY_DemonicHasted_CheckForMovement", target, 750, GameHelpers.Math.GetPosition(target))
 	end
 
@@ -116,38 +121,58 @@ local function CheckSurfaces(target, status, source, statusType, statusEvent)
 	end
 end
 
---Demonic Hasted slipping weakness
-Timer.RegisterListener("LLENEMY_DemonicHasted_CheckForMovement", function(timerName, target, startPosition)
-	if not GameHelpers.Status.IsDisabled(target)
-	and GameHelpers.Character.IsInSurface(target, "Frozen")
-	then
-		local startTimer = true
-		if GameHelpers.Math.GetDistance(target, startPosition) >= 0.5 then
-			local success,roll = GameHelpers.Roll(GameHelpers.GetExtraData("LLENEMY_DemonicHasted_SlipSaveChance", 20))
-			if not success then
-				startTimer = false
-				GameHelpers.Status.Apply(target, "KNOCKED_DOWN", 6.0, true, target)
-				if roll == 0 then
-					--Deal 20% of vitality as damage, but non-lethally
-					local character = GameHelpers.GetCharacter(target)
-					if character.Stats.CurrentVitality > 1 then
-						local damageMult = GameHelpers.GetExtraData("LLENEMY_DemonicHasted_SlipDamagePercentage", 20) * 0.01
-						if damageMult > 0 then
-							local damage = math.max(character.Stats.MaxVitality * damageMult, character.Stats.CurrentVitality - 1)
-							ApplyDamage(target, damage, "Physical", target)
+Timer.Subscribe("LLENEMY_DemonicHasted_CheckForMovement", function (e)
+	if GameHelpers.Ext.ObjectIsCharacter(e.Data.Object) then
+		local target = e.Data.Object --[[@as EsvCharacter]]
+		if not GameHelpers.Status.IsDisabled(target) and GameHelpers.Character.IsInSurface(target, "Frozen") then
+			local startPosition = e.Data.Position or {table.unpack(target.WorldPos)}
+			local startTimer = true
+			local chance = GameHelpers.GetExtraData("LLENEMY_DemonicHasted_SlipSaveChance", 20)
+			if chance > 0 and GameHelpers.Math.GetDistance(target, startPosition) >= 0.5 then
+				local success,roll = GameHelpers.Math.Roll(chance)
+				if not success then
+					startTimer = false
+					GameHelpers.Status.Apply(target, "KNOCKED_DOWN", 6.0, true, target)
+					if roll == 0 then
+						--Deal 20% of vitality as damage, but non-lethally
+						if target.Stats.CurrentVitality > 1 then
+							local damageMult = GameHelpers.GetExtraData("LLENEMY_DemonicHasted_SlipDamagePercentage", 20) * 0.01
+							if damageMult > 0 then
+								local damage = math.max(target.Stats.MaxVitality * damageMult, target.Stats.CurrentVitality - 1)
+								GameHelpers.Damage.ApplyDamage(target, target, {DamageType="Physical", FixedAmount=damage})
+							end
 						end
 					end
 				end
 			end
-		end
-		if startTimer and GameHelpers.Status.IsActive(target, "LLENEMY_DEMONIC_HASTED") then
-			Timer.ClearObjectData("LLENEMY_DemonicHasted_CheckForMovement", target)
-			Timer.StartObjectTimer("LLENEMY_DemonicHasted_CheckForMovement", target, 750, GameHelpers.Math.GetPosition(target))
+			if startTimer and GameHelpers.Status.IsActive(target, "LLENEMY_DEMONIC_HASTED") then
+				Timer.Cancel("LLENEMY_DemonicHasted_CheckForMovement", target)
+				Timer.StartObjectTimer("LLENEMY_DemonicHasted_CheckForMovement", target, 750, {Position=startPosition})
+			end
 		end
 	end
 end)
 
-StatusManager.Register.Applied({"INSURFACE", "LLENEMY_DEMONIC_HASTED", "LLENEMY_TALENT_NATURALCONDUCTOR"}, CheckSurfaces)
+StatusManager.Subscribe.Applied({"INSURFACE", "LLENEMY_DEMONIC_HASTED", "LLENEMY_TALENT_NATURALCONDUCTOR"}, function (e)
+	if GameHelpers.Ext.ObjectIsCharacter(e.Target) then
+		local target = e.Target --[[@as EsvCharacter]]
+		if GameHelpers.Status.IsActive(target, "LLENEMY_DEMONIC_HASTED")
+		and not GameHelpers.Status.IsDisabled(target)
+		and not target.Stats.SlippingImmunity
+		and not target.Stats.KnockdownImmunity
+		and GameHelpers.Character.IsInSurface(target, "Frozen")
+		then
+			Timer.Cancel("LLENEMY_DemonicHasted_CheckForMovement", target)
+			Timer.StartObjectTimer("LLENEMY_DemonicHasted_CheckForMovement", target, 750, {Position={table.unpack(target.WorldPos)}})
+		end
+	
+		if GameHelpers.Status.IsActive(target, "LLENEMY_TALENT_NATURALCONDUCTOR")
+		and GameHelpers.Character.IsInSurface(target, "Electrified")
+		then
+			GameHelpers.Status.Apply(target, "HASTED", 6.0, false, target)
+		end
+	end
+end)
 
 --region Rage
 
@@ -184,7 +209,7 @@ end
 ---@param character EsvCharacter
 ---@param damage integer
 function Upgrade_Rage_IncreaseRage(character, damage)
-	character = GameHelpers.GetCharacter(character)
+	character = GameHelpers.GetCharacter(character, "EsvCharacter")
 	if character then
 		--The closer the damage is to the total HP, the more rage is gained.
 		local addRage = math.ceil(math.max((damage / character.Stats.MaxVitality) * 88.88, 1.0))
@@ -238,29 +263,20 @@ StatusManager.Register.Applied({"LLENEMY_RAGE","LLENEMY_RAGE2","LLENEMY_RAGE3","
 	end
 end)
 
-StatusManager.Register.Applied("SLEEPING", function(target, status, source, statusType, statusEvent)
-	if GameHelpers.Character.HasFlag(target, "LLENEMY_Rage_Active") then
-		Upgrade_Rage_LowerRage(target, 1)
+StatusManager.Subscribe.Applied("SLEEPING", function(e)
+	if GameHelpers.Character.HasFlag(e.Target, "LLENEMY_Rage_Active") then
+		Upgrade_Rage_LowerRage(e.Target, 1)
 	end
 end)
 --endregion
 
----@param target EsvCharacter
----@param source EsvCharacter
----@param data HitData
----@param hitStatus EsvStatusHit
-RegisterListener("StatusHitEnter", function(target, source, data, hitStatus)
-	if data.Success 
-	and source 
-	and source.MyGuid ~= target.MyGuid
-	and data.Damage > 0
-	and data.Success
-	then
-		if GameHelpers.Character.HasFlag(target, "LLENEMY_Rage_Active")
-		and not target.Dead
-		and not GameHelpers.Status.IsActive(target, "SLEEPING")
+Events.OnHit:Subscribe(function (e)
+	if e.Data.Success and e.Source and e.SourceGUID ~= e.TargetGUID and e.Data.Damage > 0 then
+		if GameHelpers.Character.HasFlag(e.Target, "LLENEMY_Rage_Active")
+		and not e.Target.Dead
+		and not GameHelpers.Status.IsActive(e.Target, "SLEEPING")
 		then
-			Upgrade_Rage_IncreaseRage(target, data.Damage)
+			Upgrade_Rage_IncreaseRage(e.Target, e.Data.Damage)
 		end
 	end
 end)

@@ -92,7 +92,7 @@ function UpgradeSystem.Init()
 	end
 end
 
-LeaderLib.RegisterListener("Initialized", function()
+Events.Initialized:Subscribe(function (e)
 	UpgradeSystem.Init()
 	UpgradeSystem.LoadDropCounts()
 end)
@@ -232,7 +232,7 @@ Ext.RegisterConsoleCommand("euo_printupgraderesult", function(cmd, uuid)
 	if data ~= nil then
 		print(Ext.JsonStringify(data))
 	else
-		Ext.PrintError("No data for", uuid)
+		Ext.Utils.PrintError("No data for", uuid)
 		local name = Ext.GetCharacter(uuid).DisplayName
 		for i,v in pairs(Ext.GetAllCharacters(GetRegion(uuid))) do
 			if Ext.GetCharacter(v).DisplayName == name then
@@ -533,7 +533,7 @@ function OnDoubleDipApplied(uuid)
 		end
 	end
 	if successes > 0 then
-		Ext.Print(string.format("[EUO] (Double Dip) Character (%s:%s) gained new upgrades! (%s)", character.DisplayName, uuid, successes))
+		Ext.Utils.Print(string.format("[EUO] (Double Dip) Character (%s:%s) gained new upgrades! (%s)", character.DisplayName, uuid, successes))
 	end
 end
 

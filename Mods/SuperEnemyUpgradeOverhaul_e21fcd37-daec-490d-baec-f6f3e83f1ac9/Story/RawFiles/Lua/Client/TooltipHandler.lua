@@ -1,5 +1,5 @@
 ---@class TranslatedString
-local ts = LeaderLib.Classes["TranslatedString"]
+local ts = Classes.TranslatedString
 
 ShadowItemTooltipData = {}
 
@@ -43,7 +43,7 @@ local rarityName = {
 	Unique = ts:Create("h04685fd1g024ag4641gaed6g0ffb2d0ff103", "Unique"),
 }
 
----@param item EsvItem
+---@param item EclItem
 ---@param tooltip TooltipData
 local function OnItemTooltip(item, tooltip)
 	--print(item.Stats.ItemTypeReal, item:HasTag("LLENEMY_ShadowItem"), Ext.JsonStringify(tooltip.Data))
@@ -86,7 +86,7 @@ local function OnItemTooltip(item, tooltip)
 			if tooltip.ControllerEnabled == true then
 				fontTag = "<font size='24'>"
 			end
-			if not LeaderLib.StringHelpers.IsNullOrEmpty(element.Label) then
+			if not StringHelpers.IsNullOrEmpty(element.Label) then
 				element.Label = element.Label .. "<br>"..fontTag .. ShadowItemDescription.Value .. "</font>"
 			else
 				element.Label = fontTag .. ShadowItemDescription.Value .. "</font>"
@@ -420,7 +420,7 @@ local function OnInfusionInfoTooltip(character, status, tooltip)
 		end
 	end
 	for res,value in pairs(resistances) do
-		local data = LeaderLib.LocalizedText.ResistanceNames[res]
+		local data = LocalizedText.ResistanceNames[res]
 		if data ~= nil then
 			if value > 0 then
 				local text = PercentageValueText:ReplacePlaceholders(data.Text.Value, string.format(" +%i", value)).."%"
@@ -466,7 +466,7 @@ local function Init()
 					character = Ext.GetCharacter(handle)
 					if character ~= nil then
 						if character.NetID == nil then
-							Ext.PrintError("[SEUO:TooltipHandler:updateStatusses] NetID of character is nil? Handle:", character.Handle, handleDouble)
+							Ext.Utils.PrintError("[SEUO:TooltipHandler:updateStatusses] NetID of character is nil? Handle:", character.Handle, handleDouble)
 							character = nil
 						elseif character:HasTag("LLENEMY_Duplicant") then
 							character = nil
@@ -500,7 +500,7 @@ local function Init()
 	end)
 end
 
-Ext.RegisterListener("SessionLoaded", function()
+Ext.Events.SessionLoaded:Subscribe(function()
 	Init()
 
 	for i,status in pairs(Ext.GetStatEntries("StatusData")) do

@@ -28,6 +28,8 @@ IF
 CharacterScriptFrameFinished(_Char, "NonExistentScriptFrame")
 AND
 LeaderLib_Helper_QRY_CharacterIsHumanoid(_Char)
+AND
+LLSENEMY_Duplication_QRY_CanCopyStatus(_Char, "")
 THEN
 DB_NOOP(1);
 

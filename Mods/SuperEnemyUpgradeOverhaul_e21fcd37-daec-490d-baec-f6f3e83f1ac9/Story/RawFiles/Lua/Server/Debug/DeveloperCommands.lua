@@ -24,7 +24,7 @@ Ext.RegisterConsoleCommand("shadowitemtest", function(command,level,delaystr)
 		if delaystr ~= nil then
 			local delay = tonumber(delaystr)
 			if delay > 0 then
-				LeaderLib.StartOneshotTimer("Timers_LLENEMY_Debug_ShadowItemTest", delay, function()
+				Timer.StartOneshot("Timers_LLENEMY_Debug_ShadowItemTest", delay, function()
 					ItemCorruptionTest(level, delay)
 				end)
 			else
@@ -42,7 +42,7 @@ end)
 
 Ext.RegisterConsoleCommand("goblintest", function(command)
 	local combat = Osi.DB_CombatCharacters:Get(nil,nil)
-	Ext.Print("[LLENEMY:Debug.lua] DB_CombatCharacters:\n[".. Common.Dump(combat))
+	Ext.Utils.Print("[LLENEMY:Debug.lua] DB_CombatCharacters:\n[".. Common.Dump(combat))
 	local host = CharacterGetHostCharacter()
 	local x,y,z = GetPosition(host)
 	if combat ~= nil and #combat > 0 then
@@ -85,15 +85,15 @@ Ext.RegisterConsoleCommand("transformtest2", function(command)
 	
 	--Osi.LLSENEMY_OnCharacterJoinedCombat(dupe, 0)
 	CharacterTransformFromCharacter(dupe2, host, 1, 1, 1, 1, 1, 1, 1)
-	LeaderLib.StartOneshotTimer("Timers_LLENEMY_Debug_TransformTest", 1250, function(...)
+	Timer.StartOneshot("Timers_LLENEMY_Debug_TransformTest", 1250, function()
 		CharacterTransformFromCharacter(dupe, host, 1, 1, 1, 1, 1, 1, 1)
 		Osi.LLSENEMY_OnCharacterJoinedCombat(dupe2, 0)
 	end)
 end)
 
 Ext.RegisterConsoleCommand("euo_printrespentags", function(command)
-	for damageType,_ in pairs(LeaderLib.Data.DamageTypeToResistance) do
-		for i,entry in ipairs(LeaderLib.Data.ResistancePenetrationTags[damageType]) do
+	for damageType,_ in pairs(Data.DamageTypeToResistance) do
+		for i,entry in ipairs(Data.ResistancePenetrationTags[damageType]) do
 			print(string.format("%s = Classes.TagBoost:Create(\"%s\", \"\", false),", entry.Tag, entry.Tag))
 		end
 	end

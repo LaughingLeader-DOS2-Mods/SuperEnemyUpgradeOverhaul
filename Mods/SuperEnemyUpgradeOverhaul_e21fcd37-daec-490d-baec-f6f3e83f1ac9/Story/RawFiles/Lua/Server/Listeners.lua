@@ -1,13 +1,12 @@
----@param globalSettings GlobalSettings
-LeaderLib.RegisterListener("ModSettingsLoaded", function(globalSettings)
-	if Ext.OsirisIsCallable() then
+Events.ModSettingsLoaded:Subscribe(function(e)
+	if Ext.Osiris.IsCallable() then
 		Osi.DB_LLSENEMY_LevelModifier:Delete(nil)
 		Osi.DB_LLSENEMY_LevelModifier(Settings.Global:GetVariable("AutoLeveling_Modifier", 0))
 	end
 
 	-- Migrating settings from old EUO
 	if not Settings.LoadedExternally then
-		local oldSettings = LeaderLib.SettingsManager.GetMod("046aafd8-ba66-4b37-adfb-519c1a5d04d7")
+		local oldSettings = SettingsManager.GetMod("046aafd8-ba66-4b37-adfb-519c1a5d04d7")
 		if oldSettings ~= nil then
 			for flagName,v in pairs(oldSettings.Global.Flags) do
 				if Settings.Global.Flags[flagName] ~= nil then
@@ -15,18 +14,18 @@ LeaderLib.RegisterListener("ModSettingsLoaded", function(globalSettings)
 				end
 			end
 			-- Remove old EUO settings
-			if not Ext.IsModLoaded("046aafd8-ba66-4b37-adfb-519c1a5d04d7") then
-				LeaderLib.SettingsManager.Remove("046aafd8-ba66-4b37-adfb-519c1a5d04d7")
+			if not Ext.Mod.IsModLoaded("046aafd8-ba66-4b37-adfb-519c1a5d04d7") then
+				SettingsManager.Remove("046aafd8-ba66-4b37-adfb-519c1a5d04d7")
 			end
 		end
 		Settings:ApplyFlags()
 		Settings:ApplyVariables()
-		LeaderLib.SaveGlobalSettings()
+		SaveGlobalSettings()
 	end
-end)
+end, {MatchArgs={UUID=ModuleUUID}})
 
 -- Retroactively remove blacklisted skills if they were modified
-RegisterListener("Initialized", function()
+Events.Initialized:Subscribe(function(e)
 	local status,err = xpcall(function()
 		if EnemySkills ~= nil and #EnemySkills > 0 then
 			for _,skillgroup in pairs(EnemySkills) do
@@ -41,8 +40,8 @@ RegisterListener("Initialized", function()
 		end
 	end, debug.traceback)
 	if not status then
-		Ext.PrintError("[EUO] Error adjusting EnemySkills:")
-		Ext.PrintError(err)
+		Ext.Utils.PrintError("[EUO] Error adjusting EnemySkills:")
+		Ext.Utils.PrintError(err)
 	end
 
 	SetHighestPartyLoremaster()
@@ -85,6 +84,6 @@ end)
 -- 	end
 -- end)
 
-Ext.RegisterOsirisListener("CombatEnded", Data.OsirisEvents.CombatEnded, "after", function(id)
+Ext.Osiris.RegisterListener("CombatEnded", Data.OsirisEvents.CombatEnded, "after", function(id)
 	Combat.OnEnded(id)
 end)

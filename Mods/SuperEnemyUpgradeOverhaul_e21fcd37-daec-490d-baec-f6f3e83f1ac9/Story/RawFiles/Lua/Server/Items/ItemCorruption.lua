@@ -1,7 +1,3 @@
-local TranslatedString = LeaderLib.Classes["TranslatedString"]
-local ItemBoost = LeaderLib.Classes["ItemBoost"]
-local ItemBoostGroup = LeaderLib.Classes["ItemBoostGroup"]
-
 local function RollForBoost(entry)
 	if entry.Chance < 100 and entry.Chance > 0 then
 		local roll = Ext.Random(1,100)
@@ -128,27 +124,27 @@ local weaponNegativeBoosts = {
 local function DebugItemStats(uuid)
 	local item = Ext.GetItem(uuid)
 	for i,stat in ipairs(item.Stats.DynamicStats) do
-		Ext.Print("Stat " .. tostring(i) ..":")
-		Ext.Print("---------------------------")
+		Ext.Utils.Print("Stat " .. tostring(i) ..":")
+		Ext.Utils.Print("---------------------------")
 		for boostName,valType in pairs(Boosts.Any) do
-			Ext.Print(boostName, stat[boostName])
+			Ext.Utils.Print(boostName, stat[boostName])
 		end
 		if stat.StatsType == "Weapon" then
 			for boostName,valType in pairs(Boosts.Weapon) do
-				Ext.Print(boostName, stat[boostName])
+				Ext.Utils.Print(boostName, stat[boostName])
 			end
 		end
 		if stat.StatsType == "Shield" then
 			for boostName,valType in pairs(Boosts.Shield) do
-				Ext.Print(boostName, stat[boostName])
+				Ext.Utils.Print(boostName, stat[boostName])
 			end
 		end
 		if stat.StatsType == "Armor" then
 			for boostName,valType in pairs(Boosts.Armor) do
-				Ext.Print(boostName, stat[boostName])
+				Ext.Utils.Print(boostName, stat[boostName])
 			end
 		end
-		Ext.Print("---------------------------")
+		Ext.Utils.Print("---------------------------")
 	end
 end
 
@@ -490,7 +486,7 @@ function ShadowCorruptItem(item)
 	if b then
 		return result
 	else
-		Ext.PrintError("[LLENEMY_ItemMechanics.lua:LLENEMY_ShadowCorruptItem] Error corrupting item:\n"..tostring(result))
+		Ext.Utils.PrintError("[LLENEMY_ItemMechanics.lua:LLENEMY_ShadowCorruptItem] Error corrupting item:\n"..tostring(result))
 	end
 	return nil
 end
@@ -564,7 +560,7 @@ function ShadowCorruptContainerItems(uuid, forceRarity, forceSuccess)
 			local stat = NRD_ItemGetStatsId(v)
 			if string.sub(stat,1,1) == "_" then
 				ItemRemove(v)
-				Ext.PrintError("[LLENEMY_ItemMechanics.lua:LLENEMY_ShadowCorruptItem] Deleted item with NPC stat: "..stat)
+				Ext.Utils.PrintError("[LLENEMY_ItemMechanics.lua:LLENEMY_ShadowCorruptItem] Deleted item with NPC stat: "..stat)
 			else
 				if forceSuccess ~= true and corruptionLimit <= 0 then
 					break	
@@ -573,7 +569,7 @@ function ShadowCorruptContainerItems(uuid, forceRarity, forceSuccess)
 				if b then
 					corruptionLimit = corruptionLimit - 1
 				else
-					Ext.PrintError("[LLENEMY_ItemMechanics.lua:LLENEMY_ShadowCorruptItem] Error corrupting item:\n"..tostring(result))
+					Ext.Utils.PrintError("[LLENEMY_ItemMechanics.lua:LLENEMY_ShadowCorruptItem] Error corrupting item:\n"..tostring(result))
 				end
 			end
 		end

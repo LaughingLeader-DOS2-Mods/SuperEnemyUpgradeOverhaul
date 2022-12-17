@@ -99,7 +99,7 @@ local function LLENEMY_ParentSkillIsInvalid(skill)
 	local parent = Ext.StatGetAttribute(skill, "Using")
 	if parent ~= nil then
 		if Ext.StatGetAttribute(parent, "SkillType") == nil then
-			Ext.Print("[EUO:BonusSkills] [*ERROR*] Parent skill for '" .. tostring(skill) .. "' does not exist! Skipping!")
+			Ext.Utils.Print("[EUO:BonusSkills] [*ERROR*] Parent skill for '" .. tostring(skill) .. "' does not exist! Skipping!")
 			return true
 		end
 	end
@@ -172,8 +172,8 @@ function BuildEnemySkills()
 			else
 				if skillData.ForGameMaster == "Yes" and skillData.IsEnemySkill ~= "Yes" and skillData["Memory Cost"] > 0 then
 					local tier = skillData.Tier
-					if LeaderLib.Data.OriginalSkillTiers ~= nil and LeaderLib.Data.OriginalSkillTiers[skillId] ~= nil then
-						tier = LeaderLib.Data.OriginalSkillTiers[skillId]
+					if Data.OriginalSkillTiers ~= nil and Data.OriginalSkillTiers[skillId] ~= nil then
+						tier = Data.OriginalSkillTiers[skillId]
 					end
 					if tier ~= nil and tier ~= "" and tier ~= "None" then
 						-- Skills with tag requirements tend to be special and shouldn't be randomly added

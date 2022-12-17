@@ -52,29 +52,29 @@ local character_stats_computed = {
 }
 
 function TraceCharacterStats_Restricted(char)
-	Ext.Print("====== Stats: "..tostring(char).." ======")
-	Ext.Print("==== COMPUTED ====")
+	Ext.Utils.Print("====== Stats: "..tostring(char).." ======")
+	Ext.Utils.Print("==== COMPUTED ====")
 	for _,stat in pairs(character_stats_computed) do
-		Ext.Print(stat..": "..tostring(Common.Dump(char[stat])))
+		Ext.Utils.Print(stat..": "..tostring(Common.Dump(char[stat])))
 	end
-	Ext.Print("==== REGULAR ====")
+	Ext.Utils.Print("==== REGULAR ====")
 	for _,stat in pairs(character_stats) do
-		Ext.Print(stat..": "..tostring(Common.Dump(char[stat])))
+		Ext.Utils.Print(stat..": "..tostring(Common.Dump(char[stat])))
 	end
 end
 
 function TraceCharacterStats(char)
-	Ext.Print("====== Stats: "..tostring(char).." ======")
-	Ext.Print("==== COMPUTED ====")
+	Ext.Utils.Print("====== Stats: "..tostring(char).." ======")
+	Ext.Utils.Print("==== COMPUTED ====")
 	for _,stat in pairs(character_stats_computed) do
 		local base = NRD_CharacterGetComputedStat(char, stat, 1)
 		local current = NRD_CharacterGetComputedStat(char, stat, 0)
-		Ext.Print(stat..": "..tostring(current).."("..tostring(base)..")")
+		Ext.Utils.Print(stat..": "..tostring(current).."("..tostring(base)..")")
 	end
-	Ext.Print("==== REGULAR ====")
+	Ext.Utils.Print("==== REGULAR ====")
 	for _,stat in pairs(character_stats) do
 		local val = NRD_CharacterGetStatInt(char, stat)
-		Ext.Print(stat..": "..tostring(val))
+		Ext.Utils.Print(stat..": "..tostring(val))
 	end
 end
 
@@ -114,7 +114,7 @@ function Debug_TraceItemOwnership(item)
 	local inventoryOwner = GetInventoryOwner(item)
 	local inventoryOwnerOwner = GetInventoryOwner(inventoryOwner)
 	local goblinOwner = ItemGetOwner(item)
-	Ext.Print("[Debug_TraceItemOwnership] item("..tostring(item)..") inventoryOwner("..tostring(inventoryOwner)..") inventoryOwnerOwner("..tostring(inventoryOwnerOwner)..") goblinOwner("..tostring(goblinOwner)..")")
+	Ext.Utils.Print("[Debug_TraceItemOwnership] item("..tostring(item)..") inventoryOwner("..tostring(inventoryOwner)..") inventoryOwnerOwner("..tostring(inventoryOwnerOwner)..") goblinOwner("..tostring(goblinOwner)..")")
 end
 
 function DumpUpgradeTables()
@@ -142,12 +142,12 @@ function Debug_RerollLevel(char)
 	CharacterRemoveAttribute(char, "Dummy", 0)
 	CharacterAddAttribute(char, "Dummy", 0)
 	--CharacterAddExplorationExperience(char, 1, 1, 1)
-	--Ext.Print("[LLENEMY_ExperienceScaling:Debug_RerollLevel] Leveling up (".. char ..").")
+	--Ext.Utils.Print("[LLENEMY_ExperienceScaling:Debug_RerollLevel] Leveling up (".. char ..").")
 	--CharacterLevelUp(char)
-	--Ext.Print("[LLENEMY_ExperienceScaling:Debug_RerollLevel] Transforming (".. char ..").")
+	--Ext.Utils.Print("[LLENEMY_ExperienceScaling:Debug_RerollLevel] Transforming (".. char ..").")
 	--CharacterTransformFromCharacter(char, char, 1, 1, 1, 1, 1, 1, 1)
 	--Transform(char, "57b70554-36bf-4b86-b9aa-8f7cc3944153", 1, 1, 1)
-	--Ext.Print("[LLENEMY_ExperienceScaling:Debug_RerollLevel] Leveling up (".. char ..").")
+	--Ext.Utils.Print("[LLENEMY_ExperienceScaling:Debug_RerollLevel] Leveling up (".. char ..").")
 	--CharacterLevelUpTo(char, 3)
 	--CharacterLevelUp(char)
 end
@@ -160,13 +160,13 @@ function CheckFactions()
 	for i,uuid in pairs(debugCheckEnemies) do
 		if ObjectExists(uuid) == 1 then
 			local name = CharacterGetDisplayName(uuid)
-			Ext.Print("[CheckFactions] ["..uuid.."]("..name..") faction ("..GetFaction(uuid)..")")
+			Ext.Utils.Print("[CheckFactions] ["..uuid.."]("..name..") faction ("..GetFaction(uuid)..")")
 		end
 	end
 end
 
 local function LLENEMY_DebugInit()
-	Ext.Print("[LLENEMY:Debug.lua:LLENEMY_DebugInit] Running debug tests.")
+	Ext.Utils.Print("[LLENEMY:Debug.lua:LLENEMY_DebugInit] Running debug tests.")
 	local host = CharacterGetHostCharacter()
 	local user = CharacterGetReservedUserID(host)
 	local profile = GetUserName(user)
@@ -215,13 +215,13 @@ function Debug_PrintFlags(obj)
 	elseif ObjectIsCharacter(obj) then
 		stat = NRD_CharacterGetStatString(obj)
 	end
-	Ext.Print("[Debug_PrintFlags] Object ("..tostring(stat)..")["..tostring(obj).."] Flags:")
-	Ext.Print("==========================")
+	Ext.Utils.Print("[Debug_PrintFlags] Object ("..tostring(stat)..")["..tostring(obj).."] Flags:")
+	Ext.Utils.Print("==========================")
 	for i=0,72,1 do
 		local flagVal = NRD_ObjectGetInternalFlag(obj,i)
-		Ext.Print("["..tostring(i).."] = "..tostring(flagVal))
+		Ext.Utils.Print("["..tostring(i).."] = "..tostring(flagVal))
 	end
-	Ext.Print("==========================")
+	Ext.Utils.Print("==========================")
 end
 
 function Debug_PrintTags(uuid)
@@ -229,16 +229,16 @@ function Debug_PrintTags(uuid)
 	local character = Ext.GetCharacter(uuid)
 	if character ~= nil then
 		Osi.LLSENEMY_Debug_SaveNetID(character.NetID)
-		Ext.Print("[LLENEMY_Debug.lua:PrintTags] Tags for ("..tostring(uuid)..") Name("..NRD_CharacterGetStatString(uuid, "Name")..") NetID("..tostring(character.NetID)..") character.Stats.NetID("..tostring(character.Stats.NetID).."):")
-		Ext.Print("==========================")
-		Ext.Print(Common.Dump(character:GetTags()))
-		Ext.Print("==========================")
+		Ext.Utils.Print("[LLENEMY_Debug.lua:PrintTags] Tags for ("..tostring(uuid)..") Name("..NRD_CharacterGetStatString(uuid, "Name")..") NetID("..tostring(character.NetID)..") character.Stats.NetID("..tostring(character.Stats.NetID).."):")
+		Ext.Utils.Print("==========================")
+		Ext.Utils.Print(Common.Dump(character:GetTags()))
+		Ext.Utils.Print("==========================")
 	end
 end
 
 function Debug_PrintTagsOnClient()
 	local data = Ext.JsonStringify(Osi.DB_LLSENEMY_Debug_PrintTags:Get(nil))
-	Ext.Print("[LLENEMY_Debug.lua:PrintTagsOnClient] Broadcasting data to clients ("..data..")")
+	Ext.Utils.Print("[LLENEMY_Debug.lua:PrintTagsOnClient] Broadcasting data to clients ("..data..")")
 	Ext.BroadcastMessage("LLENEMY_Debug_PrintTags", data, nil)
 end
 
@@ -273,12 +273,12 @@ local ItemProperties = {
 function Debug_PrintItemProperties(obj)
 	local item = Ext.GetItem(obj)
 	local stat = NRD_ItemGetStatsId(obj)
-	Ext.Print("[Debug_PrintItemProperties] Object ("..tostring(stat)..")["..tostring(obj).."] Properties:")
-	Ext.Print("==========================")
+	Ext.Utils.Print("[Debug_PrintItemProperties] Object ("..tostring(stat)..")["..tostring(obj).."] Properties:")
+	Ext.Utils.Print("==========================")
 	for i,prop in pairs(ItemProperties) do
-		Ext.Print("["..tostring(prop).."] = "..tostring(item[prop]))
+		Ext.Utils.Print("["..tostring(prop).."] = "..tostring(item[prop]))
 	end
-	Ext.Print("==========================")
+	Ext.Utils.Print("==========================")
 end
 
 BuiltinColorCodes = {

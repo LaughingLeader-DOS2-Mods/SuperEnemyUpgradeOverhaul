@@ -148,7 +148,7 @@ function CreateNewCorruptedStatItem(item,stat,statType,level)
 			-- fixes this issue.
 			local damageTypeString = Ext.StatGetAttribute(stat, "Damage Type")
 			if damageTypeString == nil then damageTypeString = "Physical" end
-			local damageTypeEnum = LeaderLib.Data.DamageTypeEnums[damageTypeString]
+			local damageTypeEnum = Data.DamageTypeEnums[damageTypeString]
 			NRD_ItemCloneSetInt("DamageTypeOverwrite", damageTypeEnum)
 		end
 	

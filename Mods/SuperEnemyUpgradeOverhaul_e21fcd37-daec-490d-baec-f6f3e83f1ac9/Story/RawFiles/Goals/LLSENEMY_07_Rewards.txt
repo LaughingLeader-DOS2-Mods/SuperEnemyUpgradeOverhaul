@@ -488,17 +488,17 @@ ObjectClearFlag(_Char, "LLENEMY_GenerateRewards");
 //END_REGION
 
 //REGION DUPLICANT_TREASURE
-IF
-CharacterPrecogDying(_Dupe)
-AND
-DB_LLSENEMY_Duplication_Temp_Active(_Enemy, _Dupe, _Region)
-AND
-NOT DB_GlobalFlag("LLENEMY_RewardsDisabled")
-THEN
-DB_LLSENEMY_Rewards_Temp_TreasureToGenerate(_Dupe, "LLENEMY_ShadowOrbRewards");
-LLSENEMY_Rewards_SetupTreasure(_Dupe);
-LLSENEMY_Rewards_SetupBonusTreasure(_Dupe);
-LLSENEMY_Rewards_SpawnShadowOrb(_Dupe);
+// IF
+// CharacterPrecogDying(_Dupe)
+// AND
+// DB_LLSENEMY_Duplication_Temp_Active(_Enemy, _Dupe, _Region)
+// AND
+// NOT DB_GlobalFlag("LLENEMY_RewardsDisabled")
+// THEN
+// DB_LLSENEMY_Rewards_Temp_TreasureToGenerate(_Dupe, "LLENEMY_ShadowOrbRewards");
+// LLSENEMY_Rewards_SetupTreasure(_Dupe);
+// LLSENEMY_Rewards_SetupBonusTreasure(_Dupe);
+// LLSENEMY_Rewards_SpawnShadowOrb(_Dupe);
 
 PROC
 LLSENEMY_Rewards_SpawnShadowOrb((CHARACTERGUID)_Dupe)

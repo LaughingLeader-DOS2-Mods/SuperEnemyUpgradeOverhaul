@@ -67,7 +67,7 @@ Settings = initSettings()
 
 local function FixModTypos()
 	-- Greed typos
-	if Ext.IsModLoaded("d1ba8097-dba1-d74b-7efe-8fca3ef71fe5") then
+	if Ext.Mod.IsModLoaded("d1ba8097-dba1-d74b-7efe-8fca3ef71fe5") then
 		local dm = Ext.GetDeltaMod("Boost_Weapon_Status_Set_TankerClub", "Weapon")
 		dm.WeaponType = "Club" -- Legendary -> Club
 		dm.BoostType = "Legendary" -- Normal -> Legendary
@@ -83,11 +83,11 @@ local function FixModTypos()
 	end
 end
 
-Ext.RegisterListener("SessionLoaded", function()
+Ext.Events.SessionLoaded:Subscribe(function()
 	--statOverrides.Init()
 	FixModTypos()
 
-	Ext.Print("[LLENEMY:Bootstrap.lua] Session is loading.")
+	Ext.Utils.Print("[LLENEMY:Bootstrap.lua] Session is loading.")
 	local statuses = Ext.GetStatEntries("StatusData")
 	for _,stat in pairs(statuses) do
 		local status_type = Ext.StatGetAttribute(stat, "StatusType")
@@ -99,29 +99,29 @@ Ext.RegisterListener("SessionLoaded", function()
 	boostsScript.Init()
 	modBoosts.Init()
 
-	LeaderLib.SettingsManager.AddSettings(Settings)
+	SettingsManager.AddSettings(Settings)
 end)
 
 local function RegisterVoiceMetaData()
 	for speaker,entries in pairs(VoiceMetaData) do
 		for i,data in pairs(entries) do
-			Ext.Print("[LLENEMY_Shared.lua:LLENEMY_ModuleLoading] Registered VoiceMetaData - Speaker[" .. speaker .. "] Handle(" .. tostring(data.Handle) .. ") Source(" .. tostring(data.Source) .. ") Length(" .. tostring(data.Length) .. ")")
+			Ext.Utils.Print("[LLENEMY_Shared.lua:LLENEMY_ModuleLoading] Registered VoiceMetaData - Speaker[" .. speaker .. "] Handle(" .. tostring(data.Handle) .. ") Source(" .. tostring(data.Source) .. ") Length(" .. tostring(data.Length) .. ")")
 			Ext.AddVoiceMetaData(speaker, data.Handle, data.Source, data.Length)
 		end
 	end
 end
 
-Ext.RegisterListener("SessionLoaded", function()
-	LeaderLib.EnableFeature("ApplyBonusWeaponStatuses")
-	LeaderLib.EnableFeature("BackstabCalculation")
-	LeaderLib.EnableFeature("FixChaosDamageDisplay")
-	LeaderLib.EnableFeature("FormatTagElementTooltips")
-	LeaderLib.EnableFeature("ReduceTooltipSize")
-	LeaderLib.EnableFeature("ResistancePenetration")
-	LeaderLib.EnableFeature("StatusParamSkillDamage")
-	LeaderLib.EnableFeature("TooltipGrammarHelper")
-	LeaderLib.EnableFeature("WingsWorkaround")
-    LeaderLib.EnableFeature("ReplaceTooltipPlaceholders")
+Ext.Events.SessionLoaded:Subscribe(function()
+	EnableFeature("ApplyBonusWeaponStatuses")
+	EnableFeature("BackstabCalculation")
+	EnableFeature("FixChaosDamageDisplay")
+	EnableFeature("FormatTagElementTooltips")
+	EnableFeature("ReduceTooltipSize")
+	EnableFeature("ResistancePenetration")
+	EnableFeature("StatusParamSkillDamage")
+	EnableFeature("TooltipGrammarHelper")
+	EnableFeature("WingsWorkaround")
+    EnableFeature("ReplaceTooltipPlaceholders")
 
 	local freezeSkills = {}
 	local ignoredKeywords = {"_Quest", "_Status", "_Talent", "_Trap"}
@@ -176,12 +176,8 @@ if Ext.IsServer() then
 		end
 	end
 
-	---@param id integer
-	---@param profile string
-	---@param uuid string
-	---@param isHost boolean
-	LeaderLib.RegisterListener("SyncData", function(id, profile, uuid, isHost)
-		Ext.PostMessageToUser(id, "LLENEMY_SetHighestLoremaster", tostring(HighestLoremaster))
+	Events.SyncData:Subscribe(function (e)
+		GameHelpers.Net.PostToUser(e.UserID, "LLENEMY_SetHighestLoremaster", tostring(HighestLoremaster))
 	end)
 
 	Ext.RegisterNetListener("LLENEMY_RequestUpgradeInfo", function(cmd, payload)

@@ -29,7 +29,7 @@ local ModBoosts = {
 
 local function AddModBoosts()
 	for uuid,callback in pairs(ModBoosts) do
-		if Ext.IsModLoaded(uuid) then
+		if Ext.Mod.IsModLoaded(uuid) then
 			pcall(callback)
 		end
 	end

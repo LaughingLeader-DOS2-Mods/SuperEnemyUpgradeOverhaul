@@ -32,7 +32,7 @@ function Hardmode:Enable()
 		if currentLevelScript and currentLevelScript.Enable then
 			local b,err = xpcall(currentLevelScript.Enable, debug.traceback)
 			if not b then
-				Ext.PrintError(err)
+				Ext.Utils.PrintError(err)
 			else
 				fprint(LOGLEVEL.DEFAULT, "[SEUO:Hardmode:Enable] Enabled hardmode script for region (%s)", currentLevel)
 			end
@@ -49,7 +49,7 @@ function Hardmode:Disable()
 		if currentLevelScript and currentLevelScript.Disable then
 			local b,err = xpcall(currentLevelScript.Disable, debug.traceback)
 			if not b then
-				Ext.PrintError(err)
+				Ext.Utils.PrintError(err)
 			else
 				fprint(LOGLEVEL.DEFAULT, "[SEUO:Hardmode:Disable] Disabled hardmode script for region (%s)", currentLevel)
 			end
@@ -65,7 +65,7 @@ function Hardmode:Init(region)
 	if currentLevelScript and currentLevelScript.Init then
 		local b,err = xpcall(currentLevelScript.Init, debug.traceback)
 		if not b then
-			Ext.PrintError(err)
+			Ext.Utils.PrintError(err)
 		end
 	end
 end
@@ -79,17 +79,8 @@ function Hardmode:SetupNPC(uuid, makeImmortal)
 	end
 end
 
--- LeaderLib.RegisterListener("GlobalFlagChanged", "LLENEMY_HardmodeEnabled", function(flag, enabled)
--- 	print("GlobalFlagChanged", flag, enabled)
--- 	if enabled then
--- 		Hardmode:Enable()
--- 	else
--- 		Hardmode:Disable()
--- 	end
--- end)
-
 if Vars.DebugMode then
-	RegisterListener("LuaReset", function()
+	Events.LuaReset:Subscribe(function (e)
 		local enabled = Settings.Global:FlagEquals("LLENEMY_HardmodeEnabled", true)
 		if enabled then
 			Hardmode:Init()
@@ -118,7 +109,7 @@ function Hardmode_RunEvent(event, ...)
 	if currentLevelScript and currentLevelScript.OnEvent then
 		local b,err = xpcall(currentLevelScript.OnEvent, debug.traceback, event, ...)
 		if not b then
-			Ext.PrintError(err)
+			Ext.Utils.PrintError(err)
 		end
 	end
 end

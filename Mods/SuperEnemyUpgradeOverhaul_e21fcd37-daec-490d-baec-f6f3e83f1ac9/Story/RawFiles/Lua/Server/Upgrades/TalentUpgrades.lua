@@ -54,7 +54,7 @@ function Upgrade_LoneWolf_ApplyBonuses(character, test)
 	end
 	character = GameHelpers.GetCharacter(character)
 	if character then
-		for _,stat in LeaderLib.Data.Attribute:Get() do
+		for _,stat in Data.Attribute:Get() do
 			local baseVal = math.max(0, character.Stats["Base"..stat] - Ext.ExtraData.AttributeBaseValue)
 			local currentVal = character.Stats[stat]
 			if baseVal > 0 and currentVal < Ext.ExtraData.AttributeSoftCap then
@@ -117,43 +117,43 @@ function RollForCounterAttack(character)
 	return false
 end
 
----@param target EsvCharacter
----@param source EsvCharacter
----@param data HitData
----@param hitStatus EsvStatusHit
-RegisterListener("StatusHitEnter", function(target, source, data, hitStatus)
-	if data.Success and source and source.MyGuid ~= target.MyGuid then
+Events.OnHit:Subscribe(function(e)
+	if e.Data.Success and e.Source and e.SourceGUID ~= e.TargetGUID then
+		local source = e.Source --[[@as EsvCharacter]]
+		local target = e.Target --[[@as EsvCharacter]]
 		if GameHelpers.Status.IsActive(source, "LLENEMY_TALENT_BULLY")
-		and data:IsDirect() -- Not a surface, DoT etc
+		and e.Data:IsDirect() -- Not a surface, DoT etc
 		and GameHelpers.Status.IsActive(target, UpgradeSystem.Settings.BullyStatuses)
 		then
 			local damageMult = GameHelpers.GetExtraData("LLENEMY_Bully_DamageMultiplier", 0.5)
 			if damageMult > 0 then
-				data:MultiplyDamage(1 + (damageMult * 0.01))
+				e.Data:MultiplyDamage(1 + (damageMult * 0.01))
 			end
 		end
 
 		if GameHelpers.Status.IsActive(target, "LLENEMY_TALENT_COUNTER")
-		and UpgradeSystem.Settings.CounterHitType[data.HitContext.HitType] == true
+		and UpgradeSystem.Settings.CounterHitType[e.Data.HitContext.HitType] == true
 		then
 			if ObjectGetFlag(target.MyGuid, "LLENEMY_IsCountering") == 0
 			and GameHelpers.Character.IsWithinWeaponRange(target, source)
 			and RollForCounterAttack(target)
 			then
 				ObjectSetFlag(target.MyGuid, "LLENEMY_IsCountering", 0)
-				Timer.StartObjectTimer("LLENEMY_Counter_CounterAttack", target.MyGuid, 1000, source.MyGuid)
+				Timer.StartObjectTimer("LLENEMY_Counter_CounterAttack", source.MyGuid, 1000, {Target=target.MyGuid})
 			end
 		end
 	end
 end)
 
-Timer.RegisterListener("LLENEMY_Counter_CounterAttack", function(timerName, enemy, target)
-	ObjectClearFlag(enemy, "LLENEMY_IsCountering", 0)
-	if CharacterIsDead(enemy) == 0 
-	and CharacterIsDead(target) == 0
-	then
-		CharacterAttack(enemy, target)
-		CharacterStatusText(enemy, "LLENEMY_StatusText_CounterAttack")
+Timer.Subscribe("LLENEMY_Counter_CounterAttack", function(e)
+	if e.Data.Target and e.Data.UUID then
+		local enemy = e.Data.UUID
+		local target = e.Data.Target --[[@as GUID]]
+		ObjectClearFlag(enemy, "LLENEMY_IsCountering", 0)
+		if CharacterIsDead(enemy) == 0 and CharacterIsDead(target) == 0 then
+			GameHelpers.Action.Attack(enemy, target, {WithoutMove=true})
+			CharacterStatusText(enemy, "LLENEMY_StatusText_CounterAttack")
+		end
 	end
 end)
 

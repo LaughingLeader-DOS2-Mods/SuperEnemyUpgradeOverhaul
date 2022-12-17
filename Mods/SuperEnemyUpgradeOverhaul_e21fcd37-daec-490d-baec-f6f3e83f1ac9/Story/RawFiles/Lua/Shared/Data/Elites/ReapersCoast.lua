@@ -60,6 +60,7 @@ return {
 		["f1e8c0fd-a1e8-4576-b3cf-59cfe01499f4"] = 1,
 		-- Boss: Mor the Trenchmouthed
 		["01c5d4d3-425f-42fd-8200-528b14aafec8"] = 1,
+		--ApplyStatus(host.MyGuid, "INVISIBLE", -1.0, 0, host.MyGuid); TeleportTo(host.MyGuid, "5362d05e-1cb2-451f-9f5a-69078100a01b", "", 0, 1, 1)
 		-- Boss: Mordus'Akaim
 		["5362d05e-1cb2-451f-9f5a-69078100a01b"] = 1,
 		-- Primordial Fire Voidling | Treasure: TinyBoss

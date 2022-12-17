@@ -82,11 +82,13 @@ local function ToggleSeekerEffect(on)
 	end
 end
 
-Timer.RegisterListener("LLENEMY_Seeker_PulseNow", function(timerName, uuid)
-	Upgrade_Seeker_PulseNow(uuid)
-	local character = GameHelpers.GetCharacter(uuid)
-	if character.Activated and CharacterIsInCombat(uuid) == 0 and AnyPlayerIsHidden() then
-		Timer.StartObjectTimer("LLENEMY_Seeker_PulseNow", uuid, 10000)
+Timer.Subscribe("LLENEMY_Seeker_PulseNow", function(e)
+	if e.Data.Object then
+		local target = e.Data.Object --[[@as EsvCharacter]]
+		Upgrade_Seeker_PulseNow(target)
+		if e.Data.Object.Activated and not GameHelpers.Character.IsInCombat(target) and AnyPlayerIsHidden() then
+			Timer.StartObjectTimer("LLENEMY_Seeker_PulseNow", target, 10000)
+		end
 	end
 end)
 
@@ -163,13 +165,13 @@ StatusManager.Register.Type.Removed("INVISIBLE", function(target, status, source
 	ToggleSeekerEffect(false)
 end)
 
-StatusManager.Register.DisablingStatus.Applied(function(target, status, source, statusType, statusEvent, loseControl)
+StatusManager.Subscribe.AppliedType("DISABLE|LOSE_CONTROL", function(e)
 	if GameHelpers.Status.IsActive(target, "LLENEMY_SEEKER") then
 		GameHelpers.Status.Apply(target, "LLENEMY_SEEKER_DISABLED", -1.0, true, target)
 	end
 end)
 
-StatusManager.Register.DisablingStatus.Removed(function(target, status, source, statusType, statusEvent, loseControl)
+StatusManager.Subscribe.RemovedType("DISABLE|LOSE_CONTROL", function(e)
 	if GameHelpers.Status.IsActive(target, "LLENEMY_SEEKER_DISABLED") then
 		GameHelpers.Status.Remove(target, "LLENEMY_SEEKER_DISABLED")
 		GameHelpers.Status.Apply(target, "LLENEMY_SEEKER", -1.0, true, target)

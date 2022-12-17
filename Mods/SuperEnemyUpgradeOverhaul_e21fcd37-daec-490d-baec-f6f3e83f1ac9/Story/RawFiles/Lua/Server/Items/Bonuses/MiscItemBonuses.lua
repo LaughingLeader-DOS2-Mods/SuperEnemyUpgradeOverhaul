@@ -27,7 +27,7 @@ function ShadowItem_OnUnEquipped(char, item)
 	end
 	for i,entry in pairs(removedTags) do
 		local hasTaggedItem = false
-		for i,slot in LeaderLib.Data.VisibleEquipmentSlots:Get() do
+		for i,slot in Data.VisibleEquipmentSlots:Get() do
 			local slotItem = CharacterGetEquippedItem(char, slot)
 			if slotItem ~= nil and IsTagged(slotItem, entry.Tag) == 1 then
 				hasTaggedItem = true
@@ -116,7 +116,7 @@ end, function(self,event,target,source,damage,handle,skill)
 		end
 		skipHitCheck[target..source] = true
 		local timerName = string.format("Timers_LLENEMY_ResetSkipHitCheck_%s%s", target, source)
-		LeaderLib.StartOneshotTimer(timerName, 50, function()
+		Timer.StartOneshot(timerName, 50, function()
 			skipHitCheck[target..source] = nil
 		end)
 	end
@@ -150,7 +150,7 @@ end, function(self, event, object, combatid)
 	local cleansed = {}
 	local character = Ext.GetCharacter(object)
 	if not character then
-		Ext.PrintError("[SEUO:DotCleanser] Failed to get character from ", object)
+		Ext.Utils.PrintError("[SEUO:DotCleanser] Failed to get character from ", object)
 		return
 	end
 	for i,status in pairs(character:GetStatuses()) do
