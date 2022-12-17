@@ -83,13 +83,10 @@ local function FixModTypos()
 	end
 end
 
-function LLENEMY_Shared_InitModuleLoading()
-	statOverrides.Init()
-	Ext.Print("LLENEMY_Shared.lua] Module is loading.")
-	FixModTypos()
-end
-
 Ext.RegisterListener("SessionLoaded", function()
+	--statOverrides.Init()
+	FixModTypos()
+
 	Ext.Print("[LLENEMY:Bootstrap.lua] Session is loading.")
 	local statuses = Ext.GetStatEntries("StatusData")
 	for _,stat in pairs(statuses) do

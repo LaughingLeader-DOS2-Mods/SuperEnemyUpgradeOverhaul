@@ -51,11 +51,6 @@ if Ext.IsDeveloperMode() then
 	Ext.Require("Server/Debug/DeveloperCommands.lua")
 end
 
-local function LLENEMY_Server_ModuleLoading()
-	LLENEMY_Shared_InitModuleLoading()
-end
-Ext.RegisterListener("ModuleLoading", LLENEMY_Server_ModuleLoading)
-
 local function LLENEMY_Server_SessionLoaded()
 	-- Odinblade's Necromancy Overhaul
 	if Ext.IsModLoaded("8700ba4e-7d4b-40ca-a23f-b43816794957") then

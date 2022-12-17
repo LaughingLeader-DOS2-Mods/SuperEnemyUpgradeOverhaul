@@ -1,69 +1,126 @@
 {
 	"TitleColor": "#FF3322",
 	"Data": {
-		"Flags": [
-			{
-				"Type" : "Global",
-				"Entries" : [
-					"LLENEMY_EnemyLevelingEnabled",
-					"LLENEMY_HardmodeEnabled",
-					"LLENEMY_HardmodeRollingDisabled",
-					"LLENEMY_RewardsDisabled",
-					"LLENEMY_VoidwokenSourceSpawningEnabled",
-					"LLENEMY_AuraUpgradesDisabled",
-					"LLENEMY_BonusBuffUpgradesDisabled",
-					"LLENEMY_PolymorphSkillUpgradesDisabled",
-					"LLENEMY_BonusSkillsUpgradesDisabled",
-					"LLENEMY_BuffUpgradesDisabled",
-					"LLENEMY_ClassUpgradesUpgradesDisabled",
-					"LLENEMY_ImmunityUpgradesDisabled",
-					"LLENEMY_TalentUpgradesDisabled",
-					"LLENEMY_SummoningUpgradesDisabled",
-					"LLENEMY_SourceBonusSkillsDisabled",
-					"LLENEMY_PureRNGMode",
-					"LLENEMY_Debug_LevelCapDisabled",
-					"LLENEMY_DuplicationEnabled",
-					"LLENEMY_BossDuplicationEnabled"
-				],
-				"Settings" : {
-					"LLENEMY_PureRNGMode" : {"DebugOnly" : true},
-					"LLENEMY_Debug_LevelCapDisabled" : {"DebugOnly" : true}
+		"Flags": [{
+			"Type": "Global",
+			"Entries": [
+				"LLENEMY_EnemyLevelingEnabled",
+				"LLENEMY_HardmodeEnabled",
+				"LLENEMY_HardmodeRollingDisabled",
+				"LLENEMY_RewardsDisabled",
+				"LLENEMY_VoidwokenSourceSpawningEnabled",
+				"LLENEMY_AuraUpgradesDisabled",
+				"LLENEMY_BonusBuffUpgradesDisabled",
+				"LLENEMY_PolymorphSkillUpgradesDisabled",
+				"LLENEMY_BonusSkillsUpgradesDisabled",
+				"LLENEMY_BuffUpgradesDisabled",
+				"LLENEMY_ClassUpgradesUpgradesDisabled",
+				"LLENEMY_ImmunityUpgradesDisabled",
+				"LLENEMY_TalentUpgradesDisabled",
+				"LLENEMY_SummoningUpgradesDisabled",
+				"LLENEMY_SourceBonusSkillsDisabled",
+				"LLENEMY_PureRNGMode",
+				"LLENEMY_Debug_LevelCapDisabled",
+				"LLENEMY_DuplicationEnabled",
+				"LLENEMY_BossDuplicationEnabled"
+			],
+			"Settings": {
+				"LLENEMY_PureRNGMode": {
+					"DebugOnly": true
+				},
+				"LLENEMY_Debug_LevelCapDisabled": {
+					"DebugOnly": true
 				}
 			}
-		],
+		}],
 		"Variables": {
-			"NamePrefix" : "LLENEMY_Variable_",
-			"DefaultMin" : 0,
-			"DefaultMax" : 99,
-			"Entries" : {
-				"AutoLeveling_Modifier" : {
-					"Max" : "ExtraData.SoftLevelCap",
-					"Min" : -10,
+			"NamePrefix": "LLENEMY_Variable_",
+			"DefaultMin": 0,
+			"DefaultMax": 99,
+			"Entries": {
+				"AutoLeveling_Modifier": {
+					"Max": "ExtraData.SoftLevelCap",
+					"Min": -10,
 					"Value": 0
 				},
-				"Hardmode_MinBonusRolls" : { "Value" : "ExtraData.LLENEMY_Hardmode_DefaultBonusRolls_Min"},
-				"Hardmode_MaxBonusRolls" : { "Value" : "ExtraData.LLENEMY_Hardmode_DefaultBonusRolls_Max"},
-				"Hardmode_StatusBonusTurnsMin" : { "Value" : 0},
-				"Hardmode_StatusBonusTurnsMax" : { "Value" : 3},
-				"BonusSkills_Min" : { "Value" : 0, "Max" : 16 },
-				"BonusSkills_Max" : { "Value" : 3, "Max" : 16 },
-				"Duplication_MinDupesPerEnemy" : { "Value" : 0, "Max" : 10 },
-				"Duplication_MaxDupesPerEnemy" : { "Value" : 1, "Max" : 10 },
-				"Duplication_MaxTotal" : { "Value" : -1, "Min": -1, "Max" : 99 },
-				"Duplication_Chance" : { "Value" : 30, "Min": 0, "Max" : 100 },
-				"Hardmode_EliteMultiplier" : { "Value" : 2, "Min": 0, "Max" : 10, "Increment": 0.1 },
-				"Elites_ArmorBoostPerRank" : { "Value" : 2.5, "Min": 0, "Max" : 10, "Increment": 0.1 },
-				"Elites_MagicArmorBoostPerRank" : { "Value" : 2.5, "Min": 0, "Max" : 10, "Increment": 0.1 },
-				"Elites_VitalityBoostPerRank" : { "Value" : 2.5, "Min": 0, "Max" : 10, "Increment": 0.1 },
-				"Elites_DamageBoostPerRank" : { "Value" : 1, "Min": 0, "Max" : 10, "Increment": 0.1 },
-				"EnemySkillIgnoreList" : { "Value" : {}, "Input": "TextField" }
+				"Hardmode_MinBonusRolls": {
+					"Value": "ExtraData.LLENEMY_Hardmode_DefaultBonusRolls_Min"
+				},
+				"Hardmode_MaxBonusRolls": {
+					"Value": "ExtraData.LLENEMY_Hardmode_DefaultBonusRolls_Max"
+				},
+				"Hardmode_StatusBonusTurnsMin": {
+					"Value": 0
+				},
+				"Hardmode_StatusBonusTurnsMax": {
+					"Value": 3
+				},
+				"BonusSkills_Min": {
+					"Value": 0,
+					"Max": 16
+				},
+				"BonusSkills_Max": {
+					"Value": 3,
+					"Max": 16
+				},
+				"Duplication_MinDupesPerEnemy": {
+					"Value": 0,
+					"Max": 10
+				},
+				"Duplication_MaxDupesPerEnemy": {
+					"Value": 1,
+					"Max": 10
+				},
+				"Duplication_MaxTotal": {
+					"Value": -1,
+					"Min": -1,
+					"Max": 99
+				},
+				"Duplication_Chance": {
+					"Value": 30,
+					"Min": 0,
+					"Max": 100
+				},
+				"Hardmode_EliteMultiplier": {
+					"Value": 2,
+					"Min": 0,
+					"Max": 10,
+					"Increment": 0.1
+				},
+				"Elites_ArmorBoostPerRank": {
+					"Value": 2.5,
+					"Min": 0,
+					"Max": 10,
+					"Increment": 0.1
+				},
+				"Elites_MagicArmorBoostPerRank": {
+					"Value": 2.5,
+					"Min": 0,
+					"Max": 10,
+					"Increment": 0.1
+				},
+				"Elites_VitalityBoostPerRank": {
+					"Value": 2.5,
+					"Min": 0,
+					"Max": 10,
+					"Increment": 0.1
+				},
+				"Elites_DamageBoostPerRank": {
+					"Value": 1,
+					"Min": 0,
+					"Max": 10,
+					"Increment": 0.1
+				},
+				"EnemySkillIgnoreList": {
+					"Value": {},
+					"Input": "TextField"
+				}
 			}
 		}
 	},
-	"MenuOrder": [
-		{
-			"Name" : "LLSENEMY_SettingsMenu_Section_Upgrades",
-			"Entries" : [
+	"MenuOrder": [{
+			"Name": "LLSENEMY_SettingsMenu_Section_Upgrades",
+			"Entries": [
 				"LLENEMY_AuraUpgradesDisabled",
 				"LLENEMY_BonusBuffUpgradesDisabled",
 				"LLENEMY_BonusSkillsUpgradesDisabled",
@@ -77,8 +134,8 @@
 			]
 		},
 		{
-			"Name" : "LLSENEMY_SettingsMenu_Section_Hardmode", 
-			"Entries" : [		
+			"Name": "LLSENEMY_SettingsMenu_Section_Hardmode",
+			"Entries": [
 				"LLENEMY_HardmodeEnabled",
 				"LLENEMY_HardmodeRollingDisabled",
 				"Hardmode_MinBonusRolls",
@@ -88,8 +145,8 @@
 			]
 		},
 		{
-			"Name" : "LLSENEMY_SettingsMenu_Section_Elites",
-			"Entries" : [		
+			"Name": "LLSENEMY_SettingsMenu_Section_Elites",
+			"Entries": [
 				"Hardmode_EliteMultiplier",
 				"Elites_ArmorBoostPerRank",
 				"Elites_MagicArmorBoostPerRank",
@@ -98,8 +155,8 @@
 			]
 		},
 		{
-			"Name" : "LLSENEMY_SettingsMenu_Section_Duplication", 
-			"Entries" : [
+			"Name": "LLSENEMY_SettingsMenu_Section_Duplication",
+			"Entries": [
 				"LLENEMY_DuplicationEnabled",
 				"Duplication_MinDupesPerEnemy",
 				"Duplication_MaxDupesPerEnemy",
@@ -109,16 +166,16 @@
 			]
 		},
 		{
-			"Name" : "LLSENEMY_SettingsMenu_Section_LevelScaling", 
-			"Entries" : [
+			"Name": "LLSENEMY_SettingsMenu_Section_LevelScaling",
+			"Entries": [
 				"LLENEMY_EnemyLevelingEnabled",
 				"LLENEMY_Debug_LevelCapDisabled",
 				"AutoLeveling_Modifier"
 			]
 		},
 		{
-			"Name" : "LLSENEMY_SettingsMenu_Section_Misc", 
-			"Entries" : [
+			"Name": "LLSENEMY_SettingsMenu_Section_Misc",
+			"Entries": [
 				"LLENEMY_VoidwokenSourceSpawningEnabled",
 				"LLENEMY_RewardsDisabled",
 				"LLENEMY_PureRNGMode",
